@@ -27,7 +27,7 @@ namespace NicePictureStudio.App_Data
     
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<EmployeeClaim> EmployeeClaims { get; set; }
-        public virtual DbSet<EmployeeLogin1> EmployeeLogin1 { get; set; }
+        public virtual DbSet<EmployeeLogin> EmployeeLogins { get; set; }
         public virtual DbSet<EmployeeRole> EmployeeRoles { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }

@@ -21,6 +21,8 @@ namespace NicePictureStudio.App_Data
     
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
+        public string Discriminator { get; set; }
     
         public virtual ICollection<EmployeeRole> EmployeeRoles { get; set; }
     }

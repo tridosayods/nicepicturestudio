@@ -69,16 +69,35 @@ namespace NicePictureStudio.Models
     }
 
     // Configure the RoleManager used in the application. RoleManager is defined in the ASP.NET Identity core assembly
-    public class ApplicationRoleManager : RoleManager<IdentityRole>
+    //public class ApplicationRoleManager : RoleManager<IdentityRole>
+    //{
+    //    public ApplicationRoleManager(IRoleStore<IdentityRole,string> roleStore)
+    //        : base(roleStore)
+    //    {
+    //    }
+
+    //    public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+    //    {
+    //        return new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
+    //    }
+    //}
+    public class ApplicationRole : IdentityRole
     {
-        public ApplicationRoleManager(IRoleStore<IdentityRole,string> roleStore)
+        public ApplicationRole() : base() { }
+        public ApplicationRole(string name) : base(name) { }
+        public string Description { get; set; }
+    }
+
+    public class ApplicationRoleManager : RoleManager<ApplicationRole>
+    {
+        public ApplicationRoleManager(IRoleStore<ApplicationRole, string> roleStore)
             : base(roleStore)
         {
         }
 
         public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
         {
-            return new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
+            return new ApplicationRoleManager(new RoleStore<ApplicationRole>(context.Get<ApplicationDbContext>()));
         }
     }
 
@@ -111,32 +130,49 @@ namespace NicePictureStudio.Models
         }
 
         //Create User=Admin@Admin.com with password=Admin@123456 in the Admin role        
-        public static void InitializeIdentityForEF(ApplicationDbContext db) {
-            var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
-            const string name = "admin@example.com";
-            const string password = "Admin@123456";
-            const string roleName = "Admin";
+        public static void InitializeIdentityForEF(ApplicationDbContext db) 
+        {
+            //var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            //var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+            //const string name = "admin@nicepicturestudio.com";
+            //const string password = "Admin@123456";
+            //const string roleName = "Admin";
 
-            //Create Role Admin if it does not exist
-            var role = roleManager.FindByName(roleName);
-            if (role == null) {
-                role = new IdentityRole(roleName);
-                var roleresult = roleManager.Create(role);
-            }
+            ////Create Role Admin if it does not exist
+            //var role = roleManager.FindByName(roleName);
+            //if (role == null)
+            //{
+            //    role = new ApplicationRole(roleName);
+            //    var roleresult = roleManager.Create(role);
+            //}
 
-            var user = userManager.FindByName(name);
-            if (user == null) {
-                user = new ApplicationUser { UserName = name, Email = name };
-                var result = userManager.Create(user, password);
-                result = userManager.SetLockoutEnabled(user.Id, false);
-            }
+            //var user = userManager.FindByName(name);
+            //if (user == null)
+            //{
+            //    //user = new ApplicationUser { UserName = name, Email = name };
+            //    user = new ApplicationUser
+            //    {
+            //        UserName = name,
+            //        Email = name,
+            //        Name = "Administrator",
+            //        Position = "Administrator",
+            //        Status = "Active",
+            //        PhoneNumber ="0891237392",
+            //        Address = "154",
+            //        ManagerId = 0,
+            //        StartDate = DateTime.Now,
+            //        IdentificationNumber = 0
+            //    };
+            //    var result = userManager.Create(user, password);
+            //    result = userManager.SetLockoutEnabled(user.Id, false);
+            //}
 
-            // Add user admin to Role Admin if not already added
-            var rolesForUser = userManager.GetRoles(user.Id);
-            if (!rolesForUser.Contains(role.Name)) {
-                var result = userManager.AddToRole(user.Id, role.Name);
-            }
+            //// Add user admin to Role Admin if not already added
+            //var rolesForUser = userManager.GetRoles(user.Id);
+            //if (!rolesForUser.Contains(role.Name))
+            //{
+            //    var result = userManager.AddToRole(user.Id, role.Name);
+            //}
         }
     }
 

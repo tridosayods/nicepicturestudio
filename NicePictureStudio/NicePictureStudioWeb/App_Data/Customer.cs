@@ -18,6 +18,6 @@ namespace NicePictureStudio.App_Data
         public string CustomerName { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
-        public System.DateTime AnniversaryDate { get; set; }
+        public Nullable<System.DateTime> AnniversaryDate { get; set; }
     }
 }

@@ -46,6 +46,15 @@ namespace NicePictureStudio.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "The phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
+            bool role = User.IsInRole("Admin");
+            //ApplicationRoleManager roleManager = HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            //var _roles = roleManager.Roles;
+            //var adminRole = roleManager.FindByName("Admin");
+            //var items = UserManager.GetRoles(User.Identity.GetUserId());
+            //if (items.Count ==0)
+            //{
+            //    UserManager.AddToRole(User.Identity.GetUserId(), "Admin");
+            //}
 
             var model = new IndexViewModel
             {

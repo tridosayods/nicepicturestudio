@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Collections.Generic;
+using System.Security.Permissions;
 
 namespace NicePictureStudio.Controllers
 {
     [Authorize(Roles = "Admin")]
+    //[PrincipalPermission(SecurityAction.Demand, Role = @"Admin")]
     public class RolesAdminController : Controller
     {
         public RolesAdminController()
@@ -98,7 +100,9 @@ namespace NicePictureStudio.Controllers
         {
             if (ModelState.IsValid)
             {
-                var role = new IdentityRole(roleViewModel.Name);
+                var role = new ApplicationRole(roleViewModel.Name);
+                //Save the new description property:
+                role.Description = roleViewModel.Description;
                 var roleresult = await RoleManager.CreateAsync(role);
                 if (!roleresult.Succeeded)
                 {
@@ -124,6 +128,8 @@ namespace NicePictureStudio.Controllers
                 return HttpNotFound();
             }
             RoleViewModel roleModel = new RoleViewModel { Id = role.Id, Name = role.Name };
+            //Update the new description property for the ViewModel:
+            roleModel.Description = role.Description;
             return View(roleModel);
         }
 
@@ -132,12 +138,14 @@ namespace NicePictureStudio.Controllers
         [HttpPost]
 
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Name,Id")] RoleViewModel roleModel)
+        public async Task<ActionResult> Edit([Bind(Include = "Name,Id,Description")] RoleViewModel roleModel)
         {
             if (ModelState.IsValid)
             {
                 var role = await RoleManager.FindByIdAsync(roleModel.Id);
                 role.Name = roleModel.Name;
+                //Update the new Description property:
+                role.Description = roleModel.Description;
                 await RoleManager.UpdateAsync(role);
                 return RedirectToAction("Index");
             }

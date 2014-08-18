@@ -20,10 +20,10 @@
             <PropertyRef Name="CustomerId" />
           </Key>
           <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CustomerName" Type="nchar" MaxLength="100" Nullable="false" />
-          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="Address" Type="nvarchar(max)" />
-          <Property Name="AnniversaryDate" Type="date" Nullable="false" />
+          <Property Name="AnniversaryDate" Type="date" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -41,7 +41,6 @@
           <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar(max)" />
-          <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Position" Type="nvarchar(max)" />
           <Property Name="ManagerId" Type="int" />
@@ -49,8 +48,12 @@
           <Property Name="Status" Type="nvarchar(max)" />
           <Property Name="IdentificationNumber" Type="int" />
           <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="State" Type="nvarchar(max)" />
+          <Property Name="PostalCode" Type="nvarchar(max)" />
+          <Property Name="City" Type="nvarchar(max)" />
           <Property Name="Education" Type="nvarchar(max)" />
           <Property Name="Specialability" Type="nvarchar(max)" />
+          <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="EmployeeClaim">
           <Key>
@@ -86,25 +89,28 @@
           <Key>
             <PropertyRef Name="EquipmentId" />
           </Key>
-          <Property Name="EquipmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="EquipmentName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="EquipmentId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="EquipmentName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ModelName" Type="nvarchar" MaxLength="50" />
-          <Property Name="EquipmentDetail" Type="text" />
-          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModelName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EquipmentDetail" Type="nvarchar(max)" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
             <PropertyRef Name="LocationId" />
           </Key>
           <Property Name="LocationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LocationName" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="LocationType" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="LocationAddress" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="LocationName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LocationType" Type="nvarchar" MaxLength="50" />
+          <Property Name="LocationAddress" Type="nvarchar(max)" />
+          <Property Name="PostalCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="State" Type="nchar" MaxLength="100" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="OpenTime" Type="time" Precision="7" />
           <Property Name="CloseTime" Type="time" Precision="7" />
-          <Property Name="Detail" Type="nvarchar(max)" />
+          <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="OutsourceContact">
@@ -112,14 +118,14 @@
             <PropertyRef Name="OutsourceContactId" />
           </Key>
           <Property Name="OutsourceContactId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="OutsourceName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="OutsourceType" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="OutsourceName" Type="nvarchar" MaxLength="50" />
+          <Property Name="OutsourceType" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
-          <Property Name="OpenTime" Type="time" Precision="7" />
-          <Property Name="CloseTime" Type="time" Precision="7" />
-          <Property Name="Detail" Type="nvarchar(max)" />
-          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OpenTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="CloseTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -127,6 +133,8 @@
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_EmployeeClaim_dbo_Employee_IdentityUser_Id">
           <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
@@ -213,7 +221,7 @@
         <EntityContainer Name="NicePictureStudioDBEntities" annotation:LazyLoadingEnabled="true" >
           <EntitySet Name="Employees" EntityType="NicePictureStudioDBModel.Employee" />
           <EntitySet Name="EmployeeClaims" EntityType="NicePictureStudioDBModel.EmployeeClaim" />
-          <EntitySet Name="EmployeeLogin1" EntityType="NicePictureStudioDBModel.EmployeeLogin1" />
+          <EntitySet Name="EmployeeLogins" EntityType="NicePictureStudioDBModel.EmployeeLogin" />
           <EntitySet Name="EmployeeRoles" EntityType="NicePictureStudioDBModel.EmployeeRole" />
           <EntitySet Name="Roles" EntityType="NicePictureStudioDBModel.Role" />
           <AssociationSet Name="FK_dbo_EmployeeClaim_dbo_Employee_IdentityUser_Id" Association="NicePictureStudioDBModel.FK_dbo_EmployeeClaim_dbo_Employee_IdentityUser_Id">
@@ -222,7 +230,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_dbo_EmployeeLogin_dbo_Employee_IdentityUser_Id" Association="NicePictureStudioDBModel.FK_dbo_EmployeeLogin_dbo_Employee_IdentityUser_Id">
             <End Role="Employee1" EntitySet="Employees" />
-            <End Role="EmployeeLogin1" EntitySet="EmployeeLogin1" />
+            <End Role="EmployeeLogin1" EntitySet="EmployeeLogins" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_EmployeeRole_dbo_Employee_IdentityUser_Id" Association="NicePictureStudioDBModel.FK_dbo_EmployeeRole_dbo_Employee_IdentityUser_Id">
             <End Role="Employee1" EntitySet="Employees" />
@@ -267,6 +275,9 @@
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Education" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Specialability" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="EmployeeClaim">
           <Key>
@@ -279,7 +290,7 @@
           <Property Name="IdentityUser_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Employee" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeClaim_dbo_Employee_IdentityUser_Id" FromRole="EmployeeClaim" ToRole="Employee1" />
         </EntityType>
-        <EntityType Name="EmployeeLogin1">
+        <EntityType Name="EmployeeLogin">
           <Key>
             <PropertyRef Name="LoginProvider" />
             <PropertyRef Name="ProviderKey" />
@@ -309,6 +320,8 @@
           <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EmployeeRoles" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeRole_dbo_Role_RoleId" FromRole="Role" ToRole="EmployeeRole1" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Discriminator" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_dbo_EmployeeClaim_dbo_Employee_IdentityUser_Id">
           <End Type="NicePictureStudioDBModel.Employee" Role="Employee1" Multiplicity="0..1" />
@@ -324,7 +337,7 @@
         </Association>
         <Association Name="FK_dbo_EmployeeLogin_dbo_Employee_IdentityUser_Id">
           <End Type="NicePictureStudioDBModel.Employee" Role="Employee1" Multiplicity="0..1" />
-          <End Type="NicePictureStudioDBModel.EmployeeLogin1" Role="EmployeeLogin1" Multiplicity="*" />
+          <End Type="NicePictureStudioDBModel.EmployeeLogin" Role="EmployeeLogin1" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee1">
               <PropertyRef Name="EmployeeId" />
@@ -375,49 +388,52 @@
             <PropertyRef Name="CustomerId" />
           </Key>
           <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AnniversaryDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AnniversaryDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Equipment">
           <Key>
             <PropertyRef Name="EquipmentId" />
           </Key>
           <Property Name="EquipmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EquipmentName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EquipmentName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EquipmentDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EquipmentDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
             <PropertyRef Name="LocationId" />
           </Key>
           <Property Name="LocationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LocationName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="LocationType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LocationAddress" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="OpenTime" Type="Time" Precision="7" />
           <Property Name="CloseTime" Type="Time" Precision="7" />
-          <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="OutsourceContact">
           <Key>
             <PropertyRef Name="OutsourceContactId" />
           </Key>
           <Property Name="OutsourceContactId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OutsourceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OutsourceType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OutsourceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OutsourceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OpenTime" Type="Time" Precision="7" />
-          <Property Name="CloseTime" Type="Time" Precision="7" />
-          <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OpenTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="CloseTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Detail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -428,6 +444,9 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="Specialability" ColumnName="Specialability" />
                 <ScalarProperty Name="Education" ColumnName="Education" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
@@ -464,8 +483,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeLogin1">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeLogin1">
+          <EntitySetMapping Name="EmployeeLogins">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeLogin">
               <MappingFragment StoreEntitySet="EmployeeLogin">
                 <ScalarProperty Name="IdentityUser_Id" ColumnName="IdentityUser_Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -486,6 +505,8 @@
           <EntitySetMapping Name="Roles">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.Role">
               <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -527,6 +548,9 @@
           <EntitySetMapping Name="Locations">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.Location">
               <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Detail" ColumnName="Detail" />
                 <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
@@ -542,7 +566,7 @@
           <EntitySetMapping Name="OutsourceContacts">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceContact">
               <MappingFragment StoreEntitySet="OutsourceContact">
-                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="Detail" ColumnName="Detail" />
                 <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
                 <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />

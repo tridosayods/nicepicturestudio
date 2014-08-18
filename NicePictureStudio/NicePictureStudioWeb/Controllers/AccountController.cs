@@ -38,6 +38,19 @@ namespace NicePictureStudio.Controllers
             }
         }
 
+        private ApplicationRoleManager _roleManager;
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -72,6 +85,7 @@ namespace NicePictureStudio.Controllers
 
             // This doen't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
+           // var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
@@ -149,8 +163,34 @@ namespace NicePictureStudio.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email 
+                , Name = model.Name, PhoneNumber= model.PhoneNumber, Position = model.Position, ManagerId = model.ManagerId, StartDate = model.StartDate
+                , IdentificationNumber = model.IdentificationNumber, Address = model.Address, Education = model.Education, Specialability = model.Specialability
+                , PostalCode = model.PostalCode, State = model.State, City= model.City};
                 var result = await UserManager.CreateAsync(user, model.Password);
+               
+                /******************** Add role admin**************************************************/
+                //if (result.Succeeded)
+                //{
+                //    const string roleName = "Admin";
+                //    //Create Role Admin if it does not exist
+                //    var role = RoleManager.FindByName(roleName);
+                //    if (role == null)
+                //    {
+                //        role = new ApplicationRole(roleName);
+                //        var roleresult = RoleManager.Create(role);
+                //    }
+                //    result = UserManager.SetLockoutEnabled(user.Id, false);
+                //    // Add user admin to Role Admin if not already added
+                //    var rolesForUser = UserManager.GetRoles(user.Id);
+                //    if (!rolesForUser.Contains(roleName))
+                //    {
+                //        var _result = UserManager.AddToRole(user.Id, roleName);
+                //    }
+                //}
+                
+                /*******************Finish Add role****************************************************/
+               
                 if (result.Succeeded)
                 {
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);

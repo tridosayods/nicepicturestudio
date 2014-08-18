@@ -19,9 +19,9 @@ namespace NicePictureStudio.App_Data
         public string OutsourceType { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
-        public Nullable<System.TimeSpan> OpenTime { get; set; }
-        public Nullable<System.TimeSpan> CloseTime { get; set; }
+        public System.TimeSpan OpenTime { get; set; }
+        public System.TimeSpan CloseTime { get; set; }
         public string Detail { get; set; }
-        public string Status { get; set; }
+        public string status { get; set; }
     }
 }
