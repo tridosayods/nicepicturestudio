@@ -14,10 +14,23 @@ namespace NicePictureStudio.App_Data
     
     public partial class Customer
     {
+        public Customer()
+        {
+            this.Services = new HashSet<Service>();
+        }
+    
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public Nullable<System.DateTime> AnniversaryDate { get; set; }
+        public string City { get; set; }
+        public string Email { get; set; }
+        public string PostcalCode { get; set; }
+        public string ReferencePerson { get; set; }
+        public string ReferenceEmail { get; set; }
+        public string ReferencePhoneNumber { get; set; }
+    
+        public virtual ICollection<Service> Services { get; set; }
     }
 }

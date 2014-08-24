@@ -1,0 +1,82 @@
+﻿@model NicePictureStudio.App_Data.Service
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Service</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroomName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroomName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BrideName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BrideName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SpecialRequest)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SpecialRequest)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Payment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Payment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PayAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PayAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CRMFormId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CRMFormId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.CustomerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CustomerName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -18,8 +18,7 @@ namespace NicePictureStudio.App_Data
         public string UserId { get; set; }
         public string ClaimType { get; set; }
         public string ClaimValue { get; set; }
-        public string IdentityUser_Id { get; set; }
     
-        public virtual Employee Employee { get; set; }
+        public virtual Employee Employee1 { get; set; }
     }
 }

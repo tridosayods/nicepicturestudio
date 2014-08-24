@@ -161,6 +161,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Data\Booking.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\BookingStatu.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\Customer.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
@@ -179,16 +185,73 @@
     <Compile Include="App_Data\EmployeeRole.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\EmployeeSchedule.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\EmployeeStatus.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\Equipment.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\EquipmentSchedule.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\EquipmentService.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\EquipmentStatus.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\EquipmentType.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Data\Location.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\LocationSchedule.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\LocationService.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\LocationType.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\OutputSchedule.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\OutputService.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\OutsourceContact.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\OutsourceSchedule.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\OutsourceService.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\OutsourceServiceType.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\OutsourceStatus.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\PhotographService.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\Promotion.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\Role.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\Service.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\ServiceForm.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -196,20 +259,21 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\BookingsController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
-    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
-    <Compile Include="Models\EquipmentModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="App_Data\NicePictureStudioDB.Context.cs">
@@ -227,7 +291,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>NicePictureStudioDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\OutsourceContactsController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServicesController.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -331,6 +397,26 @@
     <Content Include="Views\Equipments\Details.cshtml" />
     <Content Include="Views\Equipments\Edit.cshtml" />
     <Content Include="Views\Equipments\Index.cshtml" />
+    <Content Include="Views\Locations\Create.cshtml" />
+    <Content Include="Views\Locations\Delete.cshtml" />
+    <Content Include="Views\Locations\Details.cshtml" />
+    <Content Include="Views\Locations\Edit.cshtml" />
+    <Content Include="Views\Locations\Index.cshtml" />
+    <Content Include="Views\OutsourceContacts\Create.cshtml" />
+    <Content Include="Views\OutsourceContacts\Delete.cshtml" />
+    <Content Include="Views\OutsourceContacts\Details.cshtml" />
+    <Content Include="Views\OutsourceContacts\Edit.cshtml" />
+    <Content Include="Views\OutsourceContacts\Index.cshtml" />
+    <Content Include="Views\Bookings\Create.cshtml" />
+    <Content Include="Views\Bookings\Delete.cshtml" />
+    <Content Include="Views\Bookings\Details.cshtml" />
+    <Content Include="Views\Bookings\Edit.cshtml" />
+    <Content Include="Views\Bookings\Index.cshtml" />
+    <Content Include="Views\Services\Create.cshtml" />
+    <Content Include="Views\Services\Delete.cshtml" />
+    <Content Include="Views\Services\Details.cshtml" />
+    <Content Include="Views\Services\Edit.cshtml" />
+    <Content Include="Views\Services\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

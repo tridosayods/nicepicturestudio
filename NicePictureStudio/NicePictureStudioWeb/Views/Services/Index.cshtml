@@ -1,0 +1,75 @@
+﻿@model IEnumerable<NicePictureStudio.App_Data.Service>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BookingName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GroomName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BrideName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SpecialRequest)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Payment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PayAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CRMFormId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.CustomerName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookingName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GroomName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BrideName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpecialRequest)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Payment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PayAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CRMFormId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

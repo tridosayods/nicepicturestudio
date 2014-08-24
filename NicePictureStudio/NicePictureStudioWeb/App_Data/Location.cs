@@ -22,9 +22,11 @@ namespace NicePictureStudio.App_Data
         public Nullable<System.TimeSpan> OpenTime { get; set; }
         public Nullable<System.TimeSpan> CloseTime { get; set; }
         public string Detail { get; set; }
-        public string Status { get; set; }
+        public int Status { get; set; }
         public string PostalCode { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+    
+        public virtual LocationType LocationType1 { get; set; }
     }
 }

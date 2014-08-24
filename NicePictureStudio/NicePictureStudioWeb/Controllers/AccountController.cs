@@ -151,7 +151,11 @@ namespace NicePictureStudio.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            RegisterViewModel model = new RegisterViewModel();
+            var context = new ApplicationDbContext();
+            var allusers = context.Users;
+            model.SupervisorList = allusers.ToList();
+            return View(model);
         }
 
         //
@@ -163,10 +167,11 @@ namespace NicePictureStudio.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Status is always 1 as Active User when register
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email 
                 , Name = model.Name, PhoneNumber= model.PhoneNumber, Position = model.Position, ManagerId = model.ManagerId, StartDate = model.StartDate
                 , IdentificationNumber = model.IdentificationNumber, Address = model.Address, Education = model.Education, Specialability = model.Specialability
-                , PostalCode = model.PostalCode, State = model.State, City= model.City};
+                , PostalCode = model.PostalCode, State = model.State, City= model.City,Status =1};
                 var result = await UserManager.CreateAsync(user, model.Password);
                
                 /******************** Add role admin**************************************************/

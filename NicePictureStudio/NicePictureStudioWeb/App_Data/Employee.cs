@@ -16,9 +16,9 @@ namespace NicePictureStudio.App_Data
     {
         public Employee()
         {
-            this.EmployeeClaims = new HashSet<EmployeeClaim>();
-            this.EmployeeLogins = new HashSet<EmployeeLogin>();
             this.EmployeeRoles = new HashSet<EmployeeRole>();
+            this.EmployeeClaims1 = new HashSet<EmployeeClaim>();
+            this.EmployeeLogins1 = new HashSet<EmployeeLogin>();
         }
     
         public string EmployeeId { get; set; }
@@ -33,13 +33,12 @@ namespace NicePictureStudio.App_Data
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
         public string UserName { get; set; }
-        public string Discriminator { get; set; }
         public string Name { get; set; }
         public string Position { get; set; }
-        public Nullable<int> ManagerId { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public string Status { get; set; }
-        public Nullable<int> IdentificationNumber { get; set; }
+        public int ManagerId { get; set; }
+        public System.DateTime StartDate { get; set; }
+        public int Status { get; set; }
+        public int IdentificationNumber { get; set; }
         public string Address { get; set; }
         public string Education { get; set; }
         public string Specialability { get; set; }
@@ -47,8 +46,9 @@ namespace NicePictureStudio.App_Data
         public string PostalCode { get; set; }
         public string City { get; set; }
     
-        public virtual ICollection<EmployeeClaim> EmployeeClaims { get; set; }
-        public virtual ICollection<EmployeeLogin> EmployeeLogins { get; set; }
         public virtual ICollection<EmployeeRole> EmployeeRoles { get; set; }
+        public virtual ICollection<EmployeeClaim> EmployeeClaims1 { get; set; }
+        public virtual ICollection<EmployeeLogin> EmployeeLogins1 { get; set; }
+        public virtual EmployeeStatus EmployeeStatu { get; set; }
     }
 }

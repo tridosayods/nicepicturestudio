@@ -79,7 +79,7 @@ namespace NicePictureStudio.Models
         [Display(Name = "Start Date of Working")]
         public DateTime StartDate { get; set; }
 
-        public string Status { get; set; }
+        public int Status { get; set; }
 
         [Display(Name = "Identification Number")]
         public int IdentificationNumber { get; set; }
@@ -104,6 +104,8 @@ namespace NicePictureStudio.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public IEnumerable<ApplicationUser> SupervisorList { get; set; }
     }
 
     public class ResetPasswordViewModel

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -15,19 +16,20 @@ namespace NicePictureStudio
         private NicePictureStudioDBEntities db = new NicePictureStudioDBEntities();
 
         // GET: Equipments
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(db.Equipments.ToList());
+            var equipments = db.Equipments.Include(e => e.EquipmentStatus).Include(e => e.EquipmentType);
+            return View(await equipments.ToListAsync());
         }
 
         // GET: Equipments/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Equipment equipment = db.Equipments.Find(id);
+            Equipment equipment = await db.Equipments.FindAsync(id);
             if (equipment == null)
             {
                 return HttpNotFound();
@@ -38,6 +40,8 @@ namespace NicePictureStudio
         // GET: Equipments/Create
         public ActionResult Create()
         {
+            ViewBag.Status = new SelectList(db.EquipmentStatus1, "Id", "Status");
+            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName");
             return View();
         }
 
@@ -46,30 +50,34 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EquipmentId,EquipmentName,Type,ModelName,EquipmentDetail,Status")] Equipment equipment)
+        public async Task<ActionResult> Create([Bind(Include = "EquipmentId,EquipmentName,Type,ModelName,EquipmentDetail,Status")] Equipment equipment)
         {
             if (ModelState.IsValid)
             {
                 db.Equipments.Add(equipment);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Status = new SelectList(db.EquipmentStatus1, "Id", "Status", equipment.Status);
+            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName", equipment.Type);
             return View(equipment);
         }
 
         // GET: Equipments/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Equipment equipment = db.Equipments.Find(id);
+            Equipment equipment = await db.Equipments.FindAsync(id);
             if (equipment == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.Status = new SelectList(db.EquipmentStatus1, "Id", "Status", equipment.Status);
+            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName", equipment.Type);
             return View(equipment);
         }
 
@@ -78,25 +86,27 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EquipmentId,EquipmentName,Type,ModelName,EquipmentDetail,Status")] Equipment equipment)
+        public async Task<ActionResult> Edit([Bind(Include = "EquipmentId,EquipmentName,Type,ModelName,EquipmentDetail,Status")] Equipment equipment)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(equipment).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            ViewBag.Status = new SelectList(db.EquipmentStatus1, "Id", "Status", equipment.Status);
+            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName", equipment.Type);
             return View(equipment);
         }
 
         // GET: Equipments/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Equipment equipment = db.Equipments.Find(id);
+            Equipment equipment = await db.Equipments.FindAsync(id);
             if (equipment == null)
             {
                 return HttpNotFound();
@@ -107,11 +117,11 @@ namespace NicePictureStudio
         // POST: Equipments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Equipment equipment = db.Equipments.Find(id);
+            Equipment equipment = await db.Equipments.FindAsync(id);
             db.Equipments.Remove(equipment);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 

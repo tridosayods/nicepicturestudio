@@ -1,0 +1,75 @@
+﻿@model IEnumerable<NicePictureStudio.App_Data.OutsourceContact>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OutsourceName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpenTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CloseTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Detail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OutsourceServiceType.TypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OutsourceStatus.StatusName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OutsourceName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OpenTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CloseTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Detail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OutsourceServiceType.TypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OutsourceStatus.StatusName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.OutsourceContactId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.OutsourceContactId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.OutsourceContactId })
+        </td>
+    </tr>
+}
+
+</table>

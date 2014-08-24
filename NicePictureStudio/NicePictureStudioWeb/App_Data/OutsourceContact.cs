@@ -16,12 +16,15 @@ namespace NicePictureStudio.App_Data
     {
         public int OutsourceContactId { get; set; }
         public string OutsourceName { get; set; }
-        public string OutsourceType { get; set; }
+        public int OutsourceType { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
         public System.TimeSpan OpenTime { get; set; }
         public System.TimeSpan CloseTime { get; set; }
         public string Detail { get; set; }
-        public string status { get; set; }
+        public int status { get; set; }
+    
+        public virtual OutsourceServiceType OutsourceServiceType { get; set; }
+        public virtual OutsourceStatus OutsourceStatus { get; set; }
     }
 }

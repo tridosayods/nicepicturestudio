@@ -22,13 +22,13 @@ namespace NicePictureStudio.Models
         [Display(Name="Start Date of Working")]
         public DateTime StartDate { get; set; }
 
-        public string Status { get; set; }
+        public int Status { get; set; }
 
         [Display(Name="Identification Number")]
         public int IdentificationNumber { get; set; }
 
         [Display(Name = "Mobile Phone Number")]
-        public string PhoneNumber { get; set; }
+        public override string PhoneNumber { get; set; }
 
         public string Address { get; set; }
         public string State { get; set; }

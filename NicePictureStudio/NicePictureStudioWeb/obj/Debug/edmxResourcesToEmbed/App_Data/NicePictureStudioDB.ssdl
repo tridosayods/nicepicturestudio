@@ -10,6 +10,28 @@
     <Property Name="Model" Type="varbinary(max)" Nullable="false" />
     <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
   </EntityType>
+  <EntityType Name="Booking">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="BookingCode" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="AppointmentDate" Type="datetime" Nullable="false" />
+    <Property Name="SpecialOrder" Type="nvarchar(max)" />
+    <Property Name="Details" Type="nvarchar(max)" />
+    <Property Name="BookingStatus" Type="int" Nullable="false" />
+    <Property Name="PromotionId" Type="int" />
+    <Property Name="ServiceId" Type="int" />
+  </EntityType>
+  <EntityType Name="BookingStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
   <EntityType Name="Customer">
     <Key>
       <PropertyRef Name="CustomerId" />
@@ -18,47 +40,51 @@
     <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
     <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
     <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="PostcalCode" Type="nvarchar" MaxLength="10" />
     <Property Name="AnniversaryDate" Type="date" />
+    <Property Name="ReferencePerson" Type="nvarchar" MaxLength="100" />
+    <Property Name="ReferenceEmail" Type="nvarchar" MaxLength="50" />
+    <Property Name="ReferencePhoneNumber" Type="nvarchar" MaxLength="20" />
   </EntityType>
   <EntityType Name="Employee">
     <Key>
       <PropertyRef Name="EmployeeId" />
     </Key>
     <Property Name="EmployeeId" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="Email" Type="nvarchar(max)" />
-    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
-    <Property Name="PasswordHash" Type="nvarchar(max)" />
-    <Property Name="SecurityStamp" Type="nvarchar(max)" />
-    <Property Name="PhoneNumber" Type="nvarchar(max)" />
-    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
-    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
-    <Property Name="LockoutEndDateUtc" Type="datetime" />
-    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
-    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
-    <Property Name="UserName" Type="nvarchar(max)" />
     <Property Name="Name" Type="nvarchar(max)" />
     <Property Name="Position" Type="nvarchar(max)" />
-    <Property Name="ManagerId" Type="int" />
-    <Property Name="StartDate" Type="datetime" />
-    <Property Name="Status" Type="nvarchar(max)" />
-    <Property Name="IdentificationNumber" Type="int" />
+    <Property Name="ManagerId" Type="int" Nullable="false" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="IdentificationNumber" Type="int" Nullable="false" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" />
     <Property Name="Address" Type="nvarchar(max)" />
     <Property Name="State" Type="nvarchar(max)" />
     <Property Name="PostalCode" Type="nvarchar(max)" />
     <Property Name="City" Type="nvarchar(max)" />
     <Property Name="Education" Type="nvarchar(max)" />
     <Property Name="Specialability" Type="nvarchar(max)" />
-    <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
   </EntityType>
   <EntityType Name="EmployeeClaim">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserId" Type="nvarchar(max)" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="ClaimType" Type="nvarchar(max)" />
     <Property Name="ClaimValue" Type="nvarchar(max)" />
-    <Property Name="IdentityUser_Id" Type="nvarchar" MaxLength="128" />
   </EntityType>
   <EntityType Name="EmployeeLogin">
     <Key>
@@ -69,7 +95,6 @@
     <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="IdentityUser_Id" Type="nvarchar" MaxLength="128" />
   </EntityType>
   <EntityType Name="EmployeeRole">
     <Key>
@@ -78,18 +103,84 @@
     </Key>
     <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="IdentityUser_Id" Type="nvarchar" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="EmployeeSchedule">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="EndTime" Type="datetime" Nullable="false" />
+    <Property Name="EmployeeId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EmployeeServiceTiming">
+    <Key>
+      <PropertyRef Name="EmployeeScheduleId" />
+    </Key>
+    <Property Name="EmployeeScheduleId" Type="int" Nullable="false" />
+    <Property Name="ServiceFormId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EmployeeStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="Equipment">
     <Key>
       <PropertyRef Name="EquipmentId" />
     </Key>
-    <Property Name="EquipmentId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="EquipmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="EquipmentName" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
     <Property Name="ModelName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="EquipmentDetail" Type="nvarchar(max)" />
-    <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EquipmentSchedule">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="EndTime" Type="datetime" Nullable="false" />
+    <Property Name="EquipmentId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EquipmentService">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="EqipmentSetId" Type="int" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Cost" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="EquipmentServiceTiming">
+    <Key>
+      <PropertyRef Name="EquipmentScheduleId" />
+    </Key>
+    <Property Name="EquipmentScheduleId" Type="int" Nullable="false" />
+    <Property Name="ServiceFormId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EquipmentStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StatusName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="EquipmentType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeName" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="Descriptoin" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="Location">
     <Key>
@@ -106,7 +197,74 @@
     <Property Name="OpenTime" Type="time" Precision="7" />
     <Property Name="CloseTime" Type="time" Precision="7" />
     <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LocationSchedule">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="EndTime" Type="datetime" Nullable="false" />
+    <Property Name="LocationId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LocationService">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LocationId" Type="int" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Cost" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="IsOverNight" Type="bit" Nullable="false" />
+    <Property Name="OverNightPeriod" Type="int" />
+  </EntityType>
+  <EntityType Name="LocationServiceTiming">
+    <Key>
+      <PropertyRef Name="LocationScheduleId" />
+    </Key>
+    <Property Name="LocationScheduleId" Type="int" Nullable="false" />
+    <Property Name="ServiceFormId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LocationType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="OutputSchedule">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PackageName" Type="nvarchar" MaxLength="100" />
+    <Property Name="OutputId" Type="int" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="TargetDate" Type="datetime" />
+    <Property Name="HandOnDate" Type="datetime" Nullable="false" />
+    <Property Name="ReviseDate" Type="datetime" />
+    <Property Name="ReviseCount" Type="int" />
+  </EntityType>
+  <EntityType Name="OutputService">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="OutputURL" Type="nvarchar(max)" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Cost" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="OutputServiceTiming">
+    <Key>
+      <PropertyRef Name="OutputScheduleId" />
+    </Key>
+    <Property Name="OutputScheduleId" Type="int" Nullable="false" />
+    <Property Name="ServiceFormId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="OutsourceContact">
     <Key>
@@ -114,13 +272,83 @@
     </Key>
     <Property Name="OutsourceContactId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="OutsourceName" Type="nvarchar" MaxLength="50" />
-    <Property Name="OutsourceType" Type="nvarchar" MaxLength="50" />
+    <Property Name="OutsourceType" Type="int" Nullable="false" />
     <Property Name="Address" Type="nvarchar(max)" />
     <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
     <Property Name="OpenTime" Type="time" Precision="7" Nullable="false" />
     <Property Name="CloseTime" Type="time" Precision="7" Nullable="false" />
     <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="status" Type="nvarchar" MaxLength="50" />
+    <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OutsourceSchedule">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="EndTime" Type="datetime" Nullable="false" />
+    <Property Name="OutsourceId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OutsourceService">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PortFolioURL" Type="nvarchar(max)" />
+    <Property Name="OutsourceId" Type="int" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Cost" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="OutsourceServiceTiming">
+    <Key>
+      <PropertyRef Name="OutsourceScheduleId" />
+    </Key>
+    <Property Name="OutsourceScheduleId" Type="int" Nullable="false" />
+    <Property Name="ServiceFormId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OutsourceServiceType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeName" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="OutsourceStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StatusName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="PhotographService">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PhotographerNumber" Type="int" Nullable="false" />
+    <Property Name="CameraManNumber" Type="int" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Cost" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="3" />
+  </EntityType>
+  <EntityType Name="Promotion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="ExpireDate" Type="datetime" Nullable="false" />
+    <Property Name="PhotoGraphDiscount" Type="int" Nullable="false" />
+    <Property Name="EquipmentDiscount" Type="int" Nullable="false" />
+    <Property Name="LocationDiscount" Type="int" Nullable="false" />
+    <Property Name="OutputDiscount" Type="int" Nullable="false" />
+    <Property Name="OutsourceDiscount" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -131,39 +359,114 @@
     <Property Name="Description" Type="nvarchar(max)" />
     <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
   </EntityType>
-  <Association Name="FK_dbo_EmployeeClaim_dbo_Employee_IdentityUser_Id">
-    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+  <EntityType Name="ServiceForm">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ServiceType" Type="int" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="EventStart" Type="datetime" Nullable="false" />
+    <Property Name="EventEnd" Type="datetime" Nullable="false" />
+    <Property Name="GuestsNumber" Type="int" />
+  </EntityType>
+  <EntityType Name="ServiceMapping">
+    <Key>
+      <PropertyRef Name="ServiceFormId" />
+    </Key>
+    <Property Name="ServiceFormId" Type="int" Nullable="false" />
+    <Property Name="ServiceId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Services">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookingName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="GroomName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="BrideName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="SpecialRequest" Type="nvarchar" MaxLength="100" />
+    <Property Name="Payment" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="PayAmount" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="CRMFormId" Type="int" />
+  </EntityType>
+  <Association Name="FK_Booking_BookingStatus">
+    <End Role="BookingStatus" Type="Self.BookingStatus" Multiplicity="1" />
+    <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BookingStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="BookingStatus" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Booking_Promotion">
+    <End Role="Promotion" Type="Self.Promotion" Multiplicity="0..1" />
+    <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Promotion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="PromotionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Booking_Services">
+    <End Role="Services" Type="Self.Services" Multiplicity="0..1" />
+    <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Services">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="ServiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="EmployeeClaim" Type="Self.EmployeeClaim" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
         <PropertyRef Name="EmployeeId" />
       </Principal>
       <Dependent Role="EmployeeClaim">
-        <PropertyRef Name="IdentityUser_Id" />
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_dbo_EmployeeLogin_dbo_Employee_IdentityUser_Id">
-    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+  <Association Name="FK_dbo_EmployeeLogin_dbo_Employee_UserId">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="EmployeeLogin" Type="Self.EmployeeLogin" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
         <PropertyRef Name="EmployeeId" />
       </Principal>
       <Dependent Role="EmployeeLogin">
-        <PropertyRef Name="IdentityUser_Id" />
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_dbo_EmployeeRole_dbo_Employee_IdentityUser_Id">
-    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+  <Association Name="FK_dbo_EmployeeRole_dbo_Employee_UserId">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="EmployeeRole" Type="Self.EmployeeRole" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
         <PropertyRef Name="EmployeeId" />
       </Principal>
       <Dependent Role="EmployeeRole">
-        <PropertyRef Name="IdentityUser_Id" />
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -181,32 +484,391 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Employee_EmployeeStatus">
+    <End Role="EmployeeStatus" Type="Self.EmployeeStatus" Multiplicity="1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EmployeeStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="Status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeeServiceTiming_EmployeeSchedule">
+    <End Role="EmployeeSchedule" Type="Self.EmployeeSchedule" Multiplicity="1" />
+    <End Role="EmployeeServiceTiming" Type="Self.EmployeeServiceTiming" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="EmployeeSchedule">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EmployeeServiceTiming">
+        <PropertyRef Name="EmployeeScheduleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeeServiceTiming_ServiceForm">
+    <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
+    <End Role="EmployeeServiceTiming" Type="Self.EmployeeServiceTiming" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceForm">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EmployeeServiceTiming">
+        <PropertyRef Name="ServiceFormId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeeStatus_EmployeeStatus">
+    <End Role="EmployeeStatus" Type="Self.EmployeeStatus" Multiplicity="1" />
+    <End Role="EmployeeStatus1" Type="Self.EmployeeStatus" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="EmployeeStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EmployeeStatus1">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Equipment_EmployeeStatus">
+    <End Role="EquipmentStatus" Type="Self.EquipmentStatus" Multiplicity="1" />
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EquipmentStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Equipment">
+        <PropertyRef Name="Status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Equipment_EquipmentType">
+    <End Role="EquipmentType" Type="Self.EquipmentType" Multiplicity="1" />
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EquipmentType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Equipment">
+        <PropertyRef Name="Type" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EquipmentServiceTimeing_EquipmentSchedule">
+    <End Role="EquipmentSchedule" Type="Self.EquipmentSchedule" Multiplicity="1" />
+    <End Role="EquipmentServiceTiming" Type="Self.EquipmentServiceTiming" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="EquipmentSchedule">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EquipmentServiceTiming">
+        <PropertyRef Name="EquipmentScheduleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EquipmentServiceTiming_ServiceForm">
+    <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
+    <End Role="EquipmentServiceTiming" Type="Self.EquipmentServiceTiming" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceForm">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EquipmentServiceTiming">
+        <PropertyRef Name="ServiceFormId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Location_LocationType">
+    <End Role="LocationType" Type="Self.LocationType" Multiplicity="1" />
+    <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="LocationType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Location">
+        <PropertyRef Name="LocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LocationServiceTiming_LocationSchedule">
+    <End Role="LocationSchedule" Type="Self.LocationSchedule" Multiplicity="1" />
+    <End Role="LocationServiceTiming" Type="Self.LocationServiceTiming" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="LocationSchedule">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LocationServiceTiming">
+        <PropertyRef Name="LocationScheduleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LocationServiceTiming_ServiceForm">
+    <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
+    <End Role="LocationServiceTiming" Type="Self.LocationServiceTiming" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceForm">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LocationServiceTiming">
+        <PropertyRef Name="ServiceFormId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OutputServiceTiming_OutputSchedule">
+    <End Role="OutputSchedule" Type="Self.OutputSchedule" Multiplicity="1" />
+    <End Role="OutputServiceTiming" Type="Self.OutputServiceTiming" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="OutputSchedule">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OutputServiceTiming">
+        <PropertyRef Name="OutputScheduleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OutputServiceTiming_ServiceForm">
+    <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
+    <End Role="OutputServiceTiming" Type="Self.OutputServiceTiming" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceForm">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OutputServiceTiming">
+        <PropertyRef Name="ServiceFormId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OutsourceContact_OutsourceServiceType">
+    <End Role="OutsourceServiceType" Type="Self.OutsourceServiceType" Multiplicity="1" />
+    <End Role="OutsourceContact" Type="Self.OutsourceContact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OutsourceServiceType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OutsourceContact">
+        <PropertyRef Name="OutsourceType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OutsourceContact_OutsourceStatus">
+    <End Role="OutsourceStatus" Type="Self.OutsourceStatus" Multiplicity="1" />
+    <End Role="OutsourceContact" Type="Self.OutsourceContact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OutsourceStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OutsourceContact">
+        <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OutsourceServiceTiming_OutsourceSchedule">
+    <End Role="OutsourceSchedule" Type="Self.OutsourceSchedule" Multiplicity="1" />
+    <End Role="OutsourceServiceTiming" Type="Self.OutsourceServiceTiming" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="OutsourceSchedule">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OutsourceServiceTiming">
+        <PropertyRef Name="OutsourceScheduleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OutsourceServiceTiming_ServiceForm">
+    <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
+    <End Role="OutsourceServiceTiming" Type="Self.OutsourceServiceTiming" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceForm">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OutsourceServiceTiming">
+        <PropertyRef Name="ServiceFormId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ServiceMapping_ServiceForm1">
+    <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
+    <End Role="ServiceMapping" Type="Self.ServiceMapping" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceForm">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ServiceMapping">
+        <PropertyRef Name="ServiceFormId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ServiceMapping_Services">
+    <End Role="Services" Type="Self.Services" Multiplicity="1" />
+    <End Role="ServiceMapping" Type="Self.ServiceMapping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Services">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ServiceMapping">
+        <PropertyRef Name="ServiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Services_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="Services" Type="Self.Services" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="Services">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="NicePictureStudioDBModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookingStatus" EntityType="Self.BookingStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EmployeeClaim" EntityType="Self.EmployeeClaim" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EmployeeLogin" EntityType="Self.EmployeeLogin" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EmployeeRole" EntityType="Self.EmployeeRole" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmployeeSchedule" EntityType="Self.EmployeeSchedule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmployeeServiceTiming" EntityType="Self.EmployeeServiceTiming" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmployeeStatus" EntityType="Self.EmployeeStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EquipmentSchedule" EntityType="Self.EquipmentSchedule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EquipmentService" EntityType="Self.EquipmentService" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EquipmentServiceTiming" EntityType="Self.EquipmentServiceTiming" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EquipmentStatus" EntityType="Self.EquipmentStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EquipmentType" EntityType="Self.EquipmentType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LocationSchedule" EntityType="Self.LocationSchedule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LocationService" EntityType="Self.LocationService" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LocationServiceTiming" EntityType="Self.LocationServiceTiming" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LocationType" EntityType="Self.LocationType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OutputSchedule" EntityType="Self.OutputSchedule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OutputService" EntityType="Self.OutputService" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OutputServiceTiming" EntityType="Self.OutputServiceTiming" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OutsourceContact" EntityType="Self.OutsourceContact" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OutsourceSchedule" EntityType="Self.OutsourceSchedule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OutsourceService" EntityType="Self.OutsourceService" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OutsourceServiceTiming" EntityType="Self.OutsourceServiceTiming" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OutsourceServiceType" EntityType="Self.OutsourceServiceType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OutsourceStatus" EntityType="Self.OutsourceStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PhotographService" EntityType="Self.PhotographService" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Promotion" EntityType="Self.Promotion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_dbo_EmployeeClaim_dbo_Employee_IdentityUser_Id" Association="Self.FK_dbo_EmployeeClaim_dbo_Employee_IdentityUser_Id">
+    <EntitySet Name="ServiceForm" EntityType="Self.ServiceForm" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ServiceMapping" EntityType="Self.ServiceMapping" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Booking_BookingStatus" Association="Self.FK_Booking_BookingStatus">
+      <End Role="BookingStatus" EntitySet="BookingStatus" />
+      <End Role="Booking" EntitySet="Booking" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Booking_Promotion" Association="Self.FK_Booking_Promotion">
+      <End Role="Promotion" EntitySet="Promotion" />
+      <End Role="Booking" EntitySet="Booking" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Booking_Services" Association="Self.FK_Booking_Services">
+      <End Role="Services" EntitySet="Services" />
+      <End Role="Booking" EntitySet="Booking" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId" Association="Self.FK_dbo_EmployeeClaim_dbo_Employee_UserId">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="EmployeeClaim" EntitySet="EmployeeClaim" />
     </AssociationSet>
-    <AssociationSet Name="FK_dbo_EmployeeLogin_dbo_Employee_IdentityUser_Id" Association="Self.FK_dbo_EmployeeLogin_dbo_Employee_IdentityUser_Id">
+    <AssociationSet Name="FK_dbo_EmployeeLogin_dbo_Employee_UserId" Association="Self.FK_dbo_EmployeeLogin_dbo_Employee_UserId">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="EmployeeLogin" EntitySet="EmployeeLogin" />
     </AssociationSet>
-    <AssociationSet Name="FK_dbo_EmployeeRole_dbo_Employee_IdentityUser_Id" Association="Self.FK_dbo_EmployeeRole_dbo_Employee_IdentityUser_Id">
+    <AssociationSet Name="FK_dbo_EmployeeRole_dbo_Employee_UserId" Association="Self.FK_dbo_EmployeeRole_dbo_Employee_UserId">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="EmployeeRole" EntitySet="EmployeeRole" />
     </AssociationSet>
     <AssociationSet Name="FK_dbo_EmployeeRole_dbo_Role_RoleId" Association="Self.FK_dbo_EmployeeRole_dbo_Role_RoleId">
       <End Role="Role" EntitySet="Role" />
       <End Role="EmployeeRole" EntitySet="EmployeeRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_EmployeeStatus" Association="Self.FK_Employee_EmployeeStatus">
+      <End Role="EmployeeStatus" EntitySet="EmployeeStatus" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeeServiceTiming_EmployeeSchedule" Association="Self.FK_EmployeeServiceTiming_EmployeeSchedule">
+      <End Role="EmployeeSchedule" EntitySet="EmployeeSchedule" />
+      <End Role="EmployeeServiceTiming" EntitySet="EmployeeServiceTiming" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeeServiceTiming_ServiceForm" Association="Self.FK_EmployeeServiceTiming_ServiceForm">
+      <End Role="ServiceForm" EntitySet="ServiceForm" />
+      <End Role="EmployeeServiceTiming" EntitySet="EmployeeServiceTiming" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeeStatus_EmployeeStatus" Association="Self.FK_EmployeeStatus_EmployeeStatus">
+      <End Role="EmployeeStatus" EntitySet="EmployeeStatus" />
+      <End Role="EmployeeStatus1" EntitySet="EmployeeStatus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Equipment_EmployeeStatus" Association="Self.FK_Equipment_EmployeeStatus">
+      <End Role="EquipmentStatus" EntitySet="EquipmentStatus" />
+      <End Role="Equipment" EntitySet="Equipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Equipment_EquipmentType" Association="Self.FK_Equipment_EquipmentType">
+      <End Role="EquipmentType" EntitySet="EquipmentType" />
+      <End Role="Equipment" EntitySet="Equipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EquipmentServiceTimeing_EquipmentSchedule" Association="Self.FK_EquipmentServiceTimeing_EquipmentSchedule">
+      <End Role="EquipmentSchedule" EntitySet="EquipmentSchedule" />
+      <End Role="EquipmentServiceTiming" EntitySet="EquipmentServiceTiming" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EquipmentServiceTiming_ServiceForm" Association="Self.FK_EquipmentServiceTiming_ServiceForm">
+      <End Role="ServiceForm" EntitySet="ServiceForm" />
+      <End Role="EquipmentServiceTiming" EntitySet="EquipmentServiceTiming" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Location_LocationType" Association="Self.FK_Location_LocationType">
+      <End Role="LocationType" EntitySet="LocationType" />
+      <End Role="Location" EntitySet="Location" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LocationServiceTiming_LocationSchedule" Association="Self.FK_LocationServiceTiming_LocationSchedule">
+      <End Role="LocationSchedule" EntitySet="LocationSchedule" />
+      <End Role="LocationServiceTiming" EntitySet="LocationServiceTiming" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LocationServiceTiming_ServiceForm" Association="Self.FK_LocationServiceTiming_ServiceForm">
+      <End Role="ServiceForm" EntitySet="ServiceForm" />
+      <End Role="LocationServiceTiming" EntitySet="LocationServiceTiming" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OutputServiceTiming_OutputSchedule" Association="Self.FK_OutputServiceTiming_OutputSchedule">
+      <End Role="OutputSchedule" EntitySet="OutputSchedule" />
+      <End Role="OutputServiceTiming" EntitySet="OutputServiceTiming" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OutputServiceTiming_ServiceForm" Association="Self.FK_OutputServiceTiming_ServiceForm">
+      <End Role="ServiceForm" EntitySet="ServiceForm" />
+      <End Role="OutputServiceTiming" EntitySet="OutputServiceTiming" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OutsourceContact_OutsourceServiceType" Association="Self.FK_OutsourceContact_OutsourceServiceType">
+      <End Role="OutsourceServiceType" EntitySet="OutsourceServiceType" />
+      <End Role="OutsourceContact" EntitySet="OutsourceContact" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OutsourceContact_OutsourceStatus" Association="Self.FK_OutsourceContact_OutsourceStatus">
+      <End Role="OutsourceStatus" EntitySet="OutsourceStatus" />
+      <End Role="OutsourceContact" EntitySet="OutsourceContact" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OutsourceServiceTiming_OutsourceSchedule" Association="Self.FK_OutsourceServiceTiming_OutsourceSchedule">
+      <End Role="OutsourceSchedule" EntitySet="OutsourceSchedule" />
+      <End Role="OutsourceServiceTiming" EntitySet="OutsourceServiceTiming" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OutsourceServiceTiming_ServiceForm" Association="Self.FK_OutsourceServiceTiming_ServiceForm">
+      <End Role="ServiceForm" EntitySet="ServiceForm" />
+      <End Role="OutsourceServiceTiming" EntitySet="OutsourceServiceTiming" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ServiceMapping_ServiceForm1" Association="Self.FK_ServiceMapping_ServiceForm1">
+      <End Role="ServiceForm" EntitySet="ServiceForm" />
+      <End Role="ServiceMapping" EntitySet="ServiceMapping" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ServiceMapping_Services" Association="Self.FK_ServiceMapping_Services">
+      <End Role="Services" EntitySet="Services" />
+      <End Role="ServiceMapping" EntitySet="ServiceMapping" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Services_Customer" Association="Self.FK_Services_Customer">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Services" EntitySet="Services" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
