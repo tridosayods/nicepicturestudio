@@ -8,12 +8,16 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using NicePictureStudio.App_Data;
+using NicePictureStudio.Models;
 
 namespace NicePictureStudio
 {
     public class ServicesController : Controller
     {
         private NicePictureStudioDBEntities db = new NicePictureStudioDBEntities();
+
+        private PromotionViewModel _promotion;
+        private ServiceFromKeeper _formKeeper;
 
         // GET: Services
         public async Task<ActionResult> Index()
@@ -41,8 +45,12 @@ namespace NicePictureStudio
         public ActionResult Create()
         {
             ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName");
+            ViewBag.BookingId = new SelectList(db.Bookings, "Id", "Name");
+            //Binding a promotion from scracth or create new promotion
+            ViewBag.BookingList = new SelectList(db.Bookings, "Id", "BookingName");
             return View();
         }
+
 
         // POST: Services/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -60,6 +68,26 @@ namespace NicePictureStudio
 
             ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.CustomerId);
             return View(service);
+        }
+
+        public async Task<PartialViewResult> CreateService(int bookingId)
+        {
+
+            Booking booking = await db.Bookings.FindAsync(bookingId);
+            if (booking != null)
+            {
+                //Getting Promotion & Booking Information
+                _promotion = new PromotionViewModel(booking.Promotion.ExpireDate,booking.Promotion.PhotoGraphDiscount,
+                    booking.Promotion.EquipmentDiscount,
+                    booking.Promotion.LocationDiscount, booking.Promotion.OutputDiscount, 
+                    booking.Promotion.OutsourceDiscount);
+                //Preparing for creating Service
+                //CreateService
+                // One promotion affet to any package -> need to keep price as static
+                // getting promotion and then extract trype of service -> create item.
+
+            }
+            return PartialView();
         }
 
         // GET: Services/Edit/5

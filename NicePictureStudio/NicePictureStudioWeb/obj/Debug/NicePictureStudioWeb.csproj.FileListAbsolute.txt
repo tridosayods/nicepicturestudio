@@ -53,10 +53,12 @@ D:\GitHub\nicepicturestudio\NicePictureStudio\WebApplication1\bin\Microsoft.Owin
 D:\GitHub\nicepicturestudio\NicePictureStudio\WebApplication1\obj\Debug\NicePictureStudioWeb.csprojResolveAssemblyReference.cache
 D:\GitHub\nicepicturestudio\NicePictureStudio\WebApplication1\obj\Debug\WebApplication1.dll
 D:\GitHub\nicepicturestudio\NicePictureStudio\WebApplication1\obj\Debug\WebApplication1.pdb
+D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\AutoMapper.Net4.dll
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\NicePictureStudio.dll.config
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\NicePictureStudio.dll
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\NicePictureStudio.pdb
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\Antlr3.Runtime.dll
+D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\AutoMapper.dll
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\EntityFramework.dll
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\EntityFramework.SqlServer.dll
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\Microsoft.AspNet.Identity.Core.dll
@@ -82,6 +84,7 @@ D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\System.We
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\System.Web.WebPages.dll
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\System.Web.WebPages.Razor.dll
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\WebGrease.dll
+D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\AutoMapper.xml
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\EntityFramework.xml
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\EntityFramework.SqlServer.xml
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\Microsoft.AspNet.Identity.Core.xml

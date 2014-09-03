@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using NicePictureStudio.App_Data;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using NicePictureStudio.Models;
+using AutoMapper;
 
 namespace NicePictureStudio
 {
@@ -36,6 +38,8 @@ namespace NicePictureStudio
             {
                 return HttpNotFound();
             }
+            //Mapper.CreateMap<Booking, BookingViewModel>();
+            //BookingViewModel bookingView = Mapper.Map<BookingViewModel>(booking);
             return View(booking);
         }
 

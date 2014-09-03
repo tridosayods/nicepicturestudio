@@ -80,5 +80,9 @@ namespace NicePictureStudio.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<NicePictureStudio.App_Data.Service> Services { get; set; }
+
+        public System.Data.Entity.DbSet<NicePictureStudio.App_Data.Customer> Customers { get; set; }
     }
 }
