@@ -1,0 +1,126 @@
+﻿@model NicePictureStudio.App_Data.ServiceForm
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#@ViewBag.HTMLModalPhotoGraph').click(function () {
+            var url = $('#@ViewBag.HTMLTagButtonPhotoGraph').data('url');
+            $.get(url, function (data) {
+                $('#@ViewBag.HTMLContainerButtonPhotoGraph').html(data);
+                $('#@ViewBag.HTMLTagButtonPhotoGraph').modal('show');
+            });
+        });
+    });
+</script>
+
+<table class="table"><tr><td class=" col-md-6">
+    @using (Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = @ViewBag.ServiceTypeTag
+}))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>ServiceForm</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ServiceType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ServiceType, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ServiceType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EventStart, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EventStart, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EventStart, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EventEnd, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EventEnd, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EventEnd, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.GuestsNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.GuestsNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.GuestsNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" value="@ViewBag.ServiceTypeItem" class="btn btn-default" name="Command">Save</button>
+                </div>
+            </div>
+        </div>
+    }
+</td>
+    <td class=" col-md-6">
+    <div class="btn-group-vertical">
+        <button id="@ViewBag.HTMLModalPhotoGraph" type="button" class="btn btn-default">PhotoGraphs Select</button>
+        <button id="btnEquipmentService" type="submit" class="btn btn-default">Equipment Select</button>
+        <button id="btnLocationService"type="button" class="btn btn-default">Location Select</button>
+        <button id="btnOutsourceService"type="button" class="btn btn-default">Outsource Services Select</button>
+        <button id="btnOutputService"type="button" class="btn btn-default">Output Select</button>
+        </div>
+    </td>
+</tr>
+</table>
+
+
+<div class="modal fade" id="@ViewBag.HTMLTagButtonPhotoGraph" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true" data-url='@Url.Action("CreatePhotoGraphServiceByModal","Services")'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                   Select Photograph Service
+                </h4>
+            </div>
+            <div class="modal-body">
+                Press ESC button to exit.
+                <div id="@ViewBag.HTMLContainerButtonPhotoGraph"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Submit changes
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

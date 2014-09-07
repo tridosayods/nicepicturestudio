@@ -37,5 +37,7 @@ namespace NicePictureStudio.App_Data
         public virtual ICollection<OutputSchedule> OutputSchedules { get; set; }
         public virtual ICollection<OutsourceSchedule> OutsourceSchedules { get; set; }
         public virtual Service Service { get; set; }
+        public virtual ServiceStatu ServiceStatu { get; set; }
+        public virtual ServiceType ServiceType1 { get; set; }
     }
 }

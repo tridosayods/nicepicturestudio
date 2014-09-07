@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d1b6a36b3623465492412af731b07f40" Name="Diagram1" ZoomLevel="80" >
+      <Diagram DiagramId="d1b6a36b3623465492412af731b07f40" Name="Diagram1" ZoomLevel="79" >
         <EntityTypeShape EntityType="NicePictureStudioDBModel.Employee" PointX="0.75" PointY="1.5" Width="2.75" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.EmployeeClaim" PointX="4.5" PointY="3.375" Width="1.5" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.EmployeeLogin" PointX="4.25" PointY="1.125" Width="2" />
@@ -26,7 +26,6 @@
         <AssociationConnector Association="NicePictureStudioDBModel.RoleEmployeeRole" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.Equipment" Width="1.5" PointX="14.625" PointY="7.375" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.OutsourceStatus" Width="1.75" PointX="5.375" PointY="9.875" />
-        <AssociationConnector Association="NicePictureStudioDBModel.FK_EmployeeStatus_EmployeeStatus" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Equipment_EquipmentType" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Location_LocationType" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType" />
@@ -34,16 +33,16 @@
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Equipment_EmployeeStatus" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.Booking" Width="1.5" PointX="20.375" PointY="6.875" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.BookingStatu" Width="1.5" PointX="18.125" PointY="0.75" />
-        <EntityTypeShape EntityType="NicePictureStudioDBModel.EmployeeSchedule" Width="2" PointX="10" PointY="12.25" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.EmployeeSchedule" Width="2.625" PointX="9.375" PointY="12.25" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.EquipmentSchedule" Width="1.5" PointX="11.75" PointY="21.625" />
-        <EntityTypeShape EntityType="NicePictureStudioDBModel.EquipmentService" Width="1.5" PointX="7" PointY="14.875" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.EquipmentService" Width="1.5" PointX="6.625" PointY="14.875" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.LocationSchedule" Width="1.75" PointX="11.75" PointY="16.125" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.LocationService" Width="1.75" PointX="9" PointY="14.875" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.OutputSchedule" Width="1.5" PointX="11.75" PointY="24.375" />
-        <EntityTypeShape EntityType="NicePictureStudioDBModel.OutputService" Width="1.5" PointX="0.75" PointY="14.625" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.OutputService" Width="1.5" PointX="6.5" PointY="18.5" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.OutsourceSchedule" Width="1.5" PointX="11.75" PointY="18.875" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.OutsourceService" Width="1.5" PointX="2.75" PointY="14.625" />
-        <EntityTypeShape EntityType="NicePictureStudioDBModel.PhotographService" Width="1.5" PointX="4.75" PointY="14.5" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.PhotographService" Width="1.75" PointX="3.5" PointY="18.5" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.Promotion" Width="1.5" PointX="18.125" PointY="11.25" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.ServiceForm" Width="2.5" PointX="14" PointY="11.875" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.Service" Width="1.5" PointX="18.125" PointY="6.875" />
@@ -57,6 +56,14 @@
         <AssociationConnector Association="NicePictureStudioDBModel.OutputServiceTiming" />
         <AssociationConnector Association="NicePictureStudioDBModel.OutsourceServiceTiming" />
         <AssociationConnector Association="NicePictureStudioDBModel.ServiceMapping" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.ServiceStatu" Width="1.5" PointX="11.75" PointY="27.875" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.ServiceType" Width="3.125" PointX="18.125" PointY="16.375" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_EmployeeSchedule_Employee" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_EquipmentService_Equipment" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_LocationService_Location" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_OutsourceService_OutsourceContact" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_ServiceForm_ServiceStatus" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_ServiceForm_ServiceType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

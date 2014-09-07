@@ -12,14 +12,17 @@ namespace NicePictureStudio.App_Data
     using System;
     using System.Collections.Generic;
     
-    public partial class EmployeeSchedule
+    public partial class ServiceType
     {
-        public int Id { get; set; }
-        public System.DateTime StartTime { get; set; }
-        public System.DateTime EndTime { get; set; }
-        public string EmployeeId { get; set; }
+        public ServiceType()
+        {
+            this.ServiceForms = new HashSet<ServiceForm>();
+        }
     
-        public virtual ServiceForm ServiceForm { get; set; }
-        public virtual Employee Employee { get; set; }
+        public int Id { get; set; }
+        public string ServiceTypeName { get; set; }
+        public string Description { get; set; }
+    
+        public virtual ICollection<ServiceForm> ServiceForms { get; set; }
     }
 }

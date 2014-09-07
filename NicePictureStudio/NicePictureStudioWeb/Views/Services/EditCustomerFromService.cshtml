@@ -5,7 +5,7 @@
         $("#btnCancel").on("click", function () {
             event.preventDefault();
             var _id = '@Model.CustomerId';
-            var url = '@Url.Action("DetailsCustomerFromService", "Customers")';
+            var url = '@Url.Action("DetailsCustomerFromService", "Services")';
             $.ajax({
                 url: url,
                 data: { id: _id },
@@ -16,7 +16,7 @@
     });
 </script>
 
-@using (Ajax.BeginForm("EditCustomerFromService", "Customers", new AjaxOptions
+@using (Ajax.BeginForm("EditCustomerFromService", "Services", new AjaxOptions
 {
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,

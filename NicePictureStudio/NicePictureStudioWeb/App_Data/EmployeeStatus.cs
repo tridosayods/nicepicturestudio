@@ -24,7 +24,5 @@ namespace NicePictureStudio.App_Data
         public string Description { get; set; }
     
         public virtual ICollection<Employee> Employees { get; set; }
-        public virtual EmployeeStatus EmployeeStatus1 { get; set; }
-        public virtual EmployeeStatus EmployeeStatu1 { get; set; }
     }
 }

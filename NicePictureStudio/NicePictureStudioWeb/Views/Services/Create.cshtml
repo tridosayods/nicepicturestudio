@@ -145,7 +145,7 @@
 <!-- Create Customer Form Section-->
 <div class="navbar-form">
     <div class="form-control">
-        @using (@Ajax.BeginForm("CreateCustomerFromService", "Customers", new AjaxOptions
+        @using (@Ajax.BeginForm("CreateCustomerFromService", "Services", new AjaxOptions
             {
                 HttpMethod = "GET",
                 InsertionMode = InsertionMode.Replace,
@@ -161,7 +161,7 @@
 <!-- Create Service Form Section-->
 <div class="form-horizontal">
     <div class="form-control">
-        @using (@Ajax.BeginForm("ShowServiceFormById", "ServiceForms", new AjaxOptions
+        @using (@Ajax.BeginForm("GetServiceFormById", "Services", new AjaxOptions
             {
                 HttpMethod = "GET",
                 InsertionMode = InsertionMode.Replace,
@@ -178,16 +178,53 @@
 </div>
 
 <div class="table-bordered">
-    <button id="togPreWedService" type="button" class="btn btn-default btn-lg" onclick="toggle_visibility('PreWeddingFromSection')"><span class="glyphicon glyphicon-star"></span></button>
-    <div id="PreWeddingFromSection"></div>
+    <button id="togPreWedService" type="button" class="btn btn-default btn-lg" onclick="toggle_visibility('PreWeddingFormSection')"><span class="glyphicon glyphicon-star"></span></button>
+    <div id="WeddingForm">
+            @using (@Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions
+            {
+                HttpMethod = "GET",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "PreWeddingFormSection"
+            }))
+        {
+            <div id="bthPreWedding">
+                <button type="submit" id="btnPreWedding" name="Command" value="PreWedding" > Add PreWedding Service </button>
+            </div>
+        }
+        <div id="PreWeddingFormSection"></div>
+    </div>
 </div>
 
 <div class="table-bordered">
-    <button id="togEngagementService" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-star"></span></button>
-    <div id="EngagementFromSection"></div>
-</div>
+    <button id="togEngagementService" type="button" class="btn btn-default btn-lg" onclick="toggle_visibility('EngagementFormSection')"><span class=" glyphicon glyphicon-star"></span></button>
+    <div id="WeddingForm">
+        @using (@Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions
+            {
+                HttpMethod = "GET",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "EngagementFormSection"
+            }))
+        {
+            <div id="bthPreWedding">
+                <button type="submit" id="btnPreWedding" name="Command" value="Engagement"> Add PreWedding Service </button>
+            </div>
+        }
+        <div id="EngagementFormSection"></div>
+    </div>
 
 <div class="table-bordered">
-    <button id="togWeddingService" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-star"></span></button>
-    <div id="WeddingFromSection"></div>
-</div>
+    <button id="togWeddingService" type="button" class="btn btn-default btn-lg" onclick="toggle_visibility('WeddingFormSection')"><span class="glyphicon glyphicon-star"></span></button>
+    <div id="WeddingForm">
+        @using (@Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions
+            {
+                HttpMethod = "GET",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "WeddingFormSection"
+            }))
+        {
+            <div id="bthPreWedding">
+                <button type="submit" id="btnPreWedding" name="Command" value="Wedding"> Add PreWedding Service </button>
+            </div>
+        }
+        <div id="WeddingFormSection"></div>
+    </div>

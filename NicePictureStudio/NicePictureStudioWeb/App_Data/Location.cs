@@ -14,6 +14,11 @@ namespace NicePictureStudio.App_Data
     
     public partial class Location
     {
+        public Location()
+        {
+            this.LocationServices = new HashSet<LocationService>();
+        }
+    
         public int LocationId { get; set; }
         public string LocationName { get; set; }
         public string LocationType { get; set; }
@@ -28,5 +33,6 @@ namespace NicePictureStudio.App_Data
         public string State { get; set; }
     
         public virtual LocationType LocationType1 { get; set; }
+        public virtual ICollection<LocationService> LocationServices { get; set; }
     }
 }

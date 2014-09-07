@@ -21,5 +21,7 @@ namespace NicePictureStudio.App_Data
         public Nullable<decimal> Price { get; set; }
         public Nullable<decimal> Cost { get; set; }
         public string Description { get; set; }
+    
+        public virtual OutsourceContact OutsourceContact { get; set; }
     }
 }

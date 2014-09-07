@@ -19,6 +19,32 @@ namespace NicePictureStudio
         private PromotionViewModel _promotion;
         private ServiceFromKeeper _formKeeper;
 
+        //Command
+        public static readonly string PreWedding = "PreWedding";
+        public readonly string Engagement = "Engagement";
+        public readonly string Wedding = "Wedding";
+        public readonly string HTMLTagForReplace = "FormSection";
+        
+        //Modal
+        public readonly string HTMLModalPhotoGraph = "modalPhotoGraph";
+        public readonly string HTMLModalEquipment = "modalEquipment";
+        public readonly string HTMLModalLocation = "modalLocation";
+        public readonly string HTMLModalOutSource = "modalOutsource";
+        public readonly string HTMLModalOutput = "modalOutput";
+        
+        //Button
+        public readonly string HTMLTagButtonPhotoGraph = "btnPhotoGraph";
+        public readonly string HTMLTagButtonEquipment = "btnEquipment";
+        public readonly string HTMLTagButtonLocation = "btnLocation";
+        public readonly string HTMLTagButtonOutSource = "btnOutsource";
+        public readonly string HTMLTagButtonOutput = "btnOutput";
+        //Container
+        public readonly string HTMLContainerButtonPhotoGraph = "ctnPhotoGraph";
+        public readonly string HTMLContainerButtonEquipment = "ctnEquipment";
+        public readonly string HTMLContainerButtonLocation = "ctnLocation";
+        public readonly string HTMLContainerButtonOutSource = "ctnOutsource";
+        public readonly string HTMLContainerButtonOutput = "ctnOutput";
+
         // GET: Services
         public async Task<ActionResult> Index()
         {
@@ -157,5 +183,232 @@ namespace NicePictureStudio
             }
             base.Dispose(disposing);
         }
+
+        #region Create Customer Section
+        /***************************Create Customer Section*******************************************************/
+
+        public PartialViewResult CreateCustomerFromService()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<PartialViewResult> CreateCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,AnniversaryDate")] Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                //db.Customers.Add(customer);
+                //await db.SaveChangesAsync();
+                Customer _customer = customer;
+                return PartialView(@"/Views/Services/DetailsCustomerFromService.cshtml", _customer);
+            }
+
+            return PartialView();
+        }
+
+        public async Task<PartialViewResult> DetailsCustomerFromService(int? id)
+        {
+            if (id != null)
+            {
+                Customer customer = await db.Customers.FindAsync(id);
+                if (customer == null)
+                {
+                    return PartialView();
+                }
+                else
+                {
+                    return PartialView(customer);
+                }
+            }
+            else
+            {
+                return PartialView();
+            }
+        }
+
+
+
+        public async Task<PartialViewResult> EditCustomerFromService(int? id)
+        {
+            if (id != null)
+            {
+                Customer customer = await db.Customers.FindAsync(id);
+                if (customer == null)
+                {
+                    return PartialView();
+                }
+                else
+                {
+                    return PartialView(customer);
+                }
+            }
+            return PartialView();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<PartialViewResult> EditCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,AnniversaryDate")] Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(customer).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                Customer _customer = customer;
+                return PartialView(@"/Views/Services/DetailsCustomerFromService.cshtml", _customer);
+            }
+            return PartialView();
+        }
+
+
+        /*Get*/
+        public async Task<PartialViewResult> ViewCustomerFromService(int customerid)
+        {
+            Customer model = await db.Customers.FindAsync(customerid);
+            return PartialView(model);
+        }
+
+
+        /***************************Create Customer Section*******************************************************/
+        #endregion
+
+
+        #region Create Service Form Section
+        /***************************Create Service Form Section*******************************************************/
+
+        public async Task<PartialViewResult> GetServiceFormById(int serviceFormId)
+        {
+            ServiceForm model = await db.ServiceForms.FindAsync(serviceFormId);
+            return PartialView(model);
+        }
+
+          public PartialViewResult CreateServiceFormFromService(string Command)
+        {
+            //assign value for replacing #id in view
+            ViewBag.ServiceTypeItem = Command;
+            ViewBag.ServiceTypeTag = Command + HTMLTagForReplace;
+            ViewBag.HTMLTagButtonPhotoGraph = HTMLTagButtonPhotoGraph + Command;
+            ViewBag.HTMLTagButtonEquipment = HTMLTagButtonEquipment + Command;
+            ViewBag.HTMLTagButtonLocation = HTMLTagButtonLocation + Command;
+            ViewBag.HTMLTagButtonOutSource = HTMLTagButtonOutSource + Command;
+            ViewBag.HTMLTagButtonOutput = HTMLTagButtonOutput + Command;
+            ViewBag.HTMLContainerButtonPhotoGraph = HTMLContainerButtonPhotoGraph + Command;
+            ViewBag.HTMLContainerButtonEquipment = HTMLContainerButtonEquipment + Command;
+            ViewBag.HTMLContainerButtonLocation = HTMLContainerButtonLocation + Command;
+            ViewBag.HTMLContainerButtonOutSource = HTMLContainerButtonOutSource + Command;
+            ViewBag.HTMLContainerButtonOutput = HTMLContainerButtonOutput + Command;
+            ViewBag.HTMLModalPhotoGraph = HTMLModalPhotoGraph + Command;
+            ViewBag.HTMLModalEquipment = HTMLModalEquipment + Command;
+            ViewBag.HTMLModalLocation = HTMLModalLocation + Command;
+            ViewBag.HTMLModalOutSource = HTMLModalOutSource + Command;
+            ViewBag.HTMLModalOutput = HTMLModalOutput + Command;
+            return PartialView();
+        }
+
+          [HttpPost]
+          [ValidateAntiForgeryToken]
+          public async Task<PartialViewResult> CreateServiceFormFromService([Bind(Include = "Id,Name,ServiceType,Status,EventStart,EventEnd,GuestsNumber")] ServiceForm serviceForm, string Command)
+          {
+              if (ModelState.IsValid)
+              {
+                  ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, Command, true) == 0).FirstOrDefault();
+                  if (serviceType != null)
+                  {
+                      serviceForm.ServiceType = serviceType.Id;
+                      //db.ServiceForms.Add(serviceForm);
+                      //await db.SaveChangesAsync();
+                  }
+                  else { return PartialView(); }
+
+                  //assign value for replacing #id in view
+                  ServiceForm _serviceForm = serviceForm;
+                  return PartialView(@"/Views/ServiceForms/DetailsServiceFormFromService.cshtml", serviceForm);
+              }
+              return PartialView();
+          }
+
+
+          public async Task<PartialViewResult> DetailsServiceFormFromService(int? id)
+          {
+              if (id != null)
+              {
+                  ServiceForm serviceForm = await db.ServiceForms.FindAsync(id);
+                  if (serviceForm == null)
+                  {
+                      return PartialView();
+                  }
+                  else
+                  {
+                      //assign value for replacing #id in view
+                      ViewBag.ServiceTypeItem = serviceForm.ServiceType1.ServiceTypeName;
+                      return PartialView(serviceForm);
+                  }
+              }
+              else
+              {
+                  return PartialView();
+              }
+          }
+
+          public async Task<PartialViewResult> EditServiceFormFromService(int? id)
+          {
+              if (id != null)
+              {
+                  ServiceForm serviceForm = await db.ServiceForms.FindAsync(id);
+                  if (serviceForm == null)
+                  {
+                      return PartialView();
+                  }
+                  else
+                  {
+                      return PartialView(serviceForm);
+                  }
+              }
+              return PartialView();
+          }
+
+          [HttpPost]
+          [ValidateAntiForgeryToken]
+          public async Task<PartialViewResult> EditServiceFormFromService([Bind(Include = "Id,Name,ServiceType,Status,EventStart,EventEnd,GuestsNumber")] ServiceForm serviceForm)
+          {
+              if (ModelState.IsValid)
+              {
+                  db.Entry(serviceForm).State = EntityState.Modified;
+                  await db.SaveChangesAsync();
+                  ServiceForm _serviceForm = serviceForm;
+                  return PartialView(@"/Views/Services/DetailsServiceFormFromService.cshtml", serviceForm);
+              }
+              return PartialView();
+          }
+
+        /***************************Create Service Form Section*******************************************************/
+        #endregion
+
+        #region CreateModal Window section
+
+        [HttpGet]  
+        public async Task<PartialViewResult> CreatePhotoGraphServiceByModal(int? id)
+          {
+            PhotographService photoGraphService;
+            ViewData["PhotoGraphList"] =  new SelectList(db.PhotographServices, "Id", "Name");
+            if (id != null)
+            { photoGraphService = await db.PhotographServices.FindAsync(id); }
+            else
+            { photoGraphService = await db.PhotographServices.FirstAsync(); }
+            
+            ViewData["Code"] = photoGraphService.Id;
+            return PartialView(photoGraphService); 
+          }
+
+        //[HttpPost]
+        //public async Task<PartialViewResult> CreatePhotoGraphServiceByModal(int? id)
+        //{
+        //    ViewData["PhotoGraphList"] = new SelectList(db.PhotographServices, "Id", "Name", "Description");
+        //    PhotographService photoGraphService = await db.PhotographServices.FindAsync(id);
+        //    ViewData["Code"] = photoGraphService.Id;
+        //    return PartialView(photoGraphService);
+        //}
+
+        #endregion
     }
 }

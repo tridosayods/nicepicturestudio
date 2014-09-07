@@ -14,6 +14,11 @@ namespace NicePictureStudio.App_Data
     
     public partial class OutsourceContact
     {
+        public OutsourceContact()
+        {
+            this.OutsourceServices = new HashSet<OutsourceService>();
+        }
+    
         public int OutsourceContactId { get; set; }
         public string OutsourceName { get; set; }
         public int OutsourceType { get; set; }
@@ -26,5 +31,6 @@ namespace NicePictureStudio.App_Data
     
         public virtual OutsourceServiceType OutsourceServiceType { get; set; }
         public virtual OutsourceStatus OutsourceStatus { get; set; }
+        public virtual ICollection<OutsourceService> OutsourceServices { get; set; }
     }
 }

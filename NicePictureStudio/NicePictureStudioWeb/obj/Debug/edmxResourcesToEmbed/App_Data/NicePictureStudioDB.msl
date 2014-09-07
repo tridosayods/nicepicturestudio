@@ -241,10 +241,10 @@
     <EntitySetMapping Name="EquipmentServices">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentService">
         <MappingFragment StoreEntitySet="EquipmentService">
+          <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Cost" ColumnName="Cost" />
           <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="EqipmentSetId" ColumnName="EqipmentSetId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
@@ -432,5 +432,23 @@
       </EndProperty>
       <Condition ColumnName="ServiceId" IsNull="false" />
     </AssociationSetMapping>
+    <EntitySetMapping Name="ServiceStatus">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceStatu">
+        <MappingFragment StoreEntitySet="ServiceStatus">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ServiceTypes">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceType">
+        <MappingFragment StoreEntitySet="ServiceType">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ServiceTypeName" ColumnName="ServiceTypeName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

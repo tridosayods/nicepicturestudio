@@ -16,16 +16,11 @@ namespace NicePictureStudio
         private NicePictureStudioDBEntities db = new NicePictureStudioDBEntities();
 
         // GET: ServiceForms
-        public async Task<PartialViewResult> Index()
+        public async Task<ActionResult> Index()
         {
-            return PartialView(await db.ServiceForms.ToListAsync());
+            return View(await db.ServiceForms.ToListAsync());
         }
 
-        public async Task<PartialViewResult> ShowServiceFormById(int serviceFormId)
-        {
-            ServiceForm model = await db.ServiceForms.FindAsync(serviceFormId);
-            return PartialView(model);
-        }
 
         // GET: ServiceForms/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -130,5 +125,7 @@ namespace NicePictureStudio
             }
             base.Dispose(disposing);
         }
+
+
     }
 }

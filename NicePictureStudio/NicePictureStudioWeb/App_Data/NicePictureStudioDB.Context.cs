@@ -56,5 +56,7 @@ namespace NicePictureStudio.App_Data
         public virtual DbSet<Promotion> Promotions { get; set; }
         public virtual DbSet<ServiceForm> ServiceForms { get; set; }
         public virtual DbSet<Service> Services { get; set; }
+        public virtual DbSet<ServiceStatu> ServiceStatus { get; set; }
+        public virtual DbSet<ServiceType> ServiceTypes { get; set; }
     }
 }
