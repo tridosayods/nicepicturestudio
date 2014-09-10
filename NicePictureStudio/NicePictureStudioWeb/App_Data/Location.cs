@@ -34,5 +34,6 @@ namespace NicePictureStudio.App_Data
     
         public virtual LocationType LocationType1 { get; set; }
         public virtual ICollection<LocationService> LocationServices { get; set; }
+        public virtual LocationStatu LocationStatu { get; set; }
     }
 }

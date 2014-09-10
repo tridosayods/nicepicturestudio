@@ -4,9 +4,41 @@
     $(document).ready(function () {
         $('#@ViewBag.HTMLModalPhotoGraph').click(function () {
             var url = $('#@ViewBag.HTMLTagButtonPhotoGraph').data('url');
-            $.get(url, function (data) {
+            $.get(url, { id: null, serviceType: $('#@ViewBag.HTMLTagButtonPhotoGraph').data('servicetype') }, function (data) {
                 $('#@ViewBag.HTMLContainerButtonPhotoGraph').html(data);
                 $('#@ViewBag.HTMLTagButtonPhotoGraph').modal('show');
+            });
+        });
+
+        $('#@ViewBag.HTMLModalEquipment').click(function () {
+            var url = $('#@ViewBag.HTMLTagButtonEquipment').data('url');
+            $.get(url, { id: null, serviceType: $('#@ViewBag.HTMLTagButtonEquipment').data('servicetype') }, function (data) {
+                $('#@ViewBag.HTMLContainerButtonEquipment').html(data);
+                $('#@ViewBag.HTMLTagButtonEquipment').modal('show');
+            });
+        });
+
+        $('#@ViewBag.HTMLModalLocation').click(function () {
+            var url = $('#@ViewBag.HTMLTagButtonLocation').data('url');
+            $.get(url, { id: null, serviceType: $('#@ViewBag.HTMLTagButtonLocation').data('servicetype') }, function (data) {
+                $('#@ViewBag.HTMLContainerButtonLocation').html(data);
+                $('#@ViewBag.HTMLTagButtonLocation').modal('show');
+            });
+        });
+
+        $('#@ViewBag.HTMLModalOutsource').click(function () {
+            var url = $('#@ViewBag.HTMLTagButtonOutsource').data('url');
+            $.get(url, { id: null, serviceType: $('#@ViewBag.HTMLTagButtonOutsource').data('servicetype') }, function (data) {
+                $('#@ViewBag.HTMLContainerButtonOutsource').html(data);
+                $('#@ViewBag.HTMLTagButtonOutsource').modal('show');
+            });
+        });
+
+        $('#@ViewBag.HTMLModalOutput').click(function () {
+            var url = $('#@ViewBag.HTMLTagButtonOutput').data('url');
+            $.get(url, { id: null, serviceType: $('#@ViewBag.HTMLTagButtonOutput').data('servicetype') }, function (data) {
+                $('#@ViewBag.HTMLContainerButtonOutput').html(data);
+                $('#@ViewBag.HTMLTagButtonOutput').modal('show');
             });
         });
     });
@@ -85,19 +117,19 @@
     <td class=" col-md-6">
     <div class="btn-group-vertical">
         <button id="@ViewBag.HTMLModalPhotoGraph" type="button" class="btn btn-default">PhotoGraphs Select</button>
-        <button id="btnEquipmentService" type="submit" class="btn btn-default">Equipment Select</button>
-        <button id="btnLocationService"type="button" class="btn btn-default">Location Select</button>
-        <button id="btnOutsourceService"type="button" class="btn btn-default">Outsource Services Select</button>
-        <button id="btnOutputService"type="button" class="btn btn-default">Output Select</button>
+        <button id="@ViewBag.HTMLModalEquipment" type="submit" class="btn btn-default">Equipment Select</button>
+        <button id="@ViewBag.HTMLModalLocation" type="button" class="btn btn-default">Location Select</button>
+        <button id="@ViewBag.HTMLModalOutsource" type="button" class="btn btn-default">Outsource Services Select</button>
+        <button id="@ViewBag.HTMLModalOutput" type="button" class="btn btn-default">Output Select</button>
         </div>
     </td>
 </tr>
 </table>
 
-
+<!-- Modal PhotoGraph -->
 <div class="modal fade" id="@ViewBag.HTMLTagButtonPhotoGraph" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true" data-url='@Url.Action("CreatePhotoGraphServiceByModal","Services")'>
-    <div class="modal-dialog">
+     aria-labelledby="PhotoGraphLabel" aria-hidden="true" data-url='@Url.Action("CreatePhotoGraphServiceByModal","Services")' data-servicetype="@ViewBag.ServiceTypeTag">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
@@ -105,12 +137,138 @@
                     ×
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                   Select Photograph Service
+                    Select Photograph Service
                 </h4>
             </div>
             <div class="modal-body">
                 Press ESC button to exit.
                 <div id="@ViewBag.HTMLContainerButtonPhotoGraph"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Submit changes
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal Equipment -->
+<div class="modal fade" id="@ViewBag.HTMLTagButtonEquipment" tabindex="-1" role="dialog"
+     aria-labelledby="EquipmentLabel" aria-hidden="true" data-url='@Url.Action("CreateEquipmentServiceByModal","Services")' data-servicetype="@ViewBag.ServiceTypeTag">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Select Equipment Service
+                </h4>
+            </div>
+            <div class="modal-body">
+                Press ESC button to exit.
+                <div id="@ViewBag.HTMLContainerButtonEquipment"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Submit changes
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal Location -->
+<div class="modal fade" id="@ViewBag.HTMLTagButtonLocation" tabindex="-1" role="dialog"
+     aria-labelledby="LocationLabel" aria-hidden="true" data-url='@Url.Action("CreateLocationServiceByModal","Services")' data-servicetype="@ViewBag.ServiceTypeTag">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Select Location Service
+                </h4>
+            </div>
+            <div class="modal-body">
+                Press ESC button to exit.
+                <div id="@ViewBag.HTMLContainerButtonLocation"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Submit changes
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- Modal Outsource -->
+<div class="modal fade" id="@ViewBag.HTMLTagButtonOutsource" tabindex="-1" role="dialog"
+     aria-labelledby="OutsourceLabel" aria-hidden="true" data-url='@Url.Action("CreateOutsourceServiceByModal","Services")' data-servicetype="@ViewBag.ServiceTypeTag">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Select Outsource Service
+                </h4>
+            </div>
+            <div class="modal-body">
+                Press ESC button to exit.
+                <div id="@ViewBag.HTMLContainerButtonOutsource"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Submit changes
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- Modal Output -->
+<div class="modal fade" id="@ViewBag.HTMLTagButtonOutput" tabindex="-1" role="dialog"
+     aria-labelledby="OutputLabel" aria-hidden="true" data-url='@Url.Action("CreateOutputServiceByModal","Services")' data-servicetype="@ViewBag.ServiceTypeTag">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Select Outsource Service
+                </h4>
+            </div>
+            <div class="modal-body">
+                Press ESC button to exit.
+                <div id="@ViewBag.HTMLContainerButtonOutput"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default"

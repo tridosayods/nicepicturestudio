@@ -45,6 +45,93 @@ namespace NicePictureStudio
         public readonly string HTMLContainerButtonOutSource = "ctnOutsource";
         public readonly string HTMLContainerButtonOutput = "ctnOutput";
 
+        //DropDownList naming for each division
+        //Add Photograph Service Page
+        public readonly string HTMLDWLPhotoGraphEngagementServices = "dwlPhotoGraphEngagementService";
+        public readonly string HTMLDWLPhotoGraphPreWeddingServices = "dwlPhotoGraphPreWeddingService";
+        public readonly string HTMLDWLPhotoGraphWeddingServices = "dwlPhotoGraphWeddingService";
+
+        //Add Equipment Service Page
+        public readonly string HTMLDWLEquipmentEngagementServices = "dwlEquipmentEngagementService";
+        public readonly string HTMLDWLEquipmentPreWeddingServices = "dwlEquipmentPreWeddingService";
+        public readonly string HTMLDWLEquipmentWeddingServices = "dwlEquipmentWeddingService";
+
+        //Add Location Service Page
+        public readonly string HTMLDWLLocationEngagementServices = "dwlLocationEngagementService";
+        public readonly string HTMLDWLLocationPreWeddingServices = "dwlLocationPreWeddingService";
+        public readonly string HTMLDWLLocationWeddingServices = "dwlLocationWeddingService";
+
+        //Add Outsource Service Page
+        public readonly string HTMLDWLOutsourceEngagementServices = "dwlOutsourceEngagementService";
+        public readonly string HTMLDWLOutsourcePreWeddingServices = "dwlOutsourcePreWeddingService";
+        public readonly string HTMLDWLOutsourceWeddingServices = "dwlOutsourceWeddingService";
+
+        //Add Output Service Page
+        public readonly string HTMLDWLOutputEngagementServices = "dwlOutputEngagementService";
+        public readonly string HTMLDWLOutputPreWeddingServices = "dwlOutputPreWeddingService";
+        public readonly string HTMLDWLOutputWeddingServices = "dwlOutputWeddingService";
+        /******************************************************************************************************/
+
+        //Create Service Form by division
+        //Add Photograph Service Page
+        public readonly string HTMLPhotoServiceModalPreWedding = "divPhotoGraphPreWedding";
+        public readonly string HTMLPhotoServiceModalEngagement = "divPhotoGraphEngagement";
+        public readonly string HTMLPhotoServiceModalWedding = "divPhotoGraphWedding";
+
+        //Add Equipment Service Page
+        public readonly string HTMLEquipmentModalPreWedding = "divEquipmentPreWedding";
+        public readonly string HTMLEquipmentModalEngagement = "divEquipmentEngagement";
+        public readonly string HTMLEquipmentModalWedding = "divEquipmentWedding";
+
+        //Add Location Service Page
+        public readonly string HTMLLocationModalPreWedding = "divLocationPreWedding";
+        public readonly string HTMLLocationModalEngagement = "divLocationEngagement";
+        public readonly string HTMLLocationModalWedding = "divLocationWedding";
+
+        //Add Outsource Service Page
+        public readonly string HTMLOutsourceModalPreWedding = "divOutsourcePreWedding";
+        public readonly string HTMLOutsourceModalEngagement = "divOutsourceEngagement";
+        public readonly string HTMLOutsourceModalWedding = "divOutsourceWedding";
+
+        //Add Outsource Service Page
+        public readonly string HTMLOutputModalPreWedding = "divOutputPreWedding";
+        public readonly string HTMLOutputModalEngagement = "divOutputEngagement";
+        public readonly string HTMLOutputModalWedding = "divOutputWedding";
+        /******************************************************************************************************/
+
+        //CreateCollapse form by division
+        //Add Photograph Service Page
+        public readonly string HTMLCollapsePhotoPreWedding = "collPhotoGraphPreWedding";
+        public readonly string HTMLCollapsePhotoEngagement = "collPhotoGraphEngagement";
+        public readonly string HTMLCollapsePhotoWedding = "collPhotoGraphWedding";
+
+        public readonly string HTMLCollapseCameraPreWedding = "collCameraPreWedding";
+        public readonly string HTMLCollapseCameraEngagement = "collCameraEngagement";
+        public readonly string HTMLCollapseCameraWedding = "collCameraWedding";
+        /******************************************************************************************************/
+
+        //Create Table form by division
+        //Add Equipment Service Page
+        public readonly string HTMLTableEquipmentPreWedding = "tblEquipmentPreWedding";
+        public readonly string HTMLTableEquipmentEngagement = "tblEquipmentEngagement";
+        public readonly string HTMLTableEquipmentWedding = "tblEquipmentWedding";
+
+        //Add Location Service Page
+        public readonly string HTMLTableLocationPreWedding = "tblLocationPreWedding";
+        public readonly string HTMLTableLocationEngagement = "tblLocationEngagement";
+        public readonly string HTMLTableLocationWedding = "tblLocationWedding";
+
+        //Add Location Service Page
+        public readonly string HTMLTableOutsourcePreWedding = "tblOutsourcePreWedding";
+        public readonly string HTMLTableOutsourceEngagement = "tblOutsourceEngagement";
+        public readonly string HTMLTableOutsourceWedding = "tblOutsourceWedding";
+
+        //Add Location Service Page
+        public readonly string HTMLTableOutputPreWedding = "tblOutputPreWedding";
+        public readonly string HTMLTableOutputEngagement = "tblOutputEngagement";
+        public readonly string HTMLTableOutputWedding = "tblOutputWedding";
+        /******************************************************************************************************/
+
         // GET: Services
         public async Task<ActionResult> Index()
         {
@@ -387,7 +474,7 @@ namespace NicePictureStudio
         #region CreateModal Window section
 
         [HttpGet]  
-        public async Task<PartialViewResult> CreatePhotoGraphServiceByModal(int? id)
+        public async Task<PartialViewResult> CreatePhotoGraphServiceByModal(int? id, string serviceType="")
           {
             PhotographService photoGraphService;
             ViewData["PhotoGraphList"] =  new SelectList(db.PhotographServices, "Id", "Name");
@@ -395,8 +482,31 @@ namespace NicePictureStudio
             { photoGraphService = await db.PhotographServices.FindAsync(id); }
             else
             { photoGraphService = await db.PhotographServices.FirstAsync(); }
-            
             ViewData["Code"] = photoGraphService.Id;
+
+            //Create metadata for webpage structure
+            if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphPreWeddingServices;
+                ViewData["DivServiceForm"] = HTMLPhotoServiceModalPreWedding;
+                ViewData["CollPhotoPanel"] = HTMLCollapsePhotoPreWedding;
+                ViewData["CollCameraPanel"] = HTMLCollapseCameraPreWedding;
+            }
+            else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphEngagementServices;
+                ViewData["DivServiceForm"] = HTMLPhotoServiceModalEngagement;
+                ViewData["CollPhotoPanel"] = HTMLCollapsePhotoEngagement;
+                ViewData["CollCameraPanel"] = HTMLCollapseCameraEngagement;
+            }
+            else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphWeddingServices;
+                ViewData["DivServiceForm"] = HTMLPhotoServiceModalWedding;
+                ViewData["CollPhotoPanel"] = HTMLCollapsePhotoWedding;
+                ViewData["CollCameraPanel"] = HTMLCollapseCameraWedding;
+            }
+            ViewData["ServiceType"] = serviceType;
             return PartialView(photoGraphService); 
           }
 
@@ -408,6 +518,142 @@ namespace NicePictureStudio
         //    ViewData["Code"] = photoGraphService.Id;
         //    return PartialView(photoGraphService);
         //}
+
+        [HttpGet]
+        public async Task<PartialViewResult> CreateEquipmentServiceByModal(int? id, string serviceType = "")
+        {
+            EquipmentService equipmentService;
+            ViewData["EquipmentList"] = new SelectList(db.EquipmentServices, "Id", "Name");
+            if (id != null)
+            { equipmentService = await db.EquipmentServices.FindAsync(id); }
+            else
+            { equipmentService = await db.EquipmentServices.FirstAsync(); }
+            ViewData["Code"] = equipmentService.Id;
+
+            //Create metadata for webpage structure
+            if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLEquipmentPreWeddingServices;
+                ViewData["DivServiceForm"] = HTMLEquipmentModalPreWedding;
+                ViewData["TblEquipment"] = HTMLTableEquipmentPreWedding;
+            }
+            else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLEquipmentEngagementServices;
+                ViewData["DivServiceForm"] = HTMLEquipmentModalEngagement;
+                ViewData["TblEquipment"] = HTMLTableEquipmentEngagement;
+            }
+            else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLEquipmentWeddingServices;
+                ViewData["DivServiceForm"] = HTMLEquipmentModalWedding;
+                ViewData["TblEquipment"] = HTMLTableEquipmentWedding;
+            }
+            ViewData["ServiceType"] = serviceType;
+            return PartialView(equipmentService);
+        }
+
+        [HttpGet]
+        public async Task<PartialViewResult> CreateLocationServiceByModal(int? id, string serviceType = "")
+        {
+            LocationService locationService;
+            ViewData["LocationList"] = new SelectList(db.LocationServices, "Id", "Name");
+            if (id != null)
+            { locationService = await db.LocationServices.FindAsync(id); }
+            else
+            { locationService = await db.LocationServices.FirstAsync(); }
+            ViewData["Code"] = locationService.Id;
+
+            //Create metadata for webpage structure
+            if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLLocationPreWeddingServices;
+                ViewData["DivServiceForm"] = HTMLLocationModalPreWedding;
+                ViewData["TblEquipment"] = HTMLTableLocationPreWedding;
+            }
+            else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLLocationEngagementServices;
+                ViewData["DivServiceForm"] = HTMLLocationModalEngagement;
+                ViewData["TblEquipment"] = HTMLTableLocationEngagement;
+            }
+            else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLLocationWeddingServices;
+                ViewData["DivServiceForm"] = HTMLLocationModalWedding;
+                ViewData["TblEquipment"] = HTMLTableLocationWedding;
+            }
+            ViewData["ServiceType"] = serviceType;
+            return PartialView(locationService);
+        }
+
+        [HttpGet]
+        public async Task<PartialViewResult> CreateOutsourceServiceByModal(int? id, string serviceType = "")
+        {
+            OutsourceService outsourceService;
+            ViewData["OutsourceList"] = new SelectList(db.OutsourceServices, "Id", "Name");
+            if (id != null)
+            { outsourceService = await db.OutsourceServices.FindAsync(id); }
+            else
+            { outsourceService = await db.OutsourceServices.FirstAsync(); }
+            ViewData["Code"] = outsourceService.Id;
+
+            //Create metadata for webpage structure
+            if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLOutsourcePreWeddingServices;
+                ViewData["DivServiceForm"] = HTMLOutsourceModalPreWedding;
+                ViewData["TblEquipment"] = HTMLTableOutsourcePreWedding;
+            }
+            else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLOutsourceEngagementServices;
+                ViewData["DivServiceForm"] = HTMLOutsourceModalEngagement;
+                ViewData["TblEquipment"] = HTMLTableOutsourceEngagement;
+            }
+            else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLOutsourceWeddingServices;
+                ViewData["DivServiceForm"] = HTMLOutsourceModalWedding;
+                ViewData["TblEquipment"] = HTMLTableOutsourceWedding;
+            }
+            ViewData["ServiceType"] = serviceType;
+            return PartialView(outsourceService);
+        }
+
+        [HttpGet]
+        public async Task<PartialViewResult> CreateOutputServiceByModal(int? id, string serviceType = "")
+        {
+            OutputService outputService;
+            ViewData["OutputList"] = new SelectList(db.OutputServices, "Id", "Name");
+            if (id != null)
+            { outputService = await db.OutputServices.FindAsync(id); }
+            else
+            { outputService = await db.OutputServices.FirstAsync(); }
+            ViewData["Code"] = outputService.Id;
+
+            //Create metadata for webpage structure
+            if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLOutputPreWeddingServices;
+                ViewData["DivServiceForm"] = HTMLOutputModalPreWedding;
+                ViewData["TblEquipment"] = HTMLTableOutputPreWedding;
+            }
+            else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLOutputEngagementServices;
+                ViewData["DivServiceForm"] = HTMLOutputModalEngagement;
+                ViewData["TblEquipment"] = HTMLTableOutputEngagement;
+            }
+            else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLOutputWeddingServices;
+                ViewData["DivServiceForm"] = HTMLOutputModalWedding;
+                ViewData["TblEquipment"] = HTMLTableOutputWedding;
+            }
+            ViewData["ServiceType"] = serviceType;
+            return PartialView(outputService);
+        }
 
         #endregion
     }

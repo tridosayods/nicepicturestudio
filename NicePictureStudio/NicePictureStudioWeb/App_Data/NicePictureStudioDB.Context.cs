@@ -58,5 +58,6 @@ namespace NicePictureStudio.App_Data
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<ServiceStatu> ServiceStatus { get; set; }
         public virtual DbSet<ServiceType> ServiceTypes { get; set; }
+        public virtual DbSet<LocationStatu> LocationStatus { get; set; }
     }
 }

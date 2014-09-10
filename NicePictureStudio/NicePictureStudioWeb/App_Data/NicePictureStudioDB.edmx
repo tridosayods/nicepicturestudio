@@ -232,6 +232,14 @@
           <Property Name="LocationScheduleId" Type="int" Nullable="false" />
           <Property Name="ServiceFormId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="LocationStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="LocationType">
           <Key>
             <PropertyRef Name="Id" />
@@ -613,6 +621,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Location_LocationStatus">
+          <End Role="LocationStatus" Type="Self.LocationStatus" Multiplicity="1" />
+          <End Role="Location" Type="Self.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocationStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Location_LocationType">
           <End Role="LocationType" Type="Self.LocationType" Multiplicity="1" />
           <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
@@ -827,6 +847,7 @@
           <EntitySet Name="LocationSchedule" EntityType="Self.LocationSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LocationService" EntityType="Self.LocationService" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LocationServiceTiming" EntityType="Self.LocationServiceTiming" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LocationStatus" EntityType="Self.LocationStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LocationType" EntityType="Self.LocationType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OutputSchedule" EntityType="Self.OutputSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OutputService" EntityType="Self.OutputService" Schema="dbo" store:Type="Tables" />
@@ -908,6 +929,10 @@
           <AssociationSet Name="FK_EquipmentServiceTiming_ServiceForm" Association="Self.FK_EquipmentServiceTiming_ServiceForm">
             <End Role="ServiceForm" EntitySet="ServiceForm" />
             <End Role="EquipmentServiceTiming" EntitySet="EquipmentServiceTiming" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_LocationStatus" Association="Self.FK_Location_LocationStatus">
+            <End Role="LocationStatus" EntitySet="LocationStatus" />
+            <End Role="Location" EntitySet="Location" />
           </AssociationSet>
           <AssociationSet Name="FK_Location_LocationType" Association="Self.FK_Location_LocationType">
             <End Role="LocationType" EntitySet="LocationType" />
@@ -1116,6 +1141,11 @@
             <End Role="ServiceType" EntitySet="ServiceTypes" />
             <End Role="ServiceForm" EntitySet="ServiceForms" />
           </AssociationSet>
+          <EntitySet Name="LocationStatus" EntityType="NicePictureStudioDBModel.LocationStatu" />
+          <AssociationSet Name="FK_Location_LocationStatus" Association="NicePictureStudioDBModel.FK_Location_LocationStatus">
+            <End Role="LocationStatu" EntitySet="LocationStatus" />
+            <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Employee">
           <Key>
@@ -1239,6 +1269,7 @@
           <Property Name="State" MaxLength="100" FixedLength="true" Unicode="true" Type="String" />
           <NavigationProperty Name="LocationType1" Relationship="NicePictureStudioDBModel.FK_Location_LocationType" FromRole="Location" ToRole="LocationType" />
           <NavigationProperty Name="LocationServices" Relationship="NicePictureStudioDBModel.FK_LocationService_Location" FromRole="Location" ToRole="LocationService" />
+          <NavigationProperty Name="LocationStatu" Relationship="NicePictureStudioDBModel.FK_Location_LocationStatus" FromRole="Location" ToRole="LocationStatu" />
         </EntityType>
         <EntityType Name="OutsourceContact">
           <Key>
@@ -1803,6 +1834,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LocationStatu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Locations" Relationship="NicePictureStudioDBModel.FK_Location_LocationStatus" FromRole="LocationStatu" ToRole="Location" />
+        </EntityType>
+        <Association Name="FK_Location_LocationStatus">
+          <End Type="NicePictureStudioDBModel.LocationStatu" Role="LocationStatu" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocationStatu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2254,6 +2306,15 @@
               <MappingFragment StoreEntitySet="ServiceType">
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ServiceTypeName" ColumnName="ServiceTypeName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationStatus">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationStatu">
+              <MappingFragment StoreEntitySet="LocationStatus">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
