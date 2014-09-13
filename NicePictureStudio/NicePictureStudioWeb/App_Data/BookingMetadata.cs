@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NicePictureStudio.App_Data
 {
@@ -17,4 +18,5 @@ namespace NicePictureStudio.App_Data
             [StringLength(5,ErrorMessage="Booking Code is not over 5 digits")]
             public object BookingCode { get; set; }
     }
+
 }

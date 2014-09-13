@@ -24,6 +24,8 @@ namespace NicePictureStudio
         public readonly string Engagement = "Engagement";
         public readonly string Wedding = "Wedding";
         public readonly string HTMLTagForReplace = "FormSection";
+        public readonly string HTMLTagForDatePickerStart = "DatepickerStart";
+        public readonly string HTMLTagForDatePickerEnd = "DatepickerEnd";
         
         //Modal
         public readonly string HTMLModalPhotoGraph = "modalPhotoGraph";
@@ -31,6 +33,12 @@ namespace NicePictureStudio
         public readonly string HTMLModalLocation = "modalLocation";
         public readonly string HTMLModalOutSource = "modalOutsource";
         public readonly string HTMLModalOutput = "modalOutput";
+
+        public readonly string HTMLModalPhotoGraphArrow = "modalPhotoGraphArrow";
+        public readonly string HTMLModalEquipmentArrow = "modalEquipmentArrow";
+        public readonly string HTMLModalLocationArrow = "modalLocationArrow";
+        public readonly string HTMLModalOutSourceArrow = "modalOutsourceArrow";
+        public readonly string HTMLModalOutputArrow = "modalOutput";
         
         //Button
         public readonly string HTMLTagButtonPhotoGraph = "btnPhotoGraph";
@@ -164,6 +172,20 @@ namespace NicePictureStudio
             return View();
         }
 
+        public JsonResult GetListForBookingAutocomplete(string term)
+        {
+            Booking[] matching = string.IsNullOrWhiteSpace(term) ?
+                db.Bookings.ToArray() :
+                db.Bookings.Where(p => p.BookingCode.ToUpper().StartsWith(term.ToUpper()) || p.Name.ToUpper().StartsWith(term.ToUpper())).ToArray();
+
+            return Json(matching.Select(m => new
+            {
+                id = m.Id,
+                value = m.Name,
+                label = m.Name
+            }), JsonRequestBehavior.AllowGet);
+        }
+
 
         // POST: Services/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -179,7 +201,7 @@ namespace NicePictureStudio
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.CustomerId);
+            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.Id);
             return View(service);
         }
 
@@ -190,7 +212,7 @@ namespace NicePictureStudio
             if (booking != null)
             {
                 //Getting Promotion & Booking Information
-                _promotion = new PromotionViewModel(booking.Promotion.ExpireDate,booking.Promotion.PhotoGraphDiscount,
+                    _promotion = new PromotionViewModel(booking.Promotion.ExpireDate,booking.Promotion.PhotoGraphDiscount,
                     booking.Promotion.EquipmentDiscount,
                     booking.Promotion.LocationDiscount, booking.Promotion.OutputDiscount, 
                     booking.Promotion.OutsourceDiscount);
@@ -215,7 +237,7 @@ namespace NicePictureStudio
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.CustomerId);
+            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.Id);
             return View(service);
         }
 
@@ -232,7 +254,7 @@ namespace NicePictureStudio
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.CustomerId);
+            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.Customer.CustomerId);
             return View(service);
         }
 
@@ -374,6 +396,8 @@ namespace NicePictureStudio
             //assign value for replacing #id in view
             ViewBag.ServiceTypeItem = Command;
             ViewBag.ServiceTypeTag = Command + HTMLTagForReplace;
+            ViewBag.ServiceTypeDatePickerStart = Command + HTMLTagForDatePickerStart;
+            ViewBag.ServiceTypeDatePickerEnd = Command + HTMLTagForDatePickerEnd;
             ViewBag.HTMLTagButtonPhotoGraph = HTMLTagButtonPhotoGraph + Command;
             ViewBag.HTMLTagButtonEquipment = HTMLTagButtonEquipment + Command;
             ViewBag.HTMLTagButtonLocation = HTMLTagButtonLocation + Command;
@@ -389,6 +413,11 @@ namespace NicePictureStudio
             ViewBag.HTMLModalLocation = HTMLModalLocation + Command;
             ViewBag.HTMLModalOutSource = HTMLModalOutSource + Command;
             ViewBag.HTMLModalOutput = HTMLModalOutput + Command;
+            ViewBag.HTMLModalPhotoGraphArrow = HTMLModalPhotoGraphArrow + Command;
+            ViewBag.HTMLModalEquipmentArrow = HTMLModalEquipmentArrow + Command;
+            ViewBag.HTMLModalLocationArrow = HTMLModalLocationArrow + Command;
+            ViewBag.HTMLModalOutSourceArrow = HTMLModalOutSourceArrow + Command;
+            ViewBag.HTMLModalOutputArrow = HTMLModalOutputArrow + Command;
             return PartialView();
         }
 
@@ -401,7 +430,7 @@ namespace NicePictureStudio
                   ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, Command, true) == 0).FirstOrDefault();
                   if (serviceType != null)
                   {
-                      serviceForm.ServiceType = serviceType.Id;
+                      serviceForm.ServiceType = serviceType;
                       //db.ServiceForms.Add(serviceForm);
                       //await db.SaveChangesAsync();
                   }
@@ -427,7 +456,7 @@ namespace NicePictureStudio
                   else
                   {
                       //assign value for replacing #id in view
-                      ViewBag.ServiceTypeItem = serviceForm.ServiceType1.ServiceTypeName;
+                      ViewBag.ServiceTypeItem = serviceForm.ServiceType.ServiceTypeName;
                       return PartialView(serviceForm);
                   }
               }
@@ -467,6 +496,12 @@ namespace NicePictureStudio
               }
               return PartialView();
           }
+
+          public PartialViewResult RemovePreWeddingService()
+          {
+              return PartialView(); 
+          }
+
 
         /***************************Create Service Form Section*******************************************************/
         #endregion

@@ -23,13 +23,15 @@
     {
         @Html.AntiForgeryToken()
 
-    <div class="form-group col-lg-12">
-        @Html.Label("PhotographServices :", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="list-group col-md-10">
-            @Html.DropDownList("Code", @ViewData["PhotoGraphList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = ViewData["ButtonIdForDWL"], @name = ViewData["ButtonIdForDWL"] })
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("PhotographServices", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="list-group col-md-9">
+                @Html.DropDownList("Code", @ViewData["PhotoGraphList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control", @id = ViewData["ButtonIdForDWL"], @name = ViewData["ButtonIdForDWL"] })
+            </div>
         </div>
     </div>
-        
+
         <div class="form-horizontal">
             <h4>PhotographService</h4>
             <hr />

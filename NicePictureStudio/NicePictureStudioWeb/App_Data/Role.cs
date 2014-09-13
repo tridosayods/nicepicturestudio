@@ -16,7 +16,7 @@ namespace NicePictureStudio.App_Data
     {
         public Role()
         {
-            this.EmployeeRole = new HashSet<EmployeeRole>();
+            this.Employees = new HashSet<Employee>();
         }
     
         public string Id { get; set; }
@@ -24,6 +24,6 @@ namespace NicePictureStudio.App_Data
         public string Description { get; set; }
         public string Discriminator { get; set; }
     
-        public virtual ICollection<EmployeeRole> EmployeeRole { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

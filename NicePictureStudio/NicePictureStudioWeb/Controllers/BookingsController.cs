@@ -86,9 +86,9 @@ namespace NicePictureStudio
                
             }
 
-            ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name", booking.BookingStatus);
-            ViewBag.PromotionId = new SelectList(db.Promotions, "Id", "Name", booking.PromotionId);
-            ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName", booking.ServiceId);
+            ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name", booking.Id);
+            ViewBag.PromotionId = new SelectList(db.Promotions, "Id", "Name", booking.Id);
+            ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName", booking.Id);
             return View(booking);
         }
 
@@ -104,9 +104,9 @@ namespace NicePictureStudio
             {
                 return HttpNotFound();
             }
-            ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name", booking.BookingStatus);
-            ViewBag.PromotionId = new SelectList(db.Promotions, "Id", "Name", booking.PromotionId);
-            ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName", booking.ServiceId);
+            ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name", booking.BookingStatu.Id);
+            ViewBag.PromotionId = new SelectList(db.Promotions, "Id", "Name", booking.Promotion.Id);
+            ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName", booking.Service.Id);
             return View(booking);
         }
 
@@ -123,9 +123,9 @@ namespace NicePictureStudio
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name", booking.BookingStatus);
-            ViewBag.PromotionId = new SelectList(db.Promotions, "Id", "Name", booking.PromotionId);
-            ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName", booking.ServiceId);
+            ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name", booking.BookingStatu.Id);
+            ViewBag.PromotionId = new SelectList(db.Promotions, "Id", "Name", booking.Promotion.Id);
+            ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName", booking.Service.Id);
             return View(booking);
         }
 

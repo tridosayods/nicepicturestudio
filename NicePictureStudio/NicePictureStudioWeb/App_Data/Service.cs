@@ -27,7 +27,6 @@ namespace NicePictureStudio.App_Data
         public string SpecialRequest { get; set; }
         public Nullable<decimal> Payment { get; set; }
         public Nullable<decimal> PayAmount { get; set; }
-        public int CustomerId { get; set; }
         public Nullable<int> CRMFormId { get; set; }
     
         public virtual ICollection<Booking> Bookings { get; set; }

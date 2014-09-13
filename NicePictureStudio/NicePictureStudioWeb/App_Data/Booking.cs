@@ -20,9 +20,6 @@ namespace NicePictureStudio.App_Data
         public System.DateTime AppointmentDate { get; set; }
         public string SpecialOrder { get; set; }
         public string Details { get; set; }
-        public int BookingStatus { get; set; }
-        public Nullable<int> PromotionId { get; set; }
-        public Nullable<int> ServiceId { get; set; }
     
         public virtual BookingStatu BookingStatu { get; set; }
         public virtual Promotion Promotion { get; set; }

@@ -100,7 +100,7 @@ namespace NicePictureStudio.Controllers
         {
             if (ModelState.IsValid)
             {
-                var role = new ApplicationRole(roleViewModel.Name);
+                var role = new ApplicationRole(roleViewModel.Name,roleViewModel.Description);
                 //Save the new description property:
                 role.Description = roleViewModel.Description;
                 var roleresult = await RoleManager.CreateAsync(role);

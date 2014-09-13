@@ -16,28 +16,26 @@ namespace NicePictureStudio.App_Data
     {
         public ServiceForm()
         {
-            this.EmployeeSchedules = new HashSet<EmployeeSchedule>();
             this.EquipmentSchedules = new HashSet<EquipmentSchedule>();
             this.LocationSchedules = new HashSet<LocationSchedule>();
             this.OutputSchedules = new HashSet<OutputSchedule>();
             this.OutsourceSchedules = new HashSet<OutsourceSchedule>();
+            this.EmployeeSchedules = new HashSet<EmployeeSchedule>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public int ServiceType { get; set; }
-        public int Status { get; set; }
         public System.DateTime EventStart { get; set; }
         public System.DateTime EventEnd { get; set; }
         public Nullable<int> GuestsNumber { get; set; }
     
-        public virtual ICollection<EmployeeSchedule> EmployeeSchedules { get; set; }
+        public virtual ServiceStatu ServiceStatu { get; set; }
+        public virtual ServiceType ServiceType { get; set; }
         public virtual ICollection<EquipmentSchedule> EquipmentSchedules { get; set; }
         public virtual ICollection<LocationSchedule> LocationSchedules { get; set; }
         public virtual ICollection<OutputSchedule> OutputSchedules { get; set; }
         public virtual ICollection<OutsourceSchedule> OutsourceSchedules { get; set; }
         public virtual Service Service { get; set; }
-        public virtual ServiceStatu ServiceStatu { get; set; }
-        public virtual ServiceType ServiceType1 { get; set; }
+        public virtual ICollection<EmployeeSchedule> EmployeeSchedules { get; set; }
     }
 }

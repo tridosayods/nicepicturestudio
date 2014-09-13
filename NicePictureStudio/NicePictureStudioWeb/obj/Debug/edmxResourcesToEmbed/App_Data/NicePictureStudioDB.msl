@@ -1,63 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="NicePictureStudioDBModelStoreContainer" CdmEntityContainer="NicePictureStudioDBEntities">
-    <EntitySetMapping Name="Employees">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Employee">
-        <MappingFragment StoreEntitySet="Employee">
-          <ScalarProperty Name="City" ColumnName="City" />
-          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-          <ScalarProperty Name="State" ColumnName="State" />
-          <ScalarProperty Name="Specialability" ColumnName="Specialability" />
-          <ScalarProperty Name="Education" ColumnName="Education" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-          <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
-          <ScalarProperty Name="Position" ColumnName="Position" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EmployeeClaims">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeClaim">
-        <MappingFragment StoreEntitySet="EmployeeClaim">
-          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EmployeeLogins">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeLogin">
-        <MappingFragment StoreEntitySet="EmployeeLogin">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EmployeeRoles">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeRole">
-        <MappingFragment StoreEntitySet="EmployeeRole">
-          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="C__MigrationHistory">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.C__MigrationHistory">
         <MappingFragment StoreEntitySet="__MigrationHistory">
@@ -68,138 +11,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Customers">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Customer">
-        <MappingFragment StoreEntitySet="Customer">
-          <ScalarProperty Name="ReferencePhoneNumber" ColumnName="ReferencePhoneNumber" />
-          <ScalarProperty Name="ReferenceEmail" ColumnName="ReferenceEmail" />
-          <ScalarProperty Name="ReferencePerson" ColumnName="ReferencePerson" />
-          <ScalarProperty Name="PostcalCode" ColumnName="PostcalCode" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="City" ColumnName="City" />
-          <ScalarProperty Name="AnniversaryDate" ColumnName="AnniversaryDate" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Locations">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Location">
-        <MappingFragment StoreEntitySet="Location">
-          <ScalarProperty Name="State" ColumnName="State" />
-          <ScalarProperty Name="City" ColumnName="City" />
-          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="Detail" ColumnName="Detail" />
-          <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
-          <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
-          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-          <ScalarProperty Name="LocationAddress" ColumnName="LocationAddress" />
-          <ScalarProperty Name="LocationType" ColumnName="LocationType" />
-          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
-          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="OutsourceContacts">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceContact">
-        <MappingFragment StoreEntitySet="OutsourceContact">
-          <ScalarProperty Name="status" ColumnName="status" />
-          <ScalarProperty Name="Detail" ColumnName="Detail" />
-          <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
-          <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
-          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="OutsourceType" ColumnName="OutsourceType" />
-          <ScalarProperty Name="OutsourceName" ColumnName="OutsourceName" />
-          <ScalarProperty Name="OutsourceContactId" ColumnName="OutsourceContactId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EmployeeStatus1">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeStatus">
-        <MappingFragment StoreEntitySet="EmployeeStatus">
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EquipmentStatus1">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentStatus">
-        <MappingFragment StoreEntitySet="EquipmentStatus">
-          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="EquipmentTypes">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentType">
-        <MappingFragment StoreEntitySet="EquipmentType">
-          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
-          <ScalarProperty Name="Descriptoin" ColumnName="Descriptoin" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LocationTypes">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationType">
-        <MappingFragment StoreEntitySet="LocationType">
-          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="OutsourceServiceTypes">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceServiceType">
-        <MappingFragment StoreEntitySet="OutsourceServiceType">
-          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Roles">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Role">
-        <MappingFragment StoreEntitySet="Role">
-          <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Equipments">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Equipment">
-        <MappingFragment StoreEntitySet="Equipment">
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="EquipmentDetail" ColumnName="EquipmentDetail" />
-          <ScalarProperty Name="ModelName" ColumnName="ModelName" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="EquipmentName" ColumnName="EquipmentName" />
-          <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="OutsourceStatus1">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceStatus">
-        <MappingFragment StoreEntitySet="OutsourceStatus">
-          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Bookings">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.Booking">
         <MappingFragment StoreEntitySet="Booking">
-          <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
-          <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
-          <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
           <ScalarProperty Name="Details" ColumnName="Details" />
           <ScalarProperty Name="SpecialOrder" ColumnName="SpecialOrder" />
           <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
@@ -218,13 +32,48 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="EmployeeSchedules">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeSchedule">
-        <MappingFragment StoreEntitySet="EmployeeSchedule">
-          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Customer">
+        <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="ReferencePhoneNumber" ColumnName="ReferencePhoneNumber" />
+          <ScalarProperty Name="ReferenceEmail" ColumnName="ReferenceEmail" />
+          <ScalarProperty Name="ReferencePerson" ColumnName="ReferencePerson" />
+          <ScalarProperty Name="AnniversaryDate" ColumnName="AnniversaryDate" />
+          <ScalarProperty Name="PostcalCode" ColumnName="PostcalCode" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmployeeClaims">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeClaim">
+        <MappingFragment StoreEntitySet="EmployeeClaim">
+          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmployeeLogins">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeLogin">
+        <MappingFragment StoreEntitySet="EmployeeLogin">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Equipments">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Equipment">
+        <MappingFragment StoreEntitySet="Equipment">
+          <ScalarProperty Name="EquipmentDetail" ColumnName="EquipmentDetail" />
+          <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+          <ScalarProperty Name="EquipmentName" ColumnName="EquipmentName" />
+          <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -241,12 +90,46 @@
     <EntitySetMapping Name="EquipmentServices">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentService">
         <MappingFragment StoreEntitySet="EquipmentService">
-          <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Cost" ColumnName="Cost" />
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EquipmentStatus">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentStatu">
+        <MappingFragment StoreEntitySet="EquipmentStatus">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EquipmentTypes">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentType">
+        <MappingFragment StoreEntitySet="EquipmentType">
+          <ScalarProperty Name="Descriptoin" ColumnName="Descriptoin" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Location">
+        <MappingFragment StoreEntitySet="Location">
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
+          <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="LocationAddress" ColumnName="LocationAddress" />
+          <ScalarProperty Name="LocationType" ColumnName="LocationType" />
+          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -267,8 +150,25 @@
           <ScalarProperty Name="IsOverNight" ColumnName="IsOverNight" />
           <ScalarProperty Name="Cost" ColumnName="Cost" />
           <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LocationStatus">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationStatu">
+        <MappingFragment StoreEntitySet="LocationStatus">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LocationTypes">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationType">
+        <MappingFragment StoreEntitySet="LocationType">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -299,6 +199,19 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="OutsourceContacts">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceContact">
+        <MappingFragment StoreEntitySet="OutsourceContact">
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
+          <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="OutsourceName" ColumnName="OutsourceName" />
+          <ScalarProperty Name="OutsourceContactId" ColumnName="OutsourceContactId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="OutsourceSchedules">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceSchedule">
         <MappingFragment StoreEntitySet="OutsourceSchedule">
@@ -315,9 +228,26 @@
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Cost" ColumnName="Cost" />
           <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="OutsourceId" ColumnName="OutsourceId" />
           <ScalarProperty Name="PortFolioURL" ColumnName="PortFolioURL" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OutsourceServiceTypes">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceServiceType">
+        <MappingFragment StoreEntitySet="OutsourceServiceType">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OutsourceStatus">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceStatu">
+        <MappingFragment StoreEntitySet="OutsourceStatus">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -350,14 +280,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="ServiceForms">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceForm">
         <MappingFragment StoreEntitySet="ServiceForm">
           <ScalarProperty Name="GuestsNumber" ColumnName="GuestsNumber" />
           <ScalarProperty Name="EventEnd" ColumnName="EventEnd" />
           <ScalarProperty Name="EventStart" ColumnName="EventStart" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
@@ -367,7 +305,6 @@
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.Service">
         <MappingFragment StoreEntitySet="Services">
           <ScalarProperty Name="CRMFormId" ColumnName="CRMFormId" />
-          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
           <ScalarProperty Name="PayAmount" ColumnName="PayAmount" />
           <ScalarProperty Name="Payment" ColumnName="Payment" />
           <ScalarProperty Name="SpecialRequest" ColumnName="SpecialRequest" />
@@ -378,14 +315,137 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="EmployeeServiceTiming" TypeName="NicePictureStudioDBModel.EmployeeServiceTiming" StoreEntitySet="EmployeeServiceTiming">
+    <EntitySetMapping Name="ServiceStatus">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceStatu">
+        <MappingFragment StoreEntitySet="ServiceStatus">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ServiceTypes">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceType">
+        <MappingFragment StoreEntitySet="ServiceType">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ServiceTypeName" ColumnName="ServiceTypeName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_Booking_BookingStatus" TypeName="NicePictureStudioDBModel.FK_Booking_BookingStatus" StoreEntitySet="Booking">
+      <EndProperty Name="Booking">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="BookingStatu">
+        <ScalarProperty Name="Id" ColumnName="BookingStatus" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Booking_Promotion" TypeName="NicePictureStudioDBModel.FK_Booking_Promotion" StoreEntitySet="Booking">
+      <EndProperty Name="Booking">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="Promotion">
+        <ScalarProperty Name="Id" ColumnName="PromotionId" />
+      </EndProperty>
+      <Condition ColumnName="PromotionId" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Booking_Services" TypeName="NicePictureStudioDBModel.FK_Booking_Services" StoreEntitySet="Booking">
+      <EndProperty Name="Booking">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="Service">
+        <ScalarProperty Name="Id" ColumnName="ServiceId" />
+      </EndProperty>
+      <Condition ColumnName="ServiceId" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Services_Customer" TypeName="NicePictureStudioDBModel.FK_Services_Customer" StoreEntitySet="Services">
+      <EndProperty Name="Service">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="Customer">
+        <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Equipment_EmployeeStatus" TypeName="NicePictureStudioDBModel.FK_Equipment_EmployeeStatus" StoreEntitySet="Equipment">
+      <EndProperty Name="Equipment">
+        <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+      </EndProperty>
+      <EndProperty Name="EquipmentStatu">
+        <ScalarProperty Name="Id" ColumnName="Status" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Equipment_EquipmentType" TypeName="NicePictureStudioDBModel.FK_Equipment_EquipmentType" StoreEntitySet="Equipment">
+      <EndProperty Name="Equipment">
+        <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+      </EndProperty>
+      <EndProperty Name="EquipmentType">
+        <ScalarProperty Name="Id" ColumnName="Type" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_EquipmentService_Equipment" TypeName="NicePictureStudioDBModel.FK_EquipmentService_Equipment" StoreEntitySet="EquipmentService">
+      <EndProperty Name="EquipmentService">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="Equipment">
+        <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Location_LocationStatus" TypeName="NicePictureStudioDBModel.FK_Location_LocationStatus" StoreEntitySet="Location">
+      <EndProperty Name="Location">
+        <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+      </EndProperty>
+      <EndProperty Name="LocationStatu">
+        <ScalarProperty Name="Id" ColumnName="Status" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_LocationService_Location" TypeName="NicePictureStudioDBModel.FK_LocationService_Location" StoreEntitySet="LocationService">
+      <EndProperty Name="LocationService">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="Location">
+        <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_OutsourceContact_OutsourceServiceType" TypeName="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType" StoreEntitySet="OutsourceContact">
+      <EndProperty Name="OutsourceContact">
+        <ScalarProperty Name="OutsourceContactId" ColumnName="OutsourceContactId" />
+      </EndProperty>
+      <EndProperty Name="OutsourceServiceType">
+        <ScalarProperty Name="Id" ColumnName="OutsourceType" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_OutsourceContact_OutsourceStatus" TypeName="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceStatus" StoreEntitySet="OutsourceContact">
+      <EndProperty Name="OutsourceContact">
+        <ScalarProperty Name="OutsourceContactId" ColumnName="OutsourceContactId" />
+      </EndProperty>
+      <EndProperty Name="OutsourceStatu">
+        <ScalarProperty Name="Id" ColumnName="status" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_OutsourceService_OutsourceContact" TypeName="NicePictureStudioDBModel.FK_OutsourceService_OutsourceContact" StoreEntitySet="OutsourceService">
+      <EndProperty Name="OutsourceService">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="OutsourceContact">
+        <ScalarProperty Name="OutsourceContactId" ColumnName="OutsourceId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ServiceForm_ServiceStatus" TypeName="NicePictureStudioDBModel.FK_ServiceForm_ServiceStatus" StoreEntitySet="ServiceForm">
       <EndProperty Name="ServiceForm">
-        <ScalarProperty Name="Id" ColumnName="ServiceFormId" />
+        <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
-      <EndProperty Name="EmployeeSchedule">
-        <ScalarProperty Name="Id" ColumnName="EmployeeScheduleId" />
+      <EndProperty Name="ServiceStatu">
+        <ScalarProperty Name="Id" ColumnName="Status" />
       </EndProperty>
-      <Condition ColumnName="ServiceFormId" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ServiceForm_ServiceType" TypeName="NicePictureStudioDBModel.FK_ServiceForm_ServiceType" StoreEntitySet="ServiceForm">
+      <EndProperty Name="ServiceForm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="ServiceType">
+        <ScalarProperty Name="Id" ColumnName="ServiceType" />
+      </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="EquipmentServiceTiming" TypeName="NicePictureStudioDBModel.EquipmentServiceTiming" StoreEntitySet="EquipmentServiceTiming">
       <EndProperty Name="ServiceForm">
@@ -432,23 +492,79 @@
       </EndProperty>
       <Condition ColumnName="ServiceId" IsNull="false" />
     </AssociationSetMapping>
-    <EntitySetMapping Name="ServiceStatus">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceStatu">
-        <MappingFragment StoreEntitySet="ServiceStatus">
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+    <EntitySetMapping Name="EmployeeSchedules">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeSchedule">
+        <MappingFragment StoreEntitySet="EmployeeSchedule">
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ServiceTypes">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceType">
-        <MappingFragment StoreEntitySet="ServiceType">
+    <AssociationSetMapping Name="EmployeeServiceTiming" TypeName="NicePictureStudioDBModel.EmployeeServiceTiming" StoreEntitySet="EmployeeServiceTiming">
+      <EndProperty Name="ServiceForm">
+        <ScalarProperty Name="Id" ColumnName="ServiceFormId" />
+      </EndProperty>
+      <EndProperty Name="EmployeeSchedule">
+        <ScalarProperty Name="Id" ColumnName="EmployeeScheduleId" />
+      </EndProperty>
+      <Condition ColumnName="ServiceFormId" IsNull="false" />
+    </AssociationSetMapping>
+    <EntitySetMapping Name="EmployeeStatus">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeStatu">
+        <MappingFragment StoreEntitySet="EmployeeStatus">
           <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="ServiceTypeName" ColumnName="ServiceTypeName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Specialability" ColumnName="Specialability" />
+          <ScalarProperty Name="Education" ColumnName="Education" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId" TypeName="NicePictureStudioDBModel.FK_dbo_EmployeeClaim_dbo_Employee_UserId" StoreEntitySet="EmployeeClaim">
+      <EndProperty Name="EmployeeClaim">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="Employee">
+        <ScalarProperty Name="EmployeeId" ColumnName="UserId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="EmployeeRole" TypeName="NicePictureStudioDBModel.EmployeeRole" StoreEntitySet="EmployeeRole">
+      <EndProperty Name="Role">
+        <ScalarProperty Name="Id" ColumnName="RoleId" />
+      </EndProperty>
+      <EndProperty Name="Employee">
+        <ScalarProperty Name="EmployeeId" ColumnName="UserId" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

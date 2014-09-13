@@ -10,14 +10,21 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web;
+using NicePictureStudio.App_Data;
 
 namespace NicePictureStudio.Models
 {
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
-
-    public class ApplicationUserManager : UserManager<ApplicationUser>
+    public class ApplicationUserStore : UserStore<ApplicationUser, ApplicationRole, string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store)
+        public ApplicationUserStore(ApplicationDbContext context)
+            : base(context)
+        {
+        }
+    }
+    public class ApplicationUserManager : UserManager<ApplicationUser,string>
+    {
+        public ApplicationUserManager(IUserStore<ApplicationUser,string> store)
             : base(store)
         {
         }
@@ -25,7 +32,7 @@ namespace NicePictureStudio.Models
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,
             IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+            var manager = new ApplicationUserManager(new ApplicationUserStore(new ApplicationDbContext()));
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
@@ -68,6 +75,8 @@ namespace NicePictureStudio.Models
         }
     }
 
+    
+
     // Configure the RoleManager used in the application. RoleManager is defined in the ASP.NET Identity core assembly
     //public class ApplicationRoleManager : RoleManager<IdentityRole>
     //{
@@ -81,25 +90,7 @@ namespace NicePictureStudio.Models
     //        return new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
     //    }
     //}
-    public class ApplicationRole : IdentityRole
-    {
-        public ApplicationRole() : base() { }
-        public ApplicationRole(string name) : base(name) { }
-        public string Description { get; set; }
-    }
-
-    public class ApplicationRoleManager : RoleManager<ApplicationRole>
-    {
-        public ApplicationRoleManager(IRoleStore<ApplicationRole, string> roleStore)
-            : base(roleStore)
-        {
-        }
-
-        public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
-        {
-            return new ApplicationRoleManager(new RoleStore<ApplicationRole>(context.Get<ApplicationDbContext>()));
-        }
-    }
+   
 
     public class EmailService : IIdentityMessageService
     {

@@ -4,20 +4,55 @@
     ViewBag.Title = "Create";
 }
 
-@*<script src="/Scripts/jquery-1.10.2.js"></script>*@
 <script type="text/javascript">
     $(document).ready(function () {
         alert("READY");
         // Hide the "busy" Gif at load:
-       // $("#ServiceFromSection").show();
+         // $("#ServiceFromSection").show();
+        //$("#btnHidden").on("click", function (event) { event.preventDefault(); $("#PreWeddingFromSection").hide(); });
+        $("#tblCustomerFromService").hide();
+        $("#PreWeddingFormSection").hide();
+        $("#delPreWedService").hide();
+        $(function () {
+            $(".autocomplete-with-hidden").autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    var url = $(this.element).data("url");
 
-        $("#btnHidden").on("click", function (event) { event.preventDefault(); $("#PreWeddingFromSection").hide(); });
+                    $.getJSON(url, { term: request.term }, function (data) {
+                        response(data);
+                    })
+                },
+                select: function (event, ui) {
+                    $(event.target).next("input[type=hidden]").val(ui.item.id);
+                },
+                change: function (event, ui) {
+                    if (!ui.item) {
+                        $(event.target).val("").next("input[type=hidden]").val("");
+                    }
+                }
+            });
+        });
     });
 
-    function showServiceForm()
+    function AddPreWeddingService()
     {
-        $("#PreWeddingFromSection").show();
+        $("#delPreWedService").show();
     }
+
+    function RemovePreWeddingService()
+    {
+        $("#delPreWedService").hide();
+        $.ajax({
+            url: '@Url.Action("RemovePreWeddingService", "Services")',
+            type: "GET",
+            success: function (data) { $("#PreWeddingFormSection").replaceWith(data); }
+        });
+    }
+    //function showServiceForm()
+    //{
+    //    $("#PreWeddingFromSection").show();
+    //}
 
     function toggle_visibility(id) {
         var e = document.getElementById(id);
@@ -56,21 +91,30 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.Label("Booking No:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-8">
                 @Html.DropDownList("BookingId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Bookings, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
+            @Html.Label("Booking Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.BookingName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForBookingAutocomplete", "Services"), placeholder="...Typing your Booking...." })
+                @Html.Hidden("BookingId")
+                @Html.ValidationMessageFor(model => model.BookingName)
+            </div>
+        </div>
+
+        @*<div class="form-group">
             @Html.LabelFor(model => model.BookingName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.BookingName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BookingName, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.GroomName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -91,7 +135,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SpecialRequest, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SpecialRequest, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.SpecialRequest, new { @class = "form-control",@rows="5"} )
                 @Html.ValidationMessageFor(model => model.SpecialRequest, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -112,21 +156,21 @@
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.CustomerId, "CustomerId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.CRMFormId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CRMFormId, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CRMFormId, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -137,29 +181,37 @@
     
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-
 <!-- Create Customer Form Section-->
-<div class="navbar-form">
-    <div class="form-control">
-        @using (@Ajax.BeginForm("CreateCustomerFromService", "Services", new AjaxOptions
-            {
-                HttpMethod = "GET",
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "CustomerFromService"
-            }))
-        {
-            <button id="btnAddCustomerForm" class="col-md-2" type="submit">Add New Customer</button>
-        }
-    </div>
-    <div id="CustomerFromService"></div>
-</div>
-
+<table class="table table-responsive">
+    <tr>
+         <td>
+             <button id="togCreateCustomer" type="button" class="btn btn-default" onclick="toggle_visibility('tblCustomerFromService')"><span class="glyphicon glyphicon-plus-sign"></span>Customer Information</button> 
+        </td>
+   </tr>
+   <tr>
+       <td>
+           <div class="container" id="tblCustomerFromService">
+               @*<div class="form-group">
+                   @using (@Ajax.BeginForm("CreateCustomerFromService", "Services", new AjaxOptions
+                    {
+                        HttpMethod = "GET",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "CustomerFromService"
+                    }))
+                   {
+                    <button id="btnAddCustomerForm" class="btn btn-primary col-md-push-1" type="submit"><span class="glyphicon glyphicon-camera"></span> NewCustomer</button>
+                   }
+               </div>*@
+               @*<div id="CustomerFromService"></div>*@
+               @{Html.RenderPartial("CreateCustomerFromService");}
+           </div>
+       </td>
+   </tr>
+    
+</table>
 <!-- Create Service Form Section-->
-<div class="form-horizontal">
+
+@*<div class="form-horizontal">
     <div class="form-control">
         @using (@Ajax.BeginForm("GetServiceFormById", "Services", new AjaxOptions
             {
@@ -175,56 +227,77 @@
         }
         <button id="btnHidden" class="col-md-2" type="button">Hide</button>
     </div>
-</div>
+</div>*@
 
-<div class="table-bordered">
-    <button id="togPreWedService" type="button" class="btn btn-default btn-lg" onclick="toggle_visibility('PreWeddingFormSection')"><span class="glyphicon glyphicon-star"></span></button>
-    <div id="WeddingForm">
-            @using (@Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions
-            {
-                HttpMethod = "GET",
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "PreWeddingFormSection"
-            }))
-        {
-            <div id="bthPreWedding">
-                <button type="submit" id="btnPreWedding" name="Command" value="PreWedding" > Add PreWedding Service </button>
+<table class="table table-bordered">
+    <tr>
+        <td><button id="togPreWedService" type="button" class="btn btn-default btn" onclick="toggle_visibility('PreWeddingFormSection')"><span class="glyphicon glyphicon-briefcase"></span>PreWedding Service</button></td>
+        <td><button id="delPreWedService" type="button" class="btn btn-warning right" onclick="RemovePreWeddingService()"><span class="glyphicon glyphicon-remove-sign"></span>RemovePreWeddingService</button></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div id="PreWeddingFormSection">
+                @using (@Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "PreWeddingFormSection" }))
+                {
+                    <div id="bthPreWedding">
+                        <button type="submit" id="btnPreWedding" name="Command" value="PreWedding" onclick="AddPreWeddingService()"> Add PreWedding Service </button>
+                    </div>
+                }
+                @*<div id="PreWeddingFormSection"></div>*@
             </div>
-        }
-        <div id="PreWeddingFormSection"></div>
-    </div>
-</div>
+        </td>
+    </tr>
+</table>
 
-<div class="table-bordered">
-    <button id="togEngagementService" type="button" class="btn btn-default btn-lg" onclick="toggle_visibility('EngagementFormSection')"><span class=" glyphicon glyphicon-star"></span></button>
-    <div id="WeddingForm">
-        @using (@Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions
+
+<table class="table table-bordered">
+    <tr>
+        <td>
+            <button id="togEngagementService" type="button" class="btn btn-default" onclick="toggle_visibility('EngagementFormSection')"><span class=" glyphicon glyphicon-bullhorn"></span>Engagement Service</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="EngagementFormSection">
+                @using (@Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions
             {
                 HttpMethod = "GET",
                 InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "EngagementFormSection"
             }))
-        {
-            <div id="bthPreWedding">
-                <button type="submit" id="btnPreWedding" name="Command" value="Engagement"> Add PreWedding Service </button>
+                {
+                    <div id="bthPreWedding">
+                        <button type="submit" id="btnPreWedding" name="Command" value="Engagement"> Add PreWedding Service </button>
+                    </div>
+                }
+                @*<div id="EngagementFormSection"></div>*@
             </div>
-        }
-        <div id="EngagementFormSection"></div>
-    </div>
+        </td>
+    </tr>
+</table>
 
-<div class="table-bordered">
-    <button id="togWeddingService" type="button" class="btn btn-default btn-lg" onclick="toggle_visibility('WeddingFormSection')"><span class="glyphicon glyphicon-star"></span></button>
-    <div id="WeddingForm">
-        @using (@Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions
+<table class="table table-bordered">
+    <tr>
+        <td>
+            <button id="togWeddingService" type="button" class="btn btn-default" onclick="toggle_visibility('WeddingFormSection')"><span class="glyphicon glyphicon-star"></span>Wedding Service</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="WeddingFormSection">
+                @using (@Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions
             {
                 HttpMethod = "GET",
                 InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "WeddingFormSection"
             }))
-        {
-            <div id="bthPreWedding">
-                <button type="submit" id="btnPreWedding" name="Command" value="Wedding"> Add PreWedding Service </button>
+                {
+                    <div id="bthPreWedding">
+                        <button type="submit" id="btnPreWedding" name="Command" value="Wedding"> Add PreWedding Service </button>
+                    </div>
+                }
+                @*<div id="WeddingFormSection"></div>*@
             </div>
-        }
-        <div id="WeddingFormSection"></div>
-    </div>
+        </td>
+    </tr>
+</table>

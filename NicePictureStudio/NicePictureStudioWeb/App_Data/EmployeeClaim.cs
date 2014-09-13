@@ -15,10 +15,9 @@ namespace NicePictureStudio.App_Data
     public partial class EmployeeClaim
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
         public string ClaimType { get; set; }
         public string ClaimValue { get; set; }
     
-        public virtual Employee Employee1 { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

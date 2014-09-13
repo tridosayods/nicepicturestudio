@@ -18,6 +18,6 @@ namespace NicePictureStudio.App_Data
         public string ProviderKey { get; set; }
         public string UserId { get; set; }
     
-        public virtual Employee Employee1 { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

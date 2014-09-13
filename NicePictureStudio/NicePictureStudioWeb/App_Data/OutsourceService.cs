@@ -17,7 +17,6 @@ namespace NicePictureStudio.App_Data
         public int Id { get; set; }
         public string Name { get; set; }
         public string PortFolioURL { get; set; }
-        public int OutsourceId { get; set; }
         public Nullable<decimal> Price { get; set; }
         public Nullable<decimal> Cost { get; set; }
         public string Description { get; set; }

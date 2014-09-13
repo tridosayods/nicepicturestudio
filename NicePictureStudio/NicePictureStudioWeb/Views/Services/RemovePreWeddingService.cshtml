@@ -1,0 +1,9 @@
+﻿<div id="PreWeddingFormSection">
+    @using (@Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "PreWeddingFormSection" }))
+    {
+        <div id="bthPreWedding">
+            <button type="submit" id="btnPreWedding" name="Command" value="PreWedding" onclick="AddPreWeddingService()"> Add PreWedding Service </button>
+        </div>
+    }
+</div>
+

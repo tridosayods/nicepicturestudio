@@ -25,39 +25,38 @@ namespace NicePictureStudio.App_Data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<EmployeeClaim> EmployeeClaims { get; set; }
-        public virtual DbSet<EmployeeLogin> EmployeeLogins { get; set; }
-        public virtual DbSet<EmployeeRole> EmployeeRoles { get; set; }
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-        public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<Location> Locations { get; set; }
-        public virtual DbSet<OutsourceContact> OutsourceContacts { get; set; }
-        public virtual DbSet<EmployeeStatus> EmployeeStatus1 { get; set; }
-        public virtual DbSet<EquipmentStatus> EquipmentStatus1 { get; set; }
-        public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
-        public virtual DbSet<LocationType> LocationTypes { get; set; }
-        public virtual DbSet<OutsourceServiceType> OutsourceServiceTypes { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<Equipment> Equipments { get; set; }
-        public virtual DbSet<OutsourceStatus> OutsourceStatus1 { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<BookingStatu> BookingStatus { get; set; }
-        public virtual DbSet<EmployeeSchedule> EmployeeSchedules { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<EmployeeClaim> EmployeeClaims { get; set; }
+        public virtual DbSet<EmployeeLogin> EmployeeLogins { get; set; }
+        public virtual DbSet<Equipment> Equipments { get; set; }
         public virtual DbSet<EquipmentSchedule> EquipmentSchedules { get; set; }
         public virtual DbSet<EquipmentService> EquipmentServices { get; set; }
+        public virtual DbSet<EquipmentStatu> EquipmentStatus { get; set; }
+        public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<LocationSchedule> LocationSchedules { get; set; }
         public virtual DbSet<LocationService> LocationServices { get; set; }
+        public virtual DbSet<LocationStatu> LocationStatus { get; set; }
+        public virtual DbSet<LocationType> LocationTypes { get; set; }
         public virtual DbSet<OutputSchedule> OutputSchedules { get; set; }
         public virtual DbSet<OutputService> OutputServices { get; set; }
+        public virtual DbSet<OutsourceContact> OutsourceContacts { get; set; }
         public virtual DbSet<OutsourceSchedule> OutsourceSchedules { get; set; }
         public virtual DbSet<OutsourceService> OutsourceServices { get; set; }
+        public virtual DbSet<OutsourceServiceType> OutsourceServiceTypes { get; set; }
+        public virtual DbSet<OutsourceStatu> OutsourceStatus { get; set; }
         public virtual DbSet<PhotographService> PhotographServices { get; set; }
         public virtual DbSet<Promotion> Promotions { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<ServiceForm> ServiceForms { get; set; }
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<ServiceStatu> ServiceStatus { get; set; }
         public virtual DbSet<ServiceType> ServiceTypes { get; set; }
-        public virtual DbSet<LocationStatu> LocationStatus { get; set; }
+        public virtual DbSet<EmployeeSchedule> EmployeeSchedules { get; set; }
+        public virtual DbSet<EmployeeStatu> EmployeeStatus { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
     }
 }

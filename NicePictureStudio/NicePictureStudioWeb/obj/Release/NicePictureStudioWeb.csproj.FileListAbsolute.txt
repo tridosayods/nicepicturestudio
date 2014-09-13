@@ -52,3 +52,7 @@ D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\Microsoft
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\obj\Release\NicePictureStudio.dll
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\obj\Release\NicePictureStudio.pdb
+D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\AutoMapper.Net4.dll
+D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\AutoMapper.dll
+D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\bin\AutoMapper.xml
+D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\obj\Release\NicePictureStudioWeb.csprojResolveAssemblyReference.cache

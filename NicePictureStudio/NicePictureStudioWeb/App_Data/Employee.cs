@@ -16,41 +16,38 @@ namespace NicePictureStudio.App_Data
     {
         public Employee()
         {
-            this.EmployeeRoles = new HashSet<EmployeeRole>();
-            this.EmployeeClaims1 = new HashSet<EmployeeClaim>();
-            this.EmployeeLogins1 = new HashSet<EmployeeLogin>();
-            this.EmployeeSchedules = new HashSet<EmployeeSchedule>();
+            this.EmployeeClaims = new HashSet<EmployeeClaim>();
+            this.EmployeeLogins = new HashSet<EmployeeLogin>();
+            this.Roles = new HashSet<Role>();
         }
     
-        public string EmployeeId { get; set; }
-        public string Email { get; set; }
-        public bool EmailConfirmed { get; set; }
-        public string PasswordHash { get; set; }
-        public string SecurityStamp { get; set; }
-        public string PhoneNumber { get; set; }
-        public bool PhoneNumberConfirmed { get; set; }
-        public bool TwoFactorEnabled { get; set; }
-        public Nullable<System.DateTime> LockoutEndDateUtc { get; set; }
-        public bool LockoutEnabled { get; set; }
-        public int AccessFailedCount { get; set; }
-        public string UserName { get; set; }
         public string Name { get; set; }
         public string Position { get; set; }
         public int ManagerId { get; set; }
         public System.DateTime StartDate { get; set; }
         public int Status { get; set; }
         public int IdentificationNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string Address { get; set; }
-        public string Education { get; set; }
-        public string Specialability { get; set; }
         public string State { get; set; }
         public string PostalCode { get; set; }
         public string City { get; set; }
+        public string Education { get; set; }
+        public string Specialability { get; set; }
+        public string Email { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public string PasswordHash { get; set; }
+        public string SecurityStamp { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
+        public bool TwoFactorEnabled { get; set; }
+        public Nullable<System.DateTime> LockoutEndDateUtc { get; set; }
+        public bool LockoutEnabled { get; set; }
+        public int AccessFailedCount { get; set; }
+        public string EmployeeId { get; set; }
+        public string UserName { get; set; }
     
-        public virtual ICollection<EmployeeRole> EmployeeRoles { get; set; }
-        public virtual ICollection<EmployeeClaim> EmployeeClaims1 { get; set; }
-        public virtual ICollection<EmployeeLogin> EmployeeLogins1 { get; set; }
-        public virtual EmployeeStatus EmployeeStatu { get; set; }
-        public virtual ICollection<EmployeeSchedule> EmployeeSchedules { get; set; }
+        public virtual ICollection<EmployeeClaim> EmployeeClaims { get; set; }
+        public virtual ICollection<EmployeeLogin> EmployeeLogins { get; set; }
+        public virtual ICollection<Role> Roles { get; set; }
     }
 }

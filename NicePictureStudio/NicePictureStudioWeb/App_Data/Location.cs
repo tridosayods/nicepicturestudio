@@ -23,17 +23,16 @@ namespace NicePictureStudio.App_Data
         public string LocationName { get; set; }
         public string LocationType { get; set; }
         public string LocationAddress { get; set; }
+        public string PostalCode { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
         public string PhoneNumber { get; set; }
         public Nullable<System.TimeSpan> OpenTime { get; set; }
         public Nullable<System.TimeSpan> CloseTime { get; set; }
         public string Detail { get; set; }
-        public int Status { get; set; }
-        public string PostalCode { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
     
+        public virtual LocationStatu LocationStatu { get; set; }
         public virtual LocationType LocationType1 { get; set; }
         public virtual ICollection<LocationService> LocationServices { get; set; }
-        public virtual LocationStatu LocationStatu { get; set; }
     }
 }

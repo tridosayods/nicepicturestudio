@@ -18,7 +18,7 @@ namespace NicePictureStudio
         // GET: OutsourceContacts
         public async Task<ActionResult> Index()
         {
-            var outsourceContacts = db.OutsourceContacts.Include(o => o.OutsourceServiceType).Include(o => o.OutsourceStatus);
+            var outsourceContacts = db.OutsourceContacts.Include(o => o.OutsourceServiceType).Include(o => o.OutsourceStatu);
             return View(await outsourceContacts.ToListAsync());
         }
 
@@ -41,7 +41,7 @@ namespace NicePictureStudio
         public ActionResult Create()
         {
             ViewBag.OutsourceType = new SelectList(db.OutsourceServiceTypes, "Id", "TypeName");
-            ViewBag.status = new SelectList(db.OutsourceStatus1, "Id", "StatusName");
+            ViewBag.status = new SelectList(db.OutsourceStatus, "Id", "StatusName");
             return View();
         }
 
@@ -59,8 +59,8 @@ namespace NicePictureStudio
                 return RedirectToAction("Index");
             }
 
-            ViewBag.OutsourceType = new SelectList(db.OutsourceServiceTypes, "Id", "TypeName", outsourceContact.OutsourceType);
-            ViewBag.status = new SelectList(db.OutsourceStatus1, "Id", "StatusName", outsourceContact.status);
+            ViewBag.OutsourceType = new SelectList(db.OutsourceServiceTypes, "Id", "TypeName", outsourceContact.OutsourceServiceType);
+            ViewBag.status = new SelectList(db.OutsourceStatus, "Id", "StatusName", outsourceContact.OutsourceStatu);
             return View(outsourceContact);
         }
 
@@ -76,8 +76,8 @@ namespace NicePictureStudio
             {
                 return HttpNotFound();
             }
-            ViewBag.OutsourceType = new SelectList(db.OutsourceServiceTypes, "Id", "TypeName", outsourceContact.OutsourceType);
-            ViewBag.status = new SelectList(db.OutsourceStatus1, "Id", "StatusName", outsourceContact.status);
+            ViewBag.OutsourceType = new SelectList(db.OutsourceServiceTypes, "Id", "TypeName", outsourceContact.OutsourceServiceType);
+            ViewBag.status = new SelectList(db.OutsourceServices, "Id", "StatusName", outsourceContact.OutsourceStatu);
             return View(outsourceContact);
         }
 
@@ -94,8 +94,8 @@ namespace NicePictureStudio
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.OutsourceType = new SelectList(db.OutsourceServiceTypes, "Id", "TypeName", outsourceContact.OutsourceType);
-            ViewBag.status = new SelectList(db.OutsourceStatus1, "Id", "StatusName", outsourceContact.status);
+            ViewBag.OutsourceType = new SelectList(db.OutsourceServiceTypes, "Id", "TypeName", outsourceContact.OutsourceServiceType);
+            ViewBag.status = new SelectList(db.OutsourceServices, "Id", "StatusName", outsourceContact.OutsourceStatu);
             return View(outsourceContact);
         }
 

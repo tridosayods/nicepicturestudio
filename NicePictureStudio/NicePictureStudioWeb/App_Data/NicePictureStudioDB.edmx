@@ -113,7 +113,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="EndTime" Type="datetime" Nullable="false" />
           <Property Name="EmployeeId" Type="nvarchar" MaxLength="128" Nullable="false" />
@@ -148,7 +148,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="EndTime" Type="datetime" Nullable="false" />
           <Property Name="EquipmentId" Type="int" Nullable="false" />
@@ -208,7 +208,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="EndTime" Type="datetime" Nullable="false" />
           <Property Name="LocationId" Type="int" Nullable="false" />
@@ -252,7 +252,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="PackageName" Type="nvarchar" MaxLength="100" />
           <Property Name="OutputId" Type="int" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
@@ -297,7 +297,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="EndTime" Type="datetime" Nullable="false" />
           <Property Name="OutsourceId" Type="int" Nullable="false" />
@@ -367,7 +367,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
@@ -376,7 +376,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ServiceType" Type="int" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
@@ -485,10 +485,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_EmployeeRole_dbo_Employee_UserId">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_EmployeeRole_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
           <End Role="EmployeeRole" Type="Self.EmployeeRole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
@@ -499,10 +497,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_EmployeeRole_dbo_Role_RoleId">
-          <End Role="Role" Type="Self.Role" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_EmployeeRole_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="EmployeeRole" Type="Self.EmployeeRole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
@@ -510,30 +506,6 @@
             </Principal>
             <Dependent Role="EmployeeRole">
               <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employee_EmployeeStatus">
-          <End Role="EmployeeStatus" Type="Self.EmployeeStatus" Multiplicity="1" />
-          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeStatus">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="Status" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EmployeeSchedule_Employee">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
-          <End Role="EmployeeSchedule" Type="Self.EmployeeSchedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="EmployeeId" />
-            </Principal>
-            <Dependent Role="EmployeeSchedule">
-              <PropertyRef Name="EmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -886,21 +858,13 @@
             <End Role="Employee" EntitySet="Employee" />
             <End Role="EmployeeLogin" EntitySet="EmployeeLogin" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_EmployeeRole_dbo_Employee_UserId" Association="Self.FK_dbo_EmployeeRole_dbo_Employee_UserId">
+          <AssociationSet Name="FK_EmployeeRole_Employee" Association="Self.FK_EmployeeRole_Employee">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="EmployeeRole" EntitySet="EmployeeRole" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_EmployeeRole_dbo_Role_RoleId" Association="Self.FK_dbo_EmployeeRole_dbo_Role_RoleId">
+          <AssociationSet Name="FK_EmployeeRole_Role" Association="Self.FK_EmployeeRole_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="EmployeeRole" EntitySet="EmployeeRole" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employee_EmployeeStatus" Association="Self.FK_Employee_EmployeeStatus">
-            <End Role="EmployeeStatus" EntitySet="EmployeeStatus" />
-            <End Role="Employee" EntitySet="Employee" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EmployeeSchedule_Employee" Association="Self.FK_EmployeeSchedule_Employee">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="EmployeeSchedule" EntitySet="EmployeeSchedule" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeServiceTiming_EmployeeSchedule" Association="Self.FK_EmployeeServiceTiming_EmployeeSchedule">
             <End Role="EmployeeSchedule" EntitySet="EmployeeSchedule" />
@@ -1004,77 +968,36 @@
     <edmx:ConceptualModels>
       <Schema Namespace="NicePictureStudioDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="NicePictureStudioDBEntities" annotation:LazyLoadingEnabled="true" >
-          <EntitySet Name="Employees" EntityType="NicePictureStudioDBModel.Employee" />
-          <EntitySet Name="EmployeeClaims" EntityType="NicePictureStudioDBModel.EmployeeClaim" />
-          <EntitySet Name="EmployeeLogins" EntityType="NicePictureStudioDBModel.EmployeeLogin" />
-          <EntitySet Name="EmployeeRoles" EntityType="NicePictureStudioDBModel.EmployeeRole" />
-          <AssociationSet Name="FK_dbo_EmployeeRole_dbo_Employee_IdentityUser_Id" Association="NicePictureStudioDBModel.FK_dbo_EmployeeRole_dbo_Employee_IdentityUser_Id">
-            <End EntitySet="Employees" Role="Employee1" />
-            <End EntitySet="EmployeeRoles" Role="EmployeeRole1" />
-          </AssociationSet>
           <EntitySet Name="C__MigrationHistory" EntityType="NicePictureStudioDBModel.C__MigrationHistory" />
-          <EntitySet Name="Customers" EntityType="NicePictureStudioDBModel.Customer" />
-          <EntitySet Name="Locations" EntityType="NicePictureStudioDBModel.Location" />
-          <EntitySet Name="OutsourceContacts" EntityType="NicePictureStudioDBModel.OutsourceContact" />
-          <EntitySet Name="EmployeeStatus1" EntityType="NicePictureStudioDBModel.EmployeeStatus" />
-          <EntitySet Name="EquipmentStatus1" EntityType="NicePictureStudioDBModel.EquipmentStatus" />
-          <EntitySet Name="EquipmentTypes" EntityType="NicePictureStudioDBModel.EquipmentType" />
-          <EntitySet Name="LocationTypes" EntityType="NicePictureStudioDBModel.LocationType" />
-          <EntitySet Name="OutsourceServiceTypes" EntityType="NicePictureStudioDBModel.OutsourceServiceType" />
-          <AssociationSet Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId" Association="NicePictureStudioDBModel.FK_dbo_EmployeeClaim_dbo_Employee_UserId">
-            <End EntitySet="Employees" Role="Employee" />
-            <End EntitySet="EmployeeClaims" Role="EmployeeClaim" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_EmployeeLogin_dbo_Employee_UserId" Association="NicePictureStudioDBModel.FK_dbo_EmployeeLogin_dbo_Employee_UserId">
-            <End EntitySet="Employees" Role="Employee" />
-            <End EntitySet="EmployeeLogins" Role="EmployeeLogin" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employee_EmployeeStatus" Association="NicePictureStudioDBModel.FK_Employee_EmployeeStatus">
-            <End EntitySet="EmployeeStatus1" Role="EmployeeStatu" />
-            <End EntitySet="Employees" Role="Employee" />
-          </AssociationSet>
-          <EntitySet Name="Roles" EntityType="NicePictureStudioDBModel.Role" />
-          <AssociationSet Name="RoleEmployeeRole" Association="NicePictureStudioDBModel.RoleEmployeeRole">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="EmployeeRole" EntitySet="EmployeeRoles" />
-          </AssociationSet>
-          <EntitySet Name="Equipments" EntityType="NicePictureStudioDBModel.Equipment" />
-          <EntitySet Name="OutsourceStatus1" EntityType="NicePictureStudioDBModel.OutsourceStatus" />
-          <AssociationSet Name="FK_Equipment_EquipmentType" Association="NicePictureStudioDBModel.FK_Equipment_EquipmentType">
-            <End Role="EquipmentType" EntitySet="EquipmentTypes" />
-            <End Role="Equipment" EntitySet="Equipments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Location_LocationType" Association="NicePictureStudioDBModel.FK_Location_LocationType">
-            <End Role="LocationType" EntitySet="LocationTypes" />
-            <End Role="Location" EntitySet="Locations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OutsourceContact_OutsourceServiceType" Association="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType">
-            <End Role="OutsourceServiceType" EntitySet="OutsourceServiceTypes" />
-            <End Role="OutsourceContact" EntitySet="OutsourceContacts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OutsourceContact_OutsourceStatus" Association="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceStatus">
-            <End Role="OutsourceStatu" EntitySet="OutsourceStatus1" />
-            <End Role="OutsourceContact" EntitySet="OutsourceContacts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Equipment_EmployeeStatus" Association="NicePictureStudioDBModel.FK_Equipment_EmployeeStatus">
-            <End Role="EquipmentStatus" EntitySet="EquipmentStatus1" />
-            <End Role="Equipment" EntitySet="Equipments" />
-          </AssociationSet>
           <EntitySet Name="Bookings" EntityType="NicePictureStudioDBModel.Booking" />
           <EntitySet Name="BookingStatus" EntityType="NicePictureStudioDBModel.BookingStatu" />
-          <EntitySet Name="EmployeeSchedules" EntityType="NicePictureStudioDBModel.EmployeeSchedule" />
+          <EntitySet Name="Customers" EntityType="NicePictureStudioDBModel.Customer" />
+          <EntitySet Name="EmployeeClaims" EntityType="NicePictureStudioDBModel.EmployeeClaim" />
+          <EntitySet Name="EmployeeLogins" EntityType="NicePictureStudioDBModel.EmployeeLogin" />
+          <EntitySet Name="Equipments" EntityType="NicePictureStudioDBModel.Equipment" />
           <EntitySet Name="EquipmentSchedules" EntityType="NicePictureStudioDBModel.EquipmentSchedule" />
           <EntitySet Name="EquipmentServices" EntityType="NicePictureStudioDBModel.EquipmentService" />
+          <EntitySet Name="EquipmentStatus" EntityType="NicePictureStudioDBModel.EquipmentStatu" />
+          <EntitySet Name="EquipmentTypes" EntityType="NicePictureStudioDBModel.EquipmentType" />
+          <EntitySet Name="Locations" EntityType="NicePictureStudioDBModel.Location" />
           <EntitySet Name="LocationSchedules" EntityType="NicePictureStudioDBModel.LocationSchedule" />
           <EntitySet Name="LocationServices" EntityType="NicePictureStudioDBModel.LocationService" />
+          <EntitySet Name="LocationStatus" EntityType="NicePictureStudioDBModel.LocationStatu" />
+          <EntitySet Name="LocationTypes" EntityType="NicePictureStudioDBModel.LocationType" />
           <EntitySet Name="OutputSchedules" EntityType="NicePictureStudioDBModel.OutputSchedule" />
           <EntitySet Name="OutputServices" EntityType="NicePictureStudioDBModel.OutputService" />
+          <EntitySet Name="OutsourceContacts" EntityType="NicePictureStudioDBModel.OutsourceContact" />
           <EntitySet Name="OutsourceSchedules" EntityType="NicePictureStudioDBModel.OutsourceSchedule" />
           <EntitySet Name="OutsourceServices" EntityType="NicePictureStudioDBModel.OutsourceService" />
+          <EntitySet Name="OutsourceServiceTypes" EntityType="NicePictureStudioDBModel.OutsourceServiceType" />
+          <EntitySet Name="OutsourceStatus" EntityType="NicePictureStudioDBModel.OutsourceStatu" />
           <EntitySet Name="PhotographServices" EntityType="NicePictureStudioDBModel.PhotographService" />
           <EntitySet Name="Promotions" EntityType="NicePictureStudioDBModel.Promotion" />
+          <EntitySet Name="Roles" EntityType="NicePictureStudioDBModel.Role" />
           <EntitySet Name="ServiceForms" EntityType="NicePictureStudioDBModel.ServiceForm" />
           <EntitySet Name="Services" EntityType="NicePictureStudioDBModel.Service" />
+          <EntitySet Name="ServiceStatus" EntityType="NicePictureStudioDBModel.ServiceStatu" />
+          <EntitySet Name="ServiceTypes" EntityType="NicePictureStudioDBModel.ServiceType" />
           <AssociationSet Name="FK_Booking_BookingStatus" Association="NicePictureStudioDBModel.FK_Booking_BookingStatus">
             <End Role="BookingStatu" EntitySet="BookingStatus" />
             <End Role="Booking" EntitySet="Bookings" />
@@ -1091,8 +1014,48 @@
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Service" EntitySet="Services" />
           </AssociationSet>
-          <AssociationSet Name="EmployeeServiceTiming" Association="NicePictureStudioDBModel.EmployeeServiceTiming">
-            <End Role="EmployeeSchedule" EntitySet="EmployeeSchedules" />
+          <AssociationSet Name="FK_Equipment_EmployeeStatus" Association="NicePictureStudioDBModel.FK_Equipment_EmployeeStatus">
+            <End Role="EquipmentStatu" EntitySet="EquipmentStatus" />
+            <End Role="Equipment" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Equipment_EquipmentType" Association="NicePictureStudioDBModel.FK_Equipment_EquipmentType">
+            <End Role="EquipmentType" EntitySet="EquipmentTypes" />
+            <End Role="Equipment" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipmentService_Equipment" Association="NicePictureStudioDBModel.FK_EquipmentService_Equipment">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="EquipmentService" EntitySet="EquipmentServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_LocationStatus" Association="NicePictureStudioDBModel.FK_Location_LocationStatus">
+            <End Role="LocationStatu" EntitySet="LocationStatus" />
+            <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_LocationType" Association="NicePictureStudioDBModel.FK_Location_LocationType">
+            <End Role="LocationType" EntitySet="LocationTypes" />
+            <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationService_Location" Association="NicePictureStudioDBModel.FK_LocationService_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="LocationService" EntitySet="LocationServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OutsourceContact_OutsourceServiceType" Association="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType">
+            <End Role="OutsourceServiceType" EntitySet="OutsourceServiceTypes" />
+            <End Role="OutsourceContact" EntitySet="OutsourceContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OutsourceContact_OutsourceStatus" Association="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceStatus">
+            <End Role="OutsourceStatu" EntitySet="OutsourceStatus" />
+            <End Role="OutsourceContact" EntitySet="OutsourceContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OutsourceService_OutsourceContact" Association="NicePictureStudioDBModel.FK_OutsourceService_OutsourceContact">
+            <End Role="OutsourceContact" EntitySet="OutsourceContacts" />
+            <End Role="OutsourceService" EntitySet="OutsourceServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceForm_ServiceStatus" Association="NicePictureStudioDBModel.FK_ServiceForm_ServiceStatus">
+            <End Role="ServiceStatu" EntitySet="ServiceStatus" />
+            <End Role="ServiceForm" EntitySet="ServiceForms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceForm_ServiceType" Association="NicePictureStudioDBModel.FK_ServiceForm_ServiceType">
+            <End Role="ServiceType" EntitySet="ServiceTypes" />
             <End Role="ServiceForm" EntitySet="ServiceForms" />
           </AssociationSet>
           <AssociationSet Name="EquipmentServiceTiming" Association="NicePictureStudioDBModel.EquipmentServiceTiming">
@@ -1115,369 +1078,36 @@
             <End Role="ServiceForm" EntitySet="ServiceForms" />
             <End Role="Service" EntitySet="Services" />
           </AssociationSet>
-          <EntitySet Name="ServiceStatus" EntityType="NicePictureStudioDBModel.ServiceStatu" />
-          <EntitySet Name="ServiceTypes" EntityType="NicePictureStudioDBModel.ServiceType" />
-          <AssociationSet Name="FK_EmployeeSchedule_Employee" Association="NicePictureStudioDBModel.FK_EmployeeSchedule_Employee">
-            <End Role="Employee" EntitySet="Employees" />
+          <EntitySet Name="EmployeeSchedules" EntityType="NicePictureStudioDBModel.EmployeeSchedule" />
+          <AssociationSet Name="EmployeeServiceTiming" Association="NicePictureStudioDBModel.EmployeeServiceTiming">
             <End Role="EmployeeSchedule" EntitySet="EmployeeSchedules" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EquipmentService_Equipment" Association="NicePictureStudioDBModel.FK_EquipmentService_Equipment">
-            <End Role="Equipment" EntitySet="Equipments" />
-            <End Role="EquipmentService" EntitySet="EquipmentServices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LocationService_Location" Association="NicePictureStudioDBModel.FK_LocationService_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="LocationService" EntitySet="LocationServices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OutsourceService_OutsourceContact" Association="NicePictureStudioDBModel.FK_OutsourceService_OutsourceContact">
-            <End Role="OutsourceContact" EntitySet="OutsourceContacts" />
-            <End Role="OutsourceService" EntitySet="OutsourceServices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ServiceForm_ServiceStatus" Association="NicePictureStudioDBModel.FK_ServiceForm_ServiceStatus">
-            <End Role="ServiceStatu" EntitySet="ServiceStatus" />
             <End Role="ServiceForm" EntitySet="ServiceForms" />
           </AssociationSet>
-          <AssociationSet Name="FK_ServiceForm_ServiceType" Association="NicePictureStudioDBModel.FK_ServiceForm_ServiceType">
-            <End Role="ServiceType" EntitySet="ServiceTypes" />
-            <End Role="ServiceForm" EntitySet="ServiceForms" />
+          <EntitySet Name="EmployeeStatus" EntityType="NicePictureStudioDBModel.EmployeeStatu" />
+          <EntitySet Name="Employees" EntityType="NicePictureStudioDBModel.Employee" />
+          <AssociationSet Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId" Association="NicePictureStudioDBModel.FK_dbo_EmployeeClaim_dbo_Employee_UserId">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeClaim" EntitySet="EmployeeClaims" />
           </AssociationSet>
-          <EntitySet Name="LocationStatus" EntityType="NicePictureStudioDBModel.LocationStatu" />
-          <AssociationSet Name="FK_Location_LocationStatus" Association="NicePictureStudioDBModel.FK_Location_LocationStatus">
-            <End Role="LocationStatu" EntitySet="LocationStatus" />
-            <End Role="Location" EntitySet="Locations" />
+          <AssociationSet Name="FK_dbo_EmployeeLogin_dbo_Employee_UserId" Association="NicePictureStudioDBModel.FK_dbo_EmployeeLogin_dbo_Employee_UserId">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeLogin" EntitySet="EmployeeLogins" />
+          </AssociationSet>
+          <AssociationSet Name="EmployeeRole" Association="NicePictureStudioDBModel.EmployeeRole">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Role" EntitySet="Roles" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="EmployeeId" />
-          </Key>
-          <Property Name="EmployeeId" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Email" MaxLength="256" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="EmailConfirmed" Nullable="false" Type="Boolean" />
-          <Property Name="PasswordHash" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="SecurityStamp" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="PhoneNumber" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="PhoneNumberConfirmed" Nullable="false" Type="Boolean" />
-          <Property Name="TwoFactorEnabled" Nullable="false" Type="Boolean" />
-          <Property Name="LockoutEndDateUtc" Precision="3" Type="DateTime" />
-          <Property Name="LockoutEnabled" Nullable="false" Type="Boolean" />
-          <Property Name="AccessFailedCount" Nullable="false" Type="Int32" />
-          <Property Name="UserName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" Type="String" />
-          <NavigationProperty Name="EmployeeRoles" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeRole_dbo_Employee_IdentityUser_Id" FromRole="Employee1" ToRole="EmployeeRole1" />
-          <Property Name="Name" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Position" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="ManagerId" Nullable="false" Type="Int32" />
-          <Property Name="StartDate" Nullable="false" Precision="3" Type="DateTime" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="IdentificationNumber" Nullable="false" Type="Int32" />
-          <Property Name="Address" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Education" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Specialability" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="State" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="PostalCode" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="City" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <NavigationProperty Name="EmployeeClaims1" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeClaim_dbo_Employee_UserId" FromRole="Employee" ToRole="EmployeeClaim" />
-          <NavigationProperty Name="EmployeeLogins1" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeLogin_dbo_Employee_UserId" FromRole="Employee" ToRole="EmployeeLogin" />
-          <NavigationProperty Name="EmployeeStatu" Relationship="NicePictureStudioDBModel.FK_Employee_EmployeeStatus" FromRole="Employee" ToRole="EmployeeStatu" />
-          <NavigationProperty Name="EmployeeSchedules" Relationship="NicePictureStudioDBModel.FK_EmployeeSchedule_Employee" FromRole="Employee" ToRole="EmployeeSchedule" />
-        </EntityType>
-        <EntityType Name="EmployeeClaim">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
-          <Property Name="UserId" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="ClaimType" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="ClaimValue" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <NavigationProperty Name="Employee1" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeClaim_dbo_Employee_UserId" FromRole="EmployeeClaim" ToRole="Employee" />
-        </EntityType>
-        <EntityType Name="EmployeeLogin">
-          <Key>
-            <PropertyRef Name="LoginProvider" />
-            <PropertyRef Name="ProviderKey" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="LoginProvider" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="ProviderKey" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="UserId" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" Type="String" />
-          <NavigationProperty Name="Employee1" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeLogin_dbo_Employee_UserId" FromRole="EmployeeLogin" ToRole="Employee" />
-        </EntityType>
-        <EntityType Name="EmployeeRole">
-          <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="UserId" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="RoleId" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" Type="String" />
-          <NavigationProperty Name="Employee" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeRole_dbo_Employee_IdentityUser_Id" FromRole="EmployeeRole1" ToRole="Employee1" />
-          <NavigationProperty Name="Role" Relationship="NicePictureStudioDBModel.RoleEmployeeRole" FromRole="EmployeeRole" ToRole="Role" />
-        </EntityType>
-        <Association Name="FK_dbo_EmployeeRole_dbo_Employee_IdentityUser_Id">
-          <End Type="NicePictureStudioDBModel.Employee" Multiplicity="1" Role="Employee1" />
-          <End Type="NicePictureStudioDBModel.EmployeeRole" Multiplicity="*" Role="EmployeeRole1" />
-          <ReferentialConstraint>
-            <Principal Role="Employee1">
-              <PropertyRef Name="EmployeeId" />
-            </Principal>
-            <Dependent Role="EmployeeRole1">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
             <PropertyRef Name="ContextKey" />
           </Key>
-          <Property Name="MigrationId" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="ContextKey" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Model" Nullable="false" MaxLength="Max" FixedLength="false" Type="Binary" />
-          <Property Name="ProductVersion" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="CustomerId" />
-          </Key>
-          <Property Name="CustomerId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
-          <Property Name="CustomerName" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="PhoneNumber" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Address" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="AnniversaryDate" Precision="0" Type="DateTime" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PostcalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="ReferencePerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ReferenceEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ReferencePhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Services" Relationship="NicePictureStudioDBModel.FK_Services_Customer" FromRole="Customer" ToRole="Service" />
-        </EntityType>
-        <EntityType Name="Location">
-          <Key>
-            <PropertyRef Name="LocationId" />
-          </Key>
-          <Property Name="LocationId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
-          <Property Name="LocationName" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="LocationType" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="LocationAddress" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="PhoneNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="OpenTime" Precision="7" Type="Time" />
-          <Property Name="CloseTime" Precision="7" Type="Time" />
-          <Property Name="Detail" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Status" Nullable="false" Type="Int32" />
-          <Property Name="PostalCode" MaxLength="10" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="City" MaxLength="100" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="State" MaxLength="100" FixedLength="true" Unicode="true" Type="String" />
-          <NavigationProperty Name="LocationType1" Relationship="NicePictureStudioDBModel.FK_Location_LocationType" FromRole="Location" ToRole="LocationType" />
-          <NavigationProperty Name="LocationServices" Relationship="NicePictureStudioDBModel.FK_LocationService_Location" FromRole="Location" ToRole="LocationService" />
-          <NavigationProperty Name="LocationStatu" Relationship="NicePictureStudioDBModel.FK_Location_LocationStatus" FromRole="Location" ToRole="LocationStatu" />
-        </EntityType>
-        <EntityType Name="OutsourceContact">
-          <Key>
-            <PropertyRef Name="OutsourceContactId" />
-          </Key>
-          <Property Name="OutsourceContactId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
-          <Property Name="OutsourceName" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="OutsourceType" Type="Int32" Nullable="false" />
-          <Property Name="Address" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="PhoneNumber" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="OpenTime" Nullable="false" Precision="7" Type="Time" />
-          <Property Name="CloseTime" Nullable="false" Precision="7" Type="Time" />
-          <Property Name="Detail" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="OutsourceServiceType" Relationship="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType" FromRole="OutsourceContact" ToRole="OutsourceServiceType" />
-          <NavigationProperty Name="OutsourceStatus" Relationship="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceStatus" FromRole="OutsourceContact" ToRole="OutsourceStatu" />
-          <NavigationProperty Name="OutsourceServices" Relationship="NicePictureStudioDBModel.FK_OutsourceService_OutsourceContact" FromRole="OutsourceContact" ToRole="OutsourceService" />
-        </EntityType>
-        <EntityType Name="EmployeeStatus">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Nullable="false" Type="Int32" />
-          <Property Name="Status" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <NavigationProperty Name="Employees" Relationship="NicePictureStudioDBModel.FK_Employee_EmployeeStatus" FromRole="EmployeeStatu" ToRole="Employee" />
-          </EntityType>
-        <EntityType Name="EquipmentStatus">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Nullable="false" Type="Int32" />
-          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <NavigationProperty Name="Equipments" Relationship="NicePictureStudioDBModel.FK_Equipment_EmployeeStatus" FromRole="EquipmentStatus" ToRole="Equipment" />
-        </EntityType>
-        <EntityType Name="EquipmentType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Nullable="false" Type="Int32" />
-          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Descriptoin" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <NavigationProperty Name="Equipments" Relationship="NicePictureStudioDBModel.FK_Equipment_EquipmentType" FromRole="EquipmentType" ToRole="Equipment" />
-        </EntityType>
-        <EntityType Name="LocationType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Nullable="false" Type="Int32" />
-          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <NavigationProperty Name="Location" Relationship="NicePictureStudioDBModel.FK_Location_LocationType" FromRole="LocationType" ToRole="Location" />
-        </EntityType>
-        <EntityType Name="OutsourceServiceType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Nullable="false" Type="Int32" />
-          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
-          <NavigationProperty Name="OutsourceContacts" Relationship="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType" FromRole="OutsourceServiceType" ToRole="OutsourceContact" />
-        </EntityType>
-        <Association Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId">
-          <End Type="NicePictureStudioDBModel.Employee" Multiplicity="1" Role="Employee">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="NicePictureStudioDBModel.EmployeeClaim" Multiplicity="*" Role="EmployeeClaim" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="EmployeeId" />
-            </Principal>
-            <Dependent Role="EmployeeClaim">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_EmployeeLogin_dbo_Employee_UserId">
-          <End Type="NicePictureStudioDBModel.Employee" Multiplicity="1" Role="Employee">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="NicePictureStudioDBModel.EmployeeLogin" Multiplicity="*" Role="EmployeeLogin" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="EmployeeId" />
-            </Principal>
-            <Dependent Role="EmployeeLogin">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employee_EmployeeStatus">
-          <End Type="NicePictureStudioDBModel.EmployeeStatus" Multiplicity="1" Role="EmployeeStatu" />
-          <End Type="NicePictureStudioDBModel.Employee" Multiplicity="*" Role="Employee" />
-          <ReferentialConstraint>
-            <Principal Role="EmployeeStatu">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="Status" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Discriminator" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="EmployeeRole" Relationship="NicePictureStudioDBModel.RoleEmployeeRole" FromRole="Role" ToRole="EmployeeRole" />
-        </EntityType>
-        <Association Name="RoleEmployeeRole">
-          <End Type="NicePictureStudioDBModel.Role" Role="Role" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.EmployeeRole" Role="EmployeeRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EmployeeRole">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Equipment">
-          <Key>
-            <PropertyRef Name="EquipmentId" />
-          </Key>
-          <Property Name="EquipmentId" Type="Int32" Nullable="false" />
-          <Property Name="EquipmentName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
-          <Property Name="ModelName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EquipmentDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="EquipmentType" Relationship="NicePictureStudioDBModel.FK_Equipment_EquipmentType" FromRole="Equipment" ToRole="EquipmentType" />
-          <NavigationProperty Name="EquipmentStatus" Relationship="NicePictureStudioDBModel.FK_Equipment_EmployeeStatus" FromRole="Equipment" ToRole="EquipmentStatus" />
-          <NavigationProperty Name="EquipmentServices" Relationship="NicePictureStudioDBModel.FK_EquipmentService_Equipment" FromRole="Equipment" ToRole="EquipmentService" />
-        </EntityType>
-        <EntityType Name="OutsourceStatus">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OutsourceContacts" Relationship="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceStatus" FromRole="OutsourceStatu" ToRole="OutsourceContact" />
-        </EntityType>
-        <Association Name="FK_Equipment_EquipmentType">
-          <End Type="NicePictureStudioDBModel.EquipmentType" Role="EquipmentType" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.Equipment" Role="Equipment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EquipmentType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Equipment">
-              <PropertyRef Name="Type" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Location_LocationType">
-          <End Type="NicePictureStudioDBModel.LocationType" Role="LocationType" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="LocationType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Location">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OutsourceContact_OutsourceServiceType">
-          <End Type="NicePictureStudioDBModel.OutsourceServiceType" Role="OutsourceServiceType" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.OutsourceContact" Role="OutsourceContact" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OutsourceServiceType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OutsourceContact">
-              <PropertyRef Name="OutsourceType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OutsourceContact_OutsourceStatus">
-          <End Type="NicePictureStudioDBModel.OutsourceStatus" Role="OutsourceStatu" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.OutsourceContact" Role="OutsourceContact" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OutsourceStatu">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OutsourceContact">
-              <PropertyRef Name="status" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Equipment_EmployeeStatus">
-          <End Type="NicePictureStudioDBModel.EquipmentStatus" Role="EquipmentStatus" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.Equipment" Role="Equipment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EquipmentStatus">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Equipment">
-              <PropertyRef Name="Status" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Booking">
           <Key>
             <PropertyRef Name="Id" />
@@ -1488,9 +1118,6 @@
           <Property Name="AppointmentDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="SpecialOrder" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="BookingStatus" Type="Int32" Nullable="false" />
-          <Property Name="PromotionId" Type="Int32" />
-          <Property Name="ServiceId" Type="Int32" />
           <NavigationProperty Name="BookingStatu" Relationship="NicePictureStudioDBModel.FK_Booking_BookingStatus" FromRole="Booking" ToRole="BookingStatu" />
           <NavigationProperty Name="Promotion" Relationship="NicePictureStudioDBModel.FK_Booking_Promotion" FromRole="Booking" ToRole="Promotion" />
           <NavigationProperty Name="Service" Relationship="NicePictureStudioDBModel.FK_Booking_Services" FromRole="Booking" ToRole="Service" />
@@ -1504,22 +1131,60 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Bookings" Relationship="NicePictureStudioDBModel.FK_Booking_BookingStatus" FromRole="BookingStatu" ToRole="Booking" />
         </EntityType>
-        <EntityType Name="EmployeeSchedule">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PostcalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="AnniversaryDate" Type="DateTime" Precision="0" />
+          <Property Name="ReferencePerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReferencePhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Services" Relationship="NicePictureStudioDBModel.FK_Services_Customer" FromRole="Customer" ToRole="Service" />
+        </EntityType>
+        <EntityType Name="EmployeeClaim">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.EmployeeServiceTiming" FromRole="EmployeeSchedule" ToRole="ServiceForm" />
-          <NavigationProperty Name="Employee" Relationship="NicePictureStudioDBModel.FK_EmployeeSchedule_Employee" FromRole="EmployeeSchedule" ToRole="Employee" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeClaim_dbo_Employee_UserId" FromRole="EmployeeClaim" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="EmployeeLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeLogin_dbo_Employee_UserId" FromRole="EmployeeLogin" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Equipment">
+          <Key>
+            <PropertyRef Name="EquipmentId" />
+          </Key>
+          <Property Name="EquipmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EquipmentName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModelName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EquipmentDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EquipmentStatu" Relationship="NicePictureStudioDBModel.FK_Equipment_EmployeeStatus" FromRole="Equipment" ToRole="EquipmentStatu" />
+          <NavigationProperty Name="EquipmentType" Relationship="NicePictureStudioDBModel.FK_Equipment_EquipmentType" FromRole="Equipment" ToRole="EquipmentType" />
+          <NavigationProperty Name="EquipmentServices" Relationship="NicePictureStudioDBModel.FK_EquipmentService_Equipment" FromRole="Equipment" ToRole="EquipmentService" />
         </EntityType>
         <EntityType Name="EquipmentSchedule">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EquipmentId" Type="Int32" Nullable="false" />
@@ -1531,17 +1196,53 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EquipmentId" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="Cost" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Equipment" Relationship="NicePictureStudioDBModel.FK_EquipmentService_Equipment" FromRole="EquipmentService" ToRole="Equipment" />
         </EntityType>
-        <EntityType Name="LocationSchedule">
+        <EntityType Name="EquipmentStatu">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Equipments" Relationship="NicePictureStudioDBModel.FK_Equipment_EmployeeStatus" FromRole="EquipmentStatu" ToRole="Equipment" />
+        </EntityType>
+        <EntityType Name="EquipmentType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Descriptoin" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Equipments" Relationship="NicePictureStudioDBModel.FK_Equipment_EquipmentType" FromRole="EquipmentType" ToRole="Equipment" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LocationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OpenTime" Type="Time" Precision="7" />
+          <Property Name="CloseTime" Type="Time" Precision="7" />
+          <Property Name="Detail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LocationStatu" Relationship="NicePictureStudioDBModel.FK_Location_LocationStatus" FromRole="Location" ToRole="LocationStatu" />
+          <NavigationProperty Name="LocationType1" Relationship="NicePictureStudioDBModel.FK_Location_LocationType" FromRole="Location" ToRole="LocationType" />
+          <NavigationProperty Name="LocationServices" Relationship="NicePictureStudioDBModel.FK_LocationService_Location" FromRole="Location" ToRole="LocationService" />
+        </EntityType>
+        <EntityType Name="LocationSchedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="LocationId" Type="Int32" Nullable="false" />
@@ -1553,18 +1254,35 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LocationId" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="Cost" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="IsOverNight" Type="Boolean" Nullable="false" />
           <Property Name="OverNightPeriod" Type="Int32" />
           <NavigationProperty Name="Location" Relationship="NicePictureStudioDBModel.FK_LocationService_Location" FromRole="LocationService" ToRole="Location" />
         </EntityType>
-        <EntityType Name="OutputSchedule">
+        <EntityType Name="LocationStatu">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Locations" Relationship="NicePictureStudioDBModel.FK_Location_LocationStatus" FromRole="LocationStatu" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="LocationType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Location" Relationship="NicePictureStudioDBModel.FK_Location_LocationType" FromRole="LocationType" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="OutputSchedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="PackageName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="OutputId" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="Int32" Nullable="false" />
@@ -1585,11 +1303,26 @@
           <Property Name="Cost" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="OutsourceContact">
+          <Key>
+            <PropertyRef Name="OutsourceContactId" />
+          </Key>
+          <Property Name="OutsourceContactId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OutsourceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OpenTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="CloseTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Detail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OutsourceServiceType" Relationship="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType" FromRole="OutsourceContact" ToRole="OutsourceServiceType" />
+          <NavigationProperty Name="OutsourceStatu" Relationship="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceStatus" FromRole="OutsourceContact" ToRole="OutsourceStatu" />
+          <NavigationProperty Name="OutsourceServices" Relationship="NicePictureStudioDBModel.FK_OutsourceService_OutsourceContact" FromRole="OutsourceContact" ToRole="OutsourceService" />
+        </EntityType>
         <EntityType Name="OutsourceSchedule">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="OutsourceId" Type="Int32" Nullable="false" />
@@ -1602,11 +1335,28 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PortFolioURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OutsourceId" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="Cost" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OutsourceContact" Relationship="NicePictureStudioDBModel.FK_OutsourceService_OutsourceContact" FromRole="OutsourceService" ToRole="OutsourceContact" />
+        </EntityType>
+        <EntityType Name="OutsourceServiceType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OutsourceContacts" Relationship="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType" FromRole="OutsourceServiceType" ToRole="OutsourceContact" />
+        </EntityType>
+        <EntityType Name="OutsourceStatu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OutsourceContacts" Relationship="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceStatus" FromRole="OutsourceStatu" ToRole="OutsourceContact" />
         </EntityType>
         <EntityType Name="PhotographService">
           <Key>
@@ -1635,25 +1385,33 @@
           <Property Name="OutsourceDiscount" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Bookings" Relationship="NicePictureStudioDBModel.FK_Booking_Promotion" FromRole="Promotion" ToRole="Booking" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Discriminator" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="NicePictureStudioDBModel.EmployeeRole" FromRole="Role" ToRole="Employee" />
+        </EntityType>
         <EntityType Name="ServiceForm">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ServiceType" Type="Int32" Nullable="false" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="EventStart" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EventEnd" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="GuestsNumber" Type="Int32" />
-          <NavigationProperty Name="EmployeeSchedules" Relationship="NicePictureStudioDBModel.EmployeeServiceTiming" FromRole="ServiceForm" ToRole="EmployeeSchedule" />
+          <NavigationProperty Name="ServiceStatu" Relationship="NicePictureStudioDBModel.FK_ServiceForm_ServiceStatus" FromRole="ServiceForm" ToRole="ServiceStatu" />
+          <NavigationProperty Name="ServiceType" Relationship="NicePictureStudioDBModel.FK_ServiceForm_ServiceType" FromRole="ServiceForm" ToRole="ServiceType" />
           <NavigationProperty Name="EquipmentSchedules" Relationship="NicePictureStudioDBModel.EquipmentServiceTiming" FromRole="ServiceForm" ToRole="EquipmentSchedule" />
           <NavigationProperty Name="LocationSchedules" Relationship="NicePictureStudioDBModel.LocationServiceTiming" FromRole="ServiceForm" ToRole="LocationSchedule" />
           <NavigationProperty Name="OutputSchedules" Relationship="NicePictureStudioDBModel.OutputServiceTiming" FromRole="ServiceForm" ToRole="OutputSchedule" />
           <NavigationProperty Name="OutsourceSchedules" Relationship="NicePictureStudioDBModel.OutsourceServiceTiming" FromRole="ServiceForm" ToRole="OutsourceSchedule" />
           <NavigationProperty Name="Service" Relationship="NicePictureStudioDBModel.ServiceMapping" FromRole="ServiceForm" ToRole="Service" />
-          <NavigationProperty Name="ServiceStatu" Relationship="NicePictureStudioDBModel.FK_ServiceForm_ServiceStatus" FromRole="ServiceForm" ToRole="ServiceStatu" />
-          <NavigationProperty Name="ServiceType1" Relationship="NicePictureStudioDBModel.FK_ServiceForm_ServiceType" FromRole="ServiceForm" ToRole="ServiceType" />
+          <NavigationProperty Name="EmployeeSchedules" Relationship="NicePictureStudioDBModel.EmployeeServiceTiming" FromRole="ServiceForm" ToRole="EmployeeSchedule" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -1666,63 +1424,96 @@
           <Property Name="SpecialRequest" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Payment" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="PayAmount" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
           <Property Name="CRMFormId" Type="Int32" />
           <NavigationProperty Name="Bookings" Relationship="NicePictureStudioDBModel.FK_Booking_Services" FromRole="Service" ToRole="Booking" />
           <NavigationProperty Name="Customer" Relationship="NicePictureStudioDBModel.FK_Services_Customer" FromRole="Service" ToRole="Customer" />
           <NavigationProperty Name="ServiceForms" Relationship="NicePictureStudioDBModel.ServiceMapping" FromRole="Service" ToRole="ServiceForm" />
         </EntityType>
+        <EntityType Name="ServiceStatu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ServiceForms" Relationship="NicePictureStudioDBModel.FK_ServiceForm_ServiceStatus" FromRole="ServiceStatu" ToRole="ServiceForm" />
+        </EntityType>
+        <EntityType Name="ServiceType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceTypeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ServiceForms" Relationship="NicePictureStudioDBModel.FK_ServiceForm_ServiceType" FromRole="ServiceType" ToRole="ServiceForm" />
+        </EntityType>
         <Association Name="FK_Booking_BookingStatus">
           <End Type="NicePictureStudioDBModel.BookingStatu" Role="BookingStatu" Multiplicity="1" />
           <End Type="NicePictureStudioDBModel.Booking" Role="Booking" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BookingStatu">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Booking">
-              <PropertyRef Name="BookingStatus" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         <Association Name="FK_Booking_Promotion">
           <End Type="NicePictureStudioDBModel.Promotion" Role="Promotion" Multiplicity="0..1" />
           <End Type="NicePictureStudioDBModel.Booking" Role="Booking" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Promotion">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Booking">
-              <PropertyRef Name="PromotionId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         <Association Name="FK_Booking_Services">
           <End Type="NicePictureStudioDBModel.Service" Role="Service" Multiplicity="0..1" />
           <End Type="NicePictureStudioDBModel.Booking" Role="Booking" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Service">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Booking">
-              <PropertyRef Name="ServiceId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         <Association Name="FK_Services_Customer">
           <End Type="NicePictureStudioDBModel.Customer" Role="Customer" Multiplicity="1" />
           <End Type="NicePictureStudioDBModel.Service" Role="Service" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Equipment_EmployeeStatus">
+          <End Type="NicePictureStudioDBModel.EquipmentStatu" Role="EquipmentStatu" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.Equipment" Role="Equipment" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Equipment_EquipmentType">
+          <End Type="NicePictureStudioDBModel.EquipmentType" Role="EquipmentType" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.Equipment" Role="Equipment" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_EquipmentService_Equipment">
+          <End Type="NicePictureStudioDBModel.Equipment" Role="Equipment" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.EquipmentService" Role="EquipmentService" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Location_LocationStatus">
+          <End Type="NicePictureStudioDBModel.LocationStatu" Role="LocationStatu" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Location_LocationType">
+          <End Type="NicePictureStudioDBModel.LocationType" Role="LocationType" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerId" />
+            <Principal Role="LocationType">
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Service">
-              <PropertyRef Name="CustomerId" />
+            <Dependent Role="Location">
+              <PropertyRef Name="LocationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="EmployeeServiceTiming">
-          <End Type="NicePictureStudioDBModel.EmployeeSchedule" Role="EmployeeSchedule" Multiplicity="*" />
-          <End Type="NicePictureStudioDBModel.ServiceForm" Role="ServiceForm" Multiplicity="0..1" />
+        <Association Name="FK_LocationService_Location">
+          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.LocationService" Role="LocationService" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_OutsourceContact_OutsourceServiceType">
+          <End Type="NicePictureStudioDBModel.OutsourceServiceType" Role="OutsourceServiceType" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.OutsourceContact" Role="OutsourceContact" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_OutsourceContact_OutsourceStatus">
+          <End Type="NicePictureStudioDBModel.OutsourceStatu" Role="OutsourceStatu" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.OutsourceContact" Role="OutsourceContact" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_OutsourceService_OutsourceContact">
+          <End Type="NicePictureStudioDBModel.OutsourceContact" Role="OutsourceContact" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.OutsourceService" Role="OutsourceService" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_ServiceForm_ServiceStatus">
+          <End Type="NicePictureStudioDBModel.ServiceStatu" Role="ServiceStatu" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.ServiceForm" Role="ServiceForm" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_ServiceForm_ServiceType">
+          <End Type="NicePictureStudioDBModel.ServiceType" Role="ServiceType" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.ServiceForm" Role="ServiceForm" Multiplicity="*" />
         </Association>
         <Association Name="EquipmentServiceTiming">
           <End Type="NicePictureStudioDBModel.EquipmentSchedule" Role="EquipmentSchedule" Multiplicity="*" />
@@ -1744,180 +1535,90 @@
           <End Type="NicePictureStudioDBModel.ServiceForm" Role="ServiceForm" Multiplicity="*" />
           <End Type="NicePictureStudioDBModel.Service" Role="Service" Multiplicity="0..1" />
         </Association>
-        <EntityType Name="ServiceStatu">
+        <EntityType Name="EmployeeSchedule">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ServiceForms" Relationship="NicePictureStudioDBModel.FK_ServiceForm_ServiceStatus" FromRole="ServiceStatu" ToRole="ServiceForm" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.EmployeeServiceTiming" FromRole="EmployeeSchedule" ToRole="ServiceForm" />
         </EntityType>
-        <EntityType Name="ServiceType">
+        <Association Name="EmployeeServiceTiming">
+          <End Type="NicePictureStudioDBModel.EmployeeSchedule" Role="EmployeeSchedule" Multiplicity="*" />
+          <End Type="NicePictureStudioDBModel.ServiceForm" Role="ServiceForm" Multiplicity="0..1" />
+        </Association>
+        <EntityType Name="EmployeeStatu">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ServiceTypeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ServiceForms" Relationship="NicePictureStudioDBModel.FK_ServiceForm_ServiceType" FromRole="ServiceType" ToRole="ServiceForm" />
-          </EntityType>
-        <Association Name="FK_EmployeeSchedule_Employee">
-          <End Type="NicePictureStudioDBModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.EmployeeSchedule" Role="EmployeeSchedule" Multiplicity="*" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerId" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="IdentificationNumber" Type="Int32" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Education" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Specialability" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EmployeeClaims" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeClaim_dbo_Employee_UserId" FromRole="Employee" ToRole="EmployeeClaim" />
+          <NavigationProperty Name="EmployeeLogins" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeLogin_dbo_Employee_UserId" FromRole="Employee" ToRole="EmployeeLogin" />
+          <NavigationProperty Name="Roles" Relationship="NicePictureStudioDBModel.EmployeeRole" FromRole="Employee" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId">
+          <End Type="NicePictureStudioDBModel.Employee" Role="Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="NicePictureStudioDBModel.EmployeeClaim" Role="EmployeeClaim" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_dbo_EmployeeLogin_dbo_Employee_UserId">
+          <End Type="NicePictureStudioDBModel.Employee" Role="Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="NicePictureStudioDBModel.EmployeeLogin" Role="EmployeeLogin" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
               <PropertyRef Name="EmployeeId" />
             </Principal>
-            <Dependent Role="EmployeeSchedule">
-              <PropertyRef Name="EmployeeId" />
+            <Dependent Role="EmployeeLogin">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EquipmentService_Equipment">
-          <End Type="NicePictureStudioDBModel.Equipment" Role="Equipment" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.EquipmentService" Role="EquipmentService" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Equipment">
-              <PropertyRef Name="EquipmentId" />
-            </Principal>
-            <Dependent Role="EquipmentService">
-              <PropertyRef Name="EquipmentId" />
-            </Dependent>
-          </ReferentialConstraint>
+        <Association Name="EmployeeRole">
+          <End Type="NicePictureStudioDBModel.Employee" Role="Employee" Multiplicity="*" />
+          <End Type="NicePictureStudioDBModel.Role" Role="Role" Multiplicity="*" />
         </Association>
-        <Association Name="FK_LocationService_Location">
-          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.LocationService" Role="LocationService" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="LocationId" />
-            </Principal>
-            <Dependent Role="LocationService">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OutsourceService_OutsourceContact">
-          <End Type="NicePictureStudioDBModel.OutsourceContact" Role="OutsourceContact" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.OutsourceService" Role="OutsourceService" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OutsourceContact">
-              <PropertyRef Name="OutsourceContactId" />
-            </Principal>
-            <Dependent Role="OutsourceService">
-              <PropertyRef Name="OutsourceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ServiceForm_ServiceStatus">
-          <End Type="NicePictureStudioDBModel.ServiceStatu" Role="ServiceStatu" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.ServiceForm" Role="ServiceForm" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ServiceStatu">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ServiceForm">
-              <PropertyRef Name="Status" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ServiceForm_ServiceType">
-          <End Type="NicePictureStudioDBModel.ServiceType" Role="ServiceType" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.ServiceForm" Role="ServiceForm" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ServiceType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ServiceForm">
-              <PropertyRef Name="ServiceType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="LocationStatu">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Locations" Relationship="NicePictureStudioDBModel.FK_Location_LocationStatus" FromRole="LocationStatu" ToRole="Location" />
-        </EntityType>
-        <Association Name="FK_Location_LocationStatus">
-          <End Type="NicePictureStudioDBModel.LocationStatu" Role="LocationStatu" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LocationStatu">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Location">
-              <PropertyRef Name="Status" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="NicePictureStudioDBModelStoreContainer" CdmEntityContainer="NicePictureStudioDBEntities" >
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.Employee">
-              <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Specialability" ColumnName="Specialability" />
-                <ScalarProperty Name="Education" ColumnName="Education" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
-                <ScalarProperty Name="Position" ColumnName="Position" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeClaims">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeClaim">
-              <MappingFragment StoreEntitySet="EmployeeClaim">
-                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeLogins">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeLogin">
-              <MappingFragment StoreEntitySet="EmployeeLogin">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeRoles">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeRole">
-              <MappingFragment StoreEntitySet="EmployeeRole">
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="C__MigrationHistory">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">
@@ -1928,138 +1629,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.Customer">
-              <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="ReferencePhoneNumber" ColumnName="ReferencePhoneNumber" />
-                <ScalarProperty Name="ReferenceEmail" ColumnName="ReferenceEmail" />
-                <ScalarProperty Name="ReferencePerson" ColumnName="ReferencePerson" />
-                <ScalarProperty Name="PostcalCode" ColumnName="PostcalCode" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="AnniversaryDate" ColumnName="AnniversaryDate" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Locations">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.Location">
-              <MappingFragment StoreEntitySet="Location">
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Detail" ColumnName="Detail" />
-                <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
-                <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="LocationAddress" ColumnName="LocationAddress" />
-                <ScalarProperty Name="LocationType" ColumnName="LocationType" />
-                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OutsourceContacts">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceContact">
-              <MappingFragment StoreEntitySet="OutsourceContact">
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="Detail" ColumnName="Detail" />
-                <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
-                <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="OutsourceType" ColumnName="OutsourceType" />
-                <ScalarProperty Name="OutsourceName" ColumnName="OutsourceName" />
-                <ScalarProperty Name="OutsourceContactId" ColumnName="OutsourceContactId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeStatus1">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeStatus">
-              <MappingFragment StoreEntitySet="EmployeeStatus">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EquipmentStatus1">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentStatus">
-              <MappingFragment StoreEntitySet="EquipmentStatus">
-                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EquipmentTypes">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentType">
-              <MappingFragment StoreEntitySet="EquipmentType">
-                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
-                <ScalarProperty Name="Descriptoin" ColumnName="Descriptoin" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LocationTypes">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationType">
-              <MappingFragment StoreEntitySet="LocationType">
-                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OutsourceServiceTypes">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceServiceType">
-              <MappingFragment StoreEntitySet="OutsourceServiceType">
-                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.Role">
-              <MappingFragment StoreEntitySet="Role">
-                <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Equipments">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.Equipment">
-              <MappingFragment StoreEntitySet="Equipment">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="EquipmentDetail" ColumnName="EquipmentDetail" />
-                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="EquipmentName" ColumnName="EquipmentName" />
-                <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OutsourceStatus1">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceStatus">
-              <MappingFragment StoreEntitySet="OutsourceStatus">
-                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Bookings">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.Booking">
               <MappingFragment StoreEntitySet="Booking">
-                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
-                <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
-                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
                 <ScalarProperty Name="Details" ColumnName="Details" />
                 <ScalarProperty Name="SpecialOrder" ColumnName="SpecialOrder" />
                 <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
@@ -2078,13 +1650,48 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EmployeeSchedules">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeSchedule">
-              <MappingFragment StoreEntitySet="EmployeeSchedule">
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="ReferencePhoneNumber" ColumnName="ReferencePhoneNumber" />
+                <ScalarProperty Name="ReferenceEmail" ColumnName="ReferenceEmail" />
+                <ScalarProperty Name="ReferencePerson" ColumnName="ReferencePerson" />
+                <ScalarProperty Name="AnniversaryDate" ColumnName="AnniversaryDate" />
+                <ScalarProperty Name="PostcalCode" ColumnName="PostcalCode" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeClaims">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeClaim">
+              <MappingFragment StoreEntitySet="EmployeeClaim">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeLogins">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeLogin">
+              <MappingFragment StoreEntitySet="EmployeeLogin">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equipments">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.Equipment">
+              <MappingFragment StoreEntitySet="Equipment">
+                <ScalarProperty Name="EquipmentDetail" ColumnName="EquipmentDetail" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="EquipmentName" ColumnName="EquipmentName" />
+                <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2101,12 +1708,46 @@
           <EntitySetMapping Name="EquipmentServices">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentService">
               <MappingFragment StoreEntitySet="EquipmentService">
-                <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Cost" ColumnName="Cost" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentStatus">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentStatu">
+              <MappingFragment StoreEntitySet="EquipmentStatus">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentTypes">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentType">
+              <MappingFragment StoreEntitySet="EquipmentType">
+                <ScalarProperty Name="Descriptoin" ColumnName="Descriptoin" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
+                <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="LocationAddress" ColumnName="LocationAddress" />
+                <ScalarProperty Name="LocationType" ColumnName="LocationType" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2127,8 +1768,25 @@
                 <ScalarProperty Name="IsOverNight" ColumnName="IsOverNight" />
                 <ScalarProperty Name="Cost" ColumnName="Cost" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationStatus">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationStatu">
+              <MappingFragment StoreEntitySet="LocationStatus">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationTypes">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationType">
+              <MappingFragment StoreEntitySet="LocationType">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2159,6 +1817,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="OutsourceContacts">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceContact">
+              <MappingFragment StoreEntitySet="OutsourceContact">
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
+                <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="OutsourceName" ColumnName="OutsourceName" />
+                <ScalarProperty Name="OutsourceContactId" ColumnName="OutsourceContactId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="OutsourceSchedules">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceSchedule">
               <MappingFragment StoreEntitySet="OutsourceSchedule">
@@ -2175,9 +1846,26 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Cost" ColumnName="Cost" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="OutsourceId" ColumnName="OutsourceId" />
                 <ScalarProperty Name="PortFolioURL" ColumnName="PortFolioURL" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OutsourceServiceTypes">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceServiceType">
+              <MappingFragment StoreEntitySet="OutsourceServiceType">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OutsourceStatus">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceStatu">
+              <MappingFragment StoreEntitySet="OutsourceStatus">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2210,14 +1898,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ServiceForms">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceForm">
               <MappingFragment StoreEntitySet="ServiceForm">
                 <ScalarProperty Name="GuestsNumber" ColumnName="GuestsNumber" />
                 <ScalarProperty Name="EventEnd" ColumnName="EventEnd" />
                 <ScalarProperty Name="EventStart" ColumnName="EventStart" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -2227,7 +1923,6 @@
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.Service">
               <MappingFragment StoreEntitySet="Services">
                 <ScalarProperty Name="CRMFormId" ColumnName="CRMFormId" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="PayAmount" ColumnName="PayAmount" />
                 <ScalarProperty Name="Payment" ColumnName="Payment" />
                 <ScalarProperty Name="SpecialRequest" ColumnName="SpecialRequest" />
@@ -2238,14 +1933,137 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="EmployeeServiceTiming" TypeName="NicePictureStudioDBModel.EmployeeServiceTiming" StoreEntitySet="EmployeeServiceTiming">
+          <EntitySetMapping Name="ServiceStatus">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceStatu">
+              <MappingFragment StoreEntitySet="ServiceStatus">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceTypes">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceType">
+              <MappingFragment StoreEntitySet="ServiceType">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ServiceTypeName" ColumnName="ServiceTypeName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_Booking_BookingStatus" TypeName="NicePictureStudioDBModel.FK_Booking_BookingStatus" StoreEntitySet="Booking">
+            <EndProperty Name="Booking">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="BookingStatu">
+              <ScalarProperty Name="Id" ColumnName="BookingStatus" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Booking_Promotion" TypeName="NicePictureStudioDBModel.FK_Booking_Promotion" StoreEntitySet="Booking">
+            <EndProperty Name="Booking">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Promotion">
+              <ScalarProperty Name="Id" ColumnName="PromotionId" />
+            </EndProperty>
+            <Condition ColumnName="PromotionId" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Booking_Services" TypeName="NicePictureStudioDBModel.FK_Booking_Services" StoreEntitySet="Booking">
+            <EndProperty Name="Booking">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Service">
+              <ScalarProperty Name="Id" ColumnName="ServiceId" />
+            </EndProperty>
+            <Condition ColumnName="ServiceId" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Services_Customer" TypeName="NicePictureStudioDBModel.FK_Services_Customer" StoreEntitySet="Services">
+            <EndProperty Name="Service">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Customer">
+              <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Equipment_EmployeeStatus" TypeName="NicePictureStudioDBModel.FK_Equipment_EmployeeStatus" StoreEntitySet="Equipment">
+            <EndProperty Name="Equipment">
+              <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+            </EndProperty>
+            <EndProperty Name="EquipmentStatu">
+              <ScalarProperty Name="Id" ColumnName="Status" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Equipment_EquipmentType" TypeName="NicePictureStudioDBModel.FK_Equipment_EquipmentType" StoreEntitySet="Equipment">
+            <EndProperty Name="Equipment">
+              <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+            </EndProperty>
+            <EndProperty Name="EquipmentType">
+              <ScalarProperty Name="Id" ColumnName="Type" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_EquipmentService_Equipment" TypeName="NicePictureStudioDBModel.FK_EquipmentService_Equipment" StoreEntitySet="EquipmentService">
+            <EndProperty Name="EquipmentService">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Equipment">
+              <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Location_LocationStatus" TypeName="NicePictureStudioDBModel.FK_Location_LocationStatus" StoreEntitySet="Location">
+            <EndProperty Name="Location">
+              <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+            </EndProperty>
+            <EndProperty Name="LocationStatu">
+              <ScalarProperty Name="Id" ColumnName="Status" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_LocationService_Location" TypeName="NicePictureStudioDBModel.FK_LocationService_Location" StoreEntitySet="LocationService">
+            <EndProperty Name="LocationService">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Location">
+              <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_OutsourceContact_OutsourceServiceType" TypeName="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType" StoreEntitySet="OutsourceContact">
+            <EndProperty Name="OutsourceContact">
+              <ScalarProperty Name="OutsourceContactId" ColumnName="OutsourceContactId" />
+            </EndProperty>
+            <EndProperty Name="OutsourceServiceType">
+              <ScalarProperty Name="Id" ColumnName="OutsourceType" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_OutsourceContact_OutsourceStatus" TypeName="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceStatus" StoreEntitySet="OutsourceContact">
+            <EndProperty Name="OutsourceContact">
+              <ScalarProperty Name="OutsourceContactId" ColumnName="OutsourceContactId" />
+            </EndProperty>
+            <EndProperty Name="OutsourceStatu">
+              <ScalarProperty Name="Id" ColumnName="status" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_OutsourceService_OutsourceContact" TypeName="NicePictureStudioDBModel.FK_OutsourceService_OutsourceContact" StoreEntitySet="OutsourceService">
+            <EndProperty Name="OutsourceService">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="OutsourceContact">
+              <ScalarProperty Name="OutsourceContactId" ColumnName="OutsourceId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_ServiceForm_ServiceStatus" TypeName="NicePictureStudioDBModel.FK_ServiceForm_ServiceStatus" StoreEntitySet="ServiceForm">
             <EndProperty Name="ServiceForm">
-              <ScalarProperty Name="Id" ColumnName="ServiceFormId" />
+              <ScalarProperty Name="Id" ColumnName="Id" />
             </EndProperty>
-            <EndProperty Name="EmployeeSchedule">
-              <ScalarProperty Name="Id" ColumnName="EmployeeScheduleId" />
+            <EndProperty Name="ServiceStatu">
+              <ScalarProperty Name="Id" ColumnName="Status" />
             </EndProperty>
-            <Condition ColumnName="ServiceFormId" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_ServiceForm_ServiceType" TypeName="NicePictureStudioDBModel.FK_ServiceForm_ServiceType" StoreEntitySet="ServiceForm">
+            <EndProperty Name="ServiceForm">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="ServiceType">
+              <ScalarProperty Name="Id" ColumnName="ServiceType" />
+            </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="EquipmentServiceTiming" TypeName="NicePictureStudioDBModel.EquipmentServiceTiming" StoreEntitySet="EquipmentServiceTiming">
             <EndProperty Name="ServiceForm">
@@ -2292,34 +2110,81 @@
             </EndProperty>
             <Condition ColumnName="ServiceId" IsNull="false" />
           </AssociationSetMapping>
-          <EntitySetMapping Name="ServiceStatus">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceStatu">
-              <MappingFragment StoreEntitySet="ServiceStatus">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+          <EntitySetMapping Name="EmployeeSchedules">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeSchedule">
+              <MappingFragment StoreEntitySet="EmployeeSchedule">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ServiceTypes">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceType">
-              <MappingFragment StoreEntitySet="ServiceType">
+          <AssociationSetMapping Name="EmployeeServiceTiming" TypeName="NicePictureStudioDBModel.EmployeeServiceTiming" StoreEntitySet="EmployeeServiceTiming">
+            <EndProperty Name="ServiceForm">
+              <ScalarProperty Name="Id" ColumnName="ServiceFormId" />
+            </EndProperty>
+            <EndProperty Name="EmployeeSchedule">
+              <ScalarProperty Name="Id" ColumnName="EmployeeScheduleId" />
+            </EndProperty>
+            <Condition ColumnName="ServiceFormId" IsNull="false" />
+          </AssociationSetMapping>
+          <EntitySetMapping Name="EmployeeStatus">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeStatu">
+              <MappingFragment StoreEntitySet="EmployeeStatus">
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ServiceTypeName" ColumnName="ServiceTypeName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LocationStatus">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationStatu">
-              <MappingFragment StoreEntitySet="LocationStatus">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Specialability" ColumnName="Specialability" />
+                <ScalarProperty Name="Education" ColumnName="Education" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          </EntityContainerMapping>
+          <AssociationSetMapping Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId" TypeName="NicePictureStudioDBModel.FK_dbo_EmployeeClaim_dbo_Employee_UserId" StoreEntitySet="EmployeeClaim">
+            <EndProperty Name="EmployeeClaim">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Employee">
+              <ScalarProperty Name="EmployeeId" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="EmployeeRole" TypeName="NicePictureStudioDBModel.EmployeeRole" StoreEntitySet="EmployeeRole">
+            <EndProperty Name="Role">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="Employee">
+              <ScalarProperty Name="EmployeeId" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
@@ -2334,7 +2199,7 @@
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

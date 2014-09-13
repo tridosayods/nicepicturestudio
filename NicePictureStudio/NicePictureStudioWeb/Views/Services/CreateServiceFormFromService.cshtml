@@ -41,21 +41,32 @@
                 $('#@ViewBag.HTMLTagButtonOutput').modal('show');
             });
         });
+
+        $(function () {
+            $('#@ViewBag.ServiceTypeDatePickerStart').datetimepicker();
+        });
+
+        $(function () {
+            $('#@ViewBag.ServiceTypeDatePickerEnd').datetimepicker();
+        });
     });
+
 </script>
 
-<table class="table"><tr><td class=" col-md-6">
-    @using (Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions
-{
-    HttpMethod = "POST",
-    InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = @ViewBag.ServiceTypeTag
-}))
-    {
+<table class="table container-fluid">
+    <tr>
+        <td class=" col-md-6">
+        @using (Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions
+            {
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = @ViewBag.ServiceTypeTag
+            }))
+        {
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
-            <h4>ServiceForm</h4>
+            <h4>@ViewBag.ServiceTypeTag</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
@@ -66,41 +77,47 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 @Html.LabelFor(model => model.ServiceType, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.ServiceType, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.ServiceType, "", new { @class = "text-danger" })
                 </div>
-            </div>
+            </div>*@
 
-            <div class="form-group">
+            @*<div class="form-group">
                 @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
                 </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.EventStart, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.EventStart, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.EventStart, "", new { @class = "text-danger" })
+            </div>*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EventStart, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-lg-10">
+                        <div class="input-group" id="@ViewBag.ServiceTypeDatePickerStart">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            @Html.EditorFor(model => model.EventStart, new { htmlAttributes = new { @class = "form-control",@style="max-width:242px" } })
+                           
+                        </div>
+                        @Html.ValidationMessageFor(model => model.EventStart, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.EventEnd, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.EventEnd, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.EventEnd, "", new { @class = "text-danger" })
-                </div>
+                    <div class="input-group" id="@ViewBag.ServiceTypeDatePickerEnd">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        @Html.EditorFor(model => model.EventEnd, new { htmlAttributes = new { @class = "form-control", @style = "max-width:242px" } })
+                        @Html.ValidationMessageFor(model => model.EventEnd, "", new { @class = "text-danger" })
+                    </div>
+                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.GuestsNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.Label("Guest Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
                     @Html.EditorFor(model => model.GuestsNumber, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.GuestsNumber, "", new { @class = "text-danger" })
                 </div>
@@ -108,21 +125,43 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <button type="submit" value="@ViewBag.ServiceTypeItem" class="btn btn-default" name="Command">Save</button>
+                    <button type="submit" value="@ViewBag.ServiceTypeItem" class="btn btn-default" name="Command">Create</button>
                 </div>
             </div>
         </div>
     }
 </td>
-    <td class=" col-md-6">
-    <div class="btn-group-vertical">
-        <button id="@ViewBag.HTMLModalPhotoGraph" type="button" class="btn btn-default">PhotoGraphs Select</button>
-        <button id="@ViewBag.HTMLModalEquipment" type="submit" class="btn btn-default">Equipment Select</button>
-        <button id="@ViewBag.HTMLModalLocation" type="button" class="btn btn-default">Location Select</button>
-        <button id="@ViewBag.HTMLModalOutsource" type="button" class="btn btn-default">Outsource Services Select</button>
-        <button id="@ViewBag.HTMLModalOutput" type="button" class="btn btn-default">Output Select</button>
+    <td class="col-md-6">
+        <h4>Services Sections</h4>
+        <hr />
+        <div class="row">
+            <div class="btn-group-vertical col-md-5">
+                <div class="input-group">
+                    <button id="@ViewBag.HTMLModalPhotoGraph" type="button" class="btn btn-default" style="width:100%"><span class=" glyphicon glyphicon-camera"></span>&nbsp;PhotoGraphs Select</button>
+                    <span class="input-group-btn"><button id="@ViewBag.HTMLModalPhotoGraphArrow"class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></span>
+                </div>
+                 <div class="input-group">
+                     <button id="@ViewBag.HTMLModalEquipment" type="submit" class="btn btn-default" style="width:100%"><span class="glyphicon glyphicon-pushpin"></span>&nbsp;Equipment Select</button>
+                     <span class="input-group-btn"><button id="@ViewBag.HTMLModalEquipmentArrow" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></span>
+                 </div>
+                <div class="input-group">
+                    <button id="@ViewBag.HTMLModalLocation" type="submit" class="btn btn-default" style="width:100%"><span class="glyphicon glyphicon-picture"></span>&nbsp;Location Select</button>
+                    <span class="input-group-btn"><button id="@ViewBag.HTMLModalLocationArrow" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></span>
+                </div>
+                <div class="input-group">
+                    <button id="@ViewBag.HTMLModalOutsource" type="submit" class="btn btn-default" style="width:100%"><span class="glyphicon glyphicon-bullhorn"></span>&nbsp;Outsource Select</button>
+                    <span class="input-group-btn"><button id="@ViewBag.HTMLModalOutsourceArrow" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></span>
+                </div>
+                <div class="input-group">
+                    <button id="@ViewBag.HTMLModalOutput" type="submit" class="btn btn-default" style="width:100%"><span class="glyphicon glyphicon-file"></span>&nbsp;Output Select</button>
+                    <span class="input-group-btn"><button id="@ViewBag.HTMLModalOutputArrow" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></span>
+                </div>
+            </div>
+            <div class="container col-md-7">
+                <textarea rows="15" class="form-control container-fluid" style="width:100%;height:250px;"></textarea>
+            </div>
         </div>
-    </td>
+     </td>
 </tr>
 </table>
 
@@ -141,7 +180,6 @@
                 </h4>
             </div>
             <div class="modal-body">
-                Press ESC button to exit.
                 <div id="@ViewBag.HTMLContainerButtonPhotoGraph"></div>
             </div>
             <div class="modal-footer">

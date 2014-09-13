@@ -18,7 +18,7 @@ namespace NicePictureStudio
         // GET: Equipments
         public async Task<ActionResult> Index()
         {
-            var equipments = db.Equipments.Include(e => e.EquipmentStatus).Include(e => e.EquipmentType);
+            var equipments = db.Equipments.Include(e => e.EquipmentStatu).Include(e => e.EquipmentType);
             return View(await equipments.ToListAsync());
         }
 
@@ -40,7 +40,7 @@ namespace NicePictureStudio
         // GET: Equipments/Create
         public ActionResult Create()
         {
-            ViewBag.Status = new SelectList(db.EquipmentStatus1, "Id", "Status");
+            ViewBag.Status = new SelectList(db.EquipmentStatus, "Id", "Status");
             ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName");
             return View();
         }
@@ -59,8 +59,8 @@ namespace NicePictureStudio
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Status = new SelectList(db.EquipmentStatus1, "Id", "Status", equipment.Status);
-            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName", equipment.Type);
+            ViewBag.Status = new SelectList(db.EquipmentStatus, "Id", "Status", equipment.EquipmentStatu);
+            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName", equipment.EquipmentType);
             return View(equipment);
         }
 
@@ -76,8 +76,8 @@ namespace NicePictureStudio
             {
                 return HttpNotFound();
             }
-            ViewBag.Status = new SelectList(db.EquipmentStatus1, "Id", "Status", equipment.Status);
-            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName", equipment.Type);
+            ViewBag.Status = new SelectList(db.EquipmentStatus, "Id", "Status", equipment.EquipmentStatu);
+            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName", equipment.EquipmentType);
             return View(equipment);
         }
 
@@ -94,8 +94,8 @@ namespace NicePictureStudio
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.Status = new SelectList(db.EquipmentStatus1, "Id", "Status", equipment.Status);
-            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName", equipment.Type);
+            ViewBag.Status = new SelectList(db.EquipmentStatus, "Id", "Status", equipment.EquipmentStatu);
+            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName", equipment.EquipmentType);
             return View(equipment);
         }
 

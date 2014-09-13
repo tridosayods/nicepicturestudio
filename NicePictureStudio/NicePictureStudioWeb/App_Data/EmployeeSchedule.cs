@@ -20,6 +20,5 @@ namespace NicePictureStudio.App_Data
         public string EmployeeId { get; set; }
     
         public virtual ServiceForm ServiceForm { get; set; }
-        public virtual Employee Employee { get; set; }
     }
 }

@@ -21,13 +21,11 @@ namespace NicePictureStudio.App_Data
     
         public int EquipmentId { get; set; }
         public string EquipmentName { get; set; }
-        public int Type { get; set; }
         public string ModelName { get; set; }
         public string EquipmentDetail { get; set; }
-        public int Status { get; set; }
     
+        public virtual EquipmentStatu EquipmentStatu { get; set; }
         public virtual EquipmentType EquipmentType { get; set; }
-        public virtual EquipmentStatus EquipmentStatus { get; set; }
         public virtual ICollection<EquipmentService> EquipmentServices { get; set; }
     }
 }
