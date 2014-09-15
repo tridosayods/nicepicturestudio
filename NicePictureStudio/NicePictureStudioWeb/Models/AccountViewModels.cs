@@ -74,7 +74,7 @@ namespace NicePictureStudio.Models
         public string Position { get; set; }
 
         [Display(Name = "Supervisor Name (If any)")]
-        public int ManagerId { get; set; }
+        public string ManagerId { get; set; }
 
         [Display(Name = "Start Date of Working")]
         public DateTime StartDate { get; set; }

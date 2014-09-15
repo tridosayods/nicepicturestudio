@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity.Validation;
 
 namespace NicePictureStudio.Controllers
 {
@@ -168,11 +169,27 @@ namespace NicePictureStudio.Controllers
             if (ModelState.IsValid)
             {
                 //Status is always 1 as Active User when register
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email 
+                string newGuid = Guid.NewGuid().ToString();
+                var user = new ApplicationUser { Id=newGuid,UserName = model.Email, Email = model.Email 
                 , Name = model.Name, PhoneNumber= model.PhoneNumber, Position = model.Position, ManagerId = model.ManagerId, StartDate = model.StartDate
                 , IdentificationNumber = model.IdentificationNumber, Address = model.Address, Education = model.Education, Specialability = model.Specialability
                 , PostalCode = model.PostalCode, State = model.State, City= model.City,Status =1};
-                var result = await UserManager.CreateAsync(user, model.Password);
+                IdentityResult result;
+                try { result = await UserManager.CreateAsync(user, model.Password); }
+                catch (DbEntityValidationException e)
+                {
+                    result = null;
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                }
                
                 /******************** Add role admin**************************************************/
                 //if (result.Succeeded)

@@ -33,7 +33,7 @@
     <div class="form-group">
             @Html.LabelFor(m => m.ManagerId, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.SupervisorList, Model.SupervisorList.Select(h => new SelectListItem { Text = h.Name, Value = h.Id }), "Please Select Supervisor", new { @class = "form-contorl" })
+            @Html.DropDownListFor(m => m.ManagerId, Model.SupervisorList.Select(h => new SelectListItem { Text = h.Name, Value = h.Id }), "Please Select Supervisor", new { @class = "form-contorl" })
         </div>
     </div>
     <div class="form-group">

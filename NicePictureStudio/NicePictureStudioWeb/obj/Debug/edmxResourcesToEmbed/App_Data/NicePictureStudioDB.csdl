@@ -111,12 +111,12 @@
       <End Role="ServiceForm" EntitySet="ServiceForms" />
       <End Role="Service" EntitySet="Services" />
     </AssociationSet>
+    <EntitySet Name="EmployeeStatus" EntityType="NicePictureStudioDBModel.EmployeeStatu" />
     <EntitySet Name="EmployeeSchedules" EntityType="NicePictureStudioDBModel.EmployeeSchedule" />
     <AssociationSet Name="EmployeeServiceTiming" Association="NicePictureStudioDBModel.EmployeeServiceTiming">
       <End Role="EmployeeSchedule" EntitySet="EmployeeSchedules" />
       <End Role="ServiceForm" EntitySet="ServiceForms" />
     </AssociationSet>
-    <EntitySet Name="EmployeeStatus" EntityType="NicePictureStudioDBModel.EmployeeStatu" />
     <EntitySet Name="Employees" EntityType="NicePictureStudioDBModel.Employee" />
     <AssociationSet Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId" Association="NicePictureStudioDBModel.FK_dbo_EmployeeClaim_dbo_Employee_UserId">
       <End Role="Employee" EntitySet="Employees" />
@@ -125,6 +125,10 @@
     <AssociationSet Name="FK_dbo_EmployeeLogin_dbo_Employee_UserId" Association="NicePictureStudioDBModel.FK_dbo_EmployeeLogin_dbo_Employee_UserId">
       <End Role="Employee" EntitySet="Employees" />
       <End Role="EmployeeLogin" EntitySet="EmployeeLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeeSchedule_Employee" Association="NicePictureStudioDBModel.FK_EmployeeSchedule_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="EmployeeSchedule" EntitySet="EmployeeSchedules" />
     </AssociationSet>
     <AssociationSet Name="EmployeeRole" Association="NicePictureStudioDBModel.EmployeeRole">
       <End Role="Employee" EntitySet="Employees" />
@@ -422,10 +426,10 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="None" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Discriminator" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Discriminator" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Employees" Relationship="NicePictureStudioDBModel.EmployeeRole" FromRole="Role" ToRole="Employee" />
   </EntityType>
   <EntityType Name="ServiceForm">
@@ -568,20 +572,6 @@
     <End Type="NicePictureStudioDBModel.ServiceForm" Role="ServiceForm" Multiplicity="*" />
     <End Type="NicePictureStudioDBModel.Service" Role="Service" Multiplicity="0..1" />
   </Association>
-  <EntityType Name="EmployeeSchedule">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" />
-    <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.EmployeeServiceTiming" FromRole="EmployeeSchedule" ToRole="ServiceForm" />
-  </EntityType>
-  <Association Name="EmployeeServiceTiming">
-    <End Type="NicePictureStudioDBModel.EmployeeSchedule" Role="EmployeeSchedule" Multiplicity="*" />
-    <End Type="NicePictureStudioDBModel.ServiceForm" Role="ServiceForm" Multiplicity="0..1" />
-  </Association>
   <EntityType Name="EmployeeStatu">
     <Key>
       <PropertyRef Name="Id" />
@@ -590,13 +580,28 @@
     <Property Name="Status" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
+  <EntityType Name="EmployeeSchedule">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.EmployeeServiceTiming" FromRole="EmployeeSchedule" ToRole="ServiceForm" />
+    <NavigationProperty Name="Employee" Relationship="NicePictureStudioDBModel.FK_EmployeeSchedule_Employee" FromRole="EmployeeSchedule" ToRole="Employee" />
+  </EntityType>
+  <Association Name="EmployeeServiceTiming">
+    <End Type="NicePictureStudioDBModel.EmployeeSchedule" Role="EmployeeSchedule" Multiplicity="*" />
+    <End Type="NicePictureStudioDBModel.ServiceForm" Role="ServiceForm" Multiplicity="0..1" />
+  </Association>
   <EntityType Name="Employee">
     <Key>
-      <PropertyRef Name="EmployeeId" />
+      <PropertyRef Name="Id" />
     </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="None" />
     <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="ManagerId" Type="Int32" Nullable="false" />
+    <Property Name="ManagerId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
     <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="Status" Type="Int32" Nullable="false" />
     <Property Name="IdentificationNumber" Type="Int32" Nullable="false" />
@@ -616,10 +621,10 @@
     <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
     <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
     <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-    <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
     <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="EmployeeClaims" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeClaim_dbo_Employee_UserId" FromRole="Employee" ToRole="EmployeeClaim" />
     <NavigationProperty Name="EmployeeLogins" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeLogin_dbo_Employee_UserId" FromRole="Employee" ToRole="EmployeeLogin" />
+    <NavigationProperty Name="EmployeeSchedules" Relationship="NicePictureStudioDBModel.FK_EmployeeSchedule_Employee" FromRole="Employee" ToRole="EmployeeSchedule" />
     <NavigationProperty Name="Roles" Relationship="NicePictureStudioDBModel.EmployeeRole" FromRole="Employee" ToRole="Role" />
   </EntityType>
   <Association Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId">
@@ -635,12 +640,16 @@
     <End Type="NicePictureStudioDBModel.EmployeeLogin" Role="EmployeeLogin" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
-        <PropertyRef Name="EmployeeId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="EmployeeLogin">
         <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeeSchedule_Employee">
+    <End Type="NicePictureStudioDBModel.Employee" Role="Employee" Multiplicity="1" />
+    <End Type="NicePictureStudioDBModel.EmployeeSchedule" Role="EmployeeSchedule" Multiplicity="*" />
   </Association>
   <Association Name="EmployeeRole">
     <End Type="NicePictureStudioDBModel.Employee" Role="Employee" Multiplicity="*" />

@@ -19,6 +19,9 @@ namespace NicePictureStudio
         private PromotionViewModel _promotion;
         private ServiceFromKeeper _formKeeper;
 
+        private static readonly string CameraManType = "CameraMan";
+        private static readonly string PhotographType = "Photograph";
+ 
         //Command
         public static readonly string PreWedding = "PreWedding";
         public readonly string Engagement = "Engagement";
@@ -518,6 +521,21 @@ namespace NicePictureStudio
             else
             { photoGraphService = await db.PhotographServices.FirstAsync(); }
             ViewData["Code"] = photoGraphService.Id;
+
+            //Getting PhotoGraph
+            ServiceForm PreWeddingFromSection;
+            DateTime _startDate = DateTime.MinValue;
+            DateTime _endDate = DateTime.Now;
+            var phhotoGraphResult = (from photoEmp in db.Employees
+                                   join empSchedule in db.EmployeeSchedules on photoEmp.Id equals empSchedule.Employee.Id
+                                     where photoEmp.Specialability == PhotographType && empSchedule.StartTime >= _startDate && empSchedule.EndTime <= _endDate
+                                   select photoEmp).ToList();
+
+            //Getting CameraMan
+            var camearManResult = (from cameraEmp in db.Employees
+                                   join empSchedule in db.EmployeeSchedules on cameraEmp.Id equals empSchedule.Employee.Id
+                                   where cameraEmp.Specialability == CameraManType && empSchedule.StartTime >= _startDate && empSchedule.EndTime <= _endDate
+                                   select cameraEmp).ToList();
 
             //Create metadata for webpage structure
             if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)

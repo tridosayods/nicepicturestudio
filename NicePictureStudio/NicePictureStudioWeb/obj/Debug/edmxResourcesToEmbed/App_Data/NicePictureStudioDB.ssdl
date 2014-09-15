@@ -50,12 +50,12 @@
   </EntityType>
   <EntityType Name="Employee">
     <Key>
-      <PropertyRef Name="EmployeeId" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="EmployeeId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" StoreGeneratedPattern="None" />
     <Property Name="Name" Type="nvarchar(max)" />
     <Property Name="Position" Type="nvarchar(max)" />
-    <Property Name="ManagerId" Type="int" Nullable="false" />
+    <Property Name="ManagerId" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="StartDate" Type="datetime" Nullable="false" />
     <Property Name="Status" Type="int" Nullable="false" />
     <Property Name="IdentificationNumber" Type="int" Nullable="false" />
@@ -362,10 +362,10 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" />
-    <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Discriminator" Type="nvarchar" MaxLength="128" />
   </EntityType>
   <EntityType Name="ServiceForm">
     <Key>
@@ -459,7 +459,7 @@
     <End Role="EmployeeClaim" Type="Self.EmployeeClaim" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
-        <PropertyRef Name="EmployeeId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="EmployeeClaim">
         <PropertyRef Name="UserId" />
@@ -473,7 +473,7 @@
     <End Role="EmployeeLogin" Type="Self.EmployeeLogin" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
-        <PropertyRef Name="EmployeeId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="EmployeeLogin">
         <PropertyRef Name="UserId" />
@@ -485,7 +485,7 @@
     <End Role="EmployeeRole" Type="Self.EmployeeRole" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
-        <PropertyRef Name="EmployeeId" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="EmployeeRole">
         <PropertyRef Name="UserId" />
@@ -501,6 +501,18 @@
       </Principal>
       <Dependent Role="EmployeeRole">
         <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeeSchedule_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="EmployeeSchedule" Type="Self.EmployeeSchedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EmployeeSchedule">
+        <PropertyRef Name="EmployeeId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -860,6 +872,10 @@
     <AssociationSet Name="FK_EmployeeRole_Role" Association="Self.FK_EmployeeRole_Role">
       <End Role="Role" EntitySet="Role" />
       <End Role="EmployeeRole" EntitySet="EmployeeRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeeSchedule_Employee" Association="Self.FK_EmployeeSchedule_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="EmployeeSchedule" EntitySet="EmployeeSchedule" />
     </AssociationSet>
     <AssociationSet Name="FK_EmployeeServiceTiming_EmployeeSchedule" Association="Self.FK_EmployeeServiceTiming_EmployeeSchedule">
       <End Role="EmployeeSchedule" EntitySet="EmployeeSchedule" />

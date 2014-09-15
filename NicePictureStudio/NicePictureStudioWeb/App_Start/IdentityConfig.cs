@@ -23,6 +23,7 @@ namespace NicePictureStudio.Models
         }
     }
     public class ApplicationUserManager : UserManager<ApplicationUser,string>
+    //public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         public ApplicationUserManager(IUserStore<ApplicationUser,string> store)
             : base(store)
@@ -32,7 +33,10 @@ namespace NicePictureStudio.Models
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,
             IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new ApplicationUserStore(new ApplicationDbContext()));
+           // var manager = new ApplicationUserManager(new ApplicationUserStore(new ApplicationDbContext()));
+            var manager = new ApplicationUserManager(new ApplicationUserStore(context.Get<ApplicationDbContext>()));
+            // Configure the application user manager
+            //var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {

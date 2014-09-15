@@ -16,8 +16,12 @@ namespace NicePictureStudio.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser<string, ApplicationUserLogin,ApplicationUserRole,ApplicationUserClaim>
+    //public class ApplicationUser : IdentityUser
     {
-        public ApplicationUser() : base() { }
+        //public ApplicationUser() : base() { }
+
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //public override string Id { get; set; }
         
         [Display(Name="Full Name")]
         public string Name { get; set; }
@@ -25,7 +29,7 @@ namespace NicePictureStudio.Models
         public string Position { get; set; }
         
         [Display(Name="Supervisor Name (If any)")]
-        public int ManagerId { get; set; }
+        public string ManagerId { get; set; }
         
         [Display(Name="Start Date of Working")]
         public DateTime StartDate { get; set; }
@@ -72,40 +76,47 @@ namespace NicePictureStudio.Models
         }
 
         public class ApplicationRole : IdentityRole<string, ApplicationUserRole>
+        //public class ApplicationRole : IdentityRole
         {
             public ApplicationRole() : base() { }
-            public ApplicationRole(string name, string description)
-                : base()
-            {
-                this.Description = Description;
-            }
-            public virtual string Description { get; set; }
+            //public ApplicationRole(string name, string description)
+            //    : base()
+            //{
+            //    this.Description = Description;
+            //}
+            //public virtual string Description { get; set; }
+            public ApplicationRole(string name, string description) { this.Name = name; this.Description = description; this.Id = Guid.NewGuid().ToString(); }
+            public string Description { get; set; }
         }
 
+        public class ApplicationRoleStore : RoleStore<ApplicationRole, string, ApplicationUserRole>
+        {
+            public ApplicationRoleStore(ApplicationDbContext context)
+                : base(context)
+            {
+            }
+        }
 
-    public class ApplicationRoleManager : RoleManager<ApplicationRole>
+    public class ApplicationRoleManager : RoleManager<ApplicationRole,string>
+    //public class ApplicationRoleManager : RoleManager<ApplicationRole>
     {
     public ApplicationRoleManager(IRoleStore<ApplicationRole, string> roleStore)
         : base(roleStore)
     {
     }
 
-    public class ApplicationRoleStore : RoleStore<ApplicationRole, string, ApplicationUserRole>
-    {
-        public ApplicationRoleStore(ApplicationDbContext context)
-            : base(context)
-        {
-        }
-    }
-
-    
+   
     public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
     {
+        //return new ApplicationRoleManager(new ApplicationRoleStore(new ApplicationDbContext()));
         return new ApplicationRoleManager(new ApplicationRoleStore(context.Get<ApplicationDbContext>()));
+        //return new ApplicationRoleManager(
+        //    new RoleStore<ApplicationRole>(context.Get<ApplicationDbContext>()));
     }
 }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
+    //public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
             : base("NicePictureDBConfigure")
@@ -120,8 +131,8 @@ namespace NicePictureStudio.Models
             //modelBuilder.Entity<IdentityUser>().ToTable("Employee").Property(p => p.Id).HasColumnName("EmployeeId");
            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
-            var appUser = modelBuilder.Entity<ApplicationUser>().ToTable("Employee");
-            appUser.Property(p => p.Id).HasColumnName("EmployeeId");
+            var appUser = modelBuilder.Entity<ApplicationUser>().ToTable("Employee").HasKey(p=>p.Id);
+            //appUser.Property(p => p.Id).HasColumnName("EmployeeId");
             //appUser.Property(p => p.Name).HasColumnName("Name");
             //appUser.Property(p => p.Address).HasColumnName("Address");
             //appUser.Property(p => p.Position).HasColumnName("Position");
@@ -152,9 +163,9 @@ namespace NicePictureStudio.Models
             var role = modelBuilder.Entity<ApplicationRole>().HasKey(p => p.Id).ToTable("Role");
            // role.HasMany(u => u.Users).WithRequired().HasForeignKey(ur => ur.RoleId);
 
-            modelBuilder.Entity<ApplicationUser>().Property(r => r.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<ApplicationUser>().Property(r => r.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<ApplicationRole>().Property(r => r.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+           // modelBuilder.Entity<ApplicationUser>().Property(r => r.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+           // modelBuilder.Entity<ApplicationUser>().Property(r => r.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+           // modelBuilder.Entity<ApplicationRole>().Property(r => r.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             //modelBuilder.Entity<ApplicationRole>().ToTable("Role");
            this.Configuration.LazyLoadingEnabled = true;

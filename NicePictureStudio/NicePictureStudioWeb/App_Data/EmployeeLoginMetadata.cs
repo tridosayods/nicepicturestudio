@@ -60,8 +60,8 @@ namespace NicePictureStudio.App_Data
     public class EmployeeMetadata
     {
 
-        //[ForeignKey("Status")]
-        //public virtual object EmployeeStatu { get; set; }
+        //[Key]
+        //public object EmployeeId { get; set; }
      
     }
 }

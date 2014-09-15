@@ -18,12 +18,14 @@ namespace NicePictureStudio.App_Data
         {
             this.EmployeeClaims = new HashSet<EmployeeClaim>();
             this.EmployeeLogins = new HashSet<EmployeeLogin>();
+            this.EmployeeSchedules = new HashSet<EmployeeSchedule>();
             this.Roles = new HashSet<Role>();
         }
     
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Position { get; set; }
-        public int ManagerId { get; set; }
+        public string ManagerId { get; set; }
         public System.DateTime StartDate { get; set; }
         public int Status { get; set; }
         public int IdentificationNumber { get; set; }
@@ -43,11 +45,11 @@ namespace NicePictureStudio.App_Data
         public Nullable<System.DateTime> LockoutEndDateUtc { get; set; }
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
-        public string EmployeeId { get; set; }
         public string UserName { get; set; }
     
         public virtual ICollection<EmployeeClaim> EmployeeClaims { get; set; }
         public virtual ICollection<EmployeeLogin> EmployeeLogins { get; set; }
+        public virtual ICollection<EmployeeSchedule> EmployeeSchedules { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
     }
 }

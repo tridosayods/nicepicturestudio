@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Security.Permissions;
+using System;
 
 namespace NicePictureStudio.Controllers
 {
@@ -103,10 +104,13 @@ namespace NicePictureStudio.Controllers
                 var role = new ApplicationRole(roleViewModel.Name,roleViewModel.Description);
                 //Save the new description property:
                 role.Description = roleViewModel.Description;
-                var roleresult = await RoleManager.CreateAsync(role);
+                IdentityResult roleresult;
+                try {  roleresult = await RoleManager.CreateAsync(role); }
+                catch (Exception e) { roleresult = null; }
+                
                 if (!roleresult.Succeeded)
                 {
-                    ModelState.AddModelError("", roleresult.Errors.First());
+                    ModelState.AddModelError("", roleresult.Errors.First()); 
                     return View();
                 }
                 return RedirectToAction("Index");

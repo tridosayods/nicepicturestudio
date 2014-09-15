@@ -492,10 +492,18 @@
       </EndProperty>
       <Condition ColumnName="ServiceId" IsNull="false" />
     </AssociationSetMapping>
+    <EntitySetMapping Name="EmployeeStatus">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeStatu">
+        <MappingFragment StoreEntitySet="EmployeeStatus">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="EmployeeSchedules">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeSchedule">
         <MappingFragment StoreEntitySet="EmployeeSchedule">
-          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
           <ScalarProperty Name="EndTime" ColumnName="EndTime" />
           <ScalarProperty Name="StartTime" ColumnName="StartTime" />
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -511,20 +519,10 @@
       </EndProperty>
       <Condition ColumnName="ServiceFormId" IsNull="false" />
     </AssociationSetMapping>
-    <EntitySetMapping Name="EmployeeStatus">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeStatu">
-        <MappingFragment StoreEntitySet="EmployeeStatus">
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Employees">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.Employee">
         <MappingFragment StoreEntitySet="Employee">
           <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
           <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
           <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
           <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
@@ -547,6 +545,7 @@
           <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
           <ScalarProperty Name="Position" ColumnName="Position" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -555,7 +554,15 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
       <EndProperty Name="Employee">
-        <ScalarProperty Name="EmployeeId" ColumnName="UserId" />
+        <ScalarProperty Name="Id" ColumnName="UserId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_EmployeeSchedule_Employee" TypeName="NicePictureStudioDBModel.FK_EmployeeSchedule_Employee" StoreEntitySet="EmployeeSchedule">
+      <EndProperty Name="EmployeeSchedule">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="Employee">
+        <ScalarProperty Name="Id" ColumnName="EmployeeId" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="EmployeeRole" TypeName="NicePictureStudioDBModel.EmployeeRole" StoreEntitySet="EmployeeRole">
@@ -563,7 +570,7 @@
         <ScalarProperty Name="Id" ColumnName="RoleId" />
       </EndProperty>
       <EndProperty Name="Employee">
-        <ScalarProperty Name="EmployeeId" ColumnName="UserId" />
+        <ScalarProperty Name="Id" ColumnName="UserId" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>
