@@ -146,6 +146,7 @@
     <EntitySetMapping Name="LocationServices">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationService">
         <MappingFragment StoreEntitySet="LocationService">
+          <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="OverNightPeriod" ColumnName="OverNightPeriod" />
           <ScalarProperty Name="IsOverNight" ColumnName="IsOverNight" />
           <ScalarProperty Name="Cost" ColumnName="Cost" />

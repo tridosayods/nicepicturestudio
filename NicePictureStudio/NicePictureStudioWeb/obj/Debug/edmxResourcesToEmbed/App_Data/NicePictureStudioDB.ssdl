@@ -52,7 +52,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" StoreGeneratedPattern="None" />
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" />
     <Property Name="Position" Type="nvarchar(max)" />
     <Property Name="ManagerId" Type="nvarchar" MaxLength="128" Nullable="false" />
@@ -219,6 +219,7 @@
     <Property Name="Cost" Type="decimal" Precision="18" Scale="3" />
     <Property Name="IsOverNight" Type="bit" Nullable="false" />
     <Property Name="OverNightPeriod" Type="int" />
+    <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="LocationServiceTiming">
     <Key>

@@ -16,8 +16,8 @@ namespace NicePictureStudio
     {
         private NicePictureStudioDBEntities db = new NicePictureStudioDBEntities();
 
+        private ServicesViewModel _services;
         private PromotionViewModel _promotion;
-        private ServiceFromKeeper _formKeeper;
 
         private static readonly string CameraManType = "CameraMan";
         private static readonly string PhotographType = "PhotoGraph";
@@ -168,6 +168,7 @@ namespace NicePictureStudio
         // GET: Services/Create
         public ActionResult Create()
         {
+            _services = new ServicesViewModel();
             ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName");
             ViewBag.BookingId = new SelectList(db.Bookings, "Id", "Name");
             //Binding a promotion from scracth or create new promotion
@@ -199,9 +200,11 @@ namespace NicePictureStudio
         {
             if (ModelState.IsValid)
             {
-                db.Services.Add(service);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                //db.Services.Add(service); 
+                //await db.SaveChangesAsync();
+                _services.CreateService(service);
+                //return RedirectToAction("Index");
+                return View(service);
             }
 
             ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.Id);
@@ -312,6 +315,7 @@ namespace NicePictureStudio
             {
                 //db.Customers.Add(customer);
                 //await db.SaveChangesAsync();
+                _services.CreateCustomer(customer);
                 Customer _customer = customer;
                 return PartialView(@"/Views/Services/DetailsCustomerFromService.cshtml", _customer);
             }
@@ -575,7 +579,7 @@ namespace NicePictureStudio
           }
 
         [HttpPost]
-        public async Task<PartialViewResult> CreatePhotoGraphServiceByModal([Bind(Include="Name,PhotographerNumber,CameraManNumber,Description")]PhotographService photoGraphService, string chkBox)
+        public async Task<PartialViewResult> CreatePhotoGraphServiceByModal([Bind(Include = "Name,PhotographerNumber,CameraManNumber,Description")]PhotographService photoGraphService, string[] chkBox)
         {
             PhotographService photo = photoGraphService;
             return PartialView();

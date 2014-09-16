@@ -296,6 +296,7 @@
     <Property Name="IsOverNight" Type="Boolean" Nullable="false" />
     <Property Name="OverNightPeriod" Type="Int32" />
     <NavigationProperty Name="Location" Relationship="NicePictureStudioDBModel.FK_LocationService_Location" FromRole="LocationService" ToRole="Location" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="LocationStatu">
     <Key>

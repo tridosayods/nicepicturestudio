@@ -20,6 +20,7 @@ namespace NicePictureStudio.App_Data
         public Nullable<decimal> Cost { get; set; }
         public bool IsOverNight { get; set; }
         public Nullable<int> OverNightPeriod { get; set; }
+        public string Description { get; set; }
     
         public virtual Location Location { get; set; }
     }
