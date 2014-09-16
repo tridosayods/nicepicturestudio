@@ -63,14 +63,15 @@
                         <div class="panel-body">
                             <div class="list-group">
                                 <div class="row">
-                                    @for (var i = 0; i <= 2; i++)
+                                    @foreach (var item in @ViewBag.PhotoGraphListDetails)
                                     {
                                         <div class="thumbnail col-md-3">
                                             <img data-src="holder.js/300x300" alt="...">
                                             <div class="caption">
-                                                <h5>Thumbnail label</h5>
-                                                <p>...</p>
+                                                <h5> PhotoGraph Name : @item.Name</h5>
+                                                <p>Position : @item.Position</p>
                                                 <!--<p><a href="#stack3" class="btn btn-primary" role="button" data-toggle="modal">Button</a> </p>-->
+                                                <input type="hidden" value="@item.Id" id="EmployeeId" name="EmployeeId"/>
                                                 <input type="checkbox" id="chkBox" name="chkBox" />
                                             </div>
                                         </div>
@@ -101,7 +102,7 @@
                         <div class="panel-body">
                             <div class="list-group">
                                 <div class="row">
-                                    @for (var i = 0; i <= 2; i++)
+                                    @for (var i = 0; i <= 7; i++)
                                     {
                                         <div class="thumbnail col-md-3">
                                             <img data-src="holder.js/300x300" alt="...">

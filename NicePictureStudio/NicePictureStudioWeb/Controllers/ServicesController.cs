@@ -20,7 +20,7 @@ namespace NicePictureStudio
         private ServiceFromKeeper _formKeeper;
 
         private static readonly string CameraManType = "CameraMan";
-        private static readonly string PhotographType = "Photograph";
+        private static readonly string PhotographType = "PhotoGraph";
  
         //Command
         public static readonly string PreWedding = "PreWedding";
@@ -524,18 +524,29 @@ namespace NicePictureStudio
 
             //Getting PhotoGraph
             ServiceForm PreWeddingFromSection;
+
+            /*Need ************ Getting date from Form Section */
             DateTime _startDate = DateTime.MinValue;
             DateTime _endDate = DateTime.Now;
-            var phhotoGraphResult = (from photoEmp in db.Employees
-                                   join empSchedule in db.EmployeeSchedules on photoEmp.Id equals empSchedule.Employee.Id
-                                     where photoEmp.Specialability == PhotographType && empSchedule.StartTime >= _startDate && empSchedule.EndTime <= _endDate
-                                   select photoEmp).ToList();
+            var photoGraphResult = db.Employees.GroupBy(emp => emp.Id)
+                                    .Where(emp => emp.Any(empList => empList.Position == PhotographType
+                                        && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate )
+                                            &&( empS.EndTime <= _startDate || empS.EndTime > _endDate))
+                                        )).Select(emp => emp.FirstOrDefault());
+            //ViewBag.PhotoGraphListDetails = new SelectList(photoGraphResult, "Id", "Name");
+            ViewBag.PhotoGraphListDetails = photoGraphResult.ToList();
 
             //Getting CameraMan
-            var camearManResult = (from cameraEmp in db.Employees
-                                   join empSchedule in db.EmployeeSchedules on cameraEmp.Id equals empSchedule.Employee.Id
-                                   where cameraEmp.Specialability == CameraManType && empSchedule.StartTime >= _startDate && empSchedule.EndTime <= _endDate
-                                   select cameraEmp).ToList();
+            var cameraManResult = db.Employees.GroupBy(emp => emp.Id)
+                                    .Where(emp => emp.Any(empList => empList.Position == CameraManType
+                                        && empList.EmployeeSchedules.All(empS  =>(empS.StartTime < _startDate || empS.StartTime > _endDate )
+                                            &&( empS.EndTime <= _startDate || empS.EndTime > _endDate))
+                                        )).ToList();
+
+            //var _camearManResult = (from cameraEmp in db.Employees
+            //                       join empSchedule in db.EmployeeSchedules on cameraEmp.Id equals empSchedule.Employee.Id
+            //                       where cameraEmp.Position == CameraManType && empSchedule.StartTime >= _startDate && empSchedule.EndTime <= _endDate
+            //                       select cameraEmp).ToList();
 
             //Create metadata for webpage structure
             if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
@@ -562,6 +573,13 @@ namespace NicePictureStudio
             ViewData["ServiceType"] = serviceType;
             return PartialView(photoGraphService); 
           }
+
+        [HttpPost]
+        public async Task<PartialViewResult> CreatePhotoGraphServiceByModal([Bind(Include="Name,PhotographerNumber,CameraManNumber,Description")]PhotographService photoGraphService, string chkBox)
+        {
+            PhotographService photo = photoGraphService;
+            return PartialView();
+        }
 
         //[HttpPost]
         //public async Task<PartialViewResult> CreatePhotoGraphServiceByModal(int? id)
