@@ -1,0 +1,14 @@
+﻿@model NicePictureStudio.App_Data.EquipmentService
+
+@if (@ViewBag.ListEquipmentItems != null)
+{
+        <div class="form-group">
+            <table class="table table-striped">
+                <tr><th>Equipment Name</th><th>Equipment Description</th><th>Equipment Type</th><th>Price</th></tr>
+                @foreach (NicePictureStudio.Models.EquipmentServiceViewModel item in ViewBag.ListEquipmentItems)
+                {
+                    <tr><td>@item.Name</td><td>@item.Description</td><td>@item.Cost</td><td>@item.Price</td></tr>
+                }
+            </table>
+        </div>
+}

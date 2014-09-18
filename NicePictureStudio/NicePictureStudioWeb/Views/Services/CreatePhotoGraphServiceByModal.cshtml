@@ -14,12 +14,18 @@
                 success: function (data) { $("#@ViewData["DivServiceForm"]").replaceWith(data); }
             });
         });
-    });
 
+       
+
+    });
+    function CloseModal()
+    {
+        $("#btnCancelPhotoGraph").click();
+    }
 </script>
 
 <div id="@ViewData["DivServiceForm"]">
-    @using (Html.BeginForm())
+    @using (@Ajax.BeginForm("CreatePhotoGraphServiceList", "Services", new AjaxOptions { OnSuccess = "CloseModal()" }))
     {
         @Html.AntiForgeryToken()
 
@@ -69,9 +75,14 @@
                                             <img data-src="holder.js/300x300" alt="...">
                                             <div class="caption">
                                                 <h5> PhotoGraph Name : @item.Name</h5>
-                                                <p>Position : @item.Position</p>
                                                 <!--<p><a href="#stack3" class="btn btn-primary" role="button" data-toggle="modal">Button</a> </p>-->
-                                                <input type="checkbox" id="EmployeeId" name="EmployeeId" value="@item.Id" />
+                                                @if (@item.IsSelect)
+                                                { <input type="checkbox" id="EmployeeId" name="EmployeeId" value="@item.Id" checked="checked" />}
+                                                else
+                                                {
+                                                   <input type="checkbox" id="EmployeeId" name="EmployeeId" value="@item.Id"/> 
+                                                }                                                                                                                                                
+                                                
                                             </div>
                                         </div>
                                     }
@@ -109,7 +120,7 @@
                                                 <h5>Thumbnail label</h5>
                                                 <p>...</p>
                                                 <!--<p><a href="#stack3" class="btn btn-primary" role="button" data-toggle="modal">Button</a> </p>-->
-                                                <input type="checkbox" id="chkBox" name="chkBox" />
+                                                <input type="checkbox" id="CameraId" name="CameraId" value="Camera01"/>
                                             </div>
                                         </div>
                                     }

@@ -83,7 +83,7 @@ namespace NicePictureStudio.Models
             PhotoGraphService.CameraMandIdList = new List<string>(cameraManList);
         }
 
-        public void CreateEquipmentServiceList(EquipmentService equipment)
+        public void CreateEquipmentServiceList(EquipmentService equipment, int equipmentId)
         {
             EquipmentServiceViewModel _equipmentService = new EquipmentServiceViewModel();
             _equipmentService.Id = equipment.Id;
@@ -91,7 +91,7 @@ namespace NicePictureStudio.Models
             _equipmentService.Price = equipment.Price;
             _equipmentService.Cost = equipment.Cost;
             _equipmentService.Description = equipment.Description;
-            _equipmentService.EquipmentId = equipment.Equipment.EquipmentId;
+            _equipmentService.EquipmentId = equipmentId;
             ListEquipmentServices.Add(_equipmentService);
         }
 
@@ -190,6 +190,42 @@ namespace NicePictureStudio.Models
         public Nullable<decimal> Price { get; set; }
         public List<string> PhotoGraphIdList { get; set; }
         public List<string> CameraMandIdList { get; set; }
+        public bool IsSelected { get; set; }
+
+        public void generatePhotoGraphService(PhotographService _photoGraphService)
+        { 
+            
+        }
+    }
+
+    public class PhotoGraph
+    { 
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public bool IsSelect { get; set; }
+
+        public PhotoGraph() {}
+
+        public PhotoGraph(Employee photograph, List<string> selectedId)
+        {
+            Id = photograph.Id;
+            Name = photograph.Name;
+            IsSelect = selectedId.Contains(photograph.Id);
+        }
+    }
+
+    public class CameraMan
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public bool IsSelect { get; set; }
+        public CameraMan() { }
+        public CameraMan(Employee cameraman, List<string> selectedId)
+        {
+            Id = cameraman.Id;
+            Name = cameraman.Name;
+            IsSelect = selectedId.Contains(cameraman.Id);
+        }
 
     }
 

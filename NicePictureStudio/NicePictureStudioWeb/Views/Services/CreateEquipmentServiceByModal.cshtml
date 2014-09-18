@@ -19,7 +19,12 @@
 </script>
 
 <div id="@ViewData["DivServiceForm"]">
-    @using (Html.BeginForm())
+    @using (Ajax.BeginForm("CreateEquipmentServiceTable", "Services", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = @ViewData["tblequipment"].ToString()
+    }))
     {
         @Html.AntiForgeryToken()
 
@@ -66,12 +71,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
-               <table class="table table-striped">
-                   <tr><th>A1</th></tr>
-                   <tr><td>A2</td></tr>
-               </table>
-            </div>
+            @Html.HiddenFor(model => model.Equipment.EquipmentId, htmlAttributes: new { @id="EquipmentId",@Name="EquipmentId"});
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -80,5 +80,20 @@
             </div>
         </div>
     }
+    <div id="@ViewData["tblequipment"].ToString()">
+        @if (@ViewBag.ListEquipmentItems != null)
+        {
 
+            <div class="form-group">
+                <table class="table table-striped">
+                    <tr><th>Equipment Name</th><th>Equipment Description</th><th>Equipment Type</th><th>Price</th></tr>
+                    @foreach (NicePictureStudio.Models.EquipmentServiceViewModel item in ViewBag.ListEquipmentItems)
+                    {
+                        <tr><td>@item.Name</td><td>@item.Description</td><td>@item.Cost</td><td>@item.Price</td></tr>
+                    }
+                </table>
+            </div>
+        }
+    </div>
+    
 </div>

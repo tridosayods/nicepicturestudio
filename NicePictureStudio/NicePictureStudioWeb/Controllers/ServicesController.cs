@@ -16,7 +16,7 @@ namespace NicePictureStudio
     {
         private NicePictureStudioDBEntities db = new NicePictureStudioDBEntities();
 
-        private ServicesViewModel _services;
+        private static ServicesViewModel _services;
         private PromotionViewModel _promotion;
 
         private static readonly string CameraManType = "CameraMan";
@@ -66,6 +66,10 @@ namespace NicePictureStudio
         public readonly string HTMLDWLEquipmentEngagementServices = "dwlEquipmentEngagementService";
         public readonly string HTMLDWLEquipmentPreWeddingServices = "dwlEquipmentPreWeddingService";
         public readonly string HTMLDWLEquipmentWeddingServices = "dwlEquipmentWeddingService";
+
+        public readonly string HTMLTableEquipmentEngagementServices = "tblEquipmentEngagementService";
+        public readonly string HTMLTableEquipmentPreWeddingServices = "tblEquipmentPreWeddingService";
+        public readonly string HTMLTableEquipmentWeddingServices = "tblEquipmentWeddingService";
 
         //Add Location Service Page
         public readonly string HTMLDWLLocationEngagementServices = "dwlLocationEngagementService";
@@ -432,12 +436,14 @@ namespace NicePictureStudio
           [ValidateAntiForgeryToken]
           public async Task<PartialViewResult> CreateServiceFormFromService([Bind(Include = "Id,Name,ServiceType,Status,EventStart,EventEnd,GuestsNumber")] ServiceForm serviceForm, string Command)
           {
+              int statusNew = 1;
               if (ModelState.IsValid)
               {
                   ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, Command, true) == 0).FirstOrDefault();
                   if (serviceType != null)
                   {
                       serviceForm.ServiceType = serviceType;
+                      _services.CreateServiceForm(serviceForm, statusNew, serviceType.Id);
                       //db.ServiceForms.Add(serviceForm);
                       //await db.SaveChangesAsync();
                   }
@@ -532,20 +538,49 @@ namespace NicePictureStudio
             /*Need ************ Getting date from Form Section */
             DateTime _startDate = DateTime.MinValue;
             DateTime _endDate = DateTime.Now;
+            List<string> _selectedPhotoGraph;
+            List<string> _selectedCameraMan;
+            if (_services.PhotoGraphService != null)
+            {
+                _selectedPhotoGraph = new List<string>(_services.PhotoGraphService.PhotoGraphIdList);
+            }
+            else
+            {
+                _selectedPhotoGraph = new List<string>();
+            }
+
+            if (_services.PhotoGraphService != null)
+            {
+                _selectedCameraMan = new List<string>(_services.PhotoGraphService.CameraMandIdList);
+            }
+            else
+            {
+                 _selectedCameraMan = new List<string>();
+            }
+
             var photoGraphResult = db.Employees.GroupBy(emp => emp.Id)
                                     .Where(emp => emp.Any(empList => empList.Position == PhotographType
-                                        && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate )
-                                            &&( empS.EndTime <= _startDate || empS.EndTime > _endDate))
-                                        )).Select(emp => emp.FirstOrDefault());
+                                        && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
+                                            && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
+                                        )).Select(emp => new PhotoGraph { 
+                                            Id = emp.FirstOrDefault().Id,
+                                            Name = emp.FirstOrDefault().Name,
+                                            IsSelect = _selectedPhotoGraph.Contains(emp.FirstOrDefault().Id)
+                                        }).ToList();
             //ViewBag.PhotoGraphListDetails = new SelectList(photoGraphResult, "Id", "Name");
-            ViewBag.PhotoGraphListDetails = photoGraphResult.ToList();
+            ViewBag.PhotoGraphListDetails = photoGraphResult;
 
             //Getting CameraMan
             var cameraManResult = db.Employees.GroupBy(emp => emp.Id)
                                     .Where(emp => emp.Any(empList => empList.Position == CameraManType
                                         && empList.EmployeeSchedules.All(empS  =>(empS.StartTime < _startDate || empS.StartTime > _endDate )
                                             &&( empS.EndTime <= _startDate || empS.EndTime > _endDate))
-                                        )).ToList();
+                                        )).Select(emp => new CameraMan
+                                        {
+                                            Id = emp.FirstOrDefault().Id,
+                                            Name = emp.FirstOrDefault().Name,
+                                            IsSelect = _selectedPhotoGraph.Contains(emp.FirstOrDefault().Id)
+                                        }).ToList();
 
             //var _camearManResult = (from cameraEmp in db.Employees
             //                       join empSchedule in db.EmployeeSchedules on cameraEmp.Id equals empSchedule.Employee.Id
@@ -579,10 +614,10 @@ namespace NicePictureStudio
           }
 
         [HttpPost]
-        public async Task<PartialViewResult> CreatePhotoGraphServiceByModal([Bind(Include = "Name,PhotographerNumber,CameraManNumber,Description")]PhotographService photoGraphService, string[] chkBox)
+        public void CreatePhotoGraphServiceList([Bind(Include = "Name,PhotographerNumber,CameraManNumber,Description")]PhotographService photoGraphService, string[] EmployeeId, string[] CameraId)
         {
             PhotographService photo = photoGraphService;
-            return PartialView();
+            _services.CreatePhotoGraphService(photo, EmployeeId.ToList(), CameraId.ToList()); ///////Neddd to check nullll
         }
 
         //[HttpPost]
@@ -605,6 +640,17 @@ namespace NicePictureStudio
             { equipmentService = await db.EquipmentServices.FirstAsync(); }
             ViewData["Code"] = equipmentService.Id;
 
+            //Create Equipment Service
+                if (_services.ListEquipmentServices.Count > 0)
+                {
+                    ViewBag.ListEquipmentItems = new List<EquipmentServiceViewModel>(_services.ListEquipmentServices);
+                }
+                else
+                {
+                    ViewBag.ListEquipmentItems = null;
+                }
+           
+
             //Create metadata for webpage structure
             if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
             {
@@ -626,6 +672,24 @@ namespace NicePictureStudio
             }
             ViewData["ServiceType"] = serviceType;
             return PartialView(equipmentService);
+        }
+
+        [HttpPost]
+        public async Task<PartialViewResult> CreateEquipmentServiceTable([Bind(Include="Name,Price,Cost,Description,Equipmentid")]EquipmentService equipmentService, int? EquipmentId)
+        {
+            EquipmentService _equipment = equipmentService;
+            int _equipmentId = int.Parse(EquipmentId.ToString());
+            _services.CreateEquipmentServiceList(equipmentService, _equipmentId);
+            //Create Equipment Service
+            if (_services.ListEquipmentServices.Count > 0)
+            {
+                ViewBag.ListEquipmentItems = new List<EquipmentServiceViewModel>(_services.ListEquipmentServices);
+            }
+            else
+            {
+                ViewBag.ListEquipmentItems = null;
+            }
+            return PartialView();
         }
 
         [HttpGet]

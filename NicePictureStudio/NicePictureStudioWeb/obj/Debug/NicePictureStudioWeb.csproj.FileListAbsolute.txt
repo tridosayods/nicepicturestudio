@@ -118,5 +118,5 @@ D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\obj\Debug\Nic
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\obj\Debug\NicePictureStudio.dll
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\obj\Debug\NicePictureStudio.pdb
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\obj\Debug\NicePictureStudio.Migrations.Restore.resources
-D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\obj\Debug\NicePictureStudioWeb.csprojResolveAssemblyReference.cache
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\obj\Debug\NicePictureStudio.Migrations.R3.resources
+D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\obj\Debug\NicePictureStudioWeb.csprojResolveAssemblyReference.cache
