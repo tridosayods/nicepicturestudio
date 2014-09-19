@@ -8,6 +8,10 @@ namespace NicePictureStudio.Models
 {
     public class ServicesViewModel
     {
+        private ServiceFormFactory _serviceFormPreWedding = new ServiceFormFactory();
+        private ServiceFormFactory _serviceFormEngagement = new ServiceFormFactory();
+        private ServiceFormFactory _serviceFormWedding = new ServiceFormFactory();
+
         public int Id { get; set; }
         public string BookingName { get; set; }
         public string GroomName { get; set; }
@@ -20,16 +24,22 @@ namespace NicePictureStudio.Models
 
         public CustomerViewModel Customer { get; set; }
         public PromotionViewModel Promotion { get; set; }
-        public ServiceFormViewModel ServiceForm { get; set; }
-        public PhotoGraphServiceViewModel PhotoGraphService { get; set; }
-        //public EquipmentServiceViewModel EquipmentService { get; set; }
-        //public OutsourceServiceViewModel OutsourceService { get; set; }
-        //public OutputServiceViewModel OutputService { get; set; }
 
-        public List<EquipmentServiceViewModel> ListEquipmentServices = new List<EquipmentServiceViewModel>();
-        public List<OutsourceServiceViewModel> ListOutsourceServices = new List<OutsourceServiceViewModel>();
-        public List<OutputServiceViewModel> ListOutputServices = new List<OutputServiceViewModel>();
-        public List<LocationServiceViewModel> ListLocationServices = new List<LocationServiceViewModel>();
+        public ServiceFormFactory ServiceFormPreWedding
+        {
+            get { return _serviceFormPreWedding; }
+            set { _serviceFormPreWedding = value; }
+        }
+        public ServiceFormFactory ServiceFormEngagement
+        {
+            get { return _serviceFormEngagement; }
+            set { _serviceFormEngagement = value; }
+        }
+        public ServiceFormFactory ServiceFormWedding
+        {
+            get { return _serviceFormWedding; }
+            set { _serviceFormWedding = value; }
+        }
 
         public void CreateService(Service service)
         {
@@ -58,7 +68,18 @@ namespace NicePictureStudio.Models
             Customer.ReferencePhoneNumber = customer.ReferencePhoneNumber;
         }
 
-        public void CreateServiceForm(ServiceForm serviceForm,int statusId, int typeId)
+    }
+
+    public class ServiceFormFactory
+    {
+        public ServiceFormViewModel ServiceForm { get; set; }
+        public PhotoGraphServiceViewModel PhotoGraphService { get; set; }
+        public List<EquipmentServiceViewModel> ListEquipmentServices = new List<EquipmentServiceViewModel>();
+        public List<OutsourceServiceViewModel> ListOutsourceServices = new List<OutsourceServiceViewModel>();
+        public List<OutputServiceViewModel> ListOutputServices = new List<OutputServiceViewModel>();
+        public List<LocationServiceViewModel> ListLocationServices = new List<LocationServiceViewModel>();
+
+        public void CreateServiceForm(ServiceForm serviceForm, int statusId, int typeId)
         {
             ServiceForm = new ServiceFormViewModel();
             ServiceForm.Id = serviceForm.Id;
@@ -115,7 +136,7 @@ namespace NicePictureStudio.Models
             _outsourceService.Id = outsource.Id;
             _outsourceService.Name = outsource.Name;
             _outsourceService.OutsourceId = outsource.OutsourceContact.OutsourceContactId; // Only ID is required
-            _outsourceService.PortFolioURL = outsource.PortFolioURL; 
+            _outsourceService.PortFolioURL = outsource.PortFolioURL;
             _outsourceService.Price = outsource.Price;
             _outsourceService.Cost = outsource.Cost;
             _outsourceService.Description = outsource.Description;
@@ -128,7 +149,6 @@ namespace NicePictureStudio.Models
             _outputService.Id = output.Id;
             _outputService.OutputId = output.Id;
             ListOutputServices.Add(_outputService);
-            
         }
     }
 

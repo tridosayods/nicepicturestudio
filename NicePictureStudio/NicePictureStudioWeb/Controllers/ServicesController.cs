@@ -443,9 +443,15 @@ namespace NicePictureStudio
                   if (serviceType != null)
                   {
                       serviceForm.ServiceType = serviceType;
-                      _services.CreateServiceForm(serviceForm, statusNew, serviceType.Id);
-                      //db.ServiceForms.Add(serviceForm);
-                      //await db.SaveChangesAsync();
+                      ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType.ServiceTypeName);
+                      if (serviceFactory != null)
+                      {
+                          serviceFactory.CreateServiceForm(serviceForm, statusNew, serviceType.Id);
+                          //db.ServiceForms.Add(serviceForm);
+                          //await db.SaveChangesAsync();
+                      }
+                      else { return PartialView(); }
+                     // _services.CreateServiceForm(serviceForm, statusNew, serviceType.Id);
                   }
                   else { return PartialView(); }
 
@@ -538,24 +544,19 @@ namespace NicePictureStudio
             /*Need ************ Getting date from Form Section */
             DateTime _startDate = DateTime.MinValue;
             DateTime _endDate = DateTime.Now;
+            /*Need ************ Getting date from Form Section */
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
             List<string> _selectedPhotoGraph;
             List<string> _selectedCameraMan;
-            if (_services.PhotoGraphService != null)
+            if (serviceFactory.PhotoGraphService != null)
             {
-                _selectedPhotoGraph = new List<string>(_services.PhotoGraphService.PhotoGraphIdList);
+                _selectedPhotoGraph = new List<string>(serviceFactory.PhotoGraphService.PhotoGraphIdList);
+                _selectedCameraMan = new List<string>(serviceFactory.PhotoGraphService.CameraMandIdList);
             }
             else
             {
                 _selectedPhotoGraph = new List<string>();
-            }
-
-            if (_services.PhotoGraphService != null)
-            {
-                _selectedCameraMan = new List<string>(_services.PhotoGraphService.CameraMandIdList);
-            }
-            else
-            {
-                 _selectedCameraMan = new List<string>();
+                _selectedCameraMan = new List<string>();
             }
 
             var photoGraphResult = db.Employees.GroupBy(emp => emp.Id)
@@ -594,6 +595,7 @@ namespace NicePictureStudio
                 ViewData["DivServiceForm"] = HTMLPhotoServiceModalPreWedding;
                 ViewData["CollPhotoPanel"] = HTMLCollapsePhotoPreWedding;
                 ViewData["CollCameraPanel"] = HTMLCollapseCameraPreWedding;
+                ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + PreWedding;
             }
             else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
             {
@@ -601,6 +603,7 @@ namespace NicePictureStudio
                 ViewData["DivServiceForm"] = HTMLPhotoServiceModalEngagement;
                 ViewData["CollPhotoPanel"] = HTMLCollapsePhotoEngagement;
                 ViewData["CollCameraPanel"] = HTMLCollapseCameraEngagement;
+                ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + Engagement;
             }
             else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
             {
@@ -608,16 +611,37 @@ namespace NicePictureStudio
                 ViewData["DivServiceForm"] = HTMLPhotoServiceModalWedding;
                 ViewData["CollPhotoPanel"] = HTMLCollapsePhotoWedding;
                 ViewData["CollCameraPanel"] = HTMLCollapseCameraWedding;
+                ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + Wedding;
             }
             ViewData["ServiceType"] = serviceType;
+           
             return PartialView(photoGraphService); 
           }
 
         [HttpPost]
-        public void CreatePhotoGraphServiceList([Bind(Include = "Name,PhotographerNumber,CameraManNumber,Description")]PhotographService photoGraphService, string[] EmployeeId, string[] CameraId)
+        public void CreatePhotoGraphServiceList([Bind(Include = "Name,PhotographerNumber,CameraManNumber,Description")]PhotographService photoGraphService, string[] EmployeeId, string[] CameraId, string ServiceType)
         {
             PhotographService photo = photoGraphService;
-            _services.CreatePhotoGraphService(photo, EmployeeId.ToList(), CameraId.ToList()); ///////Neddd to check nullll
+            List<string> empList = new List<string>();
+            List<string> camList = new List<string>();
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(ServiceType);
+            if (EmployeeId == null && CameraId == null)
+            {
+                serviceFactory.CreatePhotoGraphService(photo, empList, camList);
+            }
+            else if (EmployeeId != null && CameraId != null)
+            {
+                serviceFactory.CreatePhotoGraphService(photo, EmployeeId.ToList(), CameraId.ToList()); 
+            }
+            else if (EmployeeId != null)
+            {
+                serviceFactory.CreatePhotoGraphService(photo, EmployeeId.ToList(), camList);
+            }
+            else
+            {
+                serviceFactory.CreatePhotoGraphService(photo, empList, CameraId.ToList());
+            }
+            
         }
 
         //[HttpPost]
@@ -639,11 +663,11 @@ namespace NicePictureStudio
             else
             { equipmentService = await db.EquipmentServices.FirstAsync(); }
             ViewData["Code"] = equipmentService.Id;
-
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
             //Create Equipment Service
-                if (_services.ListEquipmentServices.Count > 0)
+                 if (serviceFactory.ListEquipmentServices.Count > 0)
                 {
-                    ViewBag.ListEquipmentItems = new List<EquipmentServiceViewModel>(_services.ListEquipmentServices);
+                    ViewBag.ListEquipmentItems = new List<EquipmentServiceViewModel>(serviceFactory.ListEquipmentServices);
                 }
                 else
                 {
@@ -675,15 +699,16 @@ namespace NicePictureStudio
         }
 
         [HttpPost]
-        public async Task<PartialViewResult> CreateEquipmentServiceTable([Bind(Include="Name,Price,Cost,Description,Equipmentid")]EquipmentService equipmentService, int? EquipmentId)
+        public async Task<PartialViewResult> CreateEquipmentServiceTable([Bind(Include="Name,Price,Cost,Description,Equipmentid")]EquipmentService equipmentService, int? EquipmentId, string ServiceType)
         {
             EquipmentService _equipment = equipmentService;
             int _equipmentId = int.Parse(EquipmentId.ToString());
-            _services.CreateEquipmentServiceList(equipmentService, _equipmentId);
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(ServiceType);
+            serviceFactory.CreateEquipmentServiceList(equipmentService, _equipmentId);
             //Create Equipment Service
-            if (_services.ListEquipmentServices.Count > 0)
+            if (serviceFactory.ListEquipmentServices.Count > 0)
             {
-                ViewBag.ListEquipmentItems = new List<EquipmentServiceViewModel>(_services.ListEquipmentServices);
+                ViewBag.ListEquipmentItems = new List<EquipmentServiceViewModel>(serviceFactory.ListEquipmentServices);
             }
             else
             {
@@ -795,5 +820,31 @@ namespace NicePictureStudio
         }
 
         #endregion
+
+        private ServiceFormFactory CreateServiceFormByInputSection(string serviceType)
+        {
+            if (_services != null)
+            {
+                if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+                {
+                    return _services.ServiceFormPreWedding;
+                }
+                else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+                {
+                    return _services.ServiceFormEngagement;
+                }
+                else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+                {
+                    return _services.ServiceFormWedding;
+                }
+                else
+                { return null; }
+            }
+            else
+            {
+                return null;
+            }
+           
+        }
     }
 }

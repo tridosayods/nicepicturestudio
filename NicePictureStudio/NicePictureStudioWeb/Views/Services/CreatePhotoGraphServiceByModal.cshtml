@@ -20,7 +20,7 @@
     });
     function CloseModal()
     {
-        $("#btnCancelPhotoGraph").click();
+        $("#@ViewData["ModalWindowId"]").modal('hide');
     }
 </script>
 
@@ -155,6 +155,8 @@
                     @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]"/>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
