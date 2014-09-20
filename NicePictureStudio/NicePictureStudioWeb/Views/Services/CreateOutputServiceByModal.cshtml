@@ -19,7 +19,12 @@
 </script>
 
 <div id="@ViewData["DivServiceForm"]">
-    @using (Html.BeginForm())
+    @using (Ajax.BeginForm("CreateOutputServiceTable", "Services", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = @ViewData["tblequipment"].ToString()
+    }))
     {
         @Html.AntiForgeryToken()
 
@@ -74,12 +79,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <table class="table table-striped">
-                    <tr><th>A1</th></tr>
-                    <tr><td>A2</td></tr>
-                </table>
-            </div>
+            <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -88,4 +88,25 @@
             </div>
         </div>
     }
+    <div id="@ViewData["tblequipment"].ToString()">
+        @if (@ViewBag.ListOutputServices != null)
+        {
+            <div class="form-group">
+                <table class="table table-striped">
+                    <tr><th>Outsource Name</th><th>Description</th><th>OutputURL</th><th>Price</th></tr>
+                    @foreach (NicePictureStudio.Models.OutputServiceViewModel item in ViewBag.ListOutputServices)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
+                            <td>@item.OutputURL</td>
+                            <td>@item.Price</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+    </div>
+
 </div>
+

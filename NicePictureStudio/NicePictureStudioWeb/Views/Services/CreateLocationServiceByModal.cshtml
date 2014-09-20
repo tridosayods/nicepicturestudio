@@ -19,7 +19,12 @@
 </script>
 
 <div id="@ViewData["DivServiceForm"]">
-    @using (Html.BeginForm())
+    @using(Ajax.BeginForm("CreateLocationServiceTable", "Services", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = @ViewData["tblequipment"].ToString()
+    }))
     {
         @Html.AntiForgeryToken()
 
@@ -84,12 +89,8 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <table class="table table-striped">
-                    <tr><th>A1</th></tr>
-                    <tr><td>A2</td></tr>
-                </table>
-            </div>
+            @Html.HiddenFor(model => model.Location.LocationId, htmlAttributes: new { @id = "LocationId", @Name = "LocationId" })
+            <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -98,4 +99,25 @@
             </div>
         </div>
     }
+
+    <div id="@ViewData["tblequipment"].ToString()">
+        @if (@ViewBag.ListLocationServices != null)
+        {
+
+            <div class="form-group">
+                <table class="table table-striped">
+                    <tr><th>Location Name</th><th>Description</th><th>OverNight</th><th>OverNightPeriod</th><th>Price</th></tr>
+                    @foreach (NicePictureStudio.Models.LocationServiceViewModel item in ViewBag.ListLocationServices)
+                    {
+                        <tr><td>@item.Name</td><td>@item.Description</td>
+                        @if (@item.IsOverNight)
+                        {
+                        <td>Yes</td><td>@item.OverNightPeriod</td>}
+                        else {<td>No</td><td>-</td> }
+                        <td>@item.Price</td></tr>
+                    }
+                </table>
+            </div>
+        }
+
 </div>

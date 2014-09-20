@@ -1,0 +1,17 @@
+﻿@if (@ViewBag.ListOutsourceServices != null)
+{
+    <div class="form-group">
+        <table class="table table-striped">
+            <tr><th>Outsource Name</th><th>Description</th><th>PortFolio</th><th>Price</th></tr>
+            @foreach (NicePictureStudio.Models.OutsourceServiceViewModel item in ViewBag.ListOutsourceServices)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>@item.PortFolioURL</td>
+                    <td>@item.Price</td>
+                </tr>
+            }
+        </table>
+    </div>
+}

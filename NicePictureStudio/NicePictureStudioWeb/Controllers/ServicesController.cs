@@ -699,7 +699,7 @@ namespace NicePictureStudio
         }
 
         [HttpPost]
-        public async Task<PartialViewResult> CreateEquipmentServiceTable([Bind(Include="Name,Price,Cost,Description,Equipmentid")]EquipmentService equipmentService, int? EquipmentId, string ServiceType)
+        public async Task<PartialViewResult> CreateEquipmentServiceTable([Bind(Include="Name,Price,Cost,Description")]EquipmentService equipmentService, int? EquipmentId, string ServiceType)
         {
             EquipmentService _equipment = equipmentService;
             int _equipmentId = int.Parse(EquipmentId.ToString());
@@ -709,6 +709,7 @@ namespace NicePictureStudio
             if (serviceFactory.ListEquipmentServices.Count > 0)
             {
                 ViewBag.ListEquipmentItems = new List<EquipmentServiceViewModel>(serviceFactory.ListEquipmentServices);
+                //Add to database
             }
             else
             {
@@ -727,6 +728,17 @@ namespace NicePictureStudio
             else
             { locationService = await db.LocationServices.FirstAsync(); }
             ViewData["Code"] = locationService.Id;
+
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+            //Create Equipment Service
+            if (serviceFactory.ListLocationServices.Count > 0)
+            {
+                ViewBag.ListLocationServices = new List<LocationServiceViewModel>(serviceFactory.ListLocationServices);
+            }
+            else
+            {
+                ViewBag.ListLocationServices = null;
+            }
 
             //Create metadata for webpage structure
             if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
@@ -751,6 +763,26 @@ namespace NicePictureStudio
             return PartialView(locationService);
         }
 
+        [HttpPost]
+        public async Task<PartialViewResult> CreateLocationServiceTable([Bind(Include = "Name,Price,Cost,IsOverNight,OverNightPeriod,Description")]LocationService locationService, int? LocationId, string ServiceType)
+        {
+            LocationService _locationService = locationService;
+            int _locationId = int.Parse(LocationId.ToString());
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(ServiceType);
+            serviceFactory.CreateLocationServiceList(locationService, _locationId);
+            //Create Equipment Service
+            if (serviceFactory.ListLocationServices.Count > 0)
+            {
+                ViewBag.ListLocationServices = new List<LocationServiceViewModel>(serviceFactory.ListLocationServices);
+                //Add to database
+            }
+            else
+            {
+                ViewBag.ListLocationServices = null;
+            }
+            return PartialView();
+        }
+
         [HttpGet]
         public async Task<PartialViewResult> CreateOutsourceServiceByModal(int? id, string serviceType = "")
         {
@@ -761,6 +793,17 @@ namespace NicePictureStudio
             else
             { outsourceService = await db.OutsourceServices.FirstAsync(); }
             ViewData["Code"] = outsourceService.Id;
+
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+            //Create Equipment Service
+            if (serviceFactory.ListOutsourceServices.Count > 0)
+            {
+                ViewBag.ListOutsourceServices = new List<OutsourceServiceViewModel>(serviceFactory.ListOutsourceServices);
+            }
+            else
+            {
+                ViewBag.ListOutsourceServices = null;
+            }
 
             //Create metadata for webpage structure
             if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
@@ -785,6 +828,26 @@ namespace NicePictureStudio
             return PartialView(outsourceService);
         }
 
+        [HttpPost]
+        public async Task<PartialViewResult> CreateOutsourceServiceTable([Bind(Include = "Name,PortFolioURL,Price,Cost,Description")]OutsourceService outsourceService, int? OutsourceId, string ServiceType)
+        {
+            OutsourceService _outsourceService = outsourceService;
+            int _outsourceId = int.Parse(OutsourceId.ToString());
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(ServiceType);
+            serviceFactory.CreateOutSoruceServiceList(outsourceService, _outsourceId);
+            //Create Equipment Service
+            if (serviceFactory.ListOutsourceServices.Count > 0)
+            {
+                ViewBag.ListOutsourceServices = new List<OutsourceServiceViewModel>(serviceFactory.ListOutsourceServices);
+                //Add to database
+            }
+            else
+            {
+                ViewBag.ListOutsourceServices = null;
+            }
+            return PartialView();
+        }
+
         [HttpGet]
         public async Task<PartialViewResult> CreateOutputServiceByModal(int? id, string serviceType = "")
         {
@@ -796,6 +859,17 @@ namespace NicePictureStudio
             { outputService = await db.OutputServices.FirstAsync(); }
             ViewData["Code"] = outputService.Id;
 
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+            //Create Equipment Service
+            if (serviceFactory.ListOutputServices.Count > 0)
+            {
+                ViewBag.ListOutputServices = new List<OutputServiceViewModel>(serviceFactory.ListOutputServices);
+            }
+            else
+            {
+                ViewBag.ListOutputServices = null;
+            }
+            
             //Create metadata for webpage structure
             if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
             {
@@ -817,6 +891,25 @@ namespace NicePictureStudio
             }
             ViewData["ServiceType"] = serviceType;
             return PartialView(outputService);
+        }
+
+        [HttpPost]
+        public async Task<PartialViewResult> CreateOutputServiceTable([Bind(Include = "Name,PortFolioURL,Price,Cost,Description")]OutputService outputService, string ServiceType)
+        {
+            OutputService _outputService = outputService;
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(ServiceType);
+            serviceFactory.CreateOutputServiceList(outputService);
+            //Create Equipment Service
+            if (serviceFactory.ListOutputServices.Count > 0)
+            {
+                ViewBag.ListOutputServices = new List<OutputServiceViewModel>(serviceFactory.ListOutputServices);
+                //Add to database
+            }
+            else
+            {
+                ViewBag.ListOutputServices = null;
+            }
+            return PartialView();
         }
 
         #endregion

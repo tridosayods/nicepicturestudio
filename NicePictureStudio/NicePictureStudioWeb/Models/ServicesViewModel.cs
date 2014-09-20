@@ -116,7 +116,7 @@ namespace NicePictureStudio.Models
             ListEquipmentServices.Add(_equipmentService);
         }
 
-        public void CreateLocationServiceList(LocationService location)
+        public void CreateLocationServiceList(LocationService location, int locationId)
         {
             LocationServiceViewModel _locationService = new LocationServiceViewModel();
             _locationService.Id = location.Id;
@@ -125,17 +125,17 @@ namespace NicePictureStudio.Models
             _locationService.OverNightPeriod = location.OverNightPeriod;
             _locationService.Price = location.Price;
             _locationService.Cost = location.Cost;
-            _locationService.LocationId = location.Location.LocationId;
+            _locationService.LocationId = locationId;
             _locationService.Description = location.Description;
             ListLocationServices.Add(_locationService);
         }
 
-        public void CreateOutSoruceServiceList(OutsourceService outsource)
+        public void CreateOutSoruceServiceList(OutsourceService outsource, int oursourceId)
         {
             OutsourceServiceViewModel _outsourceService = new OutsourceServiceViewModel();
             _outsourceService.Id = outsource.Id;
             _outsourceService.Name = outsource.Name;
-            _outsourceService.OutsourceId = outsource.OutsourceContact.OutsourceContactId; // Only ID is required
+            _outsourceService.OutsourceId = oursourceId; // Only ID is required
             _outsourceService.PortFolioURL = outsource.PortFolioURL;
             _outsourceService.Price = outsource.Price;
             _outsourceService.Cost = outsource.Cost;
@@ -147,7 +147,11 @@ namespace NicePictureStudio.Models
         {
             OutputServiceViewModel _outputService = new OutputServiceViewModel();
             _outputService.Id = output.Id;
-            _outputService.OutputId = output.Id;
+            _outputService.Name = output.Name;
+            _outputService.OutputURL = output.OutputURL;
+            _outputService.Price = output.Price;
+            _outputService.Cost = output.Cost;
+            _outputService.Description = output.Description;
             ListOutputServices.Add(_outputService);
         }
     }
@@ -290,7 +294,6 @@ namespace NicePictureStudio.Models
         public Nullable<decimal> Price { get; set; }
         public Nullable<decimal> Cost { get; set; }
         public string Description { get; set; }
-        public int OutputId { get; set; }
     }
 
     public class ServiceFromKeeper
