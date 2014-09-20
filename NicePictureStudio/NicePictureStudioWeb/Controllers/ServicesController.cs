@@ -17,6 +17,7 @@ namespace NicePictureStudio
         private NicePictureStudioDBEntities db = new NicePictureStudioDBEntities();
 
         private static ServicesViewModel _services;
+        private static PromotionCalculator _promotionCalculator;
         private PromotionViewModel _promotion;
 
         private static readonly string CameraManType = "CameraMan";
@@ -200,19 +201,26 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,BookingName,GroomName,BrideName,SpecialRequest,Payment,PayAmount,CustomerId,CRMFormId")] Service service)
+        public async Task<ActionResult> Create([Bind(Include = "Id,BookingName,GroomName,BrideName,SpecialRequest,Payment,PayAmount,CustomerId,CRMFormId")] Service service, int BookingId=0)
         {
             if (ModelState.IsValid)
             {
+                //finding promotion
+                Promotion promotion = new Promotion();
+                if (BookingId > 0) { promotion = await db.Promotions.FindAsync(BookingId); }
+                else { return HttpNotFound(); }
+                _services.Promotion = new PromotionViewModel(promotion);
+                _promotionCalculator = new PromotionCalculator(_services.Promotion);
+                SummarizePrice();
                 //db.Services.Add(service); 
                 //await db.SaveChangesAsync();
                 _services.CreateService(service);
                 //return RedirectToAction("Index");
-                return View(service);
+                return PartialView(@"/Views/Services/CalculateServicesCostSummary.cshtml", _promotionCalculator);
             }
 
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.Id);
-            return View(service);
+           // ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.Id);
+            return PartialView(@"/Views/Services/CalculateServicesCostSummary.cshtml", new PromotionCalculator());
         }
 
         public async Task<PartialViewResult> CreateService(int bookingId)
@@ -222,10 +230,10 @@ namespace NicePictureStudio
             if (booking != null)
             {
                 //Getting Promotion & Booking Information
-                    _promotion = new PromotionViewModel(booking.Promotion.ExpireDate,booking.Promotion.PhotoGraphDiscount,
-                    booking.Promotion.EquipmentDiscount,
-                    booking.Promotion.LocationDiscount, booking.Promotion.OutputDiscount, 
-                    booking.Promotion.OutsourceDiscount);
+                    //_promotion = new PromotionViewModel(booking.Promotion.ExpireDate,booking.Promotion.PhotoGraphDiscount,
+                    //booking.Promotion.EquipmentDiscount,
+                    //booking.Promotion.LocationDiscount, booking.Promotion.OutputDiscount, 
+                    //booking.Promotion.OutsourceDiscount);
                 //Preparing for creating Service
                 //CreateService
                 // One promotion affet to any package -> need to keep price as static
@@ -443,7 +451,9 @@ namespace NicePictureStudio
                   if (serviceType != null)
                   {
                       serviceForm.ServiceType = serviceType;
-                      ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType.ServiceTypeName);
+                      //create string for mapping
+                      string _mappingServiceType = serviceType.ServiceTypeName + HTMLTagForReplace;
+                      ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(_mappingServiceType);
                       if (serviceFactory != null)
                       {
                           serviceFactory.CreateServiceForm(serviceForm, statusNew, serviceType.Id);
@@ -542,7 +552,7 @@ namespace NicePictureStudio
             ServiceForm PreWeddingFromSection;
 
             /*Need ************ Getting date from Form Section */
-            DateTime _startDate = DateTime.MinValue;
+            DateTime _startDate = DateTime.Now;
             DateTime _endDate = DateTime.Now;
             /*Need ************ Getting date from Form Section */
             ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
@@ -559,30 +569,44 @@ namespace NicePictureStudio
                 _selectedCameraMan = new List<string>();
             }
 
-            var photoGraphResult = db.Employees.GroupBy(emp => emp.Id)
+            if (serviceFactory.ServiceForm != null)
+            {
+                _startDate = serviceFactory.ServiceForm.EventStart;
+                _endDate = serviceFactory.ServiceForm.EventEnd;
+                var photoGraphResult = db.Employees.GroupBy(emp => emp.Id)
                                     .Where(emp => emp.Any(empList => empList.Position == PhotographType
                                         && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
                                             && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
-                                        )).Select(emp => new PhotoGraph { 
-                                            Id = emp.FirstOrDefault().Id,
-                                            Name = emp.FirstOrDefault().Name,
-                                            IsSelect = _selectedPhotoGraph.Contains(emp.FirstOrDefault().Id)
-                                        }).ToList();
-            //ViewBag.PhotoGraphListDetails = new SelectList(photoGraphResult, "Id", "Name");
-            ViewBag.PhotoGraphListDetails = photoGraphResult;
-
-            //Getting CameraMan
-            var cameraManResult = db.Employees.GroupBy(emp => emp.Id)
-                                    .Where(emp => emp.Any(empList => empList.Position == CameraManType
-                                        && empList.EmployeeSchedules.All(empS  =>(empS.StartTime < _startDate || empS.StartTime > _endDate )
-                                            &&( empS.EndTime <= _startDate || empS.EndTime > _endDate))
-                                        )).Select(emp => new CameraMan
+                                        )).Select(emp => new PhotoGraph
                                         {
                                             Id = emp.FirstOrDefault().Id,
                                             Name = emp.FirstOrDefault().Name,
                                             IsSelect = _selectedPhotoGraph.Contains(emp.FirstOrDefault().Id)
                                         }).ToList();
+                //ViewBag.PhotoGraphListDetails = new SelectList(photoGraphResult, "Id", "Name");
+                ViewBag.PhotoGraphListDetails = photoGraphResult;
 
+                //Getting CameraMan
+                var cameraManResult = db.Employees.GroupBy(emp => emp.Id)
+                                        .Where(emp => emp.Any(empList => empList.Position == CameraManType
+                                            && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
+                                                && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
+                                            )).Select(emp => new CameraMan
+                                            {
+                                                Id = emp.FirstOrDefault().Id,
+                                                Name = emp.FirstOrDefault().Name,
+                                                IsSelect = _selectedPhotoGraph.Contains(emp.FirstOrDefault().Id)
+                                            }).ToList();
+                ViewBag.CameraManListDetails = cameraManResult;
+            }
+            else
+            { 
+                //if user did not select event day , so no need to generate data
+                ViewBag.CameraManListDetails = new List<PhotoGraph>();
+                ViewBag.PhotoGraphListDetails = new List<CameraMan>();
+            }
+
+            
             //var _camearManResult = (from cameraEmp in db.Employees
             //                       join empSchedule in db.EmployeeSchedules on cameraEmp.Id equals empSchedule.Employee.Id
             //                       where cameraEmp.Position == CameraManType && empSchedule.StartTime >= _startDate && empSchedule.EndTime <= _endDate
@@ -619,7 +643,7 @@ namespace NicePictureStudio
           }
 
         [HttpPost]
-        public void CreatePhotoGraphServiceList([Bind(Include = "Name,PhotographerNumber,CameraManNumber,Description")]PhotographService photoGraphService, string[] EmployeeId, string[] CameraId, string ServiceType)
+        public void CreatePhotoGraphServiceList([Bind(Include = "Name,PhotographerNumber,CameraManNumber,Description,Cost,Price")]PhotographService photoGraphService, string[] EmployeeId, string[] CameraId, string ServiceType)
         {
             PhotographService photo = photoGraphService;
             List<string> empList = new List<string>();
@@ -914,6 +938,51 @@ namespace NicePictureStudio
 
         #endregion
 
+        #region Calculator
+
+        private void SummarizePrice()
+        {
+            decimal _photoGraphPrice = 0;
+            decimal _equipmentPrice = 0;
+            decimal _locationPrice = 0;
+            decimal _outsourcePrice = 0;
+            decimal _outputPrice = 0;
+
+            _photoGraphPrice = GettingPriceFromPhotographService(_services.ServiceFormPreWedding)
+                                + GettingPriceFromPhotographService(_services.ServiceFormEngagement)
+                                + GettingPriceFromPhotographService(_services.ServiceFormWedding);
+            _equipmentPrice = GettingPriceFromEquipmentService(_services.ServiceFormPreWedding)
+                               + GettingPriceFromEquipmentService(_services.ServiceFormEngagement)
+                               + GettingPriceFromEquipmentService(_services.ServiceFormWedding);
+            _locationPrice = GettingPriceFromLocationService(_services.ServiceFormPreWedding)
+                                + GettingPriceFromLocationService(_services.ServiceFormEngagement)
+                                + GettingPriceFromLocationService(_services.ServiceFormWedding);
+            _outsourcePrice = GettingPriceFromOutsourceService(_services.ServiceFormPreWedding)
+                                + GettingPriceFromOutsourceService(_services.ServiceFormEngagement)
+                                + GettingPriceFromOutsourceService(_services.ServiceFormWedding);
+            _outputPrice = GettingPriceFromOutputService(_services.ServiceFormPreWedding)
+                                + GettingPriceFromOutputService(_services.ServiceFormEngagement)
+                                + GettingPriceFromOutputService(_services.ServiceFormWedding);
+
+            _promotionCalculator.CalculateCurrentPrice(_photoGraphPrice, _equipmentPrice, _locationPrice, _outsourcePrice, _outputPrice);
+        }
+
+        [HttpPost]
+        public PartialViewResult CalculateServicesCostSummary()
+        {
+            if (_promotionCalculator != null)
+            {
+                //Get Cost from PreWedding , Engagement , Wedding 
+                SummarizePrice();
+                return PartialView(_promotionCalculator);
+            }
+            else
+            {
+                return PartialView(new PromotionCalculator());
+            }
+        }
+        #endregion
+
         private ServiceFormFactory CreateServiceFormByInputSection(string serviceType)
         {
             if (_services != null)
@@ -936,8 +1005,103 @@ namespace NicePictureStudio
             else
             {
                 return null;
-            }
-           
+            }  
         }
+
+        private decimal GettingPriceFromPhotographService(ServiceFormFactory serviceFormFactory)
+        {
+            if (serviceFormFactory != null)
+            {
+                if (serviceFormFactory.PhotoGraphService != null)
+                {
+                    return Convert.ToDecimal(serviceFormFactory.PhotoGraphService.Price);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        private decimal GettingPriceFromEquipmentService(ServiceFormFactory serviceFormFactory)
+        {
+            if (serviceFormFactory != null)
+            {
+                if (serviceFormFactory.ListEquipmentServices.Count > 0)
+                {
+                    return Convert.ToDecimal(serviceFormFactory.ListEquipmentServices.Sum(item => item.Price));
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        private decimal GettingPriceFromLocationService(ServiceFormFactory serviceFormFactory)
+        {
+            if (serviceFormFactory != null)
+            {
+                if (serviceFormFactory.ListLocationServices.Count > 0)
+                {
+                    return Convert.ToDecimal(serviceFormFactory.ListLocationServices.Sum(item => item.Price));
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        private decimal GettingPriceFromOutsourceService(ServiceFormFactory serviceFormFactory)
+        {
+            if (serviceFormFactory != null)
+            {
+                if (serviceFormFactory.ListOutsourceServices.Count > 0)
+                {
+                    return Convert.ToDecimal(serviceFormFactory.ListOutsourceServices.Sum(item => item.Price));
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        private decimal GettingPriceFromOutputService(ServiceFormFactory serviceFormFactory)
+        {
+            if (serviceFormFactory != null)
+            {
+                if (serviceFormFactory.ListOutputServices.Count > 0)
+                {
+                    return Convert.ToDecimal(serviceFormFactory.ListOutputServices.Sum(item => item.Price));
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
     }
 }

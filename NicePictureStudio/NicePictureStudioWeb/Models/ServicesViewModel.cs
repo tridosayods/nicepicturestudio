@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using NicePictureStudio.App_Data;
+using System.Globalization;
 
 namespace NicePictureStudio.Models
 {
@@ -174,21 +175,68 @@ namespace NicePictureStudio.Models
     public class PromotionViewModel
     {
         private DateTime _expireDate;
+        private DateTime _createDate;
+        private string _name;
         private int _photoGraphDiscount;
         private int _equipmentDiscount;
         private int _locationDiscount;
         private int _outputDiscount;
         private int _outsourceDiscount;
+        
+        //public PromotionViewModel(DateTime expDate,int photoGraphDiscount, int equipmentDiscount, int locationDiscount,
+        //    int outputDiscount, int outsourceDiscount)
+        //{
+        //    _expireDate = expDate;
+        //    _photoGraphDiscount = photoGraphDiscount;
+        //    _equipmentDiscount = equipmentDiscount;
+        //    _locationDiscount = locationDiscount;
+        //    _outputDiscount = outputDiscount;
+        //    _outsourceDiscount = outsourceDiscount;
+        //}
 
-        public PromotionViewModel(DateTime expDate,int photoGraphDiscount, int equipmentDiscount, int locationDiscount,
-            int outputDiscount, int outsourceDiscount)
+        public PromotionViewModel(Promotion promotion)
         {
-            _expireDate = expDate;
-            _photoGraphDiscount = photoGraphDiscount;
-            _equipmentDiscount = equipmentDiscount;
-            _locationDiscount = locationDiscount;
-            _outputDiscount = outputDiscount;
-            _outsourceDiscount = outsourceDiscount;
+            if (promotion !=null)
+            {
+                _expireDate = promotion.ExpireDate;
+                _photoGraphDiscount = promotion.PhotoGraphDiscount;
+                _equipmentDiscount = promotion.EquipmentDiscount;
+                _locationDiscount = promotion.LocationDiscount;
+                _outputDiscount = promotion.OutputDiscount;
+                _outsourceDiscount = promotion.OutsourceDiscount;
+                _name = promotion.Name;
+                _createDate = promotion.CreateDate;
+            }
+           
+        }
+
+        public string PromotionName() {return _name;}
+        public DateTime PromotionEndDate() { return _expireDate; }
+        public DateTime PromotionStartDate() { return _createDate; }
+        public int PhotoGraphDiscount 
+        {
+            get { return _photoGraphDiscount; }
+            set { _photoGraphDiscount = value; }
+        }
+        public int EquipmentDiscount 
+        {
+            get { return _equipmentDiscount; }
+            set { _equipmentDiscount = value; }
+        }
+        public int LocationDiscount 
+        {
+            get { return _locationDiscount; }
+            set { _locationDiscount = value; }
+        }
+        public int OutsourceDiscount 
+        {
+            get { return _outsourceDiscount; }
+            set { _outsourceDiscount = value; }
+        }
+        public int OutputDiscount 
+        {
+            get { return _outputDiscount; }
+            set { _outputDiscount = value; }
         }
     }
 
@@ -300,5 +348,93 @@ namespace NicePictureStudio.Models
     {
         public int CustomerId { get; set; }
         public List<Service> ServiceCollection { get; set; }
+    }
+
+    public class PromotionCalculator
+    {
+        private readonly string PromotionDefaultName = "No Promotion";
+        private readonly string PromotionDiscountDefaultName ="No Discount Available";
+        private bool hasPromotion;
+        private PromotionViewModel currentPromotion;
+
+        public string EstimatePrice { get; set; }
+        public string TotalPrice { get; set; }
+        public string TotalPriceBeforeTax { get; set; }
+        public string PromotionDiscount { get; set; }
+        public string PromotionName { get; set; }
+        public string ServiceTax { get; set; }
+
+        public PromotionCalculator()
+        {
+            init();
+        }
+
+        public PromotionCalculator(PromotionViewModel promotion) 
+        {
+            if (promotion != null)
+            {
+                hasPromotion = true;
+                currentPromotion = promotion;
+            }
+            else 
+            {
+               init();
+            }
+
+        }
+
+        private void init()
+        {
+            hasPromotion = false;
+            PromotionName = PromotionDefaultName;
+            PromotionDiscount = PromotionDiscountDefaultName;
+            EstimatePrice = "0";
+            TotalPrice = "0";
+            TotalPriceBeforeTax = "0";
+            ServiceTax = "0";
+        }
+
+
+        public void CalculateCurrentPrice(decimal PhotographPrice, decimal EquipmentPrice, decimal LocationPrice, decimal OutsourcePrice, decimal OutputPrice)
+        {
+            decimal _photoGraphPrice = PhotographPrice;
+            decimal _equipmentPrice = EquipmentPrice;
+            decimal _locationPrice = LocationPrice;
+            decimal _outsourcePrice = OutsourcePrice;
+            decimal _outputPrice = OutputPrice;
+            decimal _totalPriceBeforeTax = 0;
+
+
+            if (hasPromotion)
+            {
+                EstimatePrice = (PhotographPrice + EquipmentPrice + LocationPrice + OutsourcePrice + OutputPrice).ToString("C2",CultureInfo.CurrentCulture);
+                PromotionName = currentPromotion.PromotionName();
+                PromotionDiscount = ((currentPromotion.PhotoGraphDiscount + currentPromotion.EquipmentDiscount +
+                                                     currentPromotion.LocationDiscount + currentPromotion.OutsourceDiscount + currentPromotion.OutputDiscount) / (decimal)500).ToString("P");
+                _totalPriceBeforeTax = ((PhotographPrice * currentPromotion.PhotoGraphDiscount)
+                    + (EquipmentPrice * currentPromotion.EquipmentDiscount)
+                    + (LocationPrice * currentPromotion.LocationDiscount)
+                    + (OutsourcePrice * currentPromotion.OutsourceDiscount)
+                    + (OutputPrice * currentPromotion.OutputDiscount)
+                    );
+
+                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
+                TotalPrice = (_totalPriceBeforeTax * (decimal)10 / (decimal)100).ToString("C2", CultureInfo.CurrentCulture);
+            }
+            else
+            {
+                EstimatePrice = (PhotographPrice + EquipmentPrice + LocationPrice + OutsourcePrice + OutputPrice).ToString("C2", CultureInfo.CurrentCulture);
+                PromotionName = PromotionDefaultName;
+                PromotionDiscount = PromotionDiscountDefaultName;
+                _totalPriceBeforeTax = ((PhotographPrice)
+                    + (EquipmentPrice)
+                    + (LocationPrice)
+                    + (OutsourcePrice)
+                    + (OutputPrice)
+                    );
+                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
+                TotalPrice = (_totalPriceBeforeTax * (decimal)10 / (decimal)100).ToString("C2", CultureInfo.CurrentCulture);
+            }
+        }
     }
 }

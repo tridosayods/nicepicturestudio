@@ -82,7 +82,7 @@
                                                 {
                                                    <input type="checkbox" id="EmployeeId" name="EmployeeId" value="@item.Id"/> 
                                                 }                                                                                                                                                
-                                                
+                                                @Html.ValidationMessage("EmployeeId", "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     }
@@ -104,7 +104,7 @@
                     <div class="panel-heading">
                         <h4 class="panel-title left">
                             <a data-toggle="collapse" data-parent="#accordion" href="#@ViewData["CollCameraPanel"]">
-                                Select PhotoGraphy
+                                Select Camera Man
                             </a>
                         </h4>
                     </div>
@@ -112,18 +112,23 @@
                         <div class="panel-body">
                             <div class="list-group">
                                 <div class="row">
-                                    @for (var i = 0; i <= 7; i++)
-                                    {
-                                        <div class="thumbnail col-md-3">
-                                            <img data-src="holder.js/300x300" alt="...">
-                                            <div class="caption">
-                                                <h5>Thumbnail label</h5>
-                                                <p>...</p>
-                                                <!--<p><a href="#stack3" class="btn btn-primary" role="button" data-toggle="modal">Button</a> </p>-->
-                                                <input type="checkbox" id="CameraId" name="CameraId" value="Camera01"/>
-                                            </div>
+                                   @foreach (var item in @ViewBag.CameraManListDetails)
+                                   {
+                                    <div class="thumbnail col-md-3">
+                                        <img data-src="holder.js/300x300" alt="...">
+                                        <div class="caption">
+                                            <h5> PhotoGraph Name : @item.Name</h5>
+                                            <!--<p><a href="#stack3" class="btn btn-primary" role="button" data-toggle="modal">Button</a> </p>-->
+                                            @if (@item.IsSelect)
+                                            { <input type="checkbox" id="EmployeeId" name="EmployeeId" value="@item.Id" checked="checked" />}
+                                            else
+                                            {
+                                                <input type="checkbox" id="EmployeeId" name="EmployeeId" value="@item.Id" />
+                                            }
+
                                         </div>
-                                    }
+                                    </div>
+                                   }
                                 </div>
                             </div>
                         </div>
@@ -160,7 +165,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <input type="submit" value="Save" class="btn btn-default" />
                 </div>
             </div>
         </div>
