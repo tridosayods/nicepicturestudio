@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using NicePictureStudio.App_Data;
 using NicePictureStudio.Models;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace NicePictureStudio
 {
@@ -146,6 +148,9 @@ namespace NicePictureStudio
         public readonly string HTMLTableOutputPreWedding = "tblOutputPreWedding";
         public readonly string HTMLTableOutputEngagement = "tblOutputEngagement";
         public readonly string HTMLTableOutputWedding = "tblOutputWedding";
+
+        public readonly string HTMLButtonEnabledForm = "btnEnabled";
+        public readonly string HTMLButtonDisabledForm = "btnDisabled";
         /******************************************************************************************************/
 
         // GET: Services
@@ -183,9 +188,11 @@ namespace NicePictureStudio
 
         public JsonResult GetListForBookingAutocomplete(string term)
         {
+            // Booking staus = 1 means opened booking.
+            int _bookingOpened = 1;
             Booking[] matching = string.IsNullOrWhiteSpace(term) ?
                 db.Bookings.ToArray() :
-                db.Bookings.Where(p => p.BookingCode.ToUpper().StartsWith(term.ToUpper()) || p.Name.ToUpper().StartsWith(term.ToUpper())).ToArray();
+                db.Bookings.Where(p => (p.BookingCode.ToUpper().StartsWith(term.ToUpper()) || p.Name.ToUpper().StartsWith(term.ToUpper())) && p.BookingStatu.Id == _bookingOpened).ToArray();
 
             return Json(matching.Select(m => new
             {
@@ -203,45 +210,113 @@ namespace NicePictureStudio
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,BookingName,GroomName,BrideName,SpecialRequest,Payment,PayAmount,CustomerId,CRMFormId")] Service service, int BookingId=0)
         {
+            //booking status 2 => booking confirm
+            int _bookingConfirm = 2;
             if (ModelState.IsValid)
             {
                 //finding promotion
                 Promotion promotion = new Promotion();
                 if (BookingId > 0) { promotion = await db.Promotions.FindAsync(BookingId); }
                 else { return HttpNotFound(); }
+                
                 _services.Promotion = new PromotionViewModel(promotion);
                 _promotionCalculator = new PromotionCalculator(_services.Promotion);
                 SummarizePrice();
-                //db.Services.Add(service); 
-                //await db.SaveChangesAsync();
+
+                //Save to DB
+                service.Customer = await db.Customers.FindAsync(_services.Customer.CustomerId);
+                db.Services.Add(service);
+                db.SaveChanges();
+
+                //Create Booking as booked
+                Booking booking = await db.Bookings.FindAsync(BookingId);
+                booking.Service = service;
+                booking.BookingStatu = await db.BookingStatus.FindAsync(_bookingConfirm);
+                db.Entry(booking).State = EntityState.Modified;
+
+                var result = await db.SaveChangesAsync();
+
+                //Afte finished saveing - creae cache in local memory
                 _services.CreateService(service);
-                //return RedirectToAction("Index");
-                return PartialView(@"/Views/Services/CalculateServicesCostSummary.cshtml", _promotionCalculator);
+                return PartialView("DetailsService",service);
+                //return PartialView(@"/Views/Services/CalculateServicesCostSummary.cshtml", _promotionCalculator);
             }
 
            // ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.Id);
             return PartialView(@"/Views/Services/CalculateServicesCostSummary.cshtml", new PromotionCalculator());
         }
 
-        public async Task<PartialViewResult> CreateService(int bookingId)
+        public async Task<PartialViewResult> DetailsService(int? Id)
         {
-
-            Booking booking = await db.Bookings.FindAsync(bookingId);
-            if (booking != null)
+            if (Id != null)
             {
-                //Getting Promotion & Booking Information
-                    //_promotion = new PromotionViewModel(booking.Promotion.ExpireDate,booking.Promotion.PhotoGraphDiscount,
-                    //booking.Promotion.EquipmentDiscount,
-                    //booking.Promotion.LocationDiscount, booking.Promotion.OutputDiscount, 
-                    //booking.Promotion.OutsourceDiscount);
-                //Preparing for creating Service
-                //CreateService
-                // One promotion affet to any package -> need to keep price as static
-                // getting promotion and then extract trype of service -> create item.
+                Service service = await db.Services.FindAsync(Id);
+                if (service == null)
+                {
+                    return PartialView();
+                }
+                else
+                {
+                    return PartialView(service);
+                }
+            }
+            else
+            {
+                return PartialView();
+            }
+        }
 
+        public async Task<PartialViewResult> EditService(int? Id)
+        {
+            if (Id != null)
+            {
+                Service service = await db.Services.FindAsync(Id);
+                if (service == null)
+                {
+                    return PartialView();
+                }
+                else
+                {
+                    return PartialView(service);
+                }
             }
             return PartialView();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<PartialViewResult> EditService([Bind(Include = "Id,BookingName,GroomName,BrideName,SpecialRequest,Payment,PayAmount,CustomerId,CRMFormId")] Service service)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(service).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                _services.CreateService(service);
+                Service _service = service;
+                return PartialView("DetailsService", _service);
+            }
+            return PartialView();
+        }
+
+        //public async Task<PartialViewResult> CreateService(int bookingId)
+        //{
+
+        //    Booking booking = await db.Bookings.FindAsync(bookingId);
+        //    if (booking != null)
+        //    {
+        //        //Getting Promotion & Booking Information
+        //            //_promotion = new PromotionViewModel(booking.Promotion.ExpireDate,booking.Promotion.PhotoGraphDiscount,
+        //            //booking.Promotion.EquipmentDiscount,
+        //            //booking.Promotion.LocationDiscount, booking.Promotion.OutputDiscount, 
+        //            //booking.Promotion.OutsourceDiscount);
+        //        //Preparing for creating Service
+        //        //CreateService
+        //        // One promotion affet to any package -> need to keep price as static
+        //        // getting promotion and then extract trype of service -> create item.
+
+        //    }
+        //    return PartialView();
+        //}
 
         // GET: Services/Edit/5
         public async Task<ActionResult> Edit(int? id)
@@ -321,12 +396,12 @@ namespace NicePictureStudio
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<PartialViewResult> CreateCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,AnniversaryDate")] Customer customer)
+        public async Task<PartialViewResult> CreateCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,AnniversaryDate,City,Email,PostcalCode,ReferencePerson,ReferenceEmail,ReferencePhoneNumber")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                //db.Customers.Add(customer);
-                //await db.SaveChangesAsync();
+                db.Customers.Add(customer);
+                await db.SaveChangesAsync();
                 _services.CreateCustomer(customer);
                 Customer _customer = customer;
                 return PartialView(@"/Views/Services/DetailsCustomerFromService.cshtml", _customer);
@@ -376,12 +451,13 @@ namespace NicePictureStudio
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<PartialViewResult> EditCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,AnniversaryDate")] Customer customer)
+        public async Task<PartialViewResult> EditCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,AnniversaryDate,City,Email,PostcalCode,ReferencePerson,ReferenceEmail,ReferencePhoneNumber")] Customer customer)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(customer).State = EntityState.Modified;
                 await db.SaveChangesAsync();
+                _services.CreateCustomer(customer);
                 Customer _customer = customer;
                 return PartialView(@"/Views/Services/DetailsCustomerFromService.cshtml", _customer);
             }
@@ -413,6 +489,7 @@ namespace NicePictureStudio
           public PartialViewResult CreateServiceFormFromService(string Command)
         {
             //assign value for replacing #id in view
+            ViewBag.FormContorl = Command + " form-control";
             ViewBag.ServiceTypeItem = Command;
             ViewBag.ServiceTypeTag = Command + HTMLTagForReplace;
             ViewBag.ServiceTypeDatePickerStart = Command + HTMLTagForDatePickerStart;
@@ -437,12 +514,14 @@ namespace NicePictureStudio
             ViewBag.HTMLModalLocationArrow = HTMLModalLocationArrow + Command;
             ViewBag.HTMLModalOutSourceArrow = HTMLModalOutSourceArrow + Command;
             ViewBag.HTMLModalOutputArrow = HTMLModalOutputArrow + Command;
+            ViewBag.HTMLButtonEnabledForm = HTMLButtonEnabledForm + Command;
+            ViewBag.HTMLButtonDisabledForm = HTMLButtonDisabledForm + Command;
             return PartialView();
         }
 
           [HttpPost]
           [ValidateAntiForgeryToken]
-          public async Task<PartialViewResult> CreateServiceFormFromService([Bind(Include = "Id,Name,ServiceType,Status,EventStart,EventEnd,GuestsNumber")] ServiceForm serviceForm, string Command)
+          public void CreateServiceFormFromService([Bind(Include = "Name,Status,EventStart,EventEnd,GuestsNumber")] ServiceForm serviceForm, string Command)
           {
               int statusNew = 1;
               if (ModelState.IsValid)
@@ -456,20 +535,20 @@ namespace NicePictureStudio
                       ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(_mappingServiceType);
                       if (serviceFactory != null)
                       {
-                          serviceFactory.CreateServiceForm(serviceForm, statusNew, serviceType.Id);
                           //db.ServiceForms.Add(serviceForm);
-                          //await db.SaveChangesAsync();
+                          //db.SaveChangesAsync();
+                          serviceFactory.CreateServiceForm(serviceForm, statusNew, serviceType.Id);
                       }
-                      else { return PartialView(); }
+                      //else { return PartialView(); }
                      // _services.CreateServiceForm(serviceForm, statusNew, serviceType.Id);
                   }
-                  else { return PartialView(); }
+                 // else { return PartialView(); }
 
                   //assign value for replacing #id in view
-                  ServiceForm _serviceForm = serviceForm;
-                  return PartialView(@"/Views/ServiceForms/DetailsServiceFormFromService.cshtml", serviceForm);
+                  //ServiceForm _serviceForm = serviceForm;
+                  //return PartialView(@"/Views/ServiceForms/DetailsServiceFormFromService.cshtml", serviceForm);
               }
-              return PartialView();
+              //return PartialView();
           }
 
 
@@ -938,7 +1017,7 @@ namespace NicePictureStudio
 
         #endregion
 
-        #region Calculator
+        #region Save Form and Calculate Service Charge
 
         private void SummarizePrice()
         {
@@ -965,6 +1044,63 @@ namespace NicePictureStudio
                                 + GettingPriceFromOutputService(_services.ServiceFormWedding);
 
             _promotionCalculator.CalculateCurrentPrice(_photoGraphPrice, _equipmentPrice, _locationPrice, _outsourcePrice, _outputPrice);
+            
+            //Get price from service section
+            if(_services.ServiceFormPreWedding != null)
+            {
+                if (_services.ServiceFormPreWedding.ServiceForm != null)
+                {
+                    _services.ServiceFormPreWedding.ServiceForm.ServicePrice = GettingPriceFromPhotographService(_services.ServiceFormPreWedding)
+                                                                           + GettingPriceFromEquipmentService(_services.ServiceFormPreWedding)
+                                                                           + GettingPriceFromLocationService(_services.ServiceFormPreWedding)
+                                                                           + GettingPriceFromOutsourceService(_services.ServiceFormPreWedding)
+                                                                           + GettingPriceFromOutputService(_services.ServiceFormPreWedding);
+
+                    _services.ServiceFormPreWedding.ServiceForm.ServiceCost = GettingCostFromPhotographService(_services.ServiceFormPreWedding)
+                                                                       + GettingCostFromEquipmentService(_services.ServiceFormPreWedding)
+                                                                       + GettingCostFromLocationService(_services.ServiceFormPreWedding)
+                                                                       + GettingCostFromOutsourceService(_services.ServiceFormPreWedding)
+                                                                       + GettingCostFromOutputService(_services.ServiceFormPreWedding);
+                }
+            }
+
+            if (_services.ServiceFormEngagement != null)
+            {
+                if (_services.ServiceFormEngagement.ServiceForm != null)
+                {
+                    _services.ServiceFormEngagement.ServiceForm.ServicePrice = GettingPriceFromPhotographService(_services.ServiceFormEngagement)
+                                                                        + GettingPriceFromEquipmentService(_services.ServiceFormEngagement)
+                                                                        + GettingPriceFromLocationService(_services.ServiceFormEngagement)
+                                                                        + GettingPriceFromOutsourceService(_services.ServiceFormEngagement)
+                                                                        + GettingPriceFromOutputService(_services.ServiceFormEngagement);
+
+                    _services.ServiceFormEngagement.ServiceForm.ServiceCost = GettingCostFromPhotographService(_services.ServiceFormEngagement)
+                                                                        + GettingCostFromEquipmentService(_services.ServiceFormEngagement)
+                                                                        + GettingCostFromLocationService(_services.ServiceFormEngagement)
+                                                                        + GettingCostFromOutsourceService(_services.ServiceFormEngagement)
+                                                                        + GettingCostFromOutputService(_services.ServiceFormEngagement);
+                }
+            }
+
+            if (_services.ServiceFormWedding != null)
+            {
+                if (_services.ServiceFormWedding.ServiceForm != null)
+                {
+                    _services.ServiceFormWedding.ServiceForm.ServicePrice = GettingPriceFromPhotographService(_services.ServiceFormWedding)
+                                                                      + GettingPriceFromEquipmentService(_services.ServiceFormWedding)
+                                                                      + GettingPriceFromLocationService(_services.ServiceFormWedding)
+                                                                      + GettingPriceFromOutsourceService(_services.ServiceFormWedding)
+                                                                      + GettingPriceFromOutputService(_services.ServiceFormWedding);
+
+                    _services.ServiceFormWedding.ServiceForm.ServiceCost = GettingCostFromPhotographService(_services.ServiceFormWedding)
+                                                                               + GettingCostFromEquipmentService(_services.ServiceFormWedding)
+                                                                               + GettingCostFromLocationService(_services.ServiceFormWedding)
+                                                                               + GettingCostFromOutsourceService(_services.ServiceFormWedding)
+                                                                               + GettingCostFromOutputService(_services.ServiceFormWedding);
+                }
+            }
+           
+
         }
 
         [HttpPost]
@@ -981,7 +1117,100 @@ namespace NicePictureStudio
                 return PartialView(new PromotionCalculator());
             }
         }
+
+        [HttpPost]
+        public async Task<PartialViewResult> SaveAllDocument()
+        {
+            List<String> messages = new List<string>();
+            if (_services.Customer != null)
+            {
+                if (_services.ServiceFormEngagement != null)
+                { 
+                    //Save ServiceForm Engagement
+                    ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, Engagement, true) == 0).FirstOrDefault();
+                    ServiceStatu serviceStatus = db.ServiceStatus.Where(s=>s.Id ==1).FirstOrDefault();
+
+                    ServiceForm serviceForm = new ServiceForm
+                    {
+                        Id = _services.ServiceFormEngagement.ServiceForm.Id,
+                        Name = _services.ServiceFormEngagement.ServiceForm.Name,
+                        ServiceType = serviceType,
+                        ServiceStatu = serviceStatus,
+                        EventStart = _services.ServiceFormEngagement.ServiceForm.EventStart,
+                        EventEnd = _services.ServiceFormEngagement.ServiceForm.EventEnd,
+                        GuestsNumber = _services.ServiceFormEngagement.ServiceForm.GuestsNumber,
+                        ServiceCost = _services.ServiceFormEngagement.ServiceForm.ServiceCost,
+                        ServicePrice = _services.ServiceFormEngagement.ServiceForm.ServicePrice,
+                        
+                    };
+                    try
+                    {
+                        db.ServiceForms.Add(serviceForm);
+                        await db.SaveChangesAsync();
+                    }
+                    catch (DbEntityValidationException dbEx)
+                    {
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
+                                    validationErrors.Entry.Entity.GetType().FullName,
+                                    validationError.PropertyName,
+                                    validationError.ErrorMessage);
+                            }
+                        }
+
+                        throw new Exception(dbEx.Message);
+                    }
+                    
+
+                    List<string> listPhotograph = _services.ServiceFormEngagement.PhotoGraphService.PhotoGraphIdList;
+                    List<string> listCameraMan = _services.ServiceFormEngagement.PhotoGraphService.CameraMandIdList;
+                    foreach (var emp in listPhotograph)
+                    {
+                        Employee photograph = await db.Employees.FindAsync(emp);
+                        EmployeeSchedule empSchedule = new EmployeeSchedule
+                        {
+                            ServiceForm = serviceForm,
+                            Employee = photograph,
+                            StartTime = _services.ServiceFormEngagement.ServiceForm.EventStart,
+                            EndTime = _services.ServiceFormEngagement.ServiceForm.EventEnd
+                        };
+                        db.EmployeeSchedules.Add(empSchedule);
+                    }
+
+                    foreach (var emp in listCameraMan)
+                    {
+                        Employee photograph = await db.Employees.FindAsync(emp);
+                        EmployeeSchedule empSchedule = new EmployeeSchedule
+                        {
+                            ServiceForm = serviceForm,
+                            Employee = photograph,
+                            StartTime = _services.ServiceFormEngagement.ServiceForm.EventStart,
+                            EndTime = _services.ServiceFormEngagement.ServiceForm.EventEnd
+                        };
+                        db.EmployeeSchedules.Add(empSchedule);
+                    }
+                    var result = await db.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                messages.Add("Please create customer information");
+            }
+            //return RedirectToAction("Index");
+            return PartialView();
+        }
+
+
+
+
         #endregion
+
+
+
+        #region Private Section
 
         private ServiceFormFactory CreateServiceFormByInputSection(string serviceType)
         {
@@ -1103,5 +1332,102 @@ namespace NicePictureStudio
             }
         }
 
+
+        private decimal GettingCostFromPhotographService(ServiceFormFactory serviceFormFactory)
+        {
+            if (serviceFormFactory != null)
+            {
+                if (serviceFormFactory.PhotoGraphService != null)
+                {
+                    return Convert.ToDecimal(serviceFormFactory.PhotoGraphService.Cost);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        private decimal GettingCostFromEquipmentService(ServiceFormFactory serviceFormFactory)
+        {
+            if (serviceFormFactory != null)
+            {
+                if (serviceFormFactory.ListEquipmentServices.Count > 0)
+                {
+                    return Convert.ToDecimal(serviceFormFactory.ListEquipmentServices.Sum(item => item.Cost));
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        private decimal GettingCostFromLocationService(ServiceFormFactory serviceFormFactory)
+        {
+            if (serviceFormFactory != null)
+            {
+                if (serviceFormFactory.ListLocationServices.Count > 0)
+                {
+                    return Convert.ToDecimal(serviceFormFactory.ListLocationServices.Sum(item => item.Cost));
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        private decimal GettingCostFromOutsourceService(ServiceFormFactory serviceFormFactory)
+        {
+            if (serviceFormFactory != null)
+            {
+                if (serviceFormFactory.ListOutsourceServices.Count > 0)
+                {
+                    return Convert.ToDecimal(serviceFormFactory.ListOutsourceServices.Sum(item => item.Cost));
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        private decimal GettingCostFromOutputService(ServiceFormFactory serviceFormFactory)
+        {
+            if (serviceFormFactory != null)
+            {
+                if (serviceFormFactory.ListOutputServices.Count > 0)
+                {
+                    return Convert.ToDecimal(serviceFormFactory.ListOutputServices.Sum(item => item.Cost));
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
     }
 }
+        #endregion

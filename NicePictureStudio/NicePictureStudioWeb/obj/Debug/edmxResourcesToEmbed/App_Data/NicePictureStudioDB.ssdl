@@ -379,6 +379,8 @@
     <Property Name="EventStart" Type="datetime" Nullable="false" />
     <Property Name="EventEnd" Type="datetime" Nullable="false" />
     <Property Name="GuestsNumber" Type="int" />
+    <Property Name="ServiceCost" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="ServicePrice" Type="decimal" Precision="18" Scale="3" />
   </EntityType>
   <EntityType Name="ServiceMapping">
     <Key>

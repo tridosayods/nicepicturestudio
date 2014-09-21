@@ -628,6 +628,9 @@
     <Content Include="Views\Services\CreateOutsourceServiceTable.cshtml" />
     <Content Include="Views\Services\CreateOutputServiceTable.cshtml" />
     <Content Include="Views\Services\CalculateServicesCostSummary.cshtml" />
+    <Content Include="Views\Services\DetailsService.cshtml" />
+    <Content Include="Views\Services\EditService.cshtml" />
+    <Content Include="Views\Services\SaveAllDocument.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

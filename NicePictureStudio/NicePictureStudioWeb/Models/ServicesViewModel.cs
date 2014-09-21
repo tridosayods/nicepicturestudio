@@ -249,6 +249,8 @@ namespace NicePictureStudio.Models
         public System.DateTime EventStart { get; set; }
         public System.DateTime EventEnd { get; set; }
         public Nullable<int> GuestsNumber { get; set; }
+        public decimal ServiceCost { get; set; }
+        public decimal ServicePrice { get; set; }
     }
 
     public class PhotoGraphServiceViewModel

@@ -294,6 +294,8 @@
     <EntitySetMapping Name="ServiceForms">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceForm">
         <MappingFragment StoreEntitySet="ServiceForm">
+          <ScalarProperty Name="ServicePrice" ColumnName="ServicePrice" />
+          <ScalarProperty Name="ServiceCost" ColumnName="ServiceCost" />
           <ScalarProperty Name="GuestsNumber" ColumnName="GuestsNumber" />
           <ScalarProperty Name="EventEnd" ColumnName="EventEnd" />
           <ScalarProperty Name="EventStart" ColumnName="EventStart" />

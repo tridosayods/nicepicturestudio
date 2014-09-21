@@ -384,6 +384,8 @@
           <Property Name="EventStart" Type="datetime" Nullable="false" />
           <Property Name="EventEnd" Type="datetime" Nullable="false" />
           <Property Name="GuestsNumber" Type="int" />
+          <Property Name="ServiceCost" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="ServicePrice" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <EntityType Name="ServiceMapping">
           <Key>
@@ -1434,6 +1436,8 @@
           <NavigationProperty Name="OutsourceSchedules" Relationship="NicePictureStudioDBModel.OutsourceServiceTiming" FromRole="ServiceForm" ToRole="OutsourceSchedule" />
           <NavigationProperty Name="Service" Relationship="NicePictureStudioDBModel.ServiceMapping" FromRole="ServiceForm" ToRole="Service" />
           <NavigationProperty Name="EmployeeSchedules" Relationship="NicePictureStudioDBModel.EmployeeServiceTiming" FromRole="ServiceForm" ToRole="EmployeeSchedule" />
+          <Property Name="ServiceCost" Type="Decimal" Nullable="false" />
+          <Property Name="ServicePrice" Type="Decimal" Nullable="false" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -1939,6 +1943,8 @@
           <EntitySetMapping Name="ServiceForms">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceForm">
               <MappingFragment StoreEntitySet="ServiceForm">
+                <ScalarProperty Name="ServicePrice" ColumnName="ServicePrice" />
+                <ScalarProperty Name="ServiceCost" ColumnName="ServiceCost" />
                 <ScalarProperty Name="GuestsNumber" ColumnName="GuestsNumber" />
                 <ScalarProperty Name="EventEnd" ColumnName="EventEnd" />
                 <ScalarProperty Name="EventStart" ColumnName="EventStart" />

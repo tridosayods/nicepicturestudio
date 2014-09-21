@@ -450,6 +450,8 @@
     <NavigationProperty Name="OutsourceSchedules" Relationship="NicePictureStudioDBModel.OutsourceServiceTiming" FromRole="ServiceForm" ToRole="OutsourceSchedule" />
     <NavigationProperty Name="Service" Relationship="NicePictureStudioDBModel.ServiceMapping" FromRole="ServiceForm" ToRole="Service" />
     <NavigationProperty Name="EmployeeSchedules" Relationship="NicePictureStudioDBModel.EmployeeServiceTiming" FromRole="ServiceForm" ToRole="EmployeeSchedule" />
+    <Property Name="ServiceCost" Type="Decimal" Nullable="false" />
+    <Property Name="ServicePrice" Type="Decimal" Nullable="false" />
   </EntityType>
   <EntityType Name="Service">
     <Key>
