@@ -407,7 +407,7 @@ namespace NicePictureStudio.Models
             decimal _outsourcePrice = OutsourcePrice;
             decimal _outputPrice = OutputPrice;
             decimal _totalPriceBeforeTax = 0;
-
+            decimal _totalVat = 0;
 
             if (hasPromotion)
             {
@@ -415,15 +415,16 @@ namespace NicePictureStudio.Models
                 PromotionName = currentPromotion.PromotionName();
                 PromotionDiscount = ((currentPromotion.PhotoGraphDiscount + currentPromotion.EquipmentDiscount +
                                                      currentPromotion.LocationDiscount + currentPromotion.OutsourceDiscount + currentPromotion.OutputDiscount) / (decimal)500).ToString("P");
-                _totalPriceBeforeTax = ((PhotographPrice * currentPromotion.PhotoGraphDiscount)
-                    + (EquipmentPrice * currentPromotion.EquipmentDiscount)
-                    + (LocationPrice * currentPromotion.LocationDiscount)
-                    + (OutsourcePrice * currentPromotion.OutsourceDiscount)
-                    + (OutputPrice * currentPromotion.OutputDiscount)
+                _totalPriceBeforeTax = ((PhotographPrice * currentPromotion.PhotoGraphDiscount / (decimal)100)
+                    + (EquipmentPrice * currentPromotion.EquipmentDiscount / (decimal)100)
+                    + (LocationPrice * currentPromotion.LocationDiscount / (decimal)100)
+                    + (OutsourcePrice * currentPromotion.OutsourceDiscount / (decimal)100)
+                    + (OutputPrice * currentPromotion.OutputDiscount / (decimal)100)
                     );
 
                 TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
-                TotalPrice = (_totalPriceBeforeTax * (decimal)10 / (decimal)100).ToString("C2", CultureInfo.CurrentCulture);
+                _totalVat = (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
+                TotalPrice = (_totalPriceBeforeTax - _totalVat).ToString("C2", CultureInfo.CurrentCulture);
             }
             else
             {
@@ -437,7 +438,8 @@ namespace NicePictureStudio.Models
                     + (OutputPrice)
                     );
                 TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
-                TotalPrice = (_totalPriceBeforeTax * (decimal)10 / (decimal)100).ToString("C2", CultureInfo.CurrentCulture);
+                _totalVat = (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
+                TotalPrice = (_totalPriceBeforeTax - _totalVat).ToString("C2", CultureInfo.CurrentCulture);
             }
         }
     }

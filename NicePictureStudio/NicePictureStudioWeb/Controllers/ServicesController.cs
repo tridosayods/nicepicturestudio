@@ -18,8 +18,8 @@ namespace NicePictureStudio
     {
         private NicePictureStudioDBEntities db = new NicePictureStudioDBEntities();
 
-        private static ServicesViewModel _services;
-        private static PromotionCalculator _promotionCalculator;
+        private ServicesViewModel _services;
+        private PromotionCalculator _promotionCalculator;
         private PromotionViewModel _promotion;
 
         private static readonly string CameraManType = "CameraMan";
@@ -179,6 +179,7 @@ namespace NicePictureStudio
         public ActionResult Create()
         {
             _services = new ServicesViewModel();
+            TempData["Services"] = _services;
             ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName");
             ViewBag.BookingId = new SelectList(db.Bookings, "Id", "Name");
             //Binding a promotion from scracth or create new promotion
@@ -215,16 +216,23 @@ namespace NicePictureStudio
             if (ModelState.IsValid)
             {
                 //finding promotion
+                //Declare Temp
+                var _servicesTmp = TempData["Services"] as ServicesViewModel;
+                TempData.Keep();
+
                 Promotion promotion = new Promotion();
                 if (BookingId > 0) { promotion = await db.Promotions.FindAsync(BookingId); }
                 else { return HttpNotFound(); }
+
+               
+                _servicesTmp.Promotion = new PromotionViewModel(promotion);
                 
-                _services.Promotion = new PromotionViewModel(promotion);
-                _promotionCalculator = new PromotionCalculator(_services.Promotion);
+                _promotionCalculator = new PromotionCalculator(_servicesTmp.Promotion);
+                TempData["Promotion"] = _promotionCalculator;
                 SummarizePrice();
 
                 //Save to DB
-                service.Customer = await db.Customers.FindAsync(_services.Customer.CustomerId);
+                service.Customer = await db.Customers.FindAsync(_servicesTmp.Customer.CustomerId);
                 db.Services.Add(service);
                 db.SaveChanges();
 
@@ -237,7 +245,8 @@ namespace NicePictureStudio
                 var result = await db.SaveChangesAsync();
 
                 //Afte finished saveing - creae cache in local memory
-                _services.CreateService(service);
+                _servicesTmp.CreateService(service);
+                TempData["Services"] = _servicesTmp;
                 return PartialView("DetailsService",service);
                 //return PartialView(@"/Views/Services/CalculateServicesCostSummary.cshtml", _promotionCalculator);
             }
@@ -289,14 +298,20 @@ namespace NicePictureStudio
         {
             if (ModelState.IsValid)
             {
+                var _servicesTmp = TempData["Services"] as ServicesViewModel;
+                TempData.Keep();
+                
                 db.Entry(service).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                _services.CreateService(service);
+                _servicesTmp.CreateService(service);
+                TempData["Services"] = _servicesTmp;
+
                 Service _service = service;
                 return PartialView("DetailsService", _service);
             }
             return PartialView();
         }
+
 
         //public async Task<PartialViewResult> CreateService(int bookingId)
         //{
@@ -319,12 +334,17 @@ namespace NicePictureStudio
         //}
 
         // GET: Services/Edit/5
+
+        #region Edit
+       
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            _services = new ServicesViewModel();
             Service service = await db.Services.FindAsync(id);
             if (service == null)
             {
@@ -337,19 +357,73 @@ namespace NicePictureStudio
         // POST: Services/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Edit([Bind(Include = "Id,BookingName,GroomName,BrideName,SpecialRequest,Payment,PayAmount,CustomerId,CRMFormId")] Service service)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(service).State = EntityState.Modified;
+        //        await db.SaveChangesAsync();
+        //        return RedirectToAction("Index");
+        //    }
+        //    ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.Customer.CustomerId);
+        //    return View(service);
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,BookingName,GroomName,BrideName,SpecialRequest,Payment,PayAmount,CustomerId,CRMFormId")] Service service)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,BookingName,GroomName,BrideName,SpecialRequest,Payment,PayAmount,CustomerId,CRMFormId")] Service service, int BookingId = 0)
         {
             if (ModelState.IsValid)
             {
+                //finding promotion
+                var _servicesTmp = TempData["Services"] as ServicesViewModel;
+                var _promotionCalculatorTmp = TempData["Promotion"] as PromotionCalculator;
+                TempData.Keep();
+
+                Promotion promotion = new Promotion();
+                if (BookingId > 0) { promotion = await db.Promotions.FindAsync(BookingId); }
+                else { return HttpNotFound(); }
+
+                _servicesTmp.Promotion = new PromotionViewModel(promotion);
+                _promotionCalculatorTmp = new PromotionCalculator(_servicesTmp.Promotion);
+                SummarizePrice();
+
+                //Save to DB 
+                //service.Customer = await db.Customers.FindAsync(_services.Customer.CustomerId);
+                //db.Services.Add(service);
+                //db.SaveChanges();
                 db.Entry(service).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+
+                //Create Booking as booked
+                if(BookingId > 0)
+                { 
+                    Booking booking = await db.Bookings.FindAsync(BookingId);
+                    booking.Service = service;
+                    //booking.BookingStatu = await db.BookingStatus.FindAsync(_bookingConfirm);
+                    db.Entry(booking).State = EntityState.Modified;
+                }
+                var result = await db.SaveChangesAsync();
+
+                //Afte finished saveing - creae cache in local memory
+                _servicesTmp.CreateService(service);
+                TempData["Services"] = _servicesTmp;
+                TempData["Promotion"] = _promotionCalculatorTmp;
+
+                return PartialView("DetailsService", service);
+                //return PartialView(@"/Views/Services/CalculateServicesCostSummary.cshtml", _promotionCalculator);
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.Customer.CustomerId);
-            return View(service);
+
+            // ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.Id);
+            return PartialView(@"/Views/Services/CalculateServicesCostSummary.cshtml", new PromotionCalculator());
         }
+
+
+
+        #endregion 
+
+        #region delete
 
         // GET: Services/Delete/5
         public async Task<ActionResult> Delete(int? id)
@@ -386,6 +460,8 @@ namespace NicePictureStudio
             base.Dispose(disposing);
         }
 
+        #endregion 
+
         #region Create Customer Section
         /***************************Create Customer Section*******************************************************/
 
@@ -402,7 +478,10 @@ namespace NicePictureStudio
             {
                 db.Customers.Add(customer);
                 await db.SaveChangesAsync();
-                _services.CreateCustomer(customer);
+                var _servicesTmp = TempData["Services"] as ServicesViewModel;
+                TempData.Keep();
+                _servicesTmp.CreateCustomer(customer);
+                TempData["Services"] = _servicesTmp;
                 Customer _customer = customer;
                 return PartialView(@"/Views/Services/DetailsCustomerFromService.cshtml", _customer);
             }
@@ -455,9 +534,13 @@ namespace NicePictureStudio
         {
             if (ModelState.IsValid)
             {
+                var _servicesTmp = TempData["Services"] as ServicesViewModel;
+                TempData.Keep();
+
                 db.Entry(customer).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                _services.CreateCustomer(customer);
+                _servicesTmp.CreateCustomer(customer);
+                TempData["Services"] = _servicesTmp;
                 Customer _customer = customer;
                 return PartialView(@"/Views/Services/DetailsCustomerFromService.cshtml", _customer);
             }
@@ -1027,90 +1110,97 @@ namespace NicePictureStudio
             decimal _outsourcePrice = 0;
             decimal _outputPrice = 0;
 
-            _photoGraphPrice = GettingPriceFromPhotographService(_services.ServiceFormPreWedding)
-                                + GettingPriceFromPhotographService(_services.ServiceFormEngagement)
-                                + GettingPriceFromPhotographService(_services.ServiceFormWedding);
-            _equipmentPrice = GettingPriceFromEquipmentService(_services.ServiceFormPreWedding)
-                               + GettingPriceFromEquipmentService(_services.ServiceFormEngagement)
-                               + GettingPriceFromEquipmentService(_services.ServiceFormWedding);
-            _locationPrice = GettingPriceFromLocationService(_services.ServiceFormPreWedding)
-                                + GettingPriceFromLocationService(_services.ServiceFormEngagement)
-                                + GettingPriceFromLocationService(_services.ServiceFormWedding);
-            _outsourcePrice = GettingPriceFromOutsourceService(_services.ServiceFormPreWedding)
-                                + GettingPriceFromOutsourceService(_services.ServiceFormEngagement)
-                                + GettingPriceFromOutsourceService(_services.ServiceFormWedding);
-            _outputPrice = GettingPriceFromOutputService(_services.ServiceFormPreWedding)
-                                + GettingPriceFromOutputService(_services.ServiceFormEngagement)
-                                + GettingPriceFromOutputService(_services.ServiceFormWedding);
+            var _servicesTmp = TempData["Services"] as ServicesViewModel;
+            var _promotionCalculatorTmp = TempData["Promotion"] as PromotionCalculator;
+            TempData.Keep();
 
-            _promotionCalculator.CalculateCurrentPrice(_photoGraphPrice, _equipmentPrice, _locationPrice, _outsourcePrice, _outputPrice);
+            _photoGraphPrice = GettingPriceFromPhotographService(_servicesTmp.ServiceFormPreWedding)
+                                + GettingPriceFromPhotographService(_servicesTmp.ServiceFormEngagement)
+                                + GettingPriceFromPhotographService(_servicesTmp.ServiceFormWedding);
+            _equipmentPrice = GettingPriceFromEquipmentService(_servicesTmp.ServiceFormPreWedding)
+                               + GettingPriceFromEquipmentService(_servicesTmp.ServiceFormEngagement)
+                               + GettingPriceFromEquipmentService(_servicesTmp.ServiceFormWedding);
+            _locationPrice = GettingPriceFromLocationService(_servicesTmp.ServiceFormPreWedding)
+                                + GettingPriceFromLocationService(_servicesTmp.ServiceFormEngagement)
+                                + GettingPriceFromLocationService(_servicesTmp.ServiceFormWedding);
+            _outsourcePrice = GettingPriceFromOutsourceService(_servicesTmp.ServiceFormPreWedding)
+                                + GettingPriceFromOutsourceService(_servicesTmp.ServiceFormEngagement)
+                                + GettingPriceFromOutsourceService(_servicesTmp.ServiceFormWedding);
+            _outputPrice = GettingPriceFromOutputService(_servicesTmp.ServiceFormPreWedding)
+                                + GettingPriceFromOutputService(_servicesTmp.ServiceFormEngagement)
+                                + GettingPriceFromOutputService(_servicesTmp.ServiceFormWedding);
+
+            _promotionCalculatorTmp.CalculateCurrentPrice(_photoGraphPrice, _equipmentPrice, _locationPrice, _outsourcePrice, _outputPrice);
             
             //Get price from service section
-            if(_services.ServiceFormPreWedding != null)
+            if (_servicesTmp.ServiceFormPreWedding != null)
             {
-                if (_services.ServiceFormPreWedding.ServiceForm != null)
+                if (_servicesTmp.ServiceFormPreWedding.ServiceForm != null)
                 {
-                    _services.ServiceFormPreWedding.ServiceForm.ServicePrice = GettingPriceFromPhotographService(_services.ServiceFormPreWedding)
-                                                                           + GettingPriceFromEquipmentService(_services.ServiceFormPreWedding)
-                                                                           + GettingPriceFromLocationService(_services.ServiceFormPreWedding)
-                                                                           + GettingPriceFromOutsourceService(_services.ServiceFormPreWedding)
-                                                                           + GettingPriceFromOutputService(_services.ServiceFormPreWedding);
+                    _servicesTmp.ServiceFormPreWedding.ServiceForm.ServicePrice = GettingPriceFromPhotographService(_servicesTmp.ServiceFormPreWedding)
+                                                                           + GettingPriceFromEquipmentService(_servicesTmp.ServiceFormPreWedding)
+                                                                           + GettingPriceFromLocationService(_servicesTmp.ServiceFormPreWedding)
+                                                                           + GettingPriceFromOutsourceService(_servicesTmp.ServiceFormPreWedding)
+                                                                           + GettingPriceFromOutputService(_servicesTmp.ServiceFormPreWedding);
 
-                    _services.ServiceFormPreWedding.ServiceForm.ServiceCost = GettingCostFromPhotographService(_services.ServiceFormPreWedding)
-                                                                       + GettingCostFromEquipmentService(_services.ServiceFormPreWedding)
-                                                                       + GettingCostFromLocationService(_services.ServiceFormPreWedding)
-                                                                       + GettingCostFromOutsourceService(_services.ServiceFormPreWedding)
-                                                                       + GettingCostFromOutputService(_services.ServiceFormPreWedding);
+                    _servicesTmp.ServiceFormPreWedding.ServiceForm.ServiceCost = GettingCostFromPhotographService(_servicesTmp.ServiceFormPreWedding)
+                                                                       + GettingCostFromEquipmentService(_servicesTmp.ServiceFormPreWedding)
+                                                                       + GettingCostFromLocationService(_servicesTmp.ServiceFormPreWedding)
+                                                                       + GettingCostFromOutsourceService(_servicesTmp.ServiceFormPreWedding)
+                                                                       + GettingCostFromOutputService(_servicesTmp.ServiceFormPreWedding);
                 }
             }
 
-            if (_services.ServiceFormEngagement != null)
+            if (_servicesTmp.ServiceFormEngagement != null)
             {
-                if (_services.ServiceFormEngagement.ServiceForm != null)
+                if (_servicesTmp.ServiceFormEngagement.ServiceForm != null)
                 {
-                    _services.ServiceFormEngagement.ServiceForm.ServicePrice = GettingPriceFromPhotographService(_services.ServiceFormEngagement)
-                                                                        + GettingPriceFromEquipmentService(_services.ServiceFormEngagement)
-                                                                        + GettingPriceFromLocationService(_services.ServiceFormEngagement)
-                                                                        + GettingPriceFromOutsourceService(_services.ServiceFormEngagement)
-                                                                        + GettingPriceFromOutputService(_services.ServiceFormEngagement);
+                    _servicesTmp.ServiceFormEngagement.ServiceForm.ServicePrice = GettingPriceFromPhotographService(_servicesTmp.ServiceFormEngagement)
+                                                                        + GettingPriceFromEquipmentService(_servicesTmp.ServiceFormEngagement)
+                                                                        + GettingPriceFromLocationService(_servicesTmp.ServiceFormEngagement)
+                                                                        + GettingPriceFromOutsourceService(_servicesTmp.ServiceFormEngagement)
+                                                                        + GettingPriceFromOutputService(_servicesTmp.ServiceFormEngagement);
 
-                    _services.ServiceFormEngagement.ServiceForm.ServiceCost = GettingCostFromPhotographService(_services.ServiceFormEngagement)
-                                                                        + GettingCostFromEquipmentService(_services.ServiceFormEngagement)
-                                                                        + GettingCostFromLocationService(_services.ServiceFormEngagement)
-                                                                        + GettingCostFromOutsourceService(_services.ServiceFormEngagement)
-                                                                        + GettingCostFromOutputService(_services.ServiceFormEngagement);
+                    _servicesTmp.ServiceFormEngagement.ServiceForm.ServiceCost = GettingCostFromPhotographService(_servicesTmp.ServiceFormEngagement)
+                                                                        + GettingCostFromEquipmentService(_servicesTmp.ServiceFormEngagement)
+                                                                        + GettingCostFromLocationService(_servicesTmp.ServiceFormEngagement)
+                                                                        + GettingCostFromOutsourceService(_servicesTmp.ServiceFormEngagement)
+                                                                        + GettingCostFromOutputService(_servicesTmp.ServiceFormEngagement);
                 }
             }
 
-            if (_services.ServiceFormWedding != null)
+            if (_servicesTmp.ServiceFormWedding != null)
             {
-                if (_services.ServiceFormWedding.ServiceForm != null)
+                if (_servicesTmp.ServiceFormWedding.ServiceForm != null)
                 {
-                    _services.ServiceFormWedding.ServiceForm.ServicePrice = GettingPriceFromPhotographService(_services.ServiceFormWedding)
-                                                                      + GettingPriceFromEquipmentService(_services.ServiceFormWedding)
-                                                                      + GettingPriceFromLocationService(_services.ServiceFormWedding)
-                                                                      + GettingPriceFromOutsourceService(_services.ServiceFormWedding)
-                                                                      + GettingPriceFromOutputService(_services.ServiceFormWedding);
+                    _servicesTmp.ServiceFormWedding.ServiceForm.ServicePrice = GettingPriceFromPhotographService(_servicesTmp.ServiceFormWedding)
+                                                                      + GettingPriceFromEquipmentService(_servicesTmp.ServiceFormWedding)
+                                                                      + GettingPriceFromLocationService(_servicesTmp.ServiceFormWedding)
+                                                                      + GettingPriceFromOutsourceService(_servicesTmp.ServiceFormWedding)
+                                                                      + GettingPriceFromOutputService(_servicesTmp.ServiceFormWedding);
 
-                    _services.ServiceFormWedding.ServiceForm.ServiceCost = GettingCostFromPhotographService(_services.ServiceFormWedding)
-                                                                               + GettingCostFromEquipmentService(_services.ServiceFormWedding)
-                                                                               + GettingCostFromLocationService(_services.ServiceFormWedding)
-                                                                               + GettingCostFromOutsourceService(_services.ServiceFormWedding)
-                                                                               + GettingCostFromOutputService(_services.ServiceFormWedding);
+                    _servicesTmp.ServiceFormWedding.ServiceForm.ServiceCost = GettingCostFromPhotographService(_servicesTmp.ServiceFormWedding)
+                                                                               + GettingCostFromEquipmentService(_servicesTmp.ServiceFormWedding)
+                                                                               + GettingCostFromLocationService(_servicesTmp.ServiceFormWedding)
+                                                                               + GettingCostFromOutsourceService(_servicesTmp.ServiceFormWedding)
+                                                                               + GettingCostFromOutputService(_servicesTmp.ServiceFormWedding);
                 }
             }
-           
 
+            TempData["Services"] = _servicesTmp;
+            TempData["Promotion"] = _promotionCalculatorTmp;
         }
 
         [HttpPost]
         public PartialViewResult CalculateServicesCostSummary()
         {
-            if (_promotionCalculator != null)
+            var _promotionCalculatorTmp = TempData["Promotion"] as PromotionCalculator;
+            TempData.Keep();
+            if (_promotionCalculatorTmp != null)
             {
                 //Get Cost from PreWedding , Engagement , Wedding 
                 SummarizePrice();
-                return PartialView(_promotionCalculator);
+                return PartialView(_promotionCalculatorTmp);
             }
             else
             {
@@ -1122,9 +1212,11 @@ namespace NicePictureStudio
         public async Task<PartialViewResult> SaveAllDocument()
         {
             List<String> messages = new List<string>();
-            if (_services.Customer != null)
+            var _servicesTmp = TempData["Services"] as ServicesViewModel;
+            TempData.Keep();
+            if (_servicesTmp.Customer != null)
             {
-                if (_services.ServiceFormEngagement.ServiceForm != null)
+                if (_servicesTmp.ServiceFormEngagement.ServiceForm != null)
                 { 
                     //Save ServiceForm Engagement, service status =1 => New
                     ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSection(Engagement + HTMLTagForReplace);
@@ -1219,14 +1311,14 @@ namespace NicePictureStudio
                     
                 }
 
-                if (_services.ServiceFormPreWedding.ServiceForm != null)
+                if (_servicesTmp.ServiceFormPreWedding.ServiceForm != null)
                 {
                     ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSection(PreWedding + HTMLTagForReplace);
                     ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, PreWedding, true) == 0).FirstOrDefault();
                     await SaveServiceByCategory(_serviceFormFactory, serviceType);
                 }
 
-                if (_services.ServiceFormWedding.ServiceForm != null)
+                if (_servicesTmp.ServiceFormWedding.ServiceForm != null)
                 {
                     ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSection(Wedding + HTMLTagForReplace);
                     ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, Wedding, true) == 0).FirstOrDefault();
@@ -1238,13 +1330,16 @@ namespace NicePictureStudio
                 messages.Add("Please create customer information");
             }
             //return RedirectToAction("Index");
+            TempData.Clear();
             return PartialView();
         }
 
         private async Task SaveServiceByCategory(ServiceFormFactory _serviceFactory, ServiceType _serviceType)
         {
+            var _servicesTmp = TempData["Services"] as ServicesViewModel;
+            TempData.Keep();
             ServiceStatu serviceStatus = db.ServiceStatus.Where(s => s.Id == 1).FirstOrDefault();
-            Service service = await db.Services.FindAsync(_services.Id);
+            Service service = await db.Services.FindAsync(_servicesTmp.Id);
             ServiceForm serviceForm = new ServiceForm
             {
                 Name = _serviceFactory.ServiceForm.Name,
@@ -1286,7 +1381,6 @@ namespace NicePictureStudio
                     Employee photograph = await db.Employees.FindAsync(emp);
                     EmployeeSchedule empSchedule = new EmployeeSchedule
                     {
-                        Id = serviceForm.Id,
                         ServiceForm = serviceForm,
                         Employee = photograph,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
@@ -1304,7 +1398,6 @@ namespace NicePictureStudio
                     Employee photograph = await db.Employees.FindAsync(emp);
                     EmployeeSchedule empSchedule = new EmployeeSchedule
                     {
-                        Id = serviceForm.Id,
                         ServiceForm = serviceForm,
                         Employee = photograph,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
@@ -1323,7 +1416,6 @@ namespace NicePictureStudio
                 {
                     EquipmentSchedule equipSchedule = new EquipmentSchedule
                     {
-                        Id = serviceForm.Id,
                         ServiceForm = serviceForm,
                         EquipmentId = eqp.EquipmentId,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
@@ -1341,7 +1433,6 @@ namespace NicePictureStudio
                 {
                     LocationSchedule locationSchedule = new LocationSchedule
                     {
-                        Id = serviceForm.Id,
                         ServiceForm = serviceForm,
                         LocationId = loc.LocationId,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
@@ -1359,7 +1450,6 @@ namespace NicePictureStudio
                 {
                     OutsourceSchedule outsourceSchedule = new OutsourceSchedule
                     {
-                        Id = serviceForm.Id,
                         ServiceForm = serviceForm,
                         OutsourceId = outsource.OutsourceId,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
@@ -1379,7 +1469,6 @@ namespace NicePictureStudio
                 {
                     OutputSchedule outputSchedule = new OutputSchedule
                     {
-                        Id = serviceForm.Id,
                         ServiceForm = serviceForm,
                         OutputId = output.Id,
                         TargetDate = serviceForm.EventEnd,
@@ -1419,19 +1508,22 @@ namespace NicePictureStudio
 
         private ServiceFormFactory CreateServiceFormByInputSection(string serviceType)
         {
-            if (_services != null)
+            var _servicesTmp = TempData["Services"] as ServicesViewModel;
+            TempData.Keep();
+
+            if (_servicesTmp != null)
             {
                 if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
                 {
-                    return _services.ServiceFormPreWedding;
+                    return _servicesTmp.ServiceFormPreWedding;
                 }
                 else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
                 {
-                    return _services.ServiceFormEngagement;
+                    return _servicesTmp.ServiceFormEngagement;
                 }
                 else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
                 {
-                    return _services.ServiceFormWedding;
+                    return _servicesTmp.ServiceFormWedding;
                 }
                 else
                 { return null; }
