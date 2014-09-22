@@ -241,6 +241,9 @@
     <Compile Include="App_Data\OutputService.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\OutputStatu.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\OutsourceContact.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>

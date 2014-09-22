@@ -51,6 +51,7 @@ namespace NicePictureStudio.Models
             SpecialRequest = service.SpecialRequest;
             Payment = service.Payment;
             PayAmount = service.PayAmount;
+            
         }
 
         public void CreateCustomer(Customer customer)
@@ -89,6 +90,7 @@ namespace NicePictureStudio.Models
             ServiceForm.Status = statusId;
             ServiceForm.EventStart = serviceForm.EventStart;
             ServiceForm.EventEnd = serviceForm.EventEnd;
+            ServiceForm.GuestsNumber = serviceForm.GuestsNumber;
         }
 
         public void CreatePhotoGraphService(PhotographService photoGraph, List<string> photoGraphList, List<string> cameraManList)

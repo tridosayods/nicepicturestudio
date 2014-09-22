@@ -1124,75 +1124,113 @@ namespace NicePictureStudio
             List<String> messages = new List<string>();
             if (_services.Customer != null)
             {
-                if (_services.ServiceFormEngagement != null)
+                if (_services.ServiceFormEngagement.ServiceForm != null)
                 { 
-                    //Save ServiceForm Engagement
+                    //Save ServiceForm Engagement, service status =1 => New
+                    ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSection(Engagement + HTMLTagForReplace);
                     ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, Engagement, true) == 0).FirstOrDefault();
-                    ServiceStatu serviceStatus = db.ServiceStatus.Where(s=>s.Id ==1).FirstOrDefault();
+                    await SaveServiceByCategory(_serviceFormFactory,serviceType);
 
-                    ServiceForm serviceForm = new ServiceForm
-                    {
-                        Id = _services.ServiceFormEngagement.ServiceForm.Id,
-                        Name = _services.ServiceFormEngagement.ServiceForm.Name,
-                        ServiceType = serviceType,
-                        ServiceStatu = serviceStatus,
-                        EventStart = _services.ServiceFormEngagement.ServiceForm.EventStart,
-                        EventEnd = _services.ServiceFormEngagement.ServiceForm.EventEnd,
-                        GuestsNumber = _services.ServiceFormEngagement.ServiceForm.GuestsNumber,
-                        ServiceCost = _services.ServiceFormEngagement.ServiceForm.ServiceCost,
-                        ServicePrice = _services.ServiceFormEngagement.ServiceForm.ServicePrice,
-                        
-                    };
-                    try
-                    {
-                        db.ServiceForms.Add(serviceForm);
-                        await db.SaveChangesAsync();
-                    }
-                    catch (DbEntityValidationException dbEx)
-                    {
-                        foreach (var validationErrors in dbEx.EntityValidationErrors)
-                        {
-                            foreach (var validationError in validationErrors.ValidationErrors)
-                            {
-                                Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
-                                    validationErrors.Entry.Entity.GetType().FullName,
-                                    validationError.PropertyName,
-                                    validationError.ErrorMessage);
-                            }
-                        }
+                    #region original form
+                    //ServiceStatu serviceStatus = db.ServiceStatus.Where(s=>s.Id ==1).FirstOrDefault();
+                    //Service service = await db.Services.FindAsync(_services.Id);
+                    //ServiceForm serviceForm = new ServiceForm
+                    //{
+                    //    Name = _services.ServiceFormEngagement.ServiceForm.Name,
+                    //    ServiceType = serviceType,
+                    //    ServiceStatu = serviceStatus,
+                    //    EventStart = _services.ServiceFormEngagement.ServiceForm.EventStart,
+                    //    EventEnd = _services.ServiceFormEngagement.ServiceForm.EventEnd,
+                    //    GuestsNumber = _services.ServiceFormEngagement.ServiceForm.GuestsNumber,
+                    //    ServiceCost = _services.ServiceFormEngagement.ServiceForm.ServiceCost,
+                    //    ServicePrice = _services.ServiceFormEngagement.ServiceForm.ServicePrice,
+                    //    Service = service
+                    //};
+                    //try
+                    //{
+                    //    db.ServiceForms.Add(serviceForm);
+                    //    await db.SaveChangesAsync();
+                    //}
+                    //catch (DbEntityValidationException dbEx)
+                    //{
+                    //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    //    {
+                    //        foreach (var validationError in validationErrors.ValidationErrors)
+                    //        {
+                    //            Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
+                    //                validationErrors.Entry.Entity.GetType().FullName,
+                    //                validationError.PropertyName,
+                    //                validationError.ErrorMessage);
+                    //        }
+                    //    }
 
-                        throw new Exception(dbEx.Message);
-                    }
+                    //    throw new Exception(dbEx.Message);
+                    //}
                     
 
-                    List<string> listPhotograph = _services.ServiceFormEngagement.PhotoGraphService.PhotoGraphIdList;
-                    List<string> listCameraMan = _services.ServiceFormEngagement.PhotoGraphService.CameraMandIdList;
-                    foreach (var emp in listPhotograph)
-                    {
-                        Employee photograph = await db.Employees.FindAsync(emp);
-                        EmployeeSchedule empSchedule = new EmployeeSchedule
-                        {
-                            ServiceForm = serviceForm,
-                            Employee = photograph,
-                            StartTime = _services.ServiceFormEngagement.ServiceForm.EventStart,
-                            EndTime = _services.ServiceFormEngagement.ServiceForm.EventEnd
-                        };
-                        db.EmployeeSchedules.Add(empSchedule);
-                    }
+                    //List<string> listPhotograph = _services.ServiceFormEngagement.PhotoGraphService.PhotoGraphIdList;
+                    //List<string> listCameraMan = _services.ServiceFormEngagement.PhotoGraphService.CameraMandIdList;
+                    //foreach (var emp in listPhotograph)
+                    //{
+                    //    Employee photograph = await db.Employees.FindAsync(emp);
+                    //    EmployeeSchedule empSchedule = new EmployeeSchedule
+                    //    {
+                    //        Id = serviceForm.Id,
+                    //        ServiceForm = serviceForm,
+                    //        Employee = photograph,
+                    //        StartTime = _services.ServiceFormEngagement.ServiceForm.EventStart,
+                    //        EndTime = _services.ServiceFormEngagement.ServiceForm.EventEnd
+                    //    };
+                    //    db.EmployeeSchedules.Add(empSchedule);
+                    //}
 
-                    foreach (var emp in listCameraMan)
-                    {
-                        Employee photograph = await db.Employees.FindAsync(emp);
-                        EmployeeSchedule empSchedule = new EmployeeSchedule
-                        {
-                            ServiceForm = serviceForm,
-                            Employee = photograph,
-                            StartTime = _services.ServiceFormEngagement.ServiceForm.EventStart,
-                            EndTime = _services.ServiceFormEngagement.ServiceForm.EventEnd
-                        };
-                        db.EmployeeSchedules.Add(empSchedule);
-                    }
-                    var result = await db.SaveChangesAsync();
+                    //foreach (var emp in listCameraMan)
+                    //{
+                    //    Employee photograph = await db.Employees.FindAsync(emp);
+                    //    EmployeeSchedule empSchedule = new EmployeeSchedule
+                    //    {
+                    //        Id = serviceForm.Id,
+                    //        ServiceForm = serviceForm,
+                    //        Employee = photograph,
+                    //        StartTime = _services.ServiceFormEngagement.ServiceForm.EventStart,
+                    //        EndTime = _services.ServiceFormEngagement.ServiceForm.EventEnd
+                    //    };
+                    //    db.EmployeeSchedules.Add(empSchedule);
+                    //}
+                    //try
+                    //{
+                    //    var result = await db.SaveChangesAsync();
+                    //}
+                    //catch (DbEntityValidationException dbEx)
+                    //{
+                    //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    //    {
+                    //        foreach (var validationError in validationErrors.ValidationErrors)
+                    //        {
+                    //            Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
+                    //                validationErrors.Entry.Entity.GetType().FullName,
+                    //                validationError.PropertyName,
+                    //                validationError.ErrorMessage);
+                    //        }
+                    //    }
+                    //    throw new Exception(dbEx.Message);
+                    //}
+#endregion
+                    
+                }
+
+                if (_services.ServiceFormPreWedding.ServiceForm != null)
+                {
+                    ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSection(PreWedding + HTMLTagForReplace);
+                    ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, PreWedding, true) == 0).FirstOrDefault();
+                    await SaveServiceByCategory(_serviceFormFactory, serviceType);
+                }
+
+                if (_services.ServiceFormWedding.ServiceForm != null)
+                {
+                    ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSection(Wedding + HTMLTagForReplace);
+                    ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, Wedding, true) == 0).FirstOrDefault();
+                    await SaveServiceByCategory(_serviceFormFactory, serviceType);
                 }
             }
             else
@@ -1203,7 +1241,174 @@ namespace NicePictureStudio
             return PartialView();
         }
 
+        private async Task SaveServiceByCategory(ServiceFormFactory _serviceFactory, ServiceType _serviceType)
+        {
+            ServiceStatu serviceStatus = db.ServiceStatus.Where(s => s.Id == 1).FirstOrDefault();
+            Service service = await db.Services.FindAsync(_services.Id);
+            ServiceForm serviceForm = new ServiceForm
+            {
+                Name = _serviceFactory.ServiceForm.Name,
+                ServiceType = _serviceType,
+                ServiceStatu = serviceStatus,
+                EventStart = _serviceFactory.ServiceForm.EventStart,
+                EventEnd = _serviceFactory.ServiceForm.EventEnd,
+                GuestsNumber = _serviceFactory.ServiceForm.GuestsNumber,
+                ServiceCost = _serviceFactory.ServiceForm.ServiceCost,
+                ServicePrice = _serviceFactory.ServiceForm.ServicePrice,
+                Service = service
+            };
+            try
+            {
+                db.ServiceForms.Add(serviceForm);
+                await db.SaveChangesAsync();
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
+                            validationErrors.Entry.Entity.GetType().FullName,
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                    }
+                }
 
+                throw new Exception(dbEx.Message);
+            }
+
+            if (_serviceFactory.PhotoGraphService != null)
+            {
+                List<string> listPhotograph = _serviceFactory.PhotoGraphService.PhotoGraphIdList;
+                foreach (var emp in listPhotograph)
+                {
+                    Employee photograph = await db.Employees.FindAsync(emp);
+                    EmployeeSchedule empSchedule = new EmployeeSchedule
+                    {
+                        Id = serviceForm.Id,
+                        ServiceForm = serviceForm,
+                        Employee = photograph,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd
+                    };
+                    db.EmployeeSchedules.Add(empSchedule);
+                }
+            }
+
+            if (_serviceFactory.PhotoGraphService != null)
+            {
+                List<string> listCameraMan = _serviceFactory.PhotoGraphService.CameraMandIdList;
+                foreach (var emp in listCameraMan)
+                {
+                    Employee photograph = await db.Employees.FindAsync(emp);
+                    EmployeeSchedule empSchedule = new EmployeeSchedule
+                    {
+                        Id = serviceForm.Id,
+                        ServiceForm = serviceForm,
+                        Employee = photograph,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd
+                    };
+                    db.EmployeeSchedules.Add(empSchedule);
+                }
+            }
+
+
+            //Equipment Section
+            if (_serviceFactory.ListEquipmentServices.Count > 0)
+            {
+                List<EquipmentServiceViewModel> lstEqp = new List<EquipmentServiceViewModel>(_serviceFactory.ListEquipmentServices);
+                foreach (var eqp in lstEqp)
+                {
+                    EquipmentSchedule equipSchedule = new EquipmentSchedule
+                    {
+                        Id = serviceForm.Id,
+                        ServiceForm = serviceForm,
+                        EquipmentId = eqp.EquipmentId,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd
+                    };
+                    db.EquipmentSchedules.Add(equipSchedule);
+                }
+            }
+
+            //Location Section
+            if (_serviceFactory.ListLocationServices.Count > 0)
+            {
+                List<LocationServiceViewModel> lstLocation = new List<LocationServiceViewModel>(_serviceFactory.ListLocationServices);
+                foreach (var loc in lstLocation)
+                {
+                    LocationSchedule locationSchedule = new LocationSchedule
+                    {
+                        Id = serviceForm.Id,
+                        ServiceForm = serviceForm,
+                        LocationId = loc.LocationId,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd
+                    };
+                    db.LocationSchedules.Add(locationSchedule);
+                }
+            }
+
+            //Outsource Section
+            if (_serviceFactory.ListOutsourceServices.Count > 0)
+            {
+                List<OutsourceServiceViewModel> lstOutsourceService = new List<OutsourceServiceViewModel>(_serviceFactory.ListOutsourceServices);
+                foreach (var outsource in lstOutsourceService)
+                {
+                    OutsourceSchedule outsourceSchedule = new OutsourceSchedule
+                    {
+                        Id = serviceForm.Id,
+                        ServiceForm = serviceForm,
+                        OutsourceId = outsource.OutsourceId,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd
+                    };
+                    db.OutsourceSchedules.Add(outsourceSchedule);
+                }
+            }
+
+            //Output Section
+            if(_serviceFactory.ListOutputServices.Count > 0)
+            {
+                //status new -> 1
+                int _statusNewOutput = 1;
+                List<OutputServiceViewModel> lstOutputService = new List<OutputServiceViewModel>(_serviceFactory.ListOutputServices);
+                foreach (var output in lstOutputService)
+                {
+                    OutputSchedule outputSchedule = new OutputSchedule
+                    {
+                        Id = serviceForm.Id,
+                        ServiceForm = serviceForm,
+                        OutputId = output.Id,
+                        TargetDate = serviceForm.EventEnd,
+                        HandOnDate = serviceForm.EventEnd.AddDays(14),
+                        PackageName = output.Name,
+                        Status = _statusNewOutput
+                    };
+                }
+            }
+
+            try
+            {
+                var result = await db.SaveChangesAsync();
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
+                            validationErrors.Entry.Entity.GetType().FullName,
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                    }
+                }
+                throw new Exception(dbEx.Message);
+            }
+        }
 
 
         #endregion

@@ -275,6 +275,14 @@
     <Property Name="OutputScheduleId" Type="int" Nullable="false" />
     <Property Name="ServiceFormId" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="OutputStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
   <EntityType Name="OutsourceContact">
     <Key>
       <PropertyRef Name="OutsourceContactId" />
@@ -372,7 +380,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="ServiceType" Type="int" Nullable="false" />
     <Property Name="Status" Type="int" Nullable="false" />
@@ -834,6 +842,7 @@
     <EntitySet Name="OutputSchedule" EntityType="Self.OutputSchedule" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OutputService" EntityType="Self.OutputService" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OutputServiceTiming" EntityType="Self.OutputServiceTiming" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OutputStatus" EntityType="Self.OutputStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OutsourceContact" EntityType="Self.OutsourceContact" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OutsourceSchedule" EntityType="Self.OutsourceSchedule" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OutsourceService" EntityType="Self.OutsourceService" Schema="dbo" store:Type="Tables" />

@@ -58,5 +58,6 @@ namespace NicePictureStudio.App_Data
         public virtual DbSet<EmployeeStatu> EmployeeStatus { get; set; }
         public virtual DbSet<EmployeeSchedule> EmployeeSchedules { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<OutputStatu> OutputStatus { get; set; }
     }
 }

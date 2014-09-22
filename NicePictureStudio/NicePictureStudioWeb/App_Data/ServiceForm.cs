@@ -28,8 +28,8 @@ namespace NicePictureStudio.App_Data
         public System.DateTime EventStart { get; set; }
         public System.DateTime EventEnd { get; set; }
         public Nullable<int> GuestsNumber { get; set; }
-        public decimal ServiceCost { get; set; }
-        public decimal ServicePrice { get; set; }
+        public Nullable<decimal> ServiceCost { get; set; }
+        public Nullable<decimal> ServicePrice { get; set; }
     
         public virtual ServiceStatu ServiceStatu { get; set; }
         public virtual ServiceType ServiceType { get; set; }
