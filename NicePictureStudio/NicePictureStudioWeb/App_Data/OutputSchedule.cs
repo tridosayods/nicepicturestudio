@@ -16,12 +16,12 @@ namespace NicePictureStudio.App_Data
     {
         public int Id { get; set; }
         public string PackageName { get; set; }
-        public int OutputId { get; set; }
         public int Status { get; set; }
         public Nullable<System.DateTime> TargetDate { get; set; }
         public System.DateTime HandOnDate { get; set; }
         public Nullable<System.DateTime> ReviseDate { get; set; }
         public Nullable<int> ReviseCount { get; set; }
+        public int OutputServiceId { get; set; }
     
         public virtual ServiceForm ServiceForm { get; set; }
     }

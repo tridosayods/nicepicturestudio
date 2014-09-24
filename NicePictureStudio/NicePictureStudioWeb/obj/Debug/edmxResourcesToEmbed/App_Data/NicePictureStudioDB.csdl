@@ -227,6 +227,7 @@
     <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="EquipmentId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.EquipmentServiceTiming" FromRole="EquipmentSchedule" ToRole="ServiceForm" />
+    <Property Name="EquipmentServiceId" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="EquipmentService">
     <Key>
@@ -285,6 +286,7 @@
     <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="LocationId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.LocationServiceTiming" FromRole="LocationSchedule" ToRole="ServiceForm" />
+    <Property Name="LocationServiceId" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="LocationService">
     <Key>
@@ -323,13 +325,13 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" />
     <Property Name="PackageName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="OutputId" Type="Int32" Nullable="false" />
     <Property Name="Status" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
     <Property Name="TargetDate" Type="DateTime" Precision="3" />
     <Property Name="HandOnDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="ReviseDate" Type="DateTime" Precision="3" />
     <Property Name="ReviseCount" Type="Int32" />
     <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.OutputServiceTiming" FromRole="OutputSchedule" ToRole="ServiceForm" />
+    <Property Name="OutputServiceId" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="OutputService">
     <Key>
@@ -366,6 +368,7 @@
     <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="OutsourceId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.OutsourceServiceTiming" FromRole="OutsourceSchedule" ToRole="ServiceForm" />
+    <Property Name="OutsourceServiceId" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="OutsourceService">
     <Key>
@@ -593,6 +596,7 @@
     <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.EmployeeServiceTiming" FromRole="EmployeeSchedule" ToRole="ServiceForm" />
     <NavigationProperty Name="Employee" Relationship="NicePictureStudioDBModel.FK_EmployeeSchedule_Employee" FromRole="EmployeeSchedule" ToRole="Employee" />
+    <Property Name="EmployeeServiceId" Type="Int32" Nullable="false" />
   </EntityType>
   <Association Name="EmployeeServiceTiming">
     <End Type="NicePictureStudioDBModel.EmployeeSchedule" Role="EmployeeSchedule" Multiplicity="*" />

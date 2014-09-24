@@ -15,6 +15,9 @@ namespace NicePictureStudio
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*", "~/Scripts/jquery.unobtrusive*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
+                       "~/Scripts/kendo/kendo.all.min.js", "~/Scripts/kendo/kendo.timezones.min.js", "~/Scripts/kendo/kendo.aspnetmvc.min.js"));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -33,6 +36,12 @@ namespace NicePictureStudio
                       "~/Content/Themes/base/*.css",
                       "~/Content/bootstrap-theme.css"
                       ));
+
+            bundles.Add(new StyleBundle("~/Content/styles/css").Include(
+                      "~/Content/styles/kendo.common-bootstrap.min.css",
+                      "~/Content/styles/kendo.bootstrap.min.css"
+                      ));
+            bundles.IgnoreList.Clear();
         }
     }
 }

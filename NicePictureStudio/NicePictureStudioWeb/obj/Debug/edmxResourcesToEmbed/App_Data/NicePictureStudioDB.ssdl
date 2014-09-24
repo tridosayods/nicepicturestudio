@@ -112,6 +112,7 @@
     <Property Name="StartTime" Type="datetime" Nullable="false" />
     <Property Name="EndTime" Type="datetime" Nullable="false" />
     <Property Name="EmployeeId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="EmployeeServiceId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="EmployeeServiceTiming">
     <Key>
@@ -147,6 +148,7 @@
     <Property Name="StartTime" Type="datetime" Nullable="false" />
     <Property Name="EndTime" Type="datetime" Nullable="false" />
     <Property Name="EquipmentId" Type="int" Nullable="false" />
+    <Property Name="EquipmentServiceId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="EquipmentService">
     <Key>
@@ -207,6 +209,7 @@
     <Property Name="StartTime" Type="datetime" Nullable="false" />
     <Property Name="EndTime" Type="datetime" Nullable="false" />
     <Property Name="LocationId" Type="int" Nullable="false" />
+    <Property Name="LocationServiceId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="LocationService">
     <Key>
@@ -250,7 +253,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PackageName" Type="nvarchar" MaxLength="100" />
-    <Property Name="OutputId" Type="int" Nullable="false" />
+    <Property Name="OutputServiceId" Type="int" Nullable="false" />
     <Property Name="Status" Type="int" Nullable="false" />
     <Property Name="TargetDate" Type="datetime" />
     <Property Name="HandOnDate" Type="datetime" Nullable="false" />
@@ -305,6 +308,7 @@
     <Property Name="StartTime" Type="datetime" Nullable="false" />
     <Property Name="EndTime" Type="datetime" Nullable="false" />
     <Property Name="OutsourceId" Type="int" Nullable="false" />
+    <Property Name="OutsourceServiceId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="OutsourceService">
     <Key>

@@ -25,6 +25,7 @@ namespace NicePictureStudio.Models
 
         public CustomerViewModel Customer { get; set; }
         public PromotionViewModel Promotion { get; set; }
+        public PromotionCalculator Calculator { get; set; }
 
         public ServiceFormFactory ServiceFormPreWedding
         {
@@ -93,7 +94,31 @@ namespace NicePictureStudio.Models
             ServiceForm.GuestsNumber = serviceForm.GuestsNumber;
         }
 
-        public void CreatePhotoGraphService(PhotographService photoGraph, List<string> photoGraphList, List<string> cameraManList)
+        //For Edit purpose => using Clone wording
+        public void CloneServiceForm(ServiceForm serviceForm)
+        {
+            ServiceForm = new ServiceFormViewModel();
+            ServiceForm.Id = serviceForm.Id;
+            ServiceForm.Name = serviceForm.Name;
+            ServiceForm.ServiceType = serviceForm.ServiceType.Id;
+            ServiceForm.Status = serviceForm.ServiceStatu.Id;
+            ServiceForm.EventStart = serviceForm.EventStart;
+            ServiceForm.EventEnd = serviceForm.EventEnd;
+            ServiceForm.GuestsNumber = serviceForm.GuestsNumber;
+            ServiceForm.ServiceCost = Convert.ToDecimal(serviceForm.ServiceCost);
+            ServiceForm.ServicePrice = Convert.ToDecimal(serviceForm.ServicePrice);
+        }
+
+        public void UpdateServiceForm(ServiceForm serviceForm)
+        {
+
+            ServiceForm.Name = serviceForm.Name; 
+            ServiceForm.EventStart = serviceForm.EventStart;
+            ServiceForm.EventEnd = serviceForm.EventEnd;
+            ServiceForm.GuestsNumber = serviceForm.GuestsNumber;
+        }
+
+        public void CreatePhotoGraphService(PhotographService photoGraph, List<string> photoGraphList, List<string> cameraManList, int photoGraphServiceId)
         {
             PhotoGraphService = new PhotoGraphServiceViewModel();
             PhotoGraphService.Id = photoGraph.Id;
@@ -103,11 +128,13 @@ namespace NicePictureStudio.Models
             PhotoGraphService.CameraManNumber = photoGraph.CameraManNumber;
             PhotoGraphService.Cost = photoGraph.Cost;
             PhotoGraphService.Description = photoGraph.Description;
+            PhotoGraphService.PhotoGraphServiceId = photoGraphServiceId;
             PhotoGraphService.PhotoGraphIdList = new List<string>(photoGraphList);
             PhotoGraphService.CameraMandIdList = new List<string>(cameraManList);
         }
 
-        public void CreateEquipmentServiceList(EquipmentService equipment, int equipmentId)
+       
+        public void CreateEquipmentServiceList(EquipmentService equipment, int equipmentId, int equipmentServiceId)
         {
             EquipmentServiceViewModel _equipmentService = new EquipmentServiceViewModel();
             _equipmentService.Id = equipment.Id;
@@ -116,10 +143,12 @@ namespace NicePictureStudio.Models
             _equipmentService.Cost = equipment.Cost;
             _equipmentService.Description = equipment.Description;
             _equipmentService.EquipmentId = equipmentId;
-            ListEquipmentServices.Add(_equipmentService);
+            _equipmentService.EquipmentServiceId = equipmentServiceId;
+            if (!ListEquipmentServices.Exists(element => element.Id == equipment.Id))
+            {ListEquipmentServices.Add(_equipmentService);}
         }
 
-        public void CreateLocationServiceList(LocationService location, int locationId)
+        public void CreateLocationServiceList(LocationService location, int locationId, int locationServiceId)
         {
             LocationServiceViewModel _locationService = new LocationServiceViewModel();
             _locationService.Id = location.Id;
@@ -130,10 +159,12 @@ namespace NicePictureStudio.Models
             _locationService.Cost = location.Cost;
             _locationService.LocationId = locationId;
             _locationService.Description = location.Description;
-            ListLocationServices.Add(_locationService);
+            _locationService.LocationServiceId = locationServiceId;
+            if (!ListLocationServices.Contains(_locationService))
+            { ListLocationServices.Add(_locationService); }
         }
 
-        public void CreateOutSoruceServiceList(OutsourceService outsource, int oursourceId)
+        public void CreateOutSoruceServiceList(OutsourceService outsource, int oursourceId, int outsourceServiceId)
         {
             OutsourceServiceViewModel _outsourceService = new OutsourceServiceViewModel();
             _outsourceService.Id = outsource.Id;
@@ -143,10 +174,12 @@ namespace NicePictureStudio.Models
             _outsourceService.Price = outsource.Price;
             _outsourceService.Cost = outsource.Cost;
             _outsourceService.Description = outsource.Description;
-            ListOutsourceServices.Add(_outsourceService);
+            _outsourceService.OutsourceServiceId = outsourceServiceId;
+            if (!ListOutsourceServices.Contains(_outsourceService))
+            { ListOutsourceServices.Add(_outsourceService); }
         }
 
-        public void CreateOutputServiceList(OutputService output)
+        public void CreateOutputServiceList(OutputService output,int outputServiceId)
         {
             OutputServiceViewModel _outputService = new OutputServiceViewModel();
             _outputService.Id = output.Id;
@@ -155,7 +188,10 @@ namespace NicePictureStudio.Models
             _outputService.Price = output.Price;
             _outputService.Cost = output.Cost;
             _outputService.Description = output.Description;
-            ListOutputServices.Add(_outputService);
+            _outputService.OutputServiceId = outputServiceId;
+            if (!ListOutputServices.Contains(_outputService))
+            { ListOutputServices.Add(_outputService);}
+           
         }
     }
 
@@ -208,10 +244,12 @@ namespace NicePictureStudio.Models
                 _outsourceDiscount = promotion.OutsourceDiscount;
                 _name = promotion.Name;
                 _createDate = promotion.CreateDate;
+                PromotionId = promotion.Id;
             }
            
         }
 
+        public int PromotionId;
         public string PromotionName() {return _name;}
         public DateTime PromotionEndDate() { return _expireDate; }
         public DateTime PromotionStartDate() { return _createDate; }
@@ -261,6 +299,7 @@ namespace NicePictureStudio.Models
         public string Name { get; set; }
         public int PhotographerNumber { get; set; }
         public int CameraManNumber { get; set; }
+        public int PhotoGraphServiceId { get; set; }
         public string Description { get; set; }
         public Nullable<decimal> Cost { get; set; }
         public Nullable<decimal> Price { get; set; }
@@ -313,6 +352,7 @@ namespace NicePictureStudio.Models
         public Nullable<decimal> Cost { get; set; }
         public string Description { get; set; }
         public int EquipmentId { get; set; }
+        public int EquipmentServiceId { get; set; }
     }
 
     public class LocationServiceViewModel
@@ -324,6 +364,7 @@ namespace NicePictureStudio.Models
         public bool IsOverNight { get; set; }
         public Nullable<int> OverNightPeriod { get; set; }
         public int LocationId { get; set; }
+        public int LocationServiceId { get; set; }
         public string Description { get; set; }
     }
 
@@ -336,6 +377,7 @@ namespace NicePictureStudio.Models
         public Nullable<decimal> Cost { get; set; }
         public string Description { get; set; }
         public int OutsourceId { get; set; }
+        public int OutsourceServiceId { get; set; }
     }
 
     public class OutputServiceViewModel
@@ -346,6 +388,7 @@ namespace NicePictureStudio.Models
         public Nullable<decimal> Price { get; set; }
         public Nullable<decimal> Cost { get; set; }
         public string Description { get; set; }
+        public int OutputServiceId { get; set; }
     }
 
     public class ServiceFromKeeper

@@ -1,0 +1,323 @@
+﻿@model NicePictureStudio.App_Data.ServiceForm
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#@ViewBag.HTMLModalPhotoGraph').click(function () {
+            var url = $('#@ViewBag.HTMLTagButtonPhotoGraph').data('url');
+            $.get(url, { id: null, serviceType: $('#@ViewBag.HTMLTagButtonPhotoGraph').data('servicetype') }, function (data) {
+                $('#@ViewBag.HTMLContainerButtonPhotoGraph').html(data);
+                $('#@ViewBag.HTMLTagButtonPhotoGraph').modal('show');
+            });
+        });
+
+        $('#@ViewBag.HTMLModalEquipment').click(function () {
+            var url = $('#@ViewBag.HTMLTagButtonEquipment').data('url');
+            $.get(url, { id: null, serviceType: $('#@ViewBag.HTMLTagButtonEquipment').data('servicetype') }, function (data) {
+                $('#@ViewBag.HTMLContainerButtonEquipment').html(data);
+                $('#@ViewBag.HTMLTagButtonEquipment').modal('show');
+            });
+        });
+
+        $('#@ViewBag.HTMLModalLocation').click(function () {
+            var url = $('#@ViewBag.HTMLTagButtonLocation').data('url');
+            $.get(url, { id: null, serviceType: $('#@ViewBag.HTMLTagButtonLocation').data('servicetype') }, function (data) {
+                $('#@ViewBag.HTMLContainerButtonLocation').html(data);
+                $('#@ViewBag.HTMLTagButtonLocation').modal('show');
+            });
+        });
+
+        $('#@ViewBag.HTMLModalOutsource').click(function () {
+            var url = $('#@ViewBag.HTMLTagButtonOutsource').data('url');
+            $.get(url, { id: null, serviceType: $('#@ViewBag.HTMLTagButtonOutsource').data('servicetype') }, function (data) {
+                $('#@ViewBag.HTMLContainerButtonOutsource').html(data);
+                $('#@ViewBag.HTMLTagButtonOutsource').modal('show');
+            });
+        });
+
+        $('#@ViewBag.HTMLModalOutput').click(function () {
+            var url = $('#@ViewBag.HTMLTagButtonOutput').data('url');
+            $.get(url, { id: null, serviceType: $('#@ViewBag.HTMLTagButtonOutput').data('servicetype') }, function (data) {
+                $('#@ViewBag.HTMLContainerButtonOutput').html(data);
+                $('#@ViewBag.HTMLTagButtonOutput').modal('show');
+            });
+        });
+
+        $(function () {
+            $('#@ViewBag.ServiceTypeDatePickerStart').datetimepicker();
+        });
+
+        $(function () {
+            $('#@ViewBag.ServiceTypeDatePickerEnd').datetimepicker();
+        });
+
+        @*$("#@ViewBag.HTMLButtonDisabledForm").click(function () {
+            $(".@ViewBag.ServiceTypeItem").attr("disabled","");
+        });*@
+
+        $("#@ViewBag.HTMLButtonEnabledForm").click(function () {
+            $(".@ViewBag.ServiceTypeItem").removeAttr("disabled");
+        });
+
+    });
+
+    function DisableItem(validator)
+    {
+        alert(validator);
+        if (validator == "Engagement")
+        { $(".Engagement").attr("disabled", ""); alert("not me" + '@ViewBag.ServiceTypeItem'); }
+        else if (validator == "PreWedding")
+        { $(".PreWedding").attr("disabled", ""); alert("not me" + '@ViewBag.ServiceTypeItem'); }
+        else if (validator == "Wedding")
+        { $(".Wedding").attr("disabled", ""); alert("not me" + '@ViewBag.ServiceTypeItem'); }
+    }
+
+</script>
+
+<table class="table container-fluid">
+    <tr>
+        <td class=" col-md-6">
+            @using (Ajax.BeginForm("CreateServiceFormFromServiceWhenEdit", "Services", new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "DisableItem('"+@ViewBag.ServiceTypeItem+"')"
+            }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <h4>@ViewBag.ServiceTypeTag</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = ViewBag.FormContorl } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EventStart, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-lg-10">
+                            <div class="input-group" id="@ViewBag.ServiceTypeDatePickerStart">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                @Html.EditorFor(model => model.EventStart, new { htmlAttributes = new { @class = ViewBag.FormContorl, @style = "max-width:242px" } })
+
+                            </div>
+                            @Html.ValidationMessageFor(model => model.EventStart, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EventEnd, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="input-group" id="@ViewBag.ServiceTypeDatePickerEnd">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                @Html.EditorFor(model => model.EventEnd, new { htmlAttributes = new { @class = ViewBag.FormContorl, @style = "max-width:242px" } })
+                                @Html.ValidationMessageFor(model => model.EventEnd, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Guest Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.GuestsNumber, new { htmlAttributes = new { @class = ViewBag.FormContorl } })
+                            @Html.ValidationMessageFor(model => model.GuestsNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button id="@ViewBag.HTMLButtonDisabledForm" type="submit" value="@ViewBag.ServiceTypeItem" class="btn btn-default" name="Command">Save</button>
+                            <button id="@ViewBag.HTMLButtonEnabledForm" type="button" class="btn btn-default">Edit</button>
+                            <button type="reset" class="btn btn-default">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </td>
+        <td class="col-md-6">
+            <h4>Services Sections</h4>
+            <hr />
+            <div class="row">
+                <div class="btn-group-vertical col-md-5">
+                    <div class="input-group">
+                        <button id="@ViewBag.HTMLModalPhotoGraph" type="button" class="btn btn-default" style="width:100%"><span class=" glyphicon glyphicon-camera"></span>&nbsp;PhotoGraphs Select</button>
+                        <span class="input-group-btn"><button id="@ViewBag.HTMLModalPhotoGraphArrow" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></span>
+                    </div>
+                    <div class="input-group">
+                        <button id="@ViewBag.HTMLModalEquipment" type="submit" class="btn btn-default" style="width:100%"><span class="glyphicon glyphicon-pushpin"></span>&nbsp;Equipment Select</button>
+                        <span class="input-group-btn"><button id="@ViewBag.HTMLModalEquipmentArrow" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></span>
+                    </div>
+                    <div class="input-group">
+                        <button id="@ViewBag.HTMLModalLocation" type="submit" class="btn btn-default" style="width:100%"><span class="glyphicon glyphicon-picture"></span>&nbsp;Location Select</button>
+                        <span class="input-group-btn"><button id="@ViewBag.HTMLModalLocationArrow" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></span>
+                    </div>
+                    <div class="input-group">
+                        <button id="@ViewBag.HTMLModalOutsource" type="submit" class="btn btn-default" style="width:100%"><span class="glyphicon glyphicon-bullhorn"></span>&nbsp;Outsource Select</button>
+                        <span class="input-group-btn"><button id="@ViewBag.HTMLModalOutsourceArrow" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></span>
+                    </div>
+                    <div class="input-group">
+                        <button id="@ViewBag.HTMLModalOutput" type="submit" class="btn btn-default" style="width:100%"><span class="glyphicon glyphicon-file"></span>&nbsp;Output Select</button>
+                        <span class="input-group-btn"><button id="@ViewBag.HTMLModalOutputArrow" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></span>
+                    </div>
+                </div>
+                <div class="container col-md-7">
+                    <textarea rows="15" class="form-control container-fluid" style="width:100%;height:250px;"></textarea>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<!-- Modal PhotoGraph -->
+<div class="modal fade" id="@ViewBag.HTMLTagButtonPhotoGraph" tabindex="-1" role="dialog"
+     aria-labelledby="PhotoGraphLabel" aria-hidden="true" data-url='@Url.Action("CreatePhotoGraphServiceByModalWhenEdit","Services")' data-servicetype="@ViewBag.ServiceTypeTag">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Select Photograph Service
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="@ViewBag.HTMLContainerButtonPhotoGraph"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancelPhotoGraph" type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Submit changes
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Modal Equipment -->
+<div class="modal fade" id="@ViewBag.HTMLTagButtonEquipment" tabindex="-1" role="dialog"
+     aria-labelledby="EquipmentLabel" aria-hidden="true" data-url='@Url.Action("CreateEquipmentServiceByModalWhenEdit","Services")' data-servicetype="@ViewBag.ServiceTypeTag">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Select Equipment Service
+                </h4>
+            </div>
+            <div class="modal-body">
+                Press ESC button to exit.
+                <div id="@ViewBag.HTMLContainerButtonEquipment"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Submit changes
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Modal Location -->
+<div class="modal fade" id="@ViewBag.HTMLTagButtonLocation" tabindex="-1" role="dialog"
+     aria-labelledby="LocationLabel" aria-hidden="true" data-url='@Url.Action("CreateLocationServiceByModalWhenEdit","Services")' data-servicetype="@ViewBag.ServiceTypeTag">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Select Location Service
+                </h4>
+            </div>
+            <div class="modal-body">
+                Press ESC button to exit.
+                <div id="@ViewBag.HTMLContainerButtonLocation"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Submit changes
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Modal Outsource -->
+<div class="modal fade" id="@ViewBag.HTMLTagButtonOutsource" tabindex="-1" role="dialog"
+     aria-labelledby="OutsourceLabel" aria-hidden="true" data-url='@Url.Action("CreateOutsourceServiceByModalWhenEdit","Services")' data-servicetype="@ViewBag.ServiceTypeTag">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Select Outsource Service
+                </h4>
+            </div>
+            <div class="modal-body">
+                Press ESC button to exit.
+                <div id="@ViewBag.HTMLContainerButtonOutsource"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Submit changes
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Modal Output -->
+<div class="modal fade" id="@ViewBag.HTMLTagButtonOutput" tabindex="-1" role="dialog"
+     aria-labelledby="OutputLabel" aria-hidden="true" data-url='@Url.Action("CreateOutputServiceByModalWhenEdit","Services")' data-servicetype="@ViewBag.ServiceTypeTag">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Select Outsource Service
+                </h4>
+            </div>
+            <div class="modal-body">
+                Press ESC button to exit.
+                <div id="@ViewBag.HTMLContainerButtonOutput"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Submit changes
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

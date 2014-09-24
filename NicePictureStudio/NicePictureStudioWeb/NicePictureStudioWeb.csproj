@@ -57,6 +57,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Kendo.Mvc">
+      <HintPath>C:\Users\TurboPX\Downloads\Telerik\wrappers\aspnetmvc\Binaries\Mvc5\Kendo.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -634,6 +637,16 @@
     <Content Include="Views\Services\DetailsService.cshtml" />
     <Content Include="Views\Services\EditService.cshtml" />
     <Content Include="Views\Services\SaveAllDocument.cshtml" />
+    <Content Include="Views\Services\EditCustomerFromServiceWhenEdit.cshtml" />
+    <Content Include="Views\Services\DetailsCustomerFromServiceWhenEdit.cshtml" />
+    <Content Include="Views\Services\DetailsServiceForEdit.cshtml" />
+    <Content Include="Views\Services\EditServiceWhenEdit.cshtml" />
+    <Content Include="Views\Services\CalculateServicesCostSummaryWhenEdit.cshtml" />
+    <Content Include="Views\Services\CreateServiceFormFromServiceWhenEdit.cshtml" />
+    <Content Include="Views\Services\CreatePhotoGraphServiceByModalWhenEdit.cshtml" />
+    <Content Include="Views\Services\CreateEquipmentServiceTableWhenEdit.cshtml" />
+    <Content Include="Views\Services\RemoveEquipmentWhenEdit.cshtml" />
+    <Content Include="Views\Services\CreateEquipmentServiceByModalWhenEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

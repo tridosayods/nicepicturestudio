@@ -80,6 +80,7 @@
     <EntitySetMapping Name="EquipmentSchedules">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentSchedule">
         <MappingFragment StoreEntitySet="EquipmentSchedule">
+          <ScalarProperty Name="EquipmentServiceId" ColumnName="EquipmentServiceId" />
           <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
           <ScalarProperty Name="EndTime" ColumnName="EndTime" />
           <ScalarProperty Name="StartTime" ColumnName="StartTime" />
@@ -136,6 +137,7 @@
     <EntitySetMapping Name="LocationSchedules">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationSchedule">
         <MappingFragment StoreEntitySet="LocationSchedule">
+          <ScalarProperty Name="LocationServiceId" ColumnName="LocationServiceId" />
           <ScalarProperty Name="LocationId" ColumnName="LocationId" />
           <ScalarProperty Name="EndTime" ColumnName="EndTime" />
           <ScalarProperty Name="StartTime" ColumnName="StartTime" />
@@ -177,12 +179,12 @@
     <EntitySetMapping Name="OutputSchedules">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutputSchedule">
         <MappingFragment StoreEntitySet="OutputSchedule">
+          <ScalarProperty Name="OutputServiceId" ColumnName="OutputServiceId" />
           <ScalarProperty Name="ReviseCount" ColumnName="ReviseCount" />
           <ScalarProperty Name="ReviseDate" ColumnName="ReviseDate" />
           <ScalarProperty Name="HandOnDate" ColumnName="HandOnDate" />
           <ScalarProperty Name="TargetDate" ColumnName="TargetDate" />
           <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="OutputId" ColumnName="OutputId" />
           <ScalarProperty Name="PackageName" ColumnName="PackageName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
@@ -216,6 +218,7 @@
     <EntitySetMapping Name="OutsourceSchedules">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceSchedule">
         <MappingFragment StoreEntitySet="OutsourceSchedule">
+          <ScalarProperty Name="OutsourceServiceId" ColumnName="OutsourceServiceId" />
           <ScalarProperty Name="OutsourceId" ColumnName="OutsourceId" />
           <ScalarProperty Name="EndTime" ColumnName="EndTime" />
           <ScalarProperty Name="StartTime" ColumnName="StartTime" />
@@ -507,6 +510,7 @@
     <EntitySetMapping Name="EmployeeSchedules">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeSchedule">
         <MappingFragment StoreEntitySet="EmployeeSchedule">
+          <ScalarProperty Name="EmployeeServiceId" ColumnName="EmployeeServiceId" />
           <ScalarProperty Name="EndTime" ColumnName="EndTime" />
           <ScalarProperty Name="StartTime" ColumnName="StartTime" />
           <ScalarProperty Name="Id" ColumnName="Id" />

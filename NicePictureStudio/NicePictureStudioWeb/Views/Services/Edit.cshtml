@@ -42,13 +42,11 @@
 
     });
 
-    function AddPreWeddingService()
-    {
+    function AddPreWeddingService() {
         $("#delPreWedService").show();
     }
 
-    function RemovePreWeddingService()
-    {
+    function RemovePreWeddingService() {
         $("#delPreWedService").hide();
         $.ajax({
             url: '@Url.Action("RemovePreWeddingService", "Services")',
@@ -83,7 +81,7 @@
         <tr>
             <td>
                 <div class="container" id="tblCustomerFromService">
-                    @Html.Partial("EditCustomerFromService",@Model.Customer.CustomerId)
+                    @Html.Partial("EditCustomerFromServiceWhenEdit", @Model.Customer)
                 </div>
             </td>
         </tr>
@@ -173,80 +171,11 @@
                 <h4>Services Cost</h4>
                 <hr />
                 <div id="divServicePriceSection">
-                    <div class="container-fluid">
-                        @using (@Ajax.BeginForm("CalculateServicesCostSummary", "Services", new AjaxOptions
-                        {
-                            HttpMethod = "POST",
-                            InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = "divServicePriceSection"
-                        }))
-                        {
-                            <div class="form-horizontal">
-                                <div class="col-md-6 col-xs-4">
-                                    <label id="lblEstimateContext" class="control-label">Total Estimate Cost : </label>
-                                </div>
-                                <div class="col-md-6 col-xs-4">
-                                    <label id="lblEstimateCost" class="control-label"> $0.00</label>
-                                </div>
-                            </div>
-                            <div class="form-horizontal">
-                                <div class="col-md-6">
-                                    <label id="lblPromotionContext" class="control-label">Promotion Selected : </label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label id="lblPromotionSelected" class="control-label"> - </label>
-                                </div>
-                            </div>
-
-                            <div class="form-horizontal">
-                                <div class="col-md-6">
-                                    <label id="lblPromotionDiscountContext" class="control-label">Promotion Discount : </label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label id="lblPromotionDiscount" class="control-label"> 0% </label>
-                                </div>
-                            </div>
-
-                            <div class="form-horizontal">
-                                <div class="col-md-6">
-                                    <label id="lblTotalCostContext" class="control-label">Total Price Before TAX: </label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label id="lblTotalCost" class="control-label">$0.00</label>
-                                </div>
-                            </div>
-
-                            <div class="form-horizontal">
-                                <div class="col-md-6">
-                                    <label class="control-label">VAT: </label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="control-label">10%</label>
-                                </div>
-                            </div>
-
-                            <div class="form-horizontal">
-                                <div class="col-md-6">
-                                    <label id="lblTotalWithTAXContext" class="control-label">Total Price: </label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label id="lblTotalCostWithTAX" class="control-label">$0.00</label>
-                                </div>
-                            </div>
-
-                            <div class="tab-content">
-                                <div class="col-md-12 col-md-push-6">
-                                    <br />
-                                    <input class="btn-primary" type="submit" id="btnCalculatePrice" name="btnCalculatePrice" value="Calculate Price" />
-                                </div>
-
-                            </div>
-                        }
-                    </div>
+                    @(Html.Partial("CalculateServicesCostSummaryWhenEdit", @Model.Calculator))
                 </div>
                 <div class="container-fluid">
                     <div class="rowa">
-                        <div id="SaveFormSection"><br /> - Need to create at leaset one service before save all ################# ########################## ################### ################</div>
+                        <div id="SaveFormSection"><br /> - Need to create at leaset one service before save all</div>
                         <div id="CreateReportSection"> - Otherwise, no record save</div>
                     </div>
                 </div>
@@ -263,3 +192,105 @@
         </tr>
     </table>
 </div>
+
+<table class="table table-bordered">
+    <tr>
+        <td><button id="togPreWedService" type="button" class="btn btn-default btn" onclick="toggle_visibility('PreWeddingFormSection')"><span class="glyphicon glyphicon-briefcase"></span>PreWedding Service</button></td>
+        <td><button id="delPreWedService" type="button" class="btn btn-warning right" onclick="RemovePreWeddingService()"><span class="glyphicon glyphicon-remove-sign"></span>RemovePreWeddingService</button></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div>
+                @if (@Model.ServiceFormPreWedding.ServiceForm == null)
+                {
+                    <div id="PreWeddingFormSection">
+                        @using (@Ajax.BeginForm("CreateServiceFormFromServiceWhenEdit", "Services", new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "PreWeddingFormSection" }))
+                        {
+                            <div id="bthPreWedding">
+                                <button type="submit" id="btnPreWedding" name="Command" value="PreWedding" onclick="AddPreWeddingService()"> Add PreWedding Service </button>
+                            </div>
+                        }
+                        @*<div id="PreWeddingFormSection"></div>*@
+                    </div>
+                }
+                else
+                {
+                    <div id="PreWeddingFormSection">
+                        @Html.Action("CreateServiceFormFromServiceWhenEdit", "Services", new { serviceForm = @Model.ServiceFormPreWedding.ServiceForm, Command = "PreWedding" })
+                    </div>
+                }
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table table-bordered">
+    <tr>
+        <td>
+            <button id="togEngagementService" type="button" class="btn btn-default" onclick="toggle_visibility('EngagementFormSection')"><span class=" glyphicon glyphicon-bullhorn"></span>Engagement Service</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div>
+                @if (@Model.ServiceFormEngagement.ServiceForm == null)
+                {
+                    <div id="EngagementFormSection">
+                        @using (@Ajax.BeginForm("CreateServiceFormFromServiceWhenEdit", "Services", new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "EngagementFormSection" }))
+                        {
+                            <div id="bthPreWedding">
+                                <button type="submit" id="btnEngagement" name="Command" value="Engagement"> Add Engagement Service </button>
+                            </div>
+                        }
+                        @*<div id="PreWeddingFormSection"></div>*@
+                    </div>
+                }
+                else
+                {
+                    <div id="EngagementFormSection">
+                        @*@Html.Action("CreateServiceFormFromServiceWhenEdit", "Services", new { serviceForm = @Model.ServiceFormEngagement.ServiceForm, Command = "Engagement" })*@
+                        @{Html.RenderAction("CreateServiceFormFromServiceWhenEdit", new { serviceForm = @Model.ServiceFormEngagement.ServiceForm, Command = "Engagement" });}
+                    </div>
+                }
+            </div>
+        </td>
+    </tr>
+</table>
+
+<table class="table table-bordered">
+    <tr>
+        <td>
+            <button id="togWeddingService" type="button" class="btn btn-default" onclick="toggle_visibility('WeddingFormSection')"><span class="glyphicon glyphicon-star"></span>Wedding Service</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div>
+                @if (@Model.ServiceFormWedding.ServiceForm == null)
+                {
+                    <div id="WeddingFormSection">
+                        @using (@Ajax.BeginForm("CreateServiceFormFromServiceWhenEdit", "Services", new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "WeddingFormSection"
+                }))
+                        {
+                            <div id="bthPreWedding">
+                                <button type="submit" id="btnPreWedding" name="Command" value="Wedding"> Add PreWedding Service </button>
+                            </div>
+                        }
+                        @*<div id="WeddingFormSection"></div>*@
+                    </div>
+                }
+                else
+                {
+                    <div id="WeddingFormSection">
+                        @Html.Action("CreateServiceFormFromServiceWhenEdit", "Services", new { serviceForm = @Model.ServiceFormWedding.ServiceForm, Command = "Wedding" })
+                    </div>
+                }
+            </div>
+        </td>
+    </tr>
+</table>
