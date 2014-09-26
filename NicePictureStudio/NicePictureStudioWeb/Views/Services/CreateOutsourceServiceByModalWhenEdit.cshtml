@@ -1,4 +1,4 @@
-﻿@model NicePictureStudio.App_Data.OutputService
+﻿@model NicePictureStudio.App_Data.OutsourceService
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -8,7 +8,7 @@
             var selectedItem = $("#@ViewData["ButtonIdForDWL"]").val();
             alert(selectedItem);
             $.ajax({
-                url: '@Url.Action("CreateOutputServiceByModal","Services")',
+                url: '@Url.Action("CreateOutsourceServiceByModalWhenEdit","Services")',
                 data: { id: selectedItem, serviceType: '@ViewData["ServiceType"]' },
                 type: "GET",
                 success: function (data) { $("#@ViewData["DivServiceForm"]").replaceWith(data); }
@@ -19,7 +19,7 @@
 </script>
 
 <div id="@ViewData["DivServiceForm"]">
-    @using (Ajax.BeginForm("CreateOutputServiceTable", "Services", new AjaxOptions
+    @using (Ajax.BeginForm("CreateOutsourceServiceTableWhenEdit", "Services", new AjaxOptions
     {
         HttpMethod = "POST",
         InsertionMode = InsertionMode.Replace,
@@ -29,14 +29,14 @@
         @Html.AntiForgeryToken()
 
         <div class="form-group col-lg-12">
-            @Html.Label("OutputServices : ลองภาษาไทย", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("OutsourceServices :", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="list-group col-md-10">
-                @Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = ViewData["ButtonIdForDWL"], @name = ViewData["ButtonIdForDWL"] })
+                @Html.DropDownList("Code", @ViewData["OutsourceList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = ViewData["ButtonIdForDWL"], @name = ViewData["ButtonIdForDWL"] })
             </div>
         </div>
 
         <div class="form-horizontal">
-            <h4>OutputService</h4>
+            <h4>OutsourceService</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
@@ -48,12 +48,20 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.OutputURL, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.PortFolioURL, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.OutputURL, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.OutputURL, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.PortFolioURL, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PortFolioURL, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.OutsourceId, "OutsourceId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("OutsourceId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.OutsourceId, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -79,6 +87,7 @@
                 </div>
             </div>
 
+            @Html.HiddenFor(model => model.OutsourceContact.OutsourceContactId, htmlAttributes: new { @id = "OutsourceId", @Name = "OutsourceId" })
             <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
 
             <div class="form-group">
@@ -89,25 +98,24 @@
         </div>
     }
     <div id="@ViewData["tblequipment"].ToString()">
-        @if (@ViewBag.ListOutputServices != null)
+        @if (@ViewBag.ListOutsourceServices != null)
         {
             <div class="form-group">
                 <table class="table table-striped">
-                    <tr><th>Outsource Name</th><th>Description</th><th>OutputURL</th><th>Price</th><th>Action</th></tr>
-                    @foreach (NicePictureStudio.Models.OutputServiceViewModel item in ViewBag.ListOutputServices)
+                    <tr><th>Outsource Name</th><th>Description</th><th>PortFolio</th><th>Price</th><th>Action</th></tr>
+                    @foreach (NicePictureStudio.Models.OutsourceServiceViewModel item in ViewBag.ListOutsourceServices)
                     {
                         <tr>
                             <td>@item.Name</td>
                             <td>@item.Description</td>
-                            <td>@item.OutputURL</td>
+                            <td>@item.PortFolioURL</td>
                             <td>@item.Price</td>
-                            <td>@Ajax.ActionLink("Remove", "RemoveOutput", new { Id = @item.Id, serviceType = @ViewData["ServiceType"].ToString() }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = @ViewData["tblequipment"].ToString() })</td>
+                            <td>@Ajax.ActionLink("Remove", "RemoveOutsourceWhenEdit", new { Id = @item.Id, serviceType = @ViewData["ServiceType"].ToString() }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = @ViewData["tblequipment"].ToString() })</td>
                         </tr>
                     }
                 </table>
             </div>
         }
     </div>
-
 </div>
 

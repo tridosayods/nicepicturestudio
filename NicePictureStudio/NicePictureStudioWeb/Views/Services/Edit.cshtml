@@ -32,7 +32,7 @@
 
         $("#btnSaveEditAll").on("click", function () {
             event.preventDefault();
-            var url = '@Url.Action("SaveEditAllDocument", "Services")';
+            var url = '@Url.Action("SaveAllDocumentWhenEdit", "Services")';
             $.ajax({
                 url: url,
                 type: "POST",
@@ -185,7 +185,7 @@
         <tr>
             <td></td>
             <td>
-                <button type="button" id="btnSaveAll" class="btn btn-primary"><span class="glyphicon glyphicon-star"></span>Save All</button>
+                <button type="button" id="btnSaveEditAll" class="btn btn-primary"><span class="glyphicon glyphicon-star"></span>Save All</button>
                 <button type="button" id="btnGenReport" class="btn btn-default disabled"><span class="glyphicon glyphicon-star"></span>Generate Report</button>
                 <button type="reset" id="btnResetForm" class="btn btn-default disabled">Cancel</button>
             </td>

@@ -1,15 +1,17 @@
 ﻿@model NicePictureStudio.App_Data.EquipmentService
 
-@if (@ViewBag.ListEquipmentItems != null)
-{
-    <div class="form-group">
-        <input type="hidden" value="@ViewBag.EquipmentServiceType" id="ServiceType" name="ServiceType">
-        <table class="table table-striped">
-            <tr><th>Equipment Name</th><th>Equipment Description</th><th>Price</th><th>Action</th></tr>
-            @foreach (NicePictureStudio.Models.EquipmentServiceViewModel item in ViewBag.ListEquipmentItems)
-            {
-               <tr><td>@item.Name</td><td>@item.Description</td><td>@item.Price</td><td>@Ajax.ActionLink("Remove", "RemoveEquipmentWhenEdit", new { Id = @item.Id, serviceType = @ViewBag.EquipmentServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace })</td></tr>
-            }
-        </table>
-    </div>
-}
+<div id="@ViewData["tblequipment"].ToString()">
+    @if (@ViewBag.ListEquipmentItems != null)
+    {
+        <div class="form-group">
+            <input type="hidden" value="@ViewBag.EquipmentServiceType" id="ServiceType" name="ServiceType">
+            <table class="table table-striped">
+                <tr><th>Equipment Name</th><th>Equipment Description</th><th>Price</th><th>Action</th></tr>
+                @foreach (NicePictureStudio.Models.EquipmentServiceViewModel item in ViewBag.ListEquipmentItems)
+                {
+                    <tr><td>@item.Name</td><td>@item.Description</td><td>@item.Price</td><td>@Ajax.ActionLink("Remove", "RemoveEquipmentWhenEdit", new { Id = @item.Id, serviceType = @ViewBag.EquipmentServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = @ViewData["tblequipment"].ToString() })</td></tr>
+                }
+            </table>
+        </div>
+    }
+</div>

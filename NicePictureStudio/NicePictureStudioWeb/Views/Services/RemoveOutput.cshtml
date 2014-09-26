@@ -1,10 +1,10 @@
 ﻿<div id="@ViewData["tblequipment"].ToString()">
-    @if (@ViewBag.ListOutputServices != null)
+    @if (@ViewBag.ModifyOutput != null)
     {
         <div class="form-group">
             <table class="table table-striped">
                 <tr><th>Outsource Name</th><th>Description</th><th>OutputURL</th><th>Price</th><th>Action</th></tr>
-                @foreach (NicePictureStudio.Models.OutputServiceViewModel item in ViewBag.ListOutputServices)
+                @foreach (NicePictureStudio.Models.OutputServiceViewModel item in ViewBag.ModifyOutput)
                 {
                     <tr>
                         <td>@item.Name</td>

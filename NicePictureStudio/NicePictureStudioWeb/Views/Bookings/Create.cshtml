@@ -55,26 +55,26 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BookingStatus, "BookingStatus", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BookingStatu, "BookingStatus", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("BookingStatus", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.BookingStatus, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.BookingStatu, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PromotionId, "PromotionId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Promotion.Id, "PromotionId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("PromotionId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PromotionId, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Promotion.Id, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ServiceId, "ServiceId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Service.Id, "ServiceId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("ServiceId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ServiceId, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Service.Id, "", new { @class = "text-danger" })
             </div>
         </div>
 

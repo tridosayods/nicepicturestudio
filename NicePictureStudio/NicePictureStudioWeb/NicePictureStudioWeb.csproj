@@ -647,6 +647,19 @@
     <Content Include="Views\Services\CreateEquipmentServiceTableWhenEdit.cshtml" />
     <Content Include="Views\Services\RemoveEquipmentWhenEdit.cshtml" />
     <Content Include="Views\Services\CreateEquipmentServiceByModalWhenEdit.cshtml" />
+    <Content Include="Views\Services\RemoveEquipment.cshtml" />
+    <Content Include="Views\Services\RemoveLocation.cshtml" />
+    <Content Include="Views\Services\CreateLocationServiceByModalWhenEdit.cshtml" />
+    <Content Include="Views\Services\CreateLocationServiceTableWhenEdit.cshtml" />
+    <Content Include="Views\Services\RemoveLocationWhenEdit.cshtml" />
+    <Content Include="Views\Services\RemoveOutsource.cshtml" />
+    <Content Include="Views\Services\RemoveOutput.cshtml" />
+    <Content Include="Views\Services\CreateOutsourceServiceByModalWhenEdit.cshtml" />
+    <Content Include="Views\Services\CreateOutsourceServiceTableWhenEdit.cshtml" />
+    <Content Include="Views\Services\RemoveOutsourceWhenEdit.cshtml" />
+    <Content Include="Views\Services\CreateOutputServiceByModalWhenEdit.cshtml" />
+    <Content Include="Views\Services\CreateOutputServiceTableWhenEdit.cshtml" />
+    <Content Include="Views\Services\RemoveOutputWhenEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

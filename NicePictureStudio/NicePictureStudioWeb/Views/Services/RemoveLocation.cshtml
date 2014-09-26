@@ -1,10 +1,10 @@
 ﻿<div id="@ViewData["tblequipment"].ToString()">
-    @if (@ViewBag.ListLocationServices != null)
+    @if (ViewBag.ModifyLocation != null)
     {
         <div class="form-group">
             <table class="table table-striped">
                 <tr><th>Location Name</th><th>Description</th><th>OverNight</th><th>OverNightPeriod</th><th>Price</th><th>Action</th></tr>
-                @foreach (NicePictureStudio.Models.LocationServiceViewModel item in ViewBag.ListLocationServices)
+                @foreach (NicePictureStudio.Models.LocationServiceViewModel item in ViewBag.ModifyLocation)
                 {
                     <tr>
                         <td>@item.Name</td>
@@ -18,7 +18,7 @@
                             <td>No</td>
                             <td>-</td> }
                         <td>@item.Price</td>
-                        <td>@Ajax.ActionLink("Remove", "RemoveLocation", new { Id = @item.Id, serviceType = @ViewBag.LocationServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = @ViewData["tblequipment"].ToString() })</td>
+                        <td>@Ajax.ActionLink("Remove", "RemoveLocation", new { Id = @item.Id, serviceType =  @ViewBag.LocationServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = @ViewData["tblequipment"].ToString() })</td>
                     </tr>
                 }
             </table>

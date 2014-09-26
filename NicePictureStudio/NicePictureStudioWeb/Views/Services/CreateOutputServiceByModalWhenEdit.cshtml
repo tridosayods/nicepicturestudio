@@ -1,4 +1,5 @@
-﻿@model NicePictureStudio.App_Data.OutputService
+﻿
+@model NicePictureStudio.App_Data.OutputService
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -8,7 +9,7 @@
             var selectedItem = $("#@ViewData["ButtonIdForDWL"]").val();
             alert(selectedItem);
             $.ajax({
-                url: '@Url.Action("CreateOutputServiceByModal","Services")',
+                url: '@Url.Action("CreateOutputServiceByModalWhenEdit","Services")',
                 data: { id: selectedItem, serviceType: '@ViewData["ServiceType"]' },
                 type: "GET",
                 success: function (data) { $("#@ViewData["DivServiceForm"]").replaceWith(data); }
@@ -19,7 +20,7 @@
 </script>
 
 <div id="@ViewData["DivServiceForm"]">
-    @using (Ajax.BeginForm("CreateOutputServiceTable", "Services", new AjaxOptions
+    @using (Ajax.BeginForm("CreateOutputServiceTableWhenEdit", "Services", new AjaxOptions
     {
         HttpMethod = "POST",
         InsertionMode = InsertionMode.Replace,
@@ -101,7 +102,7 @@
                             <td>@item.Description</td>
                             <td>@item.OutputURL</td>
                             <td>@item.Price</td>
-                            <td>@Ajax.ActionLink("Remove", "RemoveOutput", new { Id = @item.Id, serviceType = @ViewData["ServiceType"].ToString() }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = @ViewData["tblequipment"].ToString() })</td>
+                            <td>@Ajax.ActionLink("Remove", "RemoveOutputWhenEdit", new { Id = @item.Id, serviceType = @ViewData["ServiceType"].ToString() }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = @ViewData["tblequipment"].ToString() })</td>
                         </tr>
                     }
                 </table>
