@@ -11,6 +11,7 @@ using NicePictureStudio.App_Data;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using NicePictureStudio.Models;
+using System.Collections;
 
 namespace NicePictureStudio
 {
@@ -132,36 +133,48 @@ namespace NicePictureStudio
         {
 
 
-            return PartialView(createListProjection());
+            return PartialView();
         }
 
-        private List<Projection> createListProjection()
+        private List<SchedulerViewModels> createListProjection()
         {
-            List<Projection> cinemaSchedule = new List<Projection> {
-        new Projection {
+            List<ServiceStatusViewModel> _status = new List<ServiceStatusViewModel> { 
+                new ServiceStatusViewModel {
+                    Id = 1,Name ="New",Description = "..."
+                },
+                new ServiceStatusViewModel {
+                    Id = 2,Name ="Confirm",Description = "..."
+                }
+            };
+           // IEnumerable<SelectList> status = (new SelectList(_status, "Id", "Name"));
+            List<SchedulerViewModels> cinemaSchedule = new List<SchedulerViewModels> {
+        new SchedulerViewModels {
             Id = 1,
             Title = "Fast and furious 6",
             Start = new DateTime(2013,7,13,17,00,00),
-            End= new DateTime(2013,7,13,18,30,00)
+            End= new DateTime(2013,7,13,18,30,00),
+            selectedStatus =1
         },
-        new Projection {
+        new SchedulerViewModels {
             Id =2,
             Title= "The Internship",
             Start= new DateTime(2013,6,13,14,00,00),
-            End= new DateTime(2013,6,13,15,30,00)
+            End= new DateTime(2013,6,13,15,30,00),
+            selectedStatus =1
         },
-        new Projection {
+        new SchedulerViewModels {
             Id=3,
             Title = "The Perks of Being a Wallflower",
             Start =  new DateTime(2013,6,13,16,00,00),
-            End =  new DateTime(2013,6,13,17,30,00)
+            End =  new DateTime(2013,6,13,17,30,00),
+            selectedStatus =1
         }};
             return cinemaSchedule;
         }
 
         public virtual JsonResult Meetings_Read([DataSourceRequest] DataSourceRequest request)
         {
-            IQueryable<Projection> tasks = createListProjection().Select(task => new Projection()
+            IQueryable<SchedulerViewModels> tasks = createListProjection().Select(task => new SchedulerViewModels()
             {
                 Id = task.Id,
                 Title = task.Title,
@@ -173,7 +186,9 @@ namespace NicePictureStudio
                 IsAllDay = task.IsAllDay,
                 Recurrence = task.Recurrence,
                 RecurrenceException = task.RecurrenceException,
-                RecurrenceRule = task.RecurrenceRule
+                RecurrenceRule = task.RecurrenceRule,
+                Status = task.Status,
+                selectedStatus = task.selectedStatus
             }
             ).AsQueryable();
             return Json(tasks.ToDataSourceResult(request));
