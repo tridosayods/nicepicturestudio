@@ -8,6 +8,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using NicePictureStudio.App_Data;
+using Kendo.Mvc.UI;
+using Kendo.Mvc.Extensions;
+using NicePictureStudio.Models;
 
 namespace NicePictureStudio
 {
@@ -21,18 +24,17 @@ namespace NicePictureStudio
             return View(await db.ServiceForms.ToListAsync());
         }
 
-
         // GET: ServiceForms/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
-               // return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ServiceForm serviceForm = await db.ServiceForms.FindAsync(id);
             if (serviceForm == null)
             {
-                //return HttpNotFound();
+                return HttpNotFound();
             }
             return View(serviceForm);
         }
@@ -48,7 +50,7 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,ServiceType,Status,EventStart,EventEnd,GuestsNumber")] ServiceForm serviceForm)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,EventStart,EventEnd,GuestsNumber,ServiceCost,ServicePrice")] ServiceForm serviceForm)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +82,7 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,ServiceType,Status,EventStart,EventEnd,GuestsNumber")] ServiceForm serviceForm)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,EventStart,EventEnd,GuestsNumber,ServiceCost,ServicePrice")] ServiceForm serviceForm)
         {
             if (ModelState.IsValid)
             {
@@ -126,6 +128,60 @@ namespace NicePictureStudio
             base.Dispose(disposing);
         }
 
+        public PartialViewResult ServiceFormScheduler()
+        {
+
+
+            return PartialView(createListProjection());
+        }
+
+        private List<Projection> createListProjection()
+        {
+            List<Projection> cinemaSchedule = new List<Projection> {
+        new Projection {
+            Id = 1,
+            Title = "Fast and furious 6",
+            Start = new DateTime(2013,7,13,17,00,00),
+            End= new DateTime(2013,7,13,18,30,00)
+        },
+        new Projection {
+            Id =2,
+            Title= "The Internship",
+            Start= new DateTime(2013,6,13,14,00,00),
+            End= new DateTime(2013,6,13,15,30,00)
+        },
+        new Projection {
+            Id=3,
+            Title = "The Perks of Being a Wallflower",
+            Start =  new DateTime(2013,6,13,16,00,00),
+            End =  new DateTime(2013,6,13,17,30,00)
+        }};
+            return cinemaSchedule;
+        }
+
+        public virtual JsonResult Meetings_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            IQueryable<Projection> tasks = createListProjection().Select(task => new Projection()
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                Start = task.Start,
+                End = task.End,
+                StartTimezone = task.StartTimezone,
+                EndTimezone = task.EndTimezone,
+                IsAllDay = task.IsAllDay,
+                Recurrence = task.Recurrence,
+                RecurrenceException = task.RecurrenceException,
+                RecurrenceRule = task.RecurrenceRule
+            }
+            ).AsQueryable();
+            return Json(tasks.ToDataSourceResult(request));
+        }
 
     }
+
+    
 }
+
+

@@ -49,7 +49,7 @@ namespace NicePictureStudio
             ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name");
             ViewBag.PromotionId = new SelectList(db.Promotions, "Id", "Name");
             ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName");
-            ViewBag.BookingNumber = DateTime.Now.GetHashCode();
+            ViewBag.BookingNumber = Convert.ToInt32(DateTime.Now.GetHashCode()).ToString().Substring(0,5);
             return View();
         }
 
@@ -58,12 +58,17 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,BookingCode,AppointmentDate,SpecialOrder,Details,BookingStatu,PromotionId,ServiceId")] Booking booking)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,BookingCode,AppointmentDate,SpecialOrder,Details,BookingStatu,PromotionId,ServiceId")] Booking booking, int BookingStatus, int PromotionId)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    //booking status always 1
+                    BookingStatu bookingStatus = await db.BookingStatus.FindAsync(BookingStatus);
+                    Promotion promotion = await db.Promotions.FindAsync(PromotionId);
+                    booking.BookingStatu = bookingStatus;
+                    booking.Promotion = promotion;
                     db.Bookings.Add(booking);
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");
@@ -106,7 +111,7 @@ namespace NicePictureStudio
             }
             ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name", booking.BookingStatu.Id);
             ViewBag.PromotionId = new SelectList(db.Promotions, "Id", "Name", booking.Promotion.Id);
-            ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName", booking.Service.Id);
+            //ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName", booking.Service.Id);
             return View(booking);
         }
 
