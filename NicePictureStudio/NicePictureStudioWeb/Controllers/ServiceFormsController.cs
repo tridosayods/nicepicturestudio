@@ -131,50 +131,12 @@ namespace NicePictureStudio
 
         public PartialViewResult ServiceFormScheduler()
         {
-
-
             return PartialView();
         }
 
-        private List<SchedulerViewModels> createListProjection()
+        public virtual JsonResult Services_Read([DataSourceRequest] DataSourceRequest request)
         {
-            List<ServiceStatusViewModel> _status = new List<ServiceStatusViewModel> { 
-                new ServiceStatusViewModel {
-                    Id = 1,Name ="New",Description = "..."
-                },
-                new ServiceStatusViewModel {
-                    Id = 2,Name ="Confirm",Description = "..."
-                }
-            };
-           // IEnumerable<SelectList> status = (new SelectList(_status, "Id", "Name"));
-            List<SchedulerViewModels> cinemaSchedule = new List<SchedulerViewModels> {
-        new SchedulerViewModels {
-            Id = 1,
-            Title = "Fast and furious 6",
-            Start = new DateTime(2013,7,13,17,00,00),
-            End= new DateTime(2013,7,13,18,30,00),
-            selectedStatus =1
-        },
-        new SchedulerViewModels {
-            Id =2,
-            Title= "The Internship",
-            Start= new DateTime(2013,6,13,14,00,00),
-            End= new DateTime(2013,6,13,15,30,00),
-            selectedStatus =1
-        },
-        new SchedulerViewModels {
-            Id=3,
-            Title = "The Perks of Being a Wallflower",
-            Start =  new DateTime(2013,6,13,16,00,00),
-            End =  new DateTime(2013,6,13,17,30,00),
-            selectedStatus =1
-        }};
-            return cinemaSchedule;
-        }
-
-        public virtual JsonResult Meetings_Read([DataSourceRequest] DataSourceRequest request)
-        {
-            IQueryable<SchedulerViewModels> tasks = createListProjection().Select(task => new SchedulerViewModels()
+            IQueryable<SchedulerViewModels> tasks = CreateSchedulerServiceForm().Select(task => new SchedulerViewModels()
             {
                 Id = task.Id,
                 Title = task.Title,
@@ -186,13 +148,104 @@ namespace NicePictureStudio
                 IsAllDay = task.IsAllDay,
                 Recurrence = task.Recurrence,
                 RecurrenceException = task.RecurrenceException,
-                RecurrenceRule = task.RecurrenceRule,
-                Status = task.Status,
                 selectedStatus = task.selectedStatus
             }
             ).AsQueryable();
             return Json(tasks.ToDataSourceResult(request));
         }
+
+        #region
+        private List<SchedulerViewModels> createListProjection()
+        {
+            List<ServiceStatusViewModel> _status = new List<ServiceStatusViewModel> { 
+                new ServiceStatusViewModel {
+                    Id = 1,Name ="New",Description = "..."
+                },
+                new ServiceStatusViewModel {
+                    Id = 2,Name ="Confirm",Description = "..."
+                }
+            };
+            // IEnumerable<SelectList> status = (new SelectList(_status, "Id", "Name"));
+            List<SchedulerViewModels> cinemaSchedule = new List<SchedulerViewModels> {
+        new SchedulerViewModels {
+            Id = 1,
+            Title = "Fast and furious 6",
+            Start = new DateTime(2013,7,13,17,00,00),
+            End= new DateTime(2013,7,13,18,30,00),
+            selectedStatus =2
+        },
+        new SchedulerViewModels {
+            Id =2,
+            Title= "The Internship",
+            Start= new DateTime(2013,6,13,14,00,00),
+            End= new DateTime(2013,6,13,15,30,00),
+            selectedStatus =3
+        },
+        new SchedulerViewModels {
+            Id=3,
+            Title = "The Perks of Being a Wallflower",
+            Start =  new DateTime(2013,6,13,16,00,00),
+            End =  new DateTime(2013,6,13,17,30,00),
+            selectedStatus =1
+        }};
+            return cinemaSchedule;
+        }
+        #endregion
+
+        private List<SchedulerViewModels> CreateSchedulerServiceForm()
+        {
+            List<SchedulerViewModels> _listSchecule = new List<SchedulerViewModels>();
+            var allServiceForms = db.ServiceForms.ToList();
+            foreach (var item in allServiceForms)
+            {
+                SchedulerViewModels _scheduler = new SchedulerViewModels { 
+                    Id = item.Id,
+                    Title = item.ServiceType.ServiceTypeName,
+                    Description = item.Name,
+                    Start = item.EventStart,
+                    End = item.EventEnd,
+                    selectedStatus = item.ServiceStatu.Id
+                };
+                _listSchecule.Add(_scheduler);
+            }
+            return _listSchecule;
+        }
+
+        public virtual JsonResult Services_Update([DataSourceRequest] DataSourceRequest request, SchedulerViewModels service)
+        {
+            if (ModelState.IsValid)
+            {
+                if (ValidateModel(service,ModelState))
+                {
+                    if (string.IsNullOrEmpty(service.Title))
+                    {
+                        service.Title = "";
+                    }
+                    var entity = db.ServiceForms.FirstOrDefault(m => m.Id == service.Id);
+                    var serviceStatus = db.ServiceStatus.FirstOrDefault(s => s.Id == service.selectedStatus);
+                    entity.EventStart = service.Start;
+                    entity.EventEnd = service.End;
+                    entity.ServiceStatu = serviceStatus;
+                    db.Entry(entity).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+
+            return Json(new[] { service }.ToDataSourceResult(request, ModelState));
+        }
+
+        private bool ValidateModel(SchedulerViewModels service, ModelStateDictionary modelState)
+        {
+            if (service.Start > service.End)
+            {
+                modelState.AddModelError("errors", "End date must be greater or equal to Start date.");
+                return false;
+            }
+
+            return true;
+        }
+
+
 
     }
 

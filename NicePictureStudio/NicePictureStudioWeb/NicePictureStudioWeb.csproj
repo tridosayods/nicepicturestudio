@@ -296,6 +296,7 @@
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\EmployeeSchedulesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -663,6 +664,13 @@
     <Content Include="Views\Services\RemoveOutputWhenEdit.cshtml" />
     <Content Include="Views\ServiceForms\ServiceFormScheduler.cshtml" />
     <Content Include="Views\ServiceForms\EditorTemplates\CustomEditorTemplate.cshtml" />
+    <Content Include="Views\EmployeeSchedules\Create.cshtml" />
+    <Content Include="Views\EmployeeSchedules\Delete.cshtml" />
+    <Content Include="Views\EmployeeSchedules\Details.cshtml" />
+    <Content Include="Views\EmployeeSchedules\Edit.cshtml" />
+    <Content Include="Views\EmployeeSchedules\Index.cshtml" />
+    <Content Include="Views\EmployeeSchedules\EmployeesScheduler.cshtml" />
+    <Content Include="Views\EmployeeSchedules\EditorTemplates\EmployeeScheduleTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

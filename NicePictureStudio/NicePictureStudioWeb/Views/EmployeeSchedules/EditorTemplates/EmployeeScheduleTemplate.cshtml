@@ -21,7 +21,7 @@
         datePickerAttributes["data-bind"] = dataBindAttribute;
         datePickerAttributes["required"] = "required";
         datePickerAttributes["style"] = "z-index: inherit;";
-
+        datePickerAttributes["disabled"] = true;
         return datePickerAttributes;
     }
 }
@@ -32,7 +32,7 @@
     @(Html.LabelFor(model => model.Title))
 </div>
 <div data-container-for="title" class="k-edit-field">
-    @(Html.TextBoxFor(model => model.Title, new { @class = "k-textbox", data_bind = "value:title" }))
+    @(Html.TextBoxFor(model => model.Title, new { @class = "k-textbox", data_bind = "value:title",  @disabled = "true"  }))
 </div>
 
 <div class="k-edit-label">

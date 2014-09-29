@@ -1,10 +1,11 @@
 ﻿@(Html.Kendo().Scheduler<NicePictureStudio.Models.SchedulerViewModels>()
-    .Name("scheduler")
-    .Messages(msg => {
+    .Name("EmpScheduler")
+    .Messages(msg =>
+    {
         msg.Cancel("ยกเลิก");
         msg.Save("ยืนยัน");
         msg.Destroy("ลบรายการ");
-          
+
     })
     .Date(DateTime.Today)
     .StartTime(DateTime.Today)
@@ -18,7 +19,7 @@
     })
         .Editable(editable =>
         {
-            editable.TemplateName("CustomEditorTemplate");
+            editable.TemplateName("EmployeeScheduleTemplate");
             editable.Create(false);
             editable.Resize(false);
             editable.Destroy(false);
@@ -56,10 +57,10 @@
                 //m.RecurrenceId(f => f.RecurrenceID);
             })
             .Events(e => e.Error("error_handler"))
-            .Read("Services_Read", "ServiceForms")
+            .Read("Employees_Read", "EmployeeSchedules")
             //.Create("Meetings_Create", "Home")
-            .Destroy("Meetings_Destroy", "Home")
-            .Update("Services_Update", "ServiceForms")
+            .Destroy("Employees_Destroy", "EmployeeSchedules")
+            .Update("Employees_Update", "EmployeeSchedules")
 
         )
 )
@@ -79,7 +80,7 @@
             });
             alert(message);
 
-            var scheduler = $("#scheduler").data("kendoScheduler");
+            var scheduler = $("#EmpScheduler").data("kendoScheduler");
             scheduler.one("dataBinding", function (e) {
                 //prevent saving if server error is thrown
                 e.preventDefault();
@@ -89,3 +90,4 @@
 
 
 </script>
+

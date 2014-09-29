@@ -10,31 +10,32 @@
         @Html.ActionLink("Create New", "Create")
     </p>
     <div id="ServiceFormsScheduler">
-        @{Html.RenderAction("ServiceFormScheduler");}}
+        @{Html.RenderAction("ServiceFormScheduler");}
     </div>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EventStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EventEnd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GuestsNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ServiceCost)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ServicePrice)
-            </th>
-            <th></th>
-        </tr>
-    
+    <table class="table" data-sort-order="desc">
+        <thead>
+            <tr>
+                <th data-sortable="true">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventStart)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventEnd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GuestsNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ServiceCost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ServicePrice)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
     @foreach (var item in Model) {
         <tr>
             <td>
