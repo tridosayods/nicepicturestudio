@@ -277,6 +277,7 @@
     <EntitySetMapping Name="Promotions">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.Promotion">
         <MappingFragment StoreEntitySet="Promotion">
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
           <ScalarProperty Name="OutsourceDiscount" ColumnName="OutsourceDiscount" />
           <ScalarProperty Name="OutputDiscount" ColumnName="OutputDiscount" />
           <ScalarProperty Name="LocationDiscount" ColumnName="LocationDiscount" />
@@ -595,5 +596,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="PromotionStatus">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.PromotionStatu">
+        <MappingFragment StoreEntitySet="PromotionStatus">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_Promotion_PromotionStatus" TypeName="NicePictureStudioDBModel.FK_Promotion_PromotionStatus" StoreEntitySet="Promotion">
+      <EndProperty Name="Promotion">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="PromotionStatu">
+        <ScalarProperty Name="Id" ColumnName="Status" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

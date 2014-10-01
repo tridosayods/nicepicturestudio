@@ -135,6 +135,11 @@
       <End Role="Role" EntitySet="Roles" />
     </AssociationSet>
     <EntitySet Name="OutputStatus" EntityType="NicePictureStudioDBModel.OutputStatu" />
+    <EntitySet Name="PromotionStatus" EntityType="NicePictureStudioDBModel.PromotionStatu" />
+    <AssociationSet Name="FK_Promotion_PromotionStatus" Association="NicePictureStudioDBModel.FK_Promotion_PromotionStatus">
+      <End Role="PromotionStatu" EntitySet="PromotionStatus" />
+      <End Role="Promotion" EntitySet="Promotions" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -431,6 +436,8 @@
     <Property Name="OutputDiscount" Type="Int32" Nullable="false" />
     <Property Name="OutsourceDiscount" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Bookings" Relationship="NicePictureStudioDBModel.FK_Booking_Promotion" FromRole="Promotion" ToRole="Booking" />
+    <Property Name="FullName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PromotionStatu" Relationship="NicePictureStudioDBModel.FK_Promotion_PromotionStatus" FromRole="Promotion" ToRole="PromotionStatu" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -677,4 +684,17 @@
     <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
+  <EntityType Name="PromotionStatu">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Promotions" Relationship="NicePictureStudioDBModel.FK_Promotion_PromotionStatus" FromRole="PromotionStatu" ToRole="Promotion" />
+  </EntityType>
+  <Association Name="FK_Promotion_PromotionStatus">
+    <End Type="NicePictureStudioDBModel.PromotionStatu" Role="PromotionStatu" Multiplicity="1" />
+    <End Type="NicePictureStudioDBModel.Promotion" Role="Promotion" Multiplicity="*" />
+  </Association>
 </Schema>

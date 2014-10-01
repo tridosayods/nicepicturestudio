@@ -1,0 +1,144 @@
+﻿@model NicePictureStudio.App_Data.Promotion
+
+<script>
+    //function change() {
+    //    var value = $("#color").val();
+    //    $("#cap")
+    //            .toggleClass("black-cap", value == 1)
+    //            .toggleClass("orange-cap", value == 2)
+    //            .toggleClass("grey-cap", value == 3);
+    //};
+
+   
+    $(document).ready(function () {
+        $("#btnCalculatePromotion").on("click", function () {
+            var url = '@Url.Action("SimpleCalculatePromotion", "Promotions")';
+            $.ajax({
+                url: url,
+                data: {
+                    PhotoGraphDiscount: $("#PhotoGraphDiscount").val(),
+                    EquipmentDiscount: $("#EquipmentDiscount").val(),
+                    LocationDiscount: $("#LocationDiscount").val(),
+                    OutputDiscount: $("#OutputDiscount").val(),
+                    OutsourceDiscount: $("#OutsourceDiscount").val()
+                },
+                type: "POST",
+                success: function (data) { $("#CalculatorPromotion").replaceWith(data); }
+            })
+        });
+    });
+</script>
+
+    <table class="table table-responsive">
+    <tr>
+        <td class="col-md-7">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <h4>Promotion</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CreateDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CreateDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CreateDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ExpireDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ExpireDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ExpireDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PhotoGraphDiscount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.PhotoGraphDiscount, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PhotoGraphDiscount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EquipmentDiscount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.EquipmentDiscount, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.EquipmentDiscount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LocationDiscount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.LocationDiscount, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LocationDiscount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OutputDiscount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.OutputDiscount, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.OutputDiscount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OutsourceDiscount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.OutsourceDiscount, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.OutsourceDiscount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                            <button type="button" class="btn btn-default" id="btnCalculatePromotion">Calculate Promotion</button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        </td>
+        <td class="col-md-5">
+                <h4>Promotion Details</h4>
+                <hr />
+                <h2>รายละเอียดตามแต่ละประเภทของการถ่ายภาพ</h2>
+                <div id="ServicesType">
+                    <div id="CalculatorPromotion"></div>
+                    <div id="ServiceOptions">
+                        <h3>ต้นทุนของการถ่ายภาพแต่ละประเภท</h3>
+                    </div>
+                </div>
+                <br />
+                @{Html.RenderAction("PreWeddingCalculationDetail");}
+</td>
+    </tr>
+</table>
+

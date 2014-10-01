@@ -28,7 +28,9 @@ namespace NicePictureStudio.App_Data
         public int LocationDiscount { get; set; }
         public int OutputDiscount { get; set; }
         public int OutsourceDiscount { get; set; }
+        public string FullName { get; set; }
     
         public virtual ICollection<Booking> Bookings { get; set; }
+        public virtual PromotionStatu PromotionStatu { get; set; }
     }
 }

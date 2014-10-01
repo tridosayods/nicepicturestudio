@@ -369,6 +369,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="200" />
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
     <Property Name="ExpireDate" Type="datetime" Nullable="false" />
     <Property Name="PhotoGraphDiscount" Type="int" Nullable="false" />
@@ -376,6 +377,15 @@
     <Property Name="LocationDiscount" Type="int" Nullable="false" />
     <Property Name="OutputDiscount" Type="int" Nullable="false" />
     <Property Name="OutsourceDiscount" Type="int" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PromotionStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -765,6 +775,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Promotion_PromotionStatus">
+    <End Role="PromotionStatus" Type="Self.PromotionStatus" Multiplicity="1" />
+    <End Role="Promotion" Type="Self.Promotion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PromotionStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Promotion">
+        <PropertyRef Name="Status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ServiceForm_ServiceStatus">
     <End Role="ServiceStatus" Type="Self.ServiceStatus" Multiplicity="1" />
     <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="*" />
@@ -861,6 +883,7 @@
     <EntitySet Name="OutsourceStatus" EntityType="Self.OutsourceStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PhotographService" EntityType="Self.PhotographService" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Promotion" EntityType="Self.Promotion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PromotionStatus" EntityType="Self.PromotionStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceForm" EntityType="Self.ServiceForm" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceMapping" EntityType="Self.ServiceMapping" Schema="dbo" store:Type="Tables" />
@@ -974,6 +997,10 @@
     <AssociationSet Name="FK_OutsourceServiceTiming_ServiceForm" Association="Self.FK_OutsourceServiceTiming_ServiceForm">
       <End Role="ServiceForm" EntitySet="ServiceForm" />
       <End Role="OutsourceServiceTiming" EntitySet="OutsourceServiceTiming" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Promotion_PromotionStatus" Association="Self.FK_Promotion_PromotionStatus">
+      <End Role="PromotionStatus" EntitySet="PromotionStatus" />
+      <End Role="Promotion" EntitySet="Promotion" />
     </AssociationSet>
     <AssociationSet Name="FK_ServiceForm_ServiceStatus" Association="Self.FK_ServiceForm_ServiceStatus">
       <End Role="ServiceStatus" EntitySet="ServiceStatus" />

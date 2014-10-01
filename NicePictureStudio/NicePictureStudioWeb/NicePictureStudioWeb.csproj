@@ -268,6 +268,9 @@
     <Compile Include="App_Data\Promotion.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\PromotionStatu.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\Role.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
@@ -357,10 +360,12 @@
       <DependentUpon>NicePictureStudioDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\OutsourceContactsController.cs" />
+    <Compile Include="Models\PromotionViewModel.cs" />
     <Compile Include="Models\SchedulerViewModels.cs" />
     <Compile Include="Models\ServicesViewModel.cs" />
     <Compile Include="Controllers\OutsourceSchedulesController.cs" />
-    <Compile Include="OutputSchedulesController.cs" />
+    <Compile Include="Controllers\OutputSchedulesController.cs" />
+    <Compile Include="Controllers\PromotionsController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="App_Data\ServiceMetadata.cs" />
@@ -703,6 +708,13 @@
     <Content Include="Views\OutputSchedules\Index.cshtml" />
     <Content Include="Views\OutputSchedules\OutputScheduler.cshtml" />
     <Content Include="Views\OutputSchedules\EditorTemplates\OutputScheduleTemplate.cshtml" />
+    <Content Include="Views\Promotions\Create.cshtml" />
+    <Content Include="Views\Promotions\Delete.cshtml" />
+    <Content Include="Views\Promotions\Details.cshtml" />
+    <Content Include="Views\Promotions\Edit.cshtml" />
+    <Content Include="Views\Promotions\Index.cshtml" />
+    <Content Include="Views\Promotions\PreWeddingCalculationDetail.cshtml" />
+    <Content Include="Views\Promotions\SimpleCalculatePromotion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

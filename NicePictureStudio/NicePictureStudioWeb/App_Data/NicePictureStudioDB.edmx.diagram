@@ -64,6 +64,8 @@
         <AssociationConnector Association="NicePictureStudioDBModel.FK_EmployeeSchedule_Employee" />
         <AssociationConnector Association="NicePictureStudioDBModel.EmployeeRole" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.OutputStatu" Width="1.5" PointX="2.625" PointY="26.875" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.PromotionStatu" Width="1.5" PointX="7.5" PointY="11.25" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_Promotion_PromotionStatus" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
