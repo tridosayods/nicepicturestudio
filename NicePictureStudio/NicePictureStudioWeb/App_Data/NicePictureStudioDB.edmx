@@ -48,7 +48,7 @@
           <Property Name="City" Type="nvarchar" MaxLength="50" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="PostcalCode" Type="nvarchar" MaxLength="10" />
-          <Property Name="AnniversaryDate" Type="date" />
+          <Property Name="AnniversaryDate" Type="datetime" />
           <Property Name="ReferencePerson" Type="nvarchar" MaxLength="100" />
           <Property Name="ReferenceEmail" Type="nvarchar" MaxLength="50" />
           <Property Name="ReferencePhoneNumber" Type="nvarchar" MaxLength="20" />
@@ -118,6 +118,7 @@
           <Property Name="EndTime" Type="datetime" Nullable="false" />
           <Property Name="EmployeeId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="EmployeeServiceId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EmployeeServiceTiming">
           <Key>
@@ -144,6 +145,7 @@
           <Property Name="ModelName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="EquipmentDetail" Type="nvarchar(max)" />
           <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EquipmentSchedule">
           <Key>
@@ -154,6 +156,8 @@
           <Property Name="EndTime" Type="datetime" Nullable="false" />
           <Property Name="EquipmentId" Type="int" Nullable="false" />
           <Property Name="EquipmentServiceId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Remain" Type="int" />
         </EntityType>
         <EntityType Name="EquipmentService">
           <Key>
@@ -215,6 +219,7 @@
           <Property Name="EndTime" Type="datetime" Nullable="false" />
           <Property Name="LocationId" Type="int" Nullable="false" />
           <Property Name="LocationServiceId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="LocationService">
           <Key>
@@ -314,6 +319,7 @@
           <Property Name="EndTime" Type="datetime" Nullable="false" />
           <Property Name="OutsourceId" Type="int" Nullable="false" />
           <Property Name="OutsourceServiceId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OutsourceService">
           <Key>
@@ -1179,7 +1185,7 @@
           <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PostcalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="AnniversaryDate" Type="DateTime" Precision="0" />
+          <Property Name="AnniversaryDate" Type="DateTime" Precision="3" />
           <Property Name="ReferencePerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ReferenceEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ReferencePhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -1216,6 +1222,7 @@
           <NavigationProperty Name="EquipmentStatu" Relationship="NicePictureStudioDBModel.FK_Equipment_EmployeeStatus" FromRole="Equipment" ToRole="EquipmentStatu" />
           <NavigationProperty Name="EquipmentType" Relationship="NicePictureStudioDBModel.FK_Equipment_EquipmentType" FromRole="Equipment" ToRole="EquipmentType" />
           <NavigationProperty Name="EquipmentServices" Relationship="NicePictureStudioDBModel.FK_EquipmentService_Equipment" FromRole="Equipment" ToRole="EquipmentService" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="EquipmentSchedule">
           <Key>
@@ -1227,6 +1234,8 @@
           <Property Name="EquipmentId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.EquipmentServiceTiming" FromRole="EquipmentSchedule" ToRole="ServiceForm" />
           <Property Name="EquipmentServiceId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Remain" Type="Int32" />
         </EntityType>
         <EntityType Name="EquipmentService">
           <Key>
@@ -1286,6 +1295,7 @@
           <Property Name="LocationId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.LocationServiceTiming" FromRole="LocationSchedule" ToRole="ServiceForm" />
           <Property Name="LocationServiceId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="LocationService">
           <Key>
@@ -1368,6 +1378,7 @@
           <Property Name="OutsourceId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.OutsourceServiceTiming" FromRole="OutsourceSchedule" ToRole="ServiceForm" />
           <Property Name="OutsourceServiceId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="OutsourceService">
           <Key>
@@ -1596,6 +1607,7 @@
           <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.EmployeeServiceTiming" FromRole="EmployeeSchedule" ToRole="ServiceForm" />
           <NavigationProperty Name="Employee" Relationship="NicePictureStudioDBModel.FK_EmployeeSchedule_Employee" FromRole="EmployeeSchedule" ToRole="Employee" />
           <Property Name="EmployeeServiceId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="EmployeeServiceTiming">
           <End Type="NicePictureStudioDBModel.EmployeeSchedule" Role="EmployeeSchedule" Multiplicity="*" />
@@ -1745,6 +1757,7 @@
           <EntitySetMapping Name="Equipments">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.Equipment">
               <MappingFragment StoreEntitySet="Equipment">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="EquipmentDetail" ColumnName="EquipmentDetail" />
                 <ScalarProperty Name="ModelName" ColumnName="ModelName" />
                 <ScalarProperty Name="EquipmentName" ColumnName="EquipmentName" />
@@ -1755,6 +1768,8 @@
           <EntitySetMapping Name="EquipmentSchedules">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentSchedule">
               <MappingFragment StoreEntitySet="EquipmentSchedule">
+                <ScalarProperty Name="Remain" ColumnName="Remain" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="EquipmentServiceId" ColumnName="EquipmentServiceId" />
                 <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
@@ -1812,6 +1827,7 @@
           <EntitySetMapping Name="LocationSchedules">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationSchedule">
               <MappingFragment StoreEntitySet="LocationSchedule">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="LocationServiceId" ColumnName="LocationServiceId" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
@@ -1893,6 +1909,7 @@
           <EntitySetMapping Name="OutsourceSchedules">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceSchedule">
               <MappingFragment StoreEntitySet="OutsourceSchedule">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="OutsourceServiceId" ColumnName="OutsourceServiceId" />
                 <ScalarProperty Name="OutsourceId" ColumnName="OutsourceId" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
@@ -2185,6 +2202,7 @@
           <EntitySetMapping Name="EmployeeSchedules">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeSchedule">
               <MappingFragment StoreEntitySet="EmployeeSchedule">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="EmployeeServiceId" ColumnName="EmployeeServiceId" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />

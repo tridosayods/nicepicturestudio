@@ -1,5 +1,5 @@
-﻿@(Html.Kendo().Scheduler<NicePictureStudio.Models.SchedulerViewModels>()
-    .Name("EmpScheduler")
+﻿@(Html.Kendo().Scheduler<NicePictureStudio.Models.EquipmentSchedulerViewModel>()
+    .Name("EqpScheduler")
     .Messages(msg =>
     {
         msg.Cancel("ยกเลิก");
@@ -19,7 +19,7 @@
     })
         .Editable(editable =>
         {
-            editable.TemplateName("EmployeeScheduleTemplate");
+            editable.TemplateName("EquipmentScheduleTemplate");
             editable.Create(false);
             editable.Resize(false);
             editable.Destroy(false);
@@ -36,7 +36,7 @@
                 .BindTo(new[] {
                     new { Text = "New", Value = 1, Color = "#6eb3fa" },
                     new { Text = "Confirm", Value = 2, Color = "#f58a8a" },
-                    new { Text = "Cancel", Value = 3, Color = "#f58a8a" }
+                    new { Text = "Cancel", Value = 3, Color = "#8DB600" }
                 });
             //resource.Add(m => m.Attendees)
             //    .Title("Attendees")
@@ -57,12 +57,13 @@
                 m.Field(f => f.Title).DefaultValue("No title");
                 //m.RecurrenceId(f => f.RecurrenceID);
             })
-            .Events(e => e.Error("error_handler"))
-            .Read("Employees_Read", "EmployeeSchedules")
-            //.Create("Meetings_Create", "Home")
+            .ServerOperation(true)
+                .Events(e => { e.Error("error_handler");e.RequestEnd("RefreshScheduler"); })
+                .Read("Equipments_Read", "EquipmentSchedules")
+            //.Create("Equipments_Update", "EquipmentSchedules")
             //.Destroy("Employees_Destroy", "EmployeeSchedules")
-            .Update("Employees_Update", "EmployeeSchedules")
-
+                .Update("Equipments_Update", "EquipmentSchedules")
+            
         )
 )
 
@@ -81,7 +82,7 @@
             });
             alert(message);
 
-            var scheduler = $("#EmpScheduler").data("kendoScheduler");
+            var scheduler = $("#EqpScheduler").data("kendoScheduler");
             scheduler.one("dataBinding", function (e) {
                 //prevent saving if server error is thrown
                 e.preventDefault();
@@ -89,6 +90,25 @@
         }
     }
 
+    function RefreshScheduler() {
+        //$('#EqpScheduler').data().kendoScheduler.view($('#EqpScheduler').data().kendoScheduler._selectedViewName);
+        @*var scheduler = $('#EqpScheduler').data("kendoScheduler");
+        var data = $('#EqpScheduler').getKendoScheduler();
+        var source = new kendo.data.SchedulerDataSource({
+            transport: {
+                read: {url:'@Url.Action("Equipments_Read", "EquipmentSchedules")',dataType: "jsonp"}
+            }
+        });
+        data.dataSource.fetch(source);
+        scheduler.refresh();
+        alert(source);*@
+       
+        var scheduler = $('#EqpScheduler').data("kendoScheduler");
+        //scheduler.dataSource().refresh();
+        scheduler.refresh();
+    }
+
 
 </script>
+
 

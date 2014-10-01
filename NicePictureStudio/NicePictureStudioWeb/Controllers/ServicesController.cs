@@ -2356,6 +2356,7 @@ namespace NicePictureStudio
         private async Task SaveServiceByCategory(ServiceFormFactory _serviceFactory, ServiceType _serviceType)
         {
             var _servicesTmp = TempData["Services"] as ServicesViewModel;
+            int statusScheduler = 1; //status new
             TempData.Keep();
             ServiceStatu serviceStatus = db.ServiceStatus.Where(s => s.Id == 1).FirstOrDefault();
             Service service = await db.Services.FindAsync(_servicesTmp.Id);
@@ -2404,7 +2405,8 @@ namespace NicePictureStudio
                         Employee = photograph,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
                         EndTime = _serviceFactory.ServiceForm.EventEnd,
-                        EmployeeServiceId = _serviceFactory.PhotoGraphService.PhotoGraphServiceId
+                        EmployeeServiceId = _serviceFactory.PhotoGraphService.PhotoGraphServiceId,
+                        Status = statusScheduler
                     };
                     db.EmployeeSchedules.Add(empSchedule);
                 }
@@ -2422,7 +2424,8 @@ namespace NicePictureStudio
                         Employee = photograph,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
                         EndTime = _serviceFactory.ServiceForm.EventEnd,
-                        EmployeeServiceId = _serviceFactory.PhotoGraphService.PhotoGraphServiceId
+                        EmployeeServiceId = _serviceFactory.PhotoGraphService.PhotoGraphServiceId,
+                        Status = statusScheduler
                     };
                     db.EmployeeSchedules.Add(empSchedule);
                 }
@@ -2441,7 +2444,8 @@ namespace NicePictureStudio
                         EquipmentId = eqp.EquipmentId,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
                         EndTime = _serviceFactory.ServiceForm.EventEnd,
-                        EquipmentServiceId = eqp.EquipmentServiceId
+                        EquipmentServiceId = eqp.EquipmentServiceId,
+                        Status = statusScheduler
                     };
                     db.EquipmentSchedules.Add(equipSchedule);
                 }
@@ -2459,7 +2463,8 @@ namespace NicePictureStudio
                         LocationId = loc.LocationId,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
                         EndTime = _serviceFactory.ServiceForm.EventEnd,
-                        LocationServiceId = loc.LocationServiceId
+                        LocationServiceId = loc.LocationServiceId,
+                        Status = statusScheduler
                     };
                     db.LocationSchedules.Add(locationSchedule);
                 }
@@ -2477,7 +2482,8 @@ namespace NicePictureStudio
                         OutsourceId = outsource.OutsourceId,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
                         EndTime = _serviceFactory.ServiceForm.EventEnd,
-                        OutsourceServiceId = outsource.OutsourceServiceId
+                        OutsourceServiceId = outsource.OutsourceServiceId,
+                        Status = statusScheduler
                     };
                     db.OutsourceSchedules.Add(outsourceSchedule);
                 }
@@ -2666,6 +2672,7 @@ namespace NicePictureStudio
         private async Task EditServiceByCategory(ServiceFormFactory _serviceFactory, ServiceType _serviceType)
         {
             var _servicesTmp = TempData["ServicesEdit"] as ServicesViewModel;
+            int statusScheduler = 1; //status new
             TempData.Keep();
             ServiceStatu serviceStatus = db.ServiceStatus.Where(s => s.Id == 1).FirstOrDefault();
             Service service = await db.Services.FindAsync(_servicesTmp.Id);
@@ -2732,7 +2739,8 @@ namespace NicePictureStudio
                         Employee = photograph,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
                         EndTime = _serviceFactory.ServiceForm.EventEnd,
-                        EmployeeServiceId = _serviceFactory.PhotoGraphService.PhotoGraphServiceId
+                        EmployeeServiceId = _serviceFactory.PhotoGraphService.PhotoGraphServiceId,
+                        Status = statusScheduler
                     };
                     db.EmployeeSchedules.Add(empSchedule);
                 }
@@ -2757,7 +2765,8 @@ namespace NicePictureStudio
                         Employee = photograph,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
                         EndTime = _serviceFactory.ServiceForm.EventEnd,
-                        EmployeeServiceId = _serviceFactory.PhotoGraphService.PhotoGraphServiceId
+                        EmployeeServiceId = _serviceFactory.PhotoGraphService.PhotoGraphServiceId,
+                        Status = statusScheduler
                     };
                     db.EmployeeSchedules.Add(empSchedule);
                 }
@@ -2783,7 +2792,8 @@ namespace NicePictureStudio
                         EquipmentId = eqp.EquipmentId,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
                         EndTime = _serviceFactory.ServiceForm.EventEnd,
-                        EquipmentServiceId = eqp.EquipmentServiceId
+                        EquipmentServiceId = eqp.EquipmentServiceId,
+                        Status = statusScheduler
                     };
                     db.EquipmentSchedules.Add(equipSchedule);
                 }
@@ -2808,7 +2818,8 @@ namespace NicePictureStudio
                         LocationId = loc.LocationId,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
                         EndTime = _serviceFactory.ServiceForm.EventEnd,
-                        LocationServiceId = loc.LocationServiceId
+                        LocationServiceId = loc.LocationServiceId,
+                        Status = statusScheduler
                     };
                     db.LocationSchedules.Add(locationSchedule);
                 }
@@ -2832,7 +2843,8 @@ namespace NicePictureStudio
                         OutsourceId = outsource.OutsourceId,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
                         EndTime = _serviceFactory.ServiceForm.EventEnd,
-                        OutsourceServiceId = outsource.OutsourceServiceId
+                        OutsourceServiceId = outsource.OutsourceServiceId,
+                        Status = statusScheduler
                     };
                     db.OutsourceSchedules.Add(outsourceSchedule);
                 }

@@ -1,4 +1,4 @@
-﻿@model NicePictureStudio.Models.SchedulerViewModels
+﻿@model NicePictureStudio.Models.OutputSchedulerViewModels
 
 @{
     //required in order to render validation attributes
@@ -22,6 +22,22 @@
         datePickerAttributes["required"] = "required";
         datePickerAttributes["style"] = "z-index: inherit;";
         datePickerAttributes["disabled"] = true;
+        return datePickerAttributes;
+    }
+
+    public Dictionary<string, object> generateDatePickerAttributesVisible(
+          string elementId,
+          string fieldName,
+          string dataBindAttribute,
+          Dictionary<string, object> additionalAttributes = null)
+    {
+
+        Dictionary<string, object> datePickerAttributes = additionalAttributes != null ? new Dictionary<string, object>(additionalAttributes) : new Dictionary<string, object>();
+
+        datePickerAttributes["id"] = elementId;
+        datePickerAttributes["name"] = fieldName;
+        datePickerAttributes["data-bind"] = dataBindAttribute;
+        datePickerAttributes["style"] = "z-index: inherit;";
         return datePickerAttributes;
     }
 }
@@ -72,6 +88,29 @@
     <span data-bind="text: endTimezone"></span>
     <span data-for="end" class="k-invalid-msg"></span>
 </div>
+
+<div class="k-edit-label">
+    @(Html.LabelFor(model => model.ReviseDate))
+</div>
+<div data-container-for="ReviseDate" class="k-edit-field">
+
+    @(Html.Kendo().DateTimePickerFor(model => model.ReviseDate)
+                        .HtmlAttributes(generateDatePickerAttributesVisible("ReviseDateTime", "start", "value:ReviseDate,invisible:isAllDay")))
+
+    @(Html.Kendo().DatePickerFor(model => model.ReviseDate)
+                        .HtmlAttributes(generateDatePickerAttributesVisible("ReviseDate", "start", "value:ReviseDate,visible:isAllDay")))
+
+    <span data-bind="text: startTimezone"></span>
+    <span data-for="start" class="k-invalid-msg"></span>
+</div>
+
+<div class="k-edit-label">
+    @(Html.LabelFor(model => model.ReviseCount))
+</div>
+<div data-container-for="ReviseCount" class="k-edit-field">
+    @(Html.TextBoxFor(model => model.ReviseCount, new { @class = "k-textbox", data_bind = "value:ReviseCount" }))
+</div>
+
 
 @*<div class="k-edit-label">
     @(Html.LabelFor(model => model.IsAllDay))

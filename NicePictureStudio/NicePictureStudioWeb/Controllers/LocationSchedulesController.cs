@@ -14,107 +14,107 @@ using Kendo.Mvc.Extensions;
 
 namespace NicePictureStudio
 {
-    public class EmployeeSchedulesController : Controller
+    public class LocationSchedulesController : Controller
     {
         private NicePictureStudioDBEntities db = new NicePictureStudioDBEntities();
 
-        // GET: EmployeeSchedules
+        // GET: LocationSchedules
         public async Task<ActionResult> Index()
         {
-            return View(await db.EmployeeSchedules.ToListAsync());
+            return View(await db.LocationSchedules.ToListAsync());
         }
 
-        // GET: EmployeeSchedules/Details/5
+        // GET: LocationSchedules/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EmployeeSchedule employeeSchedule = await db.EmployeeSchedules.FindAsync(id);
-            if (employeeSchedule == null)
+            LocationSchedule locationSchedule = await db.LocationSchedules.FindAsync(id);
+            if (locationSchedule == null)
             {
                 return HttpNotFound();
             }
-            return View(employeeSchedule);
+            return View(locationSchedule);
         }
 
-        // GET: EmployeeSchedules/Create
+        // GET: LocationSchedules/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: EmployeeSchedules/Create
+        // POST: LocationSchedules/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,StartTime,EndTime,EmployeeServiceId")] EmployeeSchedule employeeSchedule)
+        public async Task<ActionResult> Create([Bind(Include = "Id,StartTime,EndTime,LocationId,LocationServiceId,Status")] LocationSchedule locationSchedule)
         {
             if (ModelState.IsValid)
             {
-                db.EmployeeSchedules.Add(employeeSchedule);
+                db.LocationSchedules.Add(locationSchedule);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(employeeSchedule);
+            return View(locationSchedule);
         }
 
-        // GET: EmployeeSchedules/Edit/5
+        // GET: LocationSchedules/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EmployeeSchedule employeeSchedule = await db.EmployeeSchedules.FindAsync(id);
-            if (employeeSchedule == null)
+            LocationSchedule locationSchedule = await db.LocationSchedules.FindAsync(id);
+            if (locationSchedule == null)
             {
                 return HttpNotFound();
             }
-            return View(employeeSchedule);
+            return View(locationSchedule);
         }
 
-        // POST: EmployeeSchedules/Edit/5
+        // POST: LocationSchedules/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,StartTime,EndTime,EmployeeServiceId")] EmployeeSchedule employeeSchedule)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,StartTime,EndTime,LocationId,LocationServiceId,Status")] LocationSchedule locationSchedule)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(employeeSchedule).State = EntityState.Modified;
+                db.Entry(locationSchedule).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(employeeSchedule);
+            return View(locationSchedule);
         }
 
-        // GET: EmployeeSchedules/Delete/5
+        // GET: LocationSchedules/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EmployeeSchedule employeeSchedule = await db.EmployeeSchedules.FindAsync(id);
-            if (employeeSchedule == null)
+            LocationSchedule locationSchedule = await db.LocationSchedules.FindAsync(id);
+            if (locationSchedule == null)
             {
                 return HttpNotFound();
             }
-            return View(employeeSchedule);
+            return View(locationSchedule);
         }
 
-        // POST: EmployeeSchedules/Delete/5
+        // POST: LocationSchedules/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            EmployeeSchedule employeeSchedule = await db.EmployeeSchedules.FindAsync(id);
-            db.EmployeeSchedules.Remove(employeeSchedule);
+            LocationSchedule locationSchedule = await db.LocationSchedules.FindAsync(id);
+            db.LocationSchedules.Remove(locationSchedule);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
@@ -128,14 +128,14 @@ namespace NicePictureStudio
             base.Dispose(disposing);
         }
 
-        public PartialViewResult EmployeesScheduler()
+        public PartialViewResult LocationScheduler()
         {
             return PartialView();
         }
 
-        public virtual JsonResult Employees_Read([DataSourceRequest] DataSourceRequest request)
+        public virtual JsonResult Locations_Read([DataSourceRequest] DataSourceRequest request)
         {
-            IQueryable<SchedulerViewModels> tasks = CreateEmployeeSchedules().Select(task => new SchedulerViewModels()
+            IQueryable<SchedulerViewModels> tasks = CreateLocationSchedules().Select(task => new SchedulerViewModels()
             {
                 Id = task.Id,
                 Title = task.Title,
@@ -153,7 +153,34 @@ namespace NicePictureStudio
             return Json(tasks.ToDataSourceResult(request));
         }
 
-        public virtual JsonResult Employees_Update([DataSourceRequest] DataSourceRequest request, SchedulerViewModels service)
+        private List<SchedulerViewModels> CreateLocationSchedules()
+        {
+            int statuLocationClose = 2;
+            List<SchedulerViewModels> _listSchecule = new List<SchedulerViewModels>();
+            var allLocation = (from locatonSchedule in db.LocationSchedules
+                               join loc in db.Locations on locatonSchedule.LocationId equals loc.LocationId
+                               where (loc.LocationStatu.Id != statuLocationClose)
+                               select new { locSchedule = locatonSchedule, location = loc }).ToList();
+            foreach (var item in allLocation)
+            {
+                if (item.locSchedule.ServiceForm != null)
+                {
+                    SchedulerViewModels _scheduler = new SchedulerViewModels
+                    {
+                        Id = item.locSchedule.Id,
+                        Title = item.location.LocationName,
+                        Description = item.location.Detail,
+                        Start = item.locSchedule.StartTime,
+                        End = item.locSchedule.EndTime,
+                        selectedStatus = item.locSchedule.Status
+                    };
+                    _listSchecule.Add(_scheduler);
+                }
+            }
+            return _listSchecule;
+        }
+
+        public virtual JsonResult Locations_Update([DataSourceRequest] DataSourceRequest request, SchedulerViewModels service)
         {
             if (ModelState.IsValid)
             {
@@ -163,7 +190,7 @@ namespace NicePictureStudio
                     {
                         service.Title = "";
                     }
-                    var entity = db.EmployeeSchedules.FirstOrDefault(m => m.Id == service.Id);
+                    var entity = db.LocationSchedules.FirstOrDefault(m => m.Id == service.Id);
                     entity.StartTime = service.Start;
                     entity.EndTime = service.End;
                     entity.Status = service.selectedStatus;
@@ -184,32 +211,6 @@ namespace NicePictureStudio
             }
 
             return true;
-        }
-
-        private List<SchedulerViewModels> CreateEmployeeSchedules()
-        {
-            List<SchedulerViewModels> _listSchecule = new List<SchedulerViewModels>();
-            var allemployee = (from empSchedule in db.EmployeeSchedules
-                              join emp in db.Employees on empSchedule.Employee.Id equals emp.Id
-                              where (emp.Position == "PhotoGraph" || emp.Position == "CameraMan")
-                               select empSchedule).ToList();
-            foreach (var item in allemployee)
-            {
-                if (item.ServiceForm != null)
-                {
-                    SchedulerViewModels _scheduler = new SchedulerViewModels
-                    {
-                        Id = item.Id,
-                        Title = item.Employee.Name,
-                        Description = item.Employee.Position,
-                        Start = item.StartTime,
-                        End = item.EndTime,
-                        selectedStatus = item.Status
-                    };
-                    _listSchecule.Add(_scheduler);
-                }
-            }
-            return _listSchecule;
         }
     }
 }

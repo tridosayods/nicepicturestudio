@@ -18,6 +18,7 @@ namespace NicePictureStudio.App_Data
         public System.DateTime StartTime { get; set; }
         public System.DateTime EndTime { get; set; }
         public int EmployeeServiceId { get; set; }
+        public int Status { get; set; }
     
         public virtual ServiceForm ServiceForm { get; set; }
         public virtual Employee Employee { get; set; }

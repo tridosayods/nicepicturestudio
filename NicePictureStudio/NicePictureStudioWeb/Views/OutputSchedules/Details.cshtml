@@ -1,0 +1,82 @@
+﻿@model NicePictureStudio.App_Data.OutputSchedule
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>OutputSchedule</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.PackageName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PackageName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TargetDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TargetDate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.HandOnDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.HandOnDate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ReviseDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ReviseDate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ReviseCount)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ReviseCount)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.OutputServiceId)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.OutputServiceId)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

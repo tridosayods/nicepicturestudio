@@ -1,0 +1,66 @@
+﻿@model IEnumerable<NicePictureStudio.App_Data.OutputSchedule>
+
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+@{Html.RenderAction("OutputScheduler", "OutputSchedules");}
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PackageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TargetDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HandOnDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviseCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OutputServiceId)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PackageName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TargetDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HandOnDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReviseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReviseCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OutputServiceId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+

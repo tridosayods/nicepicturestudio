@@ -70,6 +70,7 @@
     <EntitySetMapping Name="Equipments">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.Equipment">
         <MappingFragment StoreEntitySet="Equipment">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="EquipmentDetail" ColumnName="EquipmentDetail" />
           <ScalarProperty Name="ModelName" ColumnName="ModelName" />
           <ScalarProperty Name="EquipmentName" ColumnName="EquipmentName" />
@@ -80,6 +81,8 @@
     <EntitySetMapping Name="EquipmentSchedules">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentSchedule">
         <MappingFragment StoreEntitySet="EquipmentSchedule">
+          <ScalarProperty Name="Remain" ColumnName="Remain" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="EquipmentServiceId" ColumnName="EquipmentServiceId" />
           <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
           <ScalarProperty Name="EndTime" ColumnName="EndTime" />
@@ -137,6 +140,7 @@
     <EntitySetMapping Name="LocationSchedules">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationSchedule">
         <MappingFragment StoreEntitySet="LocationSchedule">
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="LocationServiceId" ColumnName="LocationServiceId" />
           <ScalarProperty Name="LocationId" ColumnName="LocationId" />
           <ScalarProperty Name="EndTime" ColumnName="EndTime" />
@@ -218,6 +222,7 @@
     <EntitySetMapping Name="OutsourceSchedules">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutsourceSchedule">
         <MappingFragment StoreEntitySet="OutsourceSchedule">
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="OutsourceServiceId" ColumnName="OutsourceServiceId" />
           <ScalarProperty Name="OutsourceId" ColumnName="OutsourceId" />
           <ScalarProperty Name="EndTime" ColumnName="EndTime" />
@@ -510,6 +515,7 @@
     <EntitySetMapping Name="EmployeeSchedules">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeSchedule">
         <MappingFragment StoreEntitySet="EmployeeSchedule">
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="EmployeeServiceId" ColumnName="EmployeeServiceId" />
           <ScalarProperty Name="EndTime" ColumnName="EndTime" />
           <ScalarProperty Name="StartTime" ColumnName="StartTime" />

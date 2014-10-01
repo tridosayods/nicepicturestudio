@@ -297,10 +297,12 @@
     <Compile Include="Controllers\EquipmentsController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\EmployeeSchedulesController.cs" />
+    <Compile Include="Controllers\EquipmentSchedulesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Controllers\LocationsController.cs" />
+    <Compile Include="Controllers\LocationSchedulesController.cs" />
     <Compile Include="Migrations\201409131242439_EF6-FirstMig.cs" />
     <Compile Include="Migrations\201409131242439_EF6-FirstMig.Designer.cs">
       <DependentUpon>201409131242439_EF6-FirstMig.cs</DependentUpon>
@@ -357,6 +359,8 @@
     <Compile Include="Controllers\OutsourceContactsController.cs" />
     <Compile Include="Models\SchedulerViewModels.cs" />
     <Compile Include="Models\ServicesViewModel.cs" />
+    <Compile Include="Controllers\OutsourceSchedulesController.cs" />
+    <Compile Include="OutputSchedulesController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="App_Data\ServiceMetadata.cs" />
@@ -671,6 +675,34 @@
     <Content Include="Views\EmployeeSchedules\Index.cshtml" />
     <Content Include="Views\EmployeeSchedules\EmployeesScheduler.cshtml" />
     <Content Include="Views\EmployeeSchedules\EditorTemplates\EmployeeScheduleTemplate.cshtml" />
+    <Content Include="Views\EquipmentSchedules\Create.cshtml" />
+    <Content Include="Views\EquipmentSchedules\Delete.cshtml" />
+    <Content Include="Views\EquipmentSchedules\Details.cshtml" />
+    <Content Include="Views\EquipmentSchedules\Edit.cshtml" />
+    <Content Include="Views\EquipmentSchedules\Index.cshtml" />
+    <Content Include="Views\EquipmentSchedules\EquipmentScheduler.cshtml" />
+    <Content Include="Views\EquipmentSchedules\EditorTemplates\EquipmentScheduleTemplate.cshtml" />
+    <Content Include="Views\EquipmentSchedules\GetRemainNumberFromDatabase.cshtml" />
+    <Content Include="Views\LocationSchedules\Create.cshtml" />
+    <Content Include="Views\LocationSchedules\Delete.cshtml" />
+    <Content Include="Views\LocationSchedules\Details.cshtml" />
+    <Content Include="Views\LocationSchedules\Edit.cshtml" />
+    <Content Include="Views\LocationSchedules\Index.cshtml" />
+    <Content Include="Views\LocationSchedules\LocationScheduler.cshtml" />
+    <Content Include="Views\LocationSchedules\EditorTemplates\LocationScheduleTemplate.cshtml" />
+    <Content Include="Views\OutsourceSchedules\Create.cshtml" />
+    <Content Include="Views\OutsourceSchedules\Delete.cshtml" />
+    <Content Include="Views\OutsourceSchedules\Details.cshtml" />
+    <Content Include="Views\OutsourceSchedules\Edit.cshtml" />
+    <Content Include="Views\OutsourceSchedules\Index.cshtml" />
+    <Content Include="Views\OutsourceSchedules\OutsourceScheduler.cshtml" />
+    <Content Include="Views\OutputSchedules\Create.cshtml" />
+    <Content Include="Views\OutputSchedules\Delete.cshtml" />
+    <Content Include="Views\OutputSchedules\Details.cshtml" />
+    <Content Include="Views\OutputSchedules\Edit.cshtml" />
+    <Content Include="Views\OutputSchedules\Index.cshtml" />
+    <Content Include="Views\OutputSchedules\OutputScheduler.cshtml" />
+    <Content Include="Views\OutputSchedules\EditorTemplates\OutputScheduleTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">
@@ -704,6 +736,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\OutsourceSchedules\EditorTemplates\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

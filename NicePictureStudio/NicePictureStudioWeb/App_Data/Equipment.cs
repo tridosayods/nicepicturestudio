@@ -23,6 +23,7 @@ namespace NicePictureStudio.App_Data
         public string EquipmentName { get; set; }
         public string ModelName { get; set; }
         public string EquipmentDetail { get; set; }
+        public int Quantity { get; set; }
     
         public virtual EquipmentStatu EquipmentStatu { get; set; }
         public virtual EquipmentType EquipmentType { get; set; }
