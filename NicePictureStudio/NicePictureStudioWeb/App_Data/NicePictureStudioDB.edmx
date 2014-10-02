@@ -37,6 +37,48 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="CRMForm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Feedback" Type="nvarchar(max)" />
+          <Property Name="Timestamp" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CRMScrores">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CRMFormId" Type="int" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <EntityType Name="CRMServiceCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="CRMServiceType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="CRMTemplates">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ServiceCategory" Type="int" Nullable="false" />
+          <Property Name="ServiceType" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="CustomerId" />
@@ -488,6 +530,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CRMScrores_CRMForm">
+          <End Role="CRMForm" Type="Self.CRMForm" Multiplicity="1" />
+          <End Role="CRMScrores" Type="Self.CRMScrores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CRMForm">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CRMScrores">
+              <PropertyRef Name="CRMFormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CRMScrores_CRMTemplates">
+          <End Role="CRMTemplates" Type="Self.CRMTemplates" Multiplicity="1" />
+          <End Role="CRMScrores" Type="Self.CRMScrores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CRMTemplates">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CRMScrores">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CRMTemplates_CRMServiceCategory">
+          <End Role="CRMServiceCategory" Type="Self.CRMServiceCategory" Multiplicity="1" />
+          <End Role="CRMTemplates" Type="Self.CRMTemplates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CRMServiceCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CRMTemplates">
+              <PropertyRef Name="ServiceCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CRMTemplates_CRMServiceType">
+          <End Role="CRMServiceType" Type="Self.CRMServiceType" Multiplicity="1" />
+          <End Role="CRMTemplates" Type="Self.CRMTemplates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CRMServiceType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CRMTemplates">
+              <PropertyRef Name="ServiceType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -856,6 +946,11 @@
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookingStatus" EntityType="Self.BookingStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CRMForm" EntityType="Self.CRMForm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CRMScrores" EntityType="Self.CRMScrores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CRMServiceCategory" EntityType="Self.CRMServiceCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CRMServiceType" EntityType="Self.CRMServiceType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CRMTemplates" EntityType="Self.CRMTemplates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeClaim" EntityType="Self.EmployeeClaim" Schema="dbo" store:Type="Tables" />
@@ -906,6 +1001,22 @@
           <AssociationSet Name="FK_Booking_Services" Association="Self.FK_Booking_Services">
             <End Role="Services" EntitySet="Services" />
             <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CRMScrores_CRMForm" Association="Self.FK_CRMScrores_CRMForm">
+            <End Role="CRMForm" EntitySet="CRMForm" />
+            <End Role="CRMScrores" EntitySet="CRMScrores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CRMScrores_CRMTemplates" Association="Self.FK_CRMScrores_CRMTemplates">
+            <End Role="CRMTemplates" EntitySet="CRMTemplates" />
+            <End Role="CRMScrores" EntitySet="CRMScrores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CRMTemplates_CRMServiceCategory" Association="Self.FK_CRMTemplates_CRMServiceCategory">
+            <End Role="CRMServiceCategory" EntitySet="CRMServiceCategory" />
+            <End Role="CRMTemplates" EntitySet="CRMTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CRMTemplates_CRMServiceType" Association="Self.FK_CRMTemplates_CRMServiceType">
+            <End Role="CRMServiceType" EntitySet="CRMServiceType" />
+            <End Role="CRMTemplates" EntitySet="CRMTemplates" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId" Association="Self.FK_dbo_EmployeeClaim_dbo_Employee_UserId">
             <End Role="Employee" EntitySet="Employee" />
@@ -1171,6 +1282,27 @@
           <AssociationSet Name="FK_Promotion_PromotionStatus" Association="NicePictureStudioDBModel.FK_Promotion_PromotionStatus">
             <End Role="PromotionStatu" EntitySet="PromotionStatus" />
             <End Role="Promotion" EntitySet="Promotions" />
+          </AssociationSet>
+          <EntitySet Name="CRMForms" EntityType="NicePictureStudioDBModel.CRMForm" />
+          <EntitySet Name="CRMScrores" EntityType="NicePictureStudioDBModel.CRMScrore" />
+          <EntitySet Name="CRMTemplates" EntityType="NicePictureStudioDBModel.CRMTemplate" />
+          <AssociationSet Name="FK_CRMScrores_CRMForm" Association="NicePictureStudioDBModel.FK_CRMScrores_CRMForm">
+            <End Role="CRMForm" EntitySet="CRMForms" />
+            <End Role="CRMScrore" EntitySet="CRMScrores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CRMScrores_CRMTemplates" Association="NicePictureStudioDBModel.FK_CRMScrores_CRMTemplates">
+            <End Role="CRMTemplate" EntitySet="CRMTemplates" />
+            <End Role="CRMScrore" EntitySet="CRMScrores" />
+          </AssociationSet>
+          <EntitySet Name="CRMServiceCategories" EntityType="NicePictureStudioDBModel.CRMServiceCategory" />
+          <AssociationSet Name="FK_CRMTemplates_CRMServiceCategory" Association="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceCategory">
+            <End Role="CRMServiceCategory" EntitySet="CRMServiceCategories" />
+            <End Role="CRMTemplate" EntitySet="CRMTemplates" />
+          </AssociationSet>
+          <EntitySet Name="CRMServiceTypes" EntityType="NicePictureStudioDBModel.CRMServiceType" />
+          <AssociationSet Name="FK_CRMTemplates_CRMServiceType" Association="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceType">
+            <End Role="CRMServiceType" EntitySet="CRMServiceTypes" />
+            <End Role="CRMTemplate" EntitySet="CRMTemplates" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="C__MigrationHistory">
@@ -1728,6 +1860,86 @@
         <Association Name="FK_Promotion_PromotionStatus">
           <End Type="NicePictureStudioDBModel.PromotionStatu" Role="PromotionStatu" Multiplicity="1" />
           <End Type="NicePictureStudioDBModel.Promotion" Role="Promotion" Multiplicity="*" />
+        </Association>
+        <EntityType Name="CRMForm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Feedback" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CRMScrores" Relationship="NicePictureStudioDBModel.FK_CRMScrores_CRMForm" FromRole="CRMForm" ToRole="CRMScrore" />
+        </EntityType>
+        <EntityType Name="CRMScrore">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Score" Type="Int32" />
+          <NavigationProperty Name="CRMForm" Relationship="NicePictureStudioDBModel.FK_CRMScrores_CRMForm" FromRole="CRMScrore" ToRole="CRMForm" />
+          <NavigationProperty Name="CRMTemplate" Relationship="NicePictureStudioDBModel.FK_CRMScrores_CRMTemplates" FromRole="CRMScrore" ToRole="CRMTemplate" />
+        </EntityType>
+        <EntityType Name="CRMTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceCategory" Type="Int32" Nullable="false" />
+          <Property Name="ServiceType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CRMScrores" Relationship="NicePictureStudioDBModel.FK_CRMScrores_CRMTemplates" FromRole="CRMTemplate" ToRole="CRMScrore" />
+          <NavigationProperty Name="CRMServiceCategory" Relationship="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceCategory" FromRole="CRMTemplate" ToRole="CRMServiceCategory" />
+          <NavigationProperty Name="CRMServiceType" Relationship="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceType" FromRole="CRMTemplate" ToRole="CRMServiceType" />
+        </EntityType>
+        <Association Name="FK_CRMScrores_CRMForm">
+          <End Type="NicePictureStudioDBModel.CRMForm" Role="CRMForm" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.CRMScrore" Role="CRMScrore" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_CRMScrores_CRMTemplates">
+          <End Type="NicePictureStudioDBModel.CRMTemplate" Role="CRMTemplate" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.CRMScrore" Role="CRMScrore" Multiplicity="*" />
+        </Association>
+        <EntityType Name="CRMServiceCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CRMTemplates" Relationship="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceCategory" FromRole="CRMServiceCategory" ToRole="CRMTemplate" />
+        </EntityType>
+        <Association Name="FK_CRMTemplates_CRMServiceCategory">
+          <End Type="NicePictureStudioDBModel.CRMServiceCategory" Role="CRMServiceCategory" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.CRMTemplate" Role="CRMTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CRMServiceCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CRMTemplate">
+              <PropertyRef Name="ServiceCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CRMServiceType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CRMTemplates" Relationship="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceType" FromRole="CRMServiceType" ToRole="CRMTemplate" />
+        </EntityType>
+        <Association Name="FK_CRMTemplates_CRMServiceType">
+          <End Type="NicePictureStudioDBModel.CRMServiceType" Role="CRMServiceType" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.CRMTemplate" Role="CRMTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CRMServiceType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CRMTemplate">
+              <PropertyRef Name="ServiceType" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -2347,6 +2559,67 @@
               <ScalarProperty Name="Id" ColumnName="Status" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="CRMForms">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.CRMForm">
+              <MappingFragment StoreEntitySet="CRMForm">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRMScrores">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.CRMScrore">
+              <MappingFragment StoreEntitySet="CRMScrores">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRMTemplates">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.CRMTemplate">
+              <MappingFragment StoreEntitySet="CRMTemplates">
+                <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
+                <ScalarProperty Name="ServiceCategory" ColumnName="ServiceCategory" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_CRMScrores_CRMForm" TypeName="NicePictureStudioDBModel.FK_CRMScrores_CRMForm" StoreEntitySet="CRMScrores">
+            <EndProperty Name="CRMScrore">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="CRMForm">
+              <ScalarProperty Name="Id" ColumnName="CRMFormId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_CRMScrores_CRMTemplates" TypeName="NicePictureStudioDBModel.FK_CRMScrores_CRMTemplates" StoreEntitySet="CRMScrores">
+            <EndProperty Name="CRMScrore">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="CRMTemplate">
+              <ScalarProperty Name="Id" ColumnName="QuestionId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="CRMServiceCategories">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.CRMServiceCategory">
+              <MappingFragment StoreEntitySet="CRMServiceCategory">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRMServiceTypes">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.CRMServiceType">
+              <MappingFragment StoreEntitySet="CRMServiceType">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

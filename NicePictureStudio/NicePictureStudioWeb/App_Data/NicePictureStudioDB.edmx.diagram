@@ -64,8 +64,17 @@
         <AssociationConnector Association="NicePictureStudioDBModel.FK_EmployeeSchedule_Employee" />
         <AssociationConnector Association="NicePictureStudioDBModel.EmployeeRole" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.OutputStatu" Width="1.5" PointX="2.625" PointY="26.875" />
-        <EntityTypeShape EntityType="NicePictureStudioDBModel.PromotionStatu" Width="1.5" PointX="7.5" PointY="11.25" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.PromotionStatu" Width="1.5" PointX="9.625" PointY="12.875" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Promotion_PromotionStatus" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.CRMForm" Width="1.5" PointX="10.375" PointY="17.75" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.CRMScrore" Width="1.5" PointX="12.625" PointY="17.75" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.CRMTemplate" Width="1.5" PointX="14" PointY="21" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_CRMScrores_CRMForm" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_CRMScrores_CRMTemplates" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.CRMServiceCategory" Width="2.375" PointX="16.75" PointY="21.625" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceCategory" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.CRMServiceType" Width="1.5" PointX="13.75" PointY="25.625" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

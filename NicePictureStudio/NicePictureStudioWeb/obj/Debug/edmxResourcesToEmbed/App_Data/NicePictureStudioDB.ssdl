@@ -32,6 +32,48 @@
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
+  <EntityType Name="CRMForm">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Feedback" Type="nvarchar(max)" />
+    <Property Name="Timestamp" Type="datetime" />
+  </EntityType>
+  <EntityType Name="CRMScrores">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CRMFormId" Type="int" Nullable="false" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="Score" Type="int" />
+  </EntityType>
+  <EntityType Name="CRMServiceCategory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="CRMServiceType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="CRMTemplates">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Question" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ServiceCategory" Type="int" Nullable="false" />
+    <Property Name="ServiceType" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Customer">
     <Key>
       <PropertyRef Name="CustomerId" />
@@ -483,6 +525,54 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_CRMScrores_CRMForm">
+    <End Role="CRMForm" Type="Self.CRMForm" Multiplicity="1" />
+    <End Role="CRMScrores" Type="Self.CRMScrores" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CRMForm">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CRMScrores">
+        <PropertyRef Name="CRMFormId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CRMScrores_CRMTemplates">
+    <End Role="CRMTemplates" Type="Self.CRMTemplates" Multiplicity="1" />
+    <End Role="CRMScrores" Type="Self.CRMScrores" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CRMTemplates">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CRMScrores">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CRMTemplates_CRMServiceCategory">
+    <End Role="CRMServiceCategory" Type="Self.CRMServiceCategory" Multiplicity="1" />
+    <End Role="CRMTemplates" Type="Self.CRMTemplates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CRMServiceCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CRMTemplates">
+        <PropertyRef Name="ServiceCategory" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CRMTemplates_CRMServiceType">
+    <End Role="CRMServiceType" Type="Self.CRMServiceType" Multiplicity="1" />
+    <End Role="CRMTemplates" Type="Self.CRMTemplates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CRMServiceType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CRMTemplates">
+        <PropertyRef Name="ServiceType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -851,6 +941,11 @@
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BookingStatus" EntityType="Self.BookingStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CRMForm" EntityType="Self.CRMForm" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CRMScrores" EntityType="Self.CRMScrores" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CRMServiceCategory" EntityType="Self.CRMServiceCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CRMServiceType" EntityType="Self.CRMServiceType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CRMTemplates" EntityType="Self.CRMTemplates" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EmployeeClaim" EntityType="Self.EmployeeClaim" Schema="dbo" store:Type="Tables" />
@@ -901,6 +996,22 @@
     <AssociationSet Name="FK_Booking_Services" Association="Self.FK_Booking_Services">
       <End Role="Services" EntitySet="Services" />
       <End Role="Booking" EntitySet="Booking" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CRMScrores_CRMForm" Association="Self.FK_CRMScrores_CRMForm">
+      <End Role="CRMForm" EntitySet="CRMForm" />
+      <End Role="CRMScrores" EntitySet="CRMScrores" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CRMScrores_CRMTemplates" Association="Self.FK_CRMScrores_CRMTemplates">
+      <End Role="CRMTemplates" EntitySet="CRMTemplates" />
+      <End Role="CRMScrores" EntitySet="CRMScrores" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CRMTemplates_CRMServiceCategory" Association="Self.FK_CRMTemplates_CRMServiceCategory">
+      <End Role="CRMServiceCategory" EntitySet="CRMServiceCategory" />
+      <End Role="CRMTemplates" EntitySet="CRMTemplates" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CRMTemplates_CRMServiceType" Association="Self.FK_CRMTemplates_CRMServiceType">
+      <End Role="CRMServiceType" EntitySet="CRMServiceType" />
+      <End Role="CRMTemplates" EntitySet="CRMTemplates" />
     </AssociationSet>
     <AssociationSet Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId" Association="Self.FK_dbo_EmployeeClaim_dbo_Employee_UserId">
       <End Role="Employee" EntitySet="Employee" />

@@ -60,5 +60,10 @@ namespace NicePictureStudio.App_Data
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<OutputStatu> OutputStatus { get; set; }
         public virtual DbSet<PromotionStatu> PromotionStatus { get; set; }
+        public virtual DbSet<CRMForm> CRMForms { get; set; }
+        public virtual DbSet<CRMScrore> CRMScrores { get; set; }
+        public virtual DbSet<CRMTemplate> CRMTemplates { get; set; }
+        public virtual DbSet<CRMServiceCategory> CRMServiceCategories { get; set; }
+        public virtual DbSet<CRMServiceType> CRMServiceTypes { get; set; }
     }
 }

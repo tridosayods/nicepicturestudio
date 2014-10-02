@@ -186,6 +186,21 @@
     <Compile Include="App_Data\BookingStatu.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\CRMForm.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\CRMScrore.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\CRMServiceCategory.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\CRMServiceType.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\CRMTemplate.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\Customer.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
@@ -301,6 +316,7 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\EmployeeSchedulesController.cs" />
     <Compile Include="Controllers\EquipmentSchedulesController.cs" />
+    <Compile Include="CRMTemplatesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -715,6 +731,13 @@
     <Content Include="Views\Promotions\Index.cshtml" />
     <Content Include="Views\Promotions\PreWeddingCalculationDetail.cshtml" />
     <Content Include="Views\Promotions\SimpleCalculatePromotion.cshtml" />
+    <Content Include="Views\CRMTemplates\Create.cshtml" />
+    <Content Include="Views\CRMTemplates\Delete.cshtml" />
+    <Content Include="Views\CRMTemplates\Details.cshtml" />
+    <Content Include="Views\CRMTemplates\Edit.cshtml" />
+    <Content Include="Views\CRMTemplates\Index.cshtml" />
+    <Content Include="Views\CRMTemplates\NoCRMPageFound.cshtml" />
+    <Content Include="Views\CRMTemplates\CRMApprisal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

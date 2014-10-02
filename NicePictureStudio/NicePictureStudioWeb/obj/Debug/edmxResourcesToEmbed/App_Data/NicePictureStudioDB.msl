@@ -613,5 +613,66 @@
         <ScalarProperty Name="Id" ColumnName="Status" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="CRMForms">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.CRMForm">
+        <MappingFragment StoreEntitySet="CRMForm">
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Feedback" ColumnName="Feedback" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CRMScrores">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.CRMScrore">
+        <MappingFragment StoreEntitySet="CRMScrores">
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CRMTemplates">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.CRMTemplate">
+        <MappingFragment StoreEntitySet="CRMTemplates">
+          <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
+          <ScalarProperty Name="ServiceCategory" ColumnName="ServiceCategory" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_CRMScrores_CRMForm" TypeName="NicePictureStudioDBModel.FK_CRMScrores_CRMForm" StoreEntitySet="CRMScrores">
+      <EndProperty Name="CRMScrore">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="CRMForm">
+        <ScalarProperty Name="Id" ColumnName="CRMFormId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_CRMScrores_CRMTemplates" TypeName="NicePictureStudioDBModel.FK_CRMScrores_CRMTemplates" StoreEntitySet="CRMScrores">
+      <EndProperty Name="CRMScrore">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="CRMTemplate">
+        <ScalarProperty Name="Id" ColumnName="QuestionId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="CRMServiceCategories">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.CRMServiceCategory">
+        <MappingFragment StoreEntitySet="CRMServiceCategory">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CRMServiceTypes">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.CRMServiceType">
+        <MappingFragment StoreEntitySet="CRMServiceType">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
