@@ -218,7 +218,9 @@ namespace NicePictureStudio
         public async Task<ActionResult> Create([Bind(Include = "Id,BookingName,GroomName,BrideName,SpecialRequest,Payment,PayAmount,CustomerId,CRMFormId")] Service service, int BookingId=0)
         {
             //booking status 2 => booking confirm
+            //Service status 1 => create new
             int _bookingConfirm = 2;
+            int _serviceNew = 1;
             if (ModelState.IsValid)
             {
                 //finding promotion
@@ -239,6 +241,7 @@ namespace NicePictureStudio
 
                 //Save to DB
                 service.Customer = await db.Customers.FindAsync(_servicesTmp.Customer.CustomerId);
+                service.ServiceStatu = await db.ServiceStatus.FindAsync(_serviceNew);
                 db.Services.Add(service);
                 db.SaveChanges();
 

@@ -1,4 +1,4 @@
-﻿@model NicePictureStudio.App_Data.Customer
+﻿@model NicePictureStudio.Models.CRMModel
 
 <h2>สวัสดี คุณ @Model.CustomerName</h2>    
 <p>ขอความกรุณาตอบแบบประเมินการให้บริการ ของ บริษัท รูปสวยโฟโต้ จำกัด</p>
@@ -13,53 +13,70 @@
 {
     @Html.AntiForgeryToken()
 
-    <table class="table table-bordered table-striped" cellspacing="0" width="100%" id="tblServices">
+    <table class="table table-bordered table-striped" cellspacing="0" id="tblServices">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayName("หัวข้อ")
+            <th rowspan="2" class="col-md-2 col-lg-5 text-center" style="vertical-align:middle">
+                @Html.DisplayName("แบบประเมิน")
             </th>
-            <th>
-                @Html.DisplayName("คะแนน")
-            </th>
+            <th colspan="5" align="center" class="text-center">@Html.DisplayName("คะแนนความพึงพอใจ")</th>
         </tr>
+        <tr>
+            <th class="col-md-2 col-lg-1 text-center" align="center">
+                @Html.DisplayName("ไม่พอใจมาก")
+            </th>
+            <th class="col-md-2 col-lg-1 text-center" align="center">
+                @Html.DisplayName("ไม่พอใจ")
+            </th>
+            <th class="col-md-2 col-lg-1 text-center" align="center">
+                @Html.DisplayName("เฉยๆ")
+            </th>
+            <th class="col-md-2 col-lg-1 text-center" align="center">
+                @Html.DisplayName("พอใจ")
+            </th>
+            <th class="col-md-2 col-lg-1 text-center" align="center">
+             @Html.DisplayName("พอใจมาก")
+            </th>
+</tr>
+
     </thead>
     <tbody>
-            @foreach (NicePictureStudio.App_Data.CRMTemplate item in ViewBag.QuestionList)
+            @*@foreach (NicePictureStudio.Models.Question item in @Model.Questions)
             {
                 <tr>
-                    <td>@item.Question</td>
+                    <td><div>@Html.HiddenFor()</div><div>@item.QuestionText</div></td>
                     <td>
-                        <div class="btn-group" id="RadioBtnSelcet" data-toggle="button">
+                        <div class="btn-group" id="ABC">
                             <label class="radio-inline">
-                                <input type="radio" class="toggle"name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1
+                                <input type="radio" name="@item.Id" id="@item.Id" value="option1"> 1
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 2
+                                <input type="radio" name="@item.Id" id="@item.Id" value="option2"> 2
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 3
+                                <input type="radio" name="@item.Id" id="@item.Id" value="option3"> 3
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4"> 4
+                                <input type="radio" name="@item.Id" id="@item.Id" value="option4"> 4
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5"> 5
+                                <input type="radio" name="@item.Id" id="@item.Id" value="option5"> 5
                             </label>
                         </div>
                     </td>
                 </tr>
-            }
+            }*@
+        @Html.EditorFor(x=>x.Questions)
         <tr>
-            <td colspan="2"align="center">
-                @(Html.Kendo().Editor()
-                .Name("FeedbackEditor")
-                .HtmlAttributes(new { style = "width: 740px;height:440px" })
-                )
+            <td colspan="6"align="center" >
+                <h4>ข้อเสนอแนะเพิ่มเติม : </h4>
+                <div>
+                    @Html.TextArea("TxtArea", new { @rows=10,@cols=250,@style="max-width:500px" })
+                </div>
             </td>
         </tr>
         <tr>
-            <td colspan="2" align="center">
+            <td colspan="6" align="center">
                 <input type="submit" class="btn btn-primary" value="Submit" />
             </td>
         </tr>

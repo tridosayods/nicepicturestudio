@@ -472,6 +472,7 @@
     <Property Name="PayAmount" Type="decimal" Precision="18" Scale="3" />
     <Property Name="CustomerId" Type="int" Nullable="false" />
     <Property Name="CRMFormId" Type="int" />
+    <Property Name="Status" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ServiceStatus">
     <Key>
@@ -937,6 +938,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Services_Services">
+    <End Role="ServiceStatus" Type="Self.ServiceStatus" Multiplicity="1" />
+    <End Role="Services" Type="Self.Services" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Services">
+        <PropertyRef Name="Status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="NicePictureStudioDBModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
@@ -1131,6 +1144,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Services_Customer" Association="Self.FK_Services_Customer">
       <End Role="Customer" EntitySet="Customer" />
+      <End Role="Services" EntitySet="Services" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Services_Services" Association="Self.FK_Services_Services">
+      <End Role="ServiceStatus" EntitySet="ServiceStatus" />
       <End Role="Services" EntitySet="Services" />
     </AssociationSet>
   </EntityContainer>

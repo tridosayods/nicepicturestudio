@@ -1,0 +1,80 @@
+﻿@model NicePictureStudio.Models.CustomerRelation
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Customer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerPhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerPhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnniversaryDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnniversaryDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReferenceName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReferenceName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReferenceEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReferenceEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReferencePhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReferencePhoneNumber)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "CRMCustomerRelation")
+</p>
+

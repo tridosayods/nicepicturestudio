@@ -358,6 +358,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="App_Data\BookingMetadata.cs" />
+    <Compile Include="Models\CRMModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="App_Data\NicePictureStudioDB.Context.cs">
@@ -738,6 +739,10 @@
     <Content Include="Views\CRMTemplates\Index.cshtml" />
     <Content Include="Views\CRMTemplates\NoCRMPageFound.cshtml" />
     <Content Include="Views\CRMTemplates\CRMApprisal.cshtml" />
+    <Content Include="Views\CRMTemplates\EditorTemplates\Question.cshtml" />
+    <Content Include="Views\CRMTemplates\FinishingApprisal.cshtml" />
+    <Content Include="Views\CRMTemplates\CRMCustomerRelation.cshtml" />
+    <Content Include="Views\CRMTemplates\CRMCustomerRelationDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

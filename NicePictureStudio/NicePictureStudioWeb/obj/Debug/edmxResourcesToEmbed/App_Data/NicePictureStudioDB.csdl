@@ -161,6 +161,10 @@
       <End Role="CRMServiceType" EntitySet="CRMServiceTypes" />
       <End Role="CRMTemplate" EntitySet="CRMTemplates" />
     </AssociationSet>
+    <AssociationSet Name="FK_Services_Services" Association="NicePictureStudioDBModel.FK_Services_Services">
+      <End Role="ServiceStatu" EntitySet="ServiceStatus" />
+      <End Role="Service" EntitySet="Services" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -505,6 +509,7 @@
     <NavigationProperty Name="Bookings" Relationship="NicePictureStudioDBModel.FK_Booking_Services" FromRole="Service" ToRole="Booking" />
     <NavigationProperty Name="Customer" Relationship="NicePictureStudioDBModel.FK_Services_Customer" FromRole="Service" ToRole="Customer" />
     <NavigationProperty Name="ServiceForms" Relationship="NicePictureStudioDBModel.ServiceMapping" FromRole="Service" ToRole="ServiceForm" />
+    <NavigationProperty Name="ServiceStatu" Relationship="NicePictureStudioDBModel.FK_Services_Services" FromRole="Service" ToRole="ServiceStatu" />
   </EntityType>
   <EntityType Name="ServiceStatu">
     <Key>
@@ -514,6 +519,7 @@
     <Property Name="StatusName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="ServiceForms" Relationship="NicePictureStudioDBModel.FK_ServiceForm_ServiceStatus" FromRole="ServiceStatu" ToRole="ServiceForm" />
+    <NavigationProperty Name="Services" Relationship="NicePictureStudioDBModel.FK_Services_Services" FromRole="ServiceStatu" ToRole="Service" />
   </EntityType>
   <EntityType Name="ServiceType">
     <Key>
@@ -797,5 +803,9 @@
         <PropertyRef Name="ServiceType" />
       </Dependent>
     </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Services_Services">
+    <End Type="NicePictureStudioDBModel.ServiceStatu" Role="ServiceStatu" Multiplicity="1" />
+    <End Type="NicePictureStudioDBModel.Service" Role="Service" Multiplicity="*" />
   </Association>
 </Schema>

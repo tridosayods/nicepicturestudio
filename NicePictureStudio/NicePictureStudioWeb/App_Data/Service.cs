@@ -32,5 +32,6 @@ namespace NicePictureStudio.App_Data
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual ICollection<ServiceForm> ServiceForms { get; set; }
+        public virtual ServiceStatu ServiceStatu { get; set; }
     }
 }

@@ -75,6 +75,7 @@
         <AssociationConnector Association="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceCategory" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.CRMServiceType" Width="1.5" PointX="13.75" PointY="25.625" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceType" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_Services_Services" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

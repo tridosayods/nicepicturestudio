@@ -477,6 +477,7 @@
           <Property Name="PayAmount" Type="decimal" Precision="18" Scale="3" />
           <Property Name="CustomerId" Type="int" Nullable="false" />
           <Property Name="CRMFormId" Type="int" />
+          <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ServiceStatus">
           <Key>
@@ -942,6 +943,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Services_Services">
+          <End Role="ServiceStatus" Type="Self.ServiceStatus" Multiplicity="1" />
+          <End Role="Services" Type="Self.Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="NicePictureStudioDBModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
@@ -1138,6 +1151,10 @@
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Services" EntitySet="Services" />
           </AssociationSet>
+          <AssociationSet Name="FK_Services_Services" Association="Self.FK_Services_Services">
+            <End Role="ServiceStatus" EntitySet="ServiceStatus" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -1303,6 +1320,10 @@
           <AssociationSet Name="FK_CRMTemplates_CRMServiceType" Association="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceType">
             <End Role="CRMServiceType" EntitySet="CRMServiceTypes" />
             <End Role="CRMTemplate" EntitySet="CRMTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Services" Association="NicePictureStudioDBModel.FK_Services_Services">
+            <End Role="ServiceStatu" EntitySet="ServiceStatus" />
+            <End Role="Service" EntitySet="Services" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="C__MigrationHistory">
@@ -1648,6 +1669,7 @@
           <NavigationProperty Name="Bookings" Relationship="NicePictureStudioDBModel.FK_Booking_Services" FromRole="Service" ToRole="Booking" />
           <NavigationProperty Name="Customer" Relationship="NicePictureStudioDBModel.FK_Services_Customer" FromRole="Service" ToRole="Customer" />
           <NavigationProperty Name="ServiceForms" Relationship="NicePictureStudioDBModel.ServiceMapping" FromRole="Service" ToRole="ServiceForm" />
+          <NavigationProperty Name="ServiceStatu" Relationship="NicePictureStudioDBModel.FK_Services_Services" FromRole="Service" ToRole="ServiceStatu" />
         </EntityType>
         <EntityType Name="ServiceStatu">
           <Key>
@@ -1657,6 +1679,7 @@
           <Property Name="StatusName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ServiceForms" Relationship="NicePictureStudioDBModel.FK_ServiceForm_ServiceStatus" FromRole="ServiceStatu" ToRole="ServiceForm" />
+          <NavigationProperty Name="Services" Relationship="NicePictureStudioDBModel.FK_Services_Services" FromRole="ServiceStatu" ToRole="Service" />
         </EntityType>
         <EntityType Name="ServiceType">
           <Key>
@@ -1940,6 +1963,10 @@
               <PropertyRef Name="ServiceType" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Services">
+          <End Type="NicePictureStudioDBModel.ServiceStatu" Role="ServiceStatu" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.Service" Role="Service" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -2620,6 +2647,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="FK_Services_Services" TypeName="NicePictureStudioDBModel.FK_Services_Services" StoreEntitySet="Services">
+            <EndProperty Name="Service">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="ServiceStatu">
+              <ScalarProperty Name="Id" ColumnName="Status" />
+            </EndProperty>
+          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

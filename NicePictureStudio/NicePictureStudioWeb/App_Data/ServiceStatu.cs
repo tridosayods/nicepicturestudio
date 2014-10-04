@@ -17,6 +17,7 @@ namespace NicePictureStudio.App_Data
         public ServiceStatu()
         {
             this.ServiceForms = new HashSet<ServiceForm>();
+            this.Services = new HashSet<Service>();
         }
     
         public int Id { get; set; }
@@ -24,5 +25,6 @@ namespace NicePictureStudio.App_Data
         public string Description { get; set; }
     
         public virtual ICollection<ServiceForm> ServiceForms { get; set; }
+        public virtual ICollection<Service> Services { get; set; }
     }
 }

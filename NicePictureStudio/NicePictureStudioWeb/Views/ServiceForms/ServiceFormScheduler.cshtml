@@ -23,8 +23,6 @@
             editable.Resize(false);
             editable.Destroy(false);
         })
-        //.BindTo(Model)
-        //.Timezone("Etc/UTC")
         .Resources(resource =>
         {
             resource.Add(m => m.selectedStatus)
@@ -62,7 +60,7 @@
             .Update("Services_Update", "ServiceForms")
 
         )
-)
+    )
 
 
 
