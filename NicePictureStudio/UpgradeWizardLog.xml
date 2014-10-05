@@ -1,0 +1,633 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="_UpgradeWizard_Files\UpgradeWizardLog.xslt"?>
+<log>
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\NicePictureStudioWeb.csproj" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" name="201409131242439_EF6-FirstMig.resx" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Migrations\201409131242439_EF6-FirstMig.resx" />
+  <event action="Analyze" type="Success" name="201409131317207_SecondMig.resx" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Migrations\201409131317207_SecondMig.resx" />
+  <event action="Analyze" type="Success" name="201409131431088_Third-Mig.resx" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Migrations\201409131431088_Third-Mig.resx" />
+  <event action="Analyze" type="Success" name="201409131504152_Forth-Mig.resx" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Migrations\201409131504152_Forth-Mig.resx" />
+  <event action="Analyze" type="Success" name="201409141516262_ChgIDfromEmp.resx" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Migrations\201409141516262_ChgIDfromEmp.resx" />
+  <event action="Analyze" type="Success" name="201409141642371_reviewBackAllIdentity.resx" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Migrations\201409141642371_reviewBackAllIdentity.resx" />
+  <event action="Analyze" type="Success" name="201409141659193_Restore.resx" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Migrations\201409141659193_Restore.resx" />
+  <event action="Analyze" type="Success" name="201409141838496_R3.resx" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Migrations\201409141838496_R3.resx" />
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\packages.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\packages.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\packages.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\packages.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\packages.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\packages.config" />
+  <event action="Analyze" type="Success" name="packages.config" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\packages.config" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Project_Readme.html" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Project_Readme.html" />
+  <event action="Analyze" type="Success" name="Project_Readme.html" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Project_Readme.html" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\_ViewStart.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\_ViewStart.cshtml" />
+  <event action="Analyze" type="Success" name="_ViewStart.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\_ViewStart.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\_ChangePasswordPartial.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\_ChangePasswordPartial.cshtml" />
+  <event action="Analyze" type="Success" name="_ChangePasswordPartial.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\_ChangePasswordPartial.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\_ExternalLoginsListPartial.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\_ExternalLoginsListPartial.cshtml" />
+  <event action="Analyze" type="Success" name="_ExternalLoginsListPartial.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\_ExternalLoginsListPartial.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\_RemoveAccountPartial.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\_RemoveAccountPartial.cshtml" />
+  <event action="Analyze" type="Success" name="_RemoveAccountPartial.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\_RemoveAccountPartial.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\_SetPasswordPartial.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\_SetPasswordPartial.cshtml" />
+  <event action="Analyze" type="Success" name="_SetPasswordPartial.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\_SetPasswordPartial.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ConfirmEmail.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ConfirmEmail.cshtml" />
+  <event action="Analyze" type="Success" name="ConfirmEmail.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ConfirmEmail.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\DisplayEmail.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\DisplayEmail.cshtml" />
+  <event action="Analyze" type="Success" name="DisplayEmail.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\DisplayEmail.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ExternalLoginConfirmation.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ExternalLoginConfirmation.cshtml" />
+  <event action="Analyze" type="Success" name="ExternalLoginConfirmation.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ExternalLoginConfirmation.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ExternalLoginFailure.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ExternalLoginFailure.cshtml" />
+  <event action="Analyze" type="Success" name="ExternalLoginFailure.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ExternalLoginFailure.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ForgotPassword.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ForgotPassword.cshtml" />
+  <event action="Analyze" type="Success" name="ForgotPassword.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ForgotPassword.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ForgotPasswordConfirmation.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ForgotPasswordConfirmation.cshtml" />
+  <event action="Analyze" type="Success" name="ForgotPasswordConfirmation.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ForgotPasswordConfirmation.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\Login.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\Login.cshtml" />
+  <event action="Analyze" type="Success" name="Login.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\Login.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\Manage.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\Manage.cshtml" />
+  <event action="Analyze" type="Success" name="Manage.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\Manage.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\Register.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\Register.cshtml" />
+  <event action="Analyze" type="Success" name="Register.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\Register.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ResetPassword.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ResetPassword.cshtml" />
+  <event action="Analyze" type="Success" name="ResetPassword.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ResetPassword.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ResetPasswordConfirmation.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ResetPasswordConfirmation.cshtml" />
+  <event action="Analyze" type="Success" name="ResetPasswordConfirmation.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\ResetPasswordConfirmation.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\SendCode.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\SendCode.cshtml" />
+  <event action="Analyze" type="Success" name="SendCode.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\SendCode.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\VerifyCode.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\VerifyCode.cshtml" />
+  <event action="Analyze" type="Success" name="VerifyCode.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Account\VerifyCode.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Bookings\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\CRMApprisal.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\CRMApprisal.cshtml" />
+  <event action="Analyze" type="Success" name="CRMApprisal.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\CRMApprisal.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\CRMCustomerRelation.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\CRMCustomerRelation.cshtml" />
+  <event action="Analyze" type="Success" name="CRMCustomerRelation.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\CRMCustomerRelation.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\CRMCustomerRelationDetails.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\CRMCustomerRelationDetails.cshtml" />
+  <event action="Analyze" type="Success" name="CRMCustomerRelationDetails.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\CRMCustomerRelationDetails.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\EditorTemplates\Question.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\EditorTemplates\Question.cshtml" />
+  <event action="Analyze" type="Success" name="Question.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\EditorTemplates\Question.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\FinishingApprisal.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\FinishingApprisal.cshtml" />
+  <event action="Analyze" type="Success" name="FinishingApprisal.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\FinishingApprisal.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\NoCRMPageFound.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\NoCRMPageFound.cshtml" />
+  <event action="Analyze" type="Success" name="NoCRMPageFound.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\CRMTemplates\NoCRMPageFound.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Customers\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\EditorTemplates\EmployeeScheduleTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\EditorTemplates\EmployeeScheduleTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="EmployeeScheduleTemplate.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\EditorTemplates\EmployeeScheduleTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\EmployeesScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\EmployeesScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="EmployeesScheduler.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\EmployeesScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EmployeeSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Equipments\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\EditorTemplates\EquipmentScheduleTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\EditorTemplates\EquipmentScheduleTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="EquipmentScheduleTemplate.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\EditorTemplates\EquipmentScheduleTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\EquipmentScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\EquipmentScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="EquipmentScheduler.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\EquipmentScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\GetRemainNumberFromDatabase.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\GetRemainNumberFromDatabase.cshtml" />
+  <event action="Analyze" type="Success" name="GetRemainNumberFromDatabase.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\GetRemainNumberFromDatabase.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\EquipmentSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Home\About.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Home\About.cshtml" />
+  <event action="Analyze" type="Success" name="About.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Home\About.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Home\Contact.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Home\Contact.cshtml" />
+  <event action="Analyze" type="Success" name="Contact.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Home\Contact.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Home\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Home\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Home\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Locations\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\EditorTemplates\LocationScheduleTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\EditorTemplates\LocationScheduleTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="LocationScheduleTemplate.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\EditorTemplates\LocationScheduleTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\LocationScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\LocationScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="LocationScheduler.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\LocationSchedules\LocationScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\AddPhoneNumber.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\AddPhoneNumber.cshtml" />
+  <event action="Analyze" type="Success" name="AddPhoneNumber.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\AddPhoneNumber.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\ChangePassword.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\ChangePassword.cshtml" />
+  <event action="Analyze" type="Success" name="ChangePassword.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\ChangePassword.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\ManageLogins.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\ManageLogins.cshtml" />
+  <event action="Analyze" type="Success" name="ManageLogins.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\ManageLogins.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\SetPassword.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\SetPassword.cshtml" />
+  <event action="Analyze" type="Success" name="SetPassword.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\SetPassword.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\VerifyPhoneNumber.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\VerifyPhoneNumber.cshtml" />
+  <event action="Analyze" type="Success" name="VerifyPhoneNumber.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Manage\VerifyPhoneNumber.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\EditorTemplates\OutputScheduleTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\EditorTemplates\OutputScheduleTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="OutputScheduleTemplate.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\EditorTemplates\OutputScheduleTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\OutputScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\OutputScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="OutputScheduler.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutputSchedules\OutputScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceContacts\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\OutsourceScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\OutsourceScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="OutsourceScheduler.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\OutsourceSchedules\OutsourceScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\PreWeddingCalculationDetail.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\PreWeddingCalculationDetail.cshtml" />
+  <event action="Analyze" type="Success" name="PreWeddingCalculationDetail.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\PreWeddingCalculationDetail.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\SimpleCalculatePromotion.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\SimpleCalculatePromotion.cshtml" />
+  <event action="Analyze" type="Success" name="SimpleCalculatePromotion.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Promotions\SimpleCalculatePromotion.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\RolesAdmin\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\EditorTemplates\CustomEditorTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\EditorTemplates\CustomEditorTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="CustomEditorTemplate.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\EditorTemplates\CustomEditorTemplate.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\ServiceFormScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\ServiceFormScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="ServiceFormScheduler.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\ServiceForms\ServiceFormScheduler.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CalculateServicesCostSummary.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CalculateServicesCostSummary.cshtml" />
+  <event action="Analyze" type="Success" name="CalculateServicesCostSummary.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CalculateServicesCostSummary.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CalculateServicesCostSummaryWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CalculateServicesCostSummaryWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="CalculateServicesCostSummaryWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CalculateServicesCostSummaryWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateCustomerFromService.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateCustomerFromService.cshtml" />
+  <event action="Analyze" type="Success" name="CreateCustomerFromService.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateCustomerFromService.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateEquipmentServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateEquipmentServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="CreateEquipmentServiceByModal.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateEquipmentServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateEquipmentServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateEquipmentServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="CreateEquipmentServiceByModalWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateEquipmentServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateEquipmentServiceTable.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateEquipmentServiceTable.cshtml" />
+  <event action="Analyze" type="Success" name="CreateEquipmentServiceTable.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateEquipmentServiceTable.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateEquipmentServiceTableWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateEquipmentServiceTableWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="CreateEquipmentServiceTableWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateEquipmentServiceTableWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateLocationServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateLocationServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="CreateLocationServiceByModal.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateLocationServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateLocationServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateLocationServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="CreateLocationServiceByModalWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateLocationServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateLocationServiceTable.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateLocationServiceTable.cshtml" />
+  <event action="Analyze" type="Success" name="CreateLocationServiceTable.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateLocationServiceTable.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateLocationServiceTableWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateLocationServiceTableWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="CreateLocationServiceTableWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateLocationServiceTableWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutputServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutputServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="CreateOutputServiceByModal.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutputServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutputServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutputServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="CreateOutputServiceByModalWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutputServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutputServiceTable.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutputServiceTable.cshtml" />
+  <event action="Analyze" type="Success" name="CreateOutputServiceTable.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutputServiceTable.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutputServiceTableWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutputServiceTableWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="CreateOutputServiceTableWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutputServiceTableWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutsourceServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutsourceServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="CreateOutsourceServiceByModal.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutsourceServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutsourceServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutsourceServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="CreateOutsourceServiceByModalWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutsourceServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutsourceServiceTable.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutsourceServiceTable.cshtml" />
+  <event action="Analyze" type="Success" name="CreateOutsourceServiceTable.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutsourceServiceTable.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutsourceServiceTableWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutsourceServiceTableWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="CreateOutsourceServiceTableWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateOutsourceServiceTableWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreatePhotoGraphServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreatePhotoGraphServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="CreatePhotoGraphServiceByModal.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreatePhotoGraphServiceByModal.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreatePhotoGraphServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreatePhotoGraphServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="CreatePhotoGraphServiceByModalWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreatePhotoGraphServiceByModalWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateServiceFormFromService.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateServiceFormFromService.cshtml" />
+  <event action="Analyze" type="Success" name="CreateServiceFormFromService.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateServiceFormFromService.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateServiceFormFromServiceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateServiceFormFromServiceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="CreateServiceFormFromServiceWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\CreateServiceFormFromServiceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsCustomerFromService.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsCustomerFromService.cshtml" />
+  <event action="Analyze" type="Success" name="DetailsCustomerFromService.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsCustomerFromService.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsCustomerFromServiceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsCustomerFromServiceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="DetailsCustomerFromServiceWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsCustomerFromServiceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsService.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsService.cshtml" />
+  <event action="Analyze" type="Success" name="DetailsService.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsService.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsServiceForEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsServiceForEdit.cshtml" />
+  <event action="Analyze" type="Success" name="DetailsServiceForEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsServiceForEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsServiceFormFromService.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsServiceFormFromService.cshtml" />
+  <event action="Analyze" type="Success" name="DetailsServiceFormFromService.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\DetailsServiceFormFromService.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\EditCustomerFromService.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\EditCustomerFromService.cshtml" />
+  <event action="Analyze" type="Success" name="EditCustomerFromService.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\EditCustomerFromService.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\EditCustomerFromServiceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\EditCustomerFromServiceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="EditCustomerFromServiceWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\EditCustomerFromServiceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\EditService.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\EditService.cshtml" />
+  <event action="Analyze" type="Success" name="EditService.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\EditService.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\EditServiceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\EditServiceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="EditServiceWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\EditServiceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\GetServiceFormById.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\GetServiceFormById.cshtml" />
+  <event action="Analyze" type="Success" name="GetServiceFormById.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\GetServiceFormById.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveEquipment.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveEquipment.cshtml" />
+  <event action="Analyze" type="Success" name="RemoveEquipment.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveEquipment.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveEquipmentWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveEquipmentWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="RemoveEquipmentWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveEquipmentWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveLocation.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveLocation.cshtml" />
+  <event action="Analyze" type="Success" name="RemoveLocation.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveLocation.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveLocationWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveLocationWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="RemoveLocationWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveLocationWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveOutput.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveOutput.cshtml" />
+  <event action="Analyze" type="Success" name="RemoveOutput.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveOutput.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveOutputWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveOutputWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="RemoveOutputWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveOutputWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveOutsource.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveOutsource.cshtml" />
+  <event action="Analyze" type="Success" name="RemoveOutsource.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveOutsource.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveOutsourceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveOutsourceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="RemoveOutsourceWhenEdit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemoveOutsourceWhenEdit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemovePreWeddingService.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemovePreWeddingService.cshtml" />
+  <event action="Analyze" type="Success" name="RemovePreWeddingService.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\RemovePreWeddingService.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\SaveAllDocument.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\SaveAllDocument.cshtml" />
+  <event action="Analyze" type="Success" name="SaveAllDocument.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\SaveAllDocument.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\ViewCustomerFromService.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\ViewCustomerFromService.cshtml" />
+  <event action="Analyze" type="Success" name="ViewCustomerFromService.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Services\ViewCustomerFromService.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\_CustomMenus.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\_CustomMenus.cshtml" />
+  <event action="Analyze" type="Success" name="_CustomMenus.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\_CustomMenus.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\_Layout.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\_Layout.cshtml" />
+  <event action="Analyze" type="Success" name="_Layout.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\_Layout.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\_LoginPartial.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\_LoginPartial.cshtml" />
+  <event action="Analyze" type="Success" name="_LoginPartial.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\_LoginPartial.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\Error.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\Error.cshtml" />
+  <event action="Analyze" type="Success" name="Error.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\Error.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\Lockout.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\Lockout.cshtml" />
+  <event action="Analyze" type="Success" name="Lockout.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Shared\Lockout.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Create.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Create.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Delete.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Delete.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Details.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Details.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Edit.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Edit.cshtml" />
+  <event action="Analyze" type="Success" name="Register Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly Directives" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Index.cshtml" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\UsersAdmin\Index.cshtml" />
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Web.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Web.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Web.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Web.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Web.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Web.config" />
+  <event action="Analyze" type="Success" name="Web.config" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Views\Web.config" />
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.config" />
+  <event action="Analyze" type="Success" name="Web.config" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.config" />
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Web.Debug.config" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Assembly References" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Release.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Release.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Release.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Release.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Release.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Release.config" />
+  <event action="Analyze" type="Success" name="Web.Release.config" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\Web.Release.config" />
+  <event action="Analyze" type="Success" name="NicePictureStudioWeb" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioWeb\NicePictureStudioWeb.csproj" />
+  <event action="Analyze" type="Success" name="NicePictureStudio" path="D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudio.sln" />
+</log>

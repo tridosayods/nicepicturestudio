@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" >
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/styles/css")
@@ -10,6 +10,9 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/kendo")
+
+    @RenderSection("styles", required: false)
+    @RenderSection("scripts", required: false)
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -20,17 +23,61 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })
+               
+                 @Html.ActionLink("รูปสวยโฟโต้", "Index", "Home", null, new { @class = "navbar-brand", @style = "vertical-align:middle" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
 
-                    @if (Request.IsAuthenticated && User.IsInRole("Admin")) {
-                        <li>@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin")</li>
-                        <li>@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin")</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">การให้บริการ <span class="caret"></span></a>
+                        <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
+                            <li>@Html.ActionLink("จอง", "Index", "Bookings")</li>
+                            <li>@Html.ActionLink("การให้บริการ", "Index", "Services")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">ตารางการถ่ายภาพ <span class="caret"></span></a>
+                        <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
+                            <li>@Html.ActionLink("ตารางงาน", "Index", "ServiceForms")</li>
+                            <li>@Html.ActionLink("ตารางงานของช่างภาพ", "Index", "EmployeeSchedules")</li>
+                            <li>@Html.ActionLink("ตารางอุปกรณ์", "Index", "EquipmentSchedules")</li>
+                            <li>@Html.ActionLink("ตารางสถานที่", "Index", "LocationSchedules")</li>
+                            <li>@Html.ActionLink("ตารางงานการจัดจ้่ง", "Index", "OutsourceSchedules")</li>
+                            <li>@Html.ActionLink("ตารางงานส่งลูกค้า", "Index", "OutputScheduler")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">ลูกค้า <span class="caret"></span></a>
+                        <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
+                            <li>@Html.ActionLink("ลูกค้า", "Index", "Customers")</li>
+                            <li>@Html.ActionLink("การสร้างแบบประเมิน", "Index", "CRMTemplates")</li>
+                            <li>@Html.ActionLink("ลูกค้าสัมพันธ์", "CRMCustomerRelation", "CRMTemplates")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">รายงาน <span class="caret"></span></a>
+                        <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
+                            <li>@Html.ActionLink("รายงาน", "", "")</li>
+                        </ul>
+                    </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">ติดต่อเรา <span class="caret"></span></a>
+                        <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
+                            <li>@Html.ActionLink("เกี่ยวกับเรา", "Index", "Home")</li>
+                        </ul>
+                    </li>
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">บริการ <span class="caret"></span></a>
+                            <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
+                                <li>@Html.ActionLink("การจัดการตำแหน่ง", "Index", "RolesAdmin")</li>
+                                <li>@Html.ActionLink("การจัดการบุคคล", "Index", "UsersAdmin")</li>
+                                <li>@Html.ActionLink("การจัดการข้อมูลหลัก", "Contact", "Home")</li>
+                            </ul>
+                        </li>
+                       
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -41,12 +88,12 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - รูปสวยโฟโต้ จำกัด</p>
         </footer>
     </div>
 
 
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @*@RenderSection("scripts", required: false)*@
 </body>
 </html>

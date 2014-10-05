@@ -17,7 +17,10 @@ namespace NicePictureStudio
 
             bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
                        "~/Scripts/kendo/kendo.all.min.js",
-                       "~/Scripts/kendo/kendo.timezones.min.js", "~/Scripts/kendo/kendo.aspnetmvc.min.js"
+                       "~/Scripts/kendo/kendo.timezones.min.js",
+                       "~/Scripts/kendo/kendo.aspnetmvc.min.js",
+                       "~/Scripts/kendo/kendo.web.min.js",
+                       "~/Scripts/kendo/kendo.mobile.min.js"
                        
                        ));
 
@@ -42,7 +45,10 @@ namespace NicePictureStudio
 
             bundles.Add(new StyleBundle("~/Content/styles/css").Include(
                       "~/Content/styles/kendo.common-bootstrap.min.css",
-                      "~/Content/styles/kendo.bootstrap.min.css"
+                      "~/Content/styles/kendo.bootstrap.min.css",
+                      "~/Content/styles/kendo.common.min.css",
+                      "~/Content/styles/kendo.blueopal.min.css",
+                      "~/Content/font-awesome-4.2.0/css/font-awesome.css"
                       ));
             bundles.IgnoreList.Clear();
         }
