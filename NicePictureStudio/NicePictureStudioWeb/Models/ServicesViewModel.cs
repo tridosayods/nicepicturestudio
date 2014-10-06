@@ -490,4 +490,18 @@ namespace NicePictureStudio.Models
             }
         }
     }
+
+    public class ServiceGridViewModel
+    {
+        public int Id { get; set; }
+        public string BookingName { get; set; }
+        public string GroomName { get; set; }
+        public string BrideName { get; set; }
+        public string SpecialRequest { get; set; }
+        public Nullable<decimal> Payment { get; set; }
+        public Nullable<decimal> PayAmount { get; set; }
+        
+        public string CustomerName { get; set; }
+        public string ServiceStatus { get; set; }
+    }
 }

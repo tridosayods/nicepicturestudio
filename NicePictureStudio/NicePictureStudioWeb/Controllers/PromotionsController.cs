@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using NicePictureStudio.App_Data;
 using NicePictureStudio.Models;
 using System.Globalization;
+using NicePictureStudio.Utils;
 
 namespace NicePictureStudio
 {
@@ -53,6 +54,7 @@ namespace NicePictureStudio
         {
             if (ModelState.IsValid)
             {
+                promotion.PromotionStatu = await db.PromotionStatus.FindAsync(Constant.PROMORION_ACTIVE);
                 db.Promotions.Add(promotion);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

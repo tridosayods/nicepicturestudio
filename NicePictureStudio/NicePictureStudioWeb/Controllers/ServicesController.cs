@@ -11,6 +11,8 @@ using NicePictureStudio.App_Data;
 using NicePictureStudio.Models;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using Kendo.Mvc.UI;
+using Kendo.Mvc.Extensions;
 
 namespace NicePictureStudio
 {
@@ -166,6 +168,25 @@ namespace NicePictureStudio
             return View(await services.ToListAsync());
         }
 
+        public ActionResult Services_read([DataSourceRequest] DataSourceRequest request)
+        {
+            var services = db.Services.Include(s => s.Customer);
+            IQueryable<ServiceGridViewModel> tasks = services.Select(task => new ServiceGridViewModel()
+            {
+                Id = task.Id,
+                BookingName = task.BookingName,
+                BrideName = task.BrideName,
+                GroomName = task.GroomName,
+                PayAmount = task.PayAmount,
+                Payment = task.Payment,
+               CustomerName = task.Customer.CustomerName,
+               ServiceStatus = task.ServiceStatu.StatusName,
+               SpecialRequest = task.SpecialRequest
+            }
+             ).AsQueryable();
+            return Json(tasks.ToDataSourceResult(request));
+        }
+
         // GET: Services/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -242,6 +263,8 @@ namespace NicePictureStudio
                 //Save to DB
                 service.Customer = await db.Customers.FindAsync(_servicesTmp.Customer.CustomerId);
                 service.ServiceStatu = await db.ServiceStatus.FindAsync(_serviceNew);
+                service.PayAmount = 0;
+                service.Payment = 0;
                 db.Services.Add(service);
                 db.SaveChanges();
 

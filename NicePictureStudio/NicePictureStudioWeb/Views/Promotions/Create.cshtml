@@ -60,7 +60,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.CreateDate, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.CreateDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.Kendo().DateTimePickerFor(model => model.CreateDate).Name("CreateDate")
                             @Html.ValidationMessageFor(model => model.CreateDate, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.ExpireDate, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.ExpireDate, new { htmlAttributes = new { @class = "form-control" } })
+                           @Html.Kendo().DateTimePickerFor(model => model.ExpireDate).Name("ExpireDate")
                             @Html.ValidationMessageFor(model => model.ExpireDate, "", new { @class = "text-danger" })
                         </div>
                     </div>

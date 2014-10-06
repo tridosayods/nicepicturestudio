@@ -393,6 +393,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="App_Data\BookingMetadata.cs" />
+    <Compile Include="Models\BookingViewsModel.cs" />
     <Compile Include="Models\CRMModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />

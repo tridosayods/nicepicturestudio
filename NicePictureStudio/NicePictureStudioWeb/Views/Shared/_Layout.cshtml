@@ -43,22 +43,24 @@
                             <li>@Html.ActionLink("ตารางงานของช่างภาพ", "Index", "EmployeeSchedules")</li>
                             <li>@Html.ActionLink("ตารางอุปกรณ์", "Index", "EquipmentSchedules")</li>
                             <li>@Html.ActionLink("ตารางสถานที่", "Index", "LocationSchedules")</li>
-                            <li>@Html.ActionLink("ตารางงานการจัดจ้่ง", "Index", "OutsourceSchedules")</li>
-                            <li>@Html.ActionLink("ตารางงานส่งลูกค้า", "Index", "OutputScheduler")</li>
+                            <li>@Html.ActionLink("ตารางงานการจัดจ้าง", "Index", "OutsourceSchedules")</li>
+                            <li>@Html.ActionLink("ตารางงานส่งลูกค้า", "Index", "OutputSchedules")</li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">ลูกค้า <span class="caret"></span></a>
                         <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
                             <li>@Html.ActionLink("ลูกค้า", "Index", "Customers")</li>
+                            <li>@Html.ActionLink("โปรโมชั่น", "Index", "Promotions")</li>
                             <li>@Html.ActionLink("การสร้างแบบประเมิน", "Index", "CRMTemplates")</li>
+                            <li>@Html.ActionLink("ตัวอย่าง CRM", "CRMApprisal", "CRMTemplates", new { id = 3 },null)</li>
                             <li>@Html.ActionLink("ลูกค้าสัมพันธ์", "CRMCustomerRelation", "CRMTemplates")</li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">รายงาน <span class="caret"></span></a>
                         <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
-                            <li>@Html.ActionLink("รายงาน", "", "")</li>
+                            <li>@Html.ActionLink("รายงาน", "CRMReportCustomerRelation", "CRMTemplates")</li>
                         </ul>
                     </li>
                       <li class="dropdown">

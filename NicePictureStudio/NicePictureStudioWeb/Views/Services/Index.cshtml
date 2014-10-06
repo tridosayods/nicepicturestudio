@@ -6,7 +6,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#tblServices').dataTable();
+    //$('#tblServices').dataTable();
 } );
 </script>
 
@@ -15,7 +15,7 @@ $(document).ready(function() {
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table table-bordered table-striped" cellspacing="0" width="100%" id="tblServices">
+@*<table class="table table-bordered table-striped table-hover" cellspacing="0" width="100%" id="tblServices">
     <thead>
         <tr>
             <th>
@@ -37,10 +37,10 @@ $(document).ready(function() {
                 @Html.DisplayNameFor(model => model.PayAmount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CRMFormId)
+                @Html.DisplayNameFor(model => model.Customer.CustomerName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Customer.CustomerName)
+               Status
             </th>
             <th></th>
         </tr>
@@ -67,10 +67,10 @@ $(document).ready(function() {
                 @Html.DisplayNameFor(model => model.PayAmount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CRMFormId)
+                @Html.DisplayNameFor(model => model.Customer.CustomerName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Customer.CustomerName)
+                Status
             </th>
             <th></th>
         </tr>
@@ -79,8 +79,43 @@ $(document).ready(function() {
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
+            if (item.ServiceStatu.Id == 3)
+            { 
+               <text><tr class="success">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookingName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GroomName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BrideName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SpecialRequest)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Payment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PayAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ServiceStatu.StatusName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("CreateCRM", "GenerateCRMForm", new { id = item.Id })
+                    </td>
+                </tr>
+                </text>
+            }
+            else
+            {
+                <text><tr>
+                    <td>
                     @Html.DisplayFor(modelItem => item.BookingName)
                 </td>
                 <td>
@@ -99,17 +134,52 @@ $(document).ready(function() {
                     @Html.DisplayFor(modelItem => item.PayAmount)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CRMFormId)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Customer.CustomerName)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.DisplayFor(modelItem => item.ServiceStatu.StatusName)
                 </td>
-            </tr>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Cancel", "", new { id = item.Id })
+                </td>
+            </tr>       
+                </text>
+            }
+            
         }
     </tbody>
-</table>
+</table>*@
+
+@(Html.Kendo().Grid<NicePictureStudio.Models.ServiceGridViewModel>()
+    .Name("srvGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.BookingName).Filterable(false).Width(100);
+        columns.Bound(p => p.GroomName).Width(150);
+        columns.Bound(p => p.BrideName).Format("{0:MM/dd/yyyy}").Width(140);
+        columns.Bound(p => p.Payment);
+        columns.Bound(p => p.PayAmount).Width(150);
+        columns.Bound(p => p.CustomerName);
+        columns.Bound(p => p.ServiceStatus).Title("Status").ClientTemplate(
+             "# if (ServiceStatus == 'Complete') { #" +
+                 "<strong>#: ServiceStatus #</strong>" +
+             "# } else { #" +
+                   "#: ServiceStatus #" +
+             "# } #"
+            );
+        //columns.Template(p=> @Html.ActionLink("Edit", "Edit","Bookings", new { id = p.Id }));
+        columns.Bound(p => p.Id).Title("Action").ClientTemplate(@Html.ActionLink("Edit", "Edit", "Services", new { id = "#=Id#" }, null).ToHtmlString());
+    })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Filterable()
+    .HtmlAttributes(new { style = "height:730px;" })
+          .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(50)
+                .ServerOperation(true)
+                .Read(read => read.Action("Services_read", "Services"))
+     )
+)

@@ -72,7 +72,8 @@
                                     @foreach (var item in @ViewBag.PhotoGraphListDetails)
                                     {
                                         <div class="thumbnail col-md-3">
-                                            <img data-src="holder.js/300x300" alt="...">
+                                            @*<img data-src="holder.js/300x300" alt="...">*@
+                                            <img src="@Url.Content("~/Content/images/PhotoGraph/PhotGraph/1.jpg")" alt="..." class="img-thumbnail">
                                             <div class="caption">
                                                 <h5> PhotoGraph Name : @item.Name</h5>
                                                 <!--<p><a href="#stack3" class="btn btn-primary" role="button" data-toggle="modal">Button</a> </p>-->
@@ -115,7 +116,8 @@
                                     @foreach (var item in @ViewBag.CameraManListDetails)
                                     {
                                         <div class="thumbnail col-md-3">
-                                            <img data-src="holder.js/300x300" alt="...">
+                                            @*<img data-src="holder.js/300x300" alt="...">*@
+                                            <img src="@Url.Content("~/Content/images/PhotoGraph/CameraMan/CameraMan/1.jpg")" alt="..." class="img-thumbnail">
                                             <div class="caption">
                                                 <h5> PhotoGraph Name : @item.Name</h5>
                                                 <!--<p><a href="#stack3" class="btn btn-primary" role="button" data-toggle="modal">Button</a> </p>-->

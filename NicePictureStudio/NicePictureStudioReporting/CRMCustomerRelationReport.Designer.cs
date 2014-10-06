@@ -9,102 +9,42 @@ namespace NicePictureStudioReporting
         /// </summary>
         private void InitializeComponent()
         {
+            Telerik.Reporting.TableGroup tableGroup22 = new Telerik.Reporting.TableGroup();
+            Telerik.Reporting.TableGroup tableGroup23 = new Telerik.Reporting.TableGroup();
+            Telerik.Reporting.TableGroup tableGroup24 = new Telerik.Reporting.TableGroup();
+            Telerik.Reporting.TableGroup tableGroup25 = new Telerik.Reporting.TableGroup();
+            Telerik.Reporting.TableGroup tableGroup26 = new Telerik.Reporting.TableGroup();
+            Telerik.Reporting.TableGroup tableGroup27 = new Telerik.Reporting.TableGroup();
+            Telerik.Reporting.TableGroup tableGroup28 = new Telerik.Reporting.TableGroup();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CRMCustomerRelationReport));
-            Telerik.Reporting.TableGroup tableGroup1 = new Telerik.Reporting.TableGroup();
-            Telerik.Reporting.TableGroup tableGroup2 = new Telerik.Reporting.TableGroup();
-            Telerik.Reporting.TableGroup tableGroup3 = new Telerik.Reporting.TableGroup();
-            Telerik.Reporting.TableGroup tableGroup4 = new Telerik.Reporting.TableGroup();
-            Telerik.Reporting.TableGroup tableGroup5 = new Telerik.Reporting.TableGroup();
-            Telerik.Reporting.TableGroup tableGroup6 = new Telerik.Reporting.TableGroup();
-            Telerik.Reporting.TableGroup tableGroup7 = new Telerik.Reporting.TableGroup();
-            Telerik.Reporting.Drawing.StyleRule styleRule1 = new Telerik.Reporting.Drawing.StyleRule();
-            Telerik.Reporting.Drawing.StyleRule styleRule2 = new Telerik.Reporting.Drawing.StyleRule();
-            Telerik.Reporting.Drawing.StyleRule styleRule3 = new Telerik.Reporting.Drawing.StyleRule();
-            Telerik.Reporting.Drawing.DescendantSelector descendantSelector1 = new Telerik.Reporting.Drawing.DescendantSelector();
-            Telerik.Reporting.Drawing.StyleRule styleRule4 = new Telerik.Reporting.Drawing.StyleRule();
-            Telerik.Reporting.Drawing.DescendantSelector descendantSelector2 = new Telerik.Reporting.Drawing.DescendantSelector();
-            this.detailSection1 = new Telerik.Reporting.DetailSection();
-            this.CRMCustomer = new Telerik.Reporting.SqlDataSource();
-            this.table1 = new Telerik.Reporting.Table();
+            Telerik.Reporting.Drawing.StyleRule styleRule13 = new Telerik.Reporting.Drawing.StyleRule();
+            Telerik.Reporting.Drawing.StyleRule styleRule14 = new Telerik.Reporting.Drawing.StyleRule();
+            Telerik.Reporting.Drawing.StyleRule styleRule15 = new Telerik.Reporting.Drawing.StyleRule();
+            Telerik.Reporting.Drawing.DescendantSelector descendantSelector7 = new Telerik.Reporting.Drawing.DescendantSelector();
+            Telerik.Reporting.Drawing.StyleRule styleRule16 = new Telerik.Reporting.Drawing.StyleRule();
+            Telerik.Reporting.Drawing.DescendantSelector descendantSelector8 = new Telerik.Reporting.Drawing.DescendantSelector();
             this.textBox1 = new Telerik.Reporting.TextBox();
             this.textBox2 = new Telerik.Reporting.TextBox();
             this.textBox3 = new Telerik.Reporting.TextBox();
             this.textBox4 = new Telerik.Reporting.TextBox();
             this.textBox5 = new Telerik.Reporting.TextBox();
             this.textBox6 = new Telerik.Reporting.TextBox();
+            this.detailSection1 = new Telerik.Reporting.DetailSection();
+            this.table1 = new Telerik.Reporting.Table();
             this.textBox7 = new Telerik.Reporting.TextBox();
             this.textBox8 = new Telerik.Reporting.TextBox();
             this.textBox9 = new Telerik.Reporting.TextBox();
             this.textBox10 = new Telerik.Reporting.TextBox();
             this.textBox11 = new Telerik.Reporting.TextBox();
             this.textBox12 = new Telerik.Reporting.TextBox();
+            this.CRMCustomer = new Telerik.Reporting.SqlDataSource();
             this.textBox13 = new Telerik.Reporting.TextBox();
             this.pageHeaderSection1 = new Telerik.Reporting.PageHeaderSection();
             this.textBox14 = new Telerik.Reporting.TextBox();
             this.pageFooterSection1 = new Telerik.Reporting.PageFooterSection();
+            this.directorySearcher1 = new System.DirectoryServices.DirectorySearcher();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
-            // 
-            // detailSection1
-            // 
-            this.detailSection1.Height = Telerik.Reporting.Drawing.Unit.Inch(1D);
-            this.detailSection1.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
-            this.table1});
-            this.detailSection1.Name = "detailSection1";
-            // 
-            // CRMCustomer
-            // 
-            this.CRMCustomer.ConnectionString = "NicePictureStudioReporting.Properties.Settings.NicePictureStudioDB";
-            this.CRMCustomer.Name = "CRMCustomer";
-            this.CRMCustomer.SelectCommand = resources.GetString("CRMCustomer.SelectCommand");
-            // 
-            // table1
-            // 
-            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.800000011920929D)));
-            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.800000011920929D)));
-            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.800000011920929D)));
-            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.800000011920929D)));
-            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.800000011920929D)));
-            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.800000011920929D)));
-            this.table1.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Inch(0.20000000298023224D)));
-            this.table1.Body.SetCellContent(0, 0, this.textBox7);
-            this.table1.Body.SetCellContent(0, 1, this.textBox8);
-            this.table1.Body.SetCellContent(0, 2, this.textBox9);
-            this.table1.Body.SetCellContent(0, 3, this.textBox10);
-            this.table1.Body.SetCellContent(0, 4, this.textBox11);
-            this.table1.Body.SetCellContent(0, 5, this.textBox12);
-            tableGroup1.ReportItem = this.textBox1;
-            tableGroup2.ReportItem = this.textBox2;
-            tableGroup3.ReportItem = this.textBox3;
-            tableGroup4.ReportItem = this.textBox4;
-            tableGroup5.ReportItem = this.textBox5;
-            tableGroup6.ReportItem = this.textBox6;
-            this.table1.ColumnGroups.Add(tableGroup1);
-            this.table1.ColumnGroups.Add(tableGroup2);
-            this.table1.ColumnGroups.Add(tableGroup3);
-            this.table1.ColumnGroups.Add(tableGroup4);
-            this.table1.ColumnGroups.Add(tableGroup5);
-            this.table1.ColumnGroups.Add(tableGroup6);
-            this.table1.DataSource = this.CRMCustomer;
-            this.table1.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
-            this.textBox1,
-            this.textBox2,
-            this.textBox3,
-            this.textBox4,
-            this.textBox5,
-            this.textBox6,
-            this.textBox7,
-            this.textBox8,
-            this.textBox9,
-            this.textBox10,
-            this.textBox11,
-            this.textBox12});
-            this.table1.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(0D), Telerik.Reporting.Drawing.Unit.Inch(0D));
-            this.table1.Name = "table1";
-            tableGroup7.Groupings.Add(new Telerik.Reporting.Grouping(null));
-            tableGroup7.Name = "Detail";
-            this.table1.RowGroups.Add(tableGroup7);
-            this.table1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(4.8000001907348633D), Telerik.Reporting.Drawing.Unit.Inch(0.40000000596046448D));
-            this.table1.StyleName = "Aspect.TableNormal";
             // 
             // textBox1
             // 
@@ -148,6 +88,62 @@ namespace NicePictureStudioReporting
             this.textBox6.StyleName = "Aspect.TableHeader";
             this.textBox6.Value = "Reference Phone Number";
             // 
+            // detailSection1
+            // 
+            this.detailSection1.Height = Telerik.Reporting.Drawing.Unit.Inch(1D);
+            this.detailSection1.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
+            this.table1});
+            this.detailSection1.Name = "detailSection1";
+            // 
+            // table1
+            // 
+            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.800000011920929D)));
+            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.800000011920929D)));
+            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.800000011920929D)));
+            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.800000011920929D)));
+            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.800000011920929D)));
+            this.table1.Body.Columns.Add(new Telerik.Reporting.TableBodyColumn(Telerik.Reporting.Drawing.Unit.Inch(0.800000011920929D)));
+            this.table1.Body.Rows.Add(new Telerik.Reporting.TableBodyRow(Telerik.Reporting.Drawing.Unit.Inch(0.20000000298023224D)));
+            this.table1.Body.SetCellContent(0, 0, this.textBox7);
+            this.table1.Body.SetCellContent(0, 1, this.textBox8);
+            this.table1.Body.SetCellContent(0, 2, this.textBox9);
+            this.table1.Body.SetCellContent(0, 3, this.textBox10);
+            this.table1.Body.SetCellContent(0, 4, this.textBox11);
+            this.table1.Body.SetCellContent(0, 5, this.textBox12);
+            tableGroup22.ReportItem = this.textBox1;
+            tableGroup23.ReportItem = this.textBox2;
+            tableGroup24.ReportItem = this.textBox3;
+            tableGroup25.ReportItem = this.textBox4;
+            tableGroup26.ReportItem = this.textBox5;
+            tableGroup27.ReportItem = this.textBox6;
+            this.table1.ColumnGroups.Add(tableGroup22);
+            this.table1.ColumnGroups.Add(tableGroup23);
+            this.table1.ColumnGroups.Add(tableGroup24);
+            this.table1.ColumnGroups.Add(tableGroup25);
+            this.table1.ColumnGroups.Add(tableGroup26);
+            this.table1.ColumnGroups.Add(tableGroup27);
+            this.table1.DataSource = this.CRMCustomer;
+            this.table1.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
+            this.textBox7,
+            this.textBox8,
+            this.textBox9,
+            this.textBox10,
+            this.textBox11,
+            this.textBox12,
+            this.textBox1,
+            this.textBox2,
+            this.textBox3,
+            this.textBox4,
+            this.textBox5,
+            this.textBox6});
+            this.table1.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(0D), Telerik.Reporting.Drawing.Unit.Inch(0D));
+            this.table1.Name = "table1";
+            tableGroup28.Groupings.Add(new Telerik.Reporting.Grouping(null));
+            tableGroup28.Name = "Detail";
+            this.table1.RowGroups.Add(tableGroup28);
+            this.table1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(4.8000001907348633D), Telerik.Reporting.Drawing.Unit.Inch(0.40000000596046448D));
+            this.table1.StyleName = "Aspect.TableNormal";
+            // 
             // textBox7
             // 
             this.textBox7.Name = "textBox7";
@@ -190,6 +186,12 @@ namespace NicePictureStudioReporting
             this.textBox12.StyleName = "Aspect.TableBody";
             this.textBox12.Value = "=Fields.ReferencePhoneNumber";
             // 
+            // CRMCustomer
+            // 
+            this.CRMCustomer.ConnectionString = "NicePictureStudioReporting.Properties.Settings.NicePictureStudioDB";
+            this.CRMCustomer.Name = "CRMCustomer";
+            this.CRMCustomer.SelectCommand = resources.GetString("CRMCustomer.SelectCommand");
+            // 
             // textBox13
             // 
             this.textBox13.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(3.9418537198798731E-05D), Telerik.Reporting.Drawing.Unit.Inch(3.9418537198798731E-05D));
@@ -222,6 +224,12 @@ namespace NicePictureStudioReporting
             this.textBox14});
             this.pageFooterSection1.Name = "pageFooterSection1";
             // 
+            // directorySearcher1
+            // 
+            this.directorySearcher1.ClientTimeout = System.TimeSpan.Parse("-00:00:01");
+            this.directorySearcher1.ServerPageTimeLimit = System.TimeSpan.Parse("-00:00:01");
+            this.directorySearcher1.ServerTimeLimit = System.TimeSpan.Parse("-00:00:01");
+            // 
             // CRMCustomerRelationReport
             // 
             this.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
@@ -231,47 +239,47 @@ namespace NicePictureStudioReporting
             this.Name = "CRMCustomerRelationReport";
             this.PageSettings.Margins = new Telerik.Reporting.Drawing.MarginsU(Telerik.Reporting.Drawing.Unit.Inch(1D), Telerik.Reporting.Drawing.Unit.Inch(1D), Telerik.Reporting.Drawing.Unit.Inch(1D), Telerik.Reporting.Drawing.Unit.Inch(1D));
             this.PageSettings.PaperKind = System.Drawing.Printing.PaperKind.Letter;
-            styleRule1.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
+            styleRule13.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
             new Telerik.Reporting.Drawing.TypeSelector(typeof(Telerik.Reporting.TextItemBase)),
             new Telerik.Reporting.Drawing.TypeSelector(typeof(Telerik.Reporting.HtmlTextBox))});
-            styleRule1.Style.Padding.Left = Telerik.Reporting.Drawing.Unit.Point(2D);
-            styleRule1.Style.Padding.Right = Telerik.Reporting.Drawing.Unit.Point(2D);
-            styleRule2.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
+            styleRule13.Style.Padding.Left = Telerik.Reporting.Drawing.Unit.Point(2D);
+            styleRule13.Style.Padding.Right = Telerik.Reporting.Drawing.Unit.Point(2D);
+            styleRule14.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
             new Telerik.Reporting.Drawing.StyleSelector(typeof(Telerik.Reporting.Table), "Aspect.TableNormal")});
-            styleRule2.Style.BorderColor.Default = System.Drawing.Color.Black;
-            styleRule2.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
-            styleRule2.Style.BorderWidth.Default = Telerik.Reporting.Drawing.Unit.Pixel(1D);
-            styleRule2.Style.Color = System.Drawing.Color.Black;
-            styleRule2.Style.Font.Name = "Verdana";
-            styleRule2.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(9D);
-            descendantSelector1.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
+            styleRule14.Style.BorderColor.Default = System.Drawing.Color.Black;
+            styleRule14.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
+            styleRule14.Style.BorderWidth.Default = Telerik.Reporting.Drawing.Unit.Pixel(1D);
+            styleRule14.Style.Color = System.Drawing.Color.Black;
+            styleRule14.Style.Font.Name = "Verdana";
+            styleRule14.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(9D);
+            descendantSelector7.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
             new Telerik.Reporting.Drawing.TypeSelector(typeof(Telerik.Reporting.Table)),
             new Telerik.Reporting.Drawing.StyleSelector(typeof(Telerik.Reporting.ReportItem), "Aspect.TableHeader")});
-            styleRule3.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
-            descendantSelector1});
-            styleRule3.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            styleRule3.Style.BorderColor.Default = System.Drawing.Color.Black;
-            styleRule3.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
-            styleRule3.Style.BorderWidth.Default = Telerik.Reporting.Drawing.Unit.Pixel(1D);
-            styleRule3.Style.Color = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(222)))), ((int)(((byte)(209)))));
-            styleRule3.Style.Font.Name = "Verdana";
-            styleRule3.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(10D);
-            styleRule3.Style.VerticalAlign = Telerik.Reporting.Drawing.VerticalAlign.Middle;
-            descendantSelector2.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
+            styleRule15.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
+            descendantSelector7});
+            styleRule15.Style.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            styleRule15.Style.BorderColor.Default = System.Drawing.Color.Black;
+            styleRule15.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
+            styleRule15.Style.BorderWidth.Default = Telerik.Reporting.Drawing.Unit.Pixel(1D);
+            styleRule15.Style.Color = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(222)))), ((int)(((byte)(209)))));
+            styleRule15.Style.Font.Name = "Verdana";
+            styleRule15.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(10D);
+            styleRule15.Style.VerticalAlign = Telerik.Reporting.Drawing.VerticalAlign.Middle;
+            descendantSelector8.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
             new Telerik.Reporting.Drawing.TypeSelector(typeof(Telerik.Reporting.Table)),
             new Telerik.Reporting.Drawing.StyleSelector(typeof(Telerik.Reporting.ReportItem), "Aspect.TableBody")});
-            styleRule4.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
-            descendantSelector2});
-            styleRule4.Style.BorderColor.Default = System.Drawing.Color.Black;
-            styleRule4.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
-            styleRule4.Style.BorderWidth.Default = Telerik.Reporting.Drawing.Unit.Pixel(1D);
-            styleRule4.Style.Font.Name = "Verdana";
-            styleRule4.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(9D);
+            styleRule16.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
+            descendantSelector8});
+            styleRule16.Style.BorderColor.Default = System.Drawing.Color.Black;
+            styleRule16.Style.BorderStyle.Default = Telerik.Reporting.Drawing.BorderType.Solid;
+            styleRule16.Style.BorderWidth.Default = Telerik.Reporting.Drawing.Unit.Pixel(1D);
+            styleRule16.Style.Font.Name = "Verdana";
+            styleRule16.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(9D);
             this.StyleSheet.AddRange(new Telerik.Reporting.Drawing.StyleRule[] {
-            styleRule1,
-            styleRule2,
-            styleRule3,
-            styleRule4});
+            styleRule13,
+            styleRule14,
+            styleRule15,
+            styleRule16});
             this.Width = Telerik.Reporting.Drawing.Unit.Inch(8D);
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
@@ -297,6 +305,8 @@ namespace NicePictureStudioReporting
         private Telerik.Reporting.PageHeaderSection pageHeaderSection1;
         private Telerik.Reporting.TextBox textBox14;
         private Telerik.Reporting.PageFooterSection pageFooterSection1;
+        private System.DirectoryServices.DirectorySearcher directorySearcher1;
+        private System.Drawing.Printing.PrintDocument printDocument1;
 
 
     }

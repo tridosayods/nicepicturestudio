@@ -12,6 +12,8 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using NicePictureStudio.Models;
 using AutoMapper;
+using Kendo.Mvc.UI;
+using Kendo.Mvc.Extensions;
 
 namespace NicePictureStudio
 {
@@ -24,6 +26,24 @@ namespace NicePictureStudio
         {
             var bookings = db.Bookings.Include(b => b.BookingStatu).Include(b => b.Promotion).Include(b => b.Service);
             return View(await bookings.ToListAsync());
+        }
+
+        public ActionResult Bookings_read([DataSourceRequest] DataSourceRequest request)
+        {
+            var bookings = db.Bookings.Include(b => b.BookingStatu).Include(b => b.Promotion).Include(b => b.Service).ToList();
+            IQueryable<BookingViewsModel> tasks = bookings.Select(task => new BookingViewsModel()
+            {
+                Id = task.Id,
+                Name = task.Name,
+                AppointmentDate = task.AppointmentDate,
+                BookingCode = task.BookingCode,
+                BookingStatus = task.BookingStatu.Name,
+                Details = task.Details,
+                PromotionName = task.Promotion == null ? string.Empty : task.Promotion.Name,
+                ServiceName = task.Service == null ? string.Empty : task.Service.Customer.CustomerName,
+            }
+             ).AsQueryable();
+            return Json(tasks.ToDataSourceResult(request));
         }
 
         // GET: Bookings/Details/5
@@ -49,7 +69,7 @@ namespace NicePictureStudio
             ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name");
             ViewBag.PromotionId = new SelectList(db.Promotions, "Id", "Name");
             ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName");
-            ViewBag.BookingNumber = Convert.ToInt32(DateTime.Now.GetHashCode()).ToString().Substring(0,5);
+            ViewBag.BookingNumber = Math.Abs(Convert.ToInt32(DateTime.Now.GetHashCode())).ToString().Substring(0,5);
             return View();
         }
 

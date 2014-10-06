@@ -1,6 +1,6 @@
 ﻿
 @using NicePictureStudioReporting
-<!DOCTYPE html>
+@*<!DOCTYPE html>*@
 
 @section styles
 {
@@ -10,7 +10,7 @@
             position: absolute;
             left: 5px;
             right: 5px;
-            top: 5px;
+            top: 50px;
             bottom: 5px;
             overflow: hidden;
         }
@@ -28,10 +28,11 @@
         .ServiceUrl("/api/reports/")
         .TemplateUrl(@Url.Content("~/Scripts/ReportViewer/templates/telerikReportViewerTemplate-8.1.14.804.html"))
         .ReportSource(new TypeReportSource() { TypeName = typeof(CRMCustomerRelationReport).AssemblyQualifiedName })
-        .ViewMode(ViewModes.INTERACTIVE)
+        .ViewMode(ViewModes.PRINT_PREVIEW)
         .ScaleMode(ScaleModes.SPECIFIC)
         .Scale(1.0)
         .PersistSession(true)
+        
 )
 
 @*@(Html.Kendo().PivotGrid()
@@ -50,7 +51,7 @@
                   .Catalog("Adventure Works DW 2008R2")
                   .Cube("Adventure Works"))
               .Read(read => read
-                      .Url(@"http://bdqaaut-pf26/olap/msmdpump.dll")
+                  .Url(@"http://www.xjapbbx.com/olap/msmdpump.dll")
                   .DataType("text")
                   .ContentType("text/xml")
                   .Type(HttpVerbs.Post)
