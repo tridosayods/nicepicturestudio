@@ -13,6 +13,7 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
+using NicePictureStudio.Utils;
 
 namespace NicePictureStudio
 {
@@ -1544,113 +1545,248 @@ namespace NicePictureStudio
 
           #region CreateModal Window section
 
-          [HttpGet]  
-        public async Task<PartialViewResult> CreatePhotoGraphServiceByModal(int? id, string serviceType="")
-          {
-            PhotographService photoGraphService;
-            ViewData["PhotoGraphList"] =  new SelectList(db.PhotographServices, "Id", "Name");
-            if (id != null)
-            { photoGraphService = await db.PhotographServices.FindAsync(id); }
-            else
-            { photoGraphService = await db.PhotographServices.FirstAsync(); }
-            ViewData["Code"] = photoGraphService.Id;
+          #region PhotoGraphOld
+          //[HttpGet]  
+          // public async Task<PartialViewResult> CreatePhotoGraphServiceByModal(int? id, string serviceType="")
+          //{
+          //  PhotographService photoGraphService;
+          //  ViewData["PhotoGraphList"] =  new SelectList(db.PhotographServices, "Id", "Name");
+          //  if (id != null)
+          //  { photoGraphService = await db.PhotographServices.FindAsync(id); }
+          //  else
+          //  { photoGraphService = await db.PhotographServices.FirstAsync(); }
+          //  ViewData["Code"] = photoGraphService.Id;
 
-            //Getting PhotoGraph
-            ServiceForm PreWeddingFromSection;
+          //  //Getting PhotoGraph
+          //  ServiceForm PreWeddingFromSection;
 
-            /*Need ************ Getting date from Form Section */
-            DateTime _startDate = DateTime.Now;
-            DateTime _endDate = DateTime.Now;
-            /*Need ************ Getting date from Form Section */
-            ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
-            List<string> _selectedPhotoGraph;
-            List<string> _selectedCameraMan;
-            if (serviceFactory.PhotoGraphService != null)
-            {
-                _selectedPhotoGraph = new List<string>(serviceFactory.PhotoGraphService.PhotoGraphIdList);
-                _selectedCameraMan = new List<string>(serviceFactory.PhotoGraphService.CameraMandIdList);
-            }
-            else
-            {
-                _selectedPhotoGraph = new List<string>();
-                _selectedCameraMan = new List<string>();
-            }
+          //  /*Need ************ Getting date from Form Section */
+          //  DateTime _startDate = DateTime.Now;
+          //  DateTime _endDate = DateTime.Now;
+          //  /*Need ************ Getting date from Form Section */
+          //  ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+          //  List<string> _selectedPhotoGraph;
+          //  List<string> _selectedCameraMan;
+          //  if (serviceFactory.PhotoGraphService != null)
+          //  {
+          //      _selectedPhotoGraph = new List<string>(serviceFactory.PhotoGraphService.PhotoGraphIdList);
+          //      _selectedCameraMan = new List<string>(serviceFactory.PhotoGraphService.CameraMandIdList);
+          //  }
+          //  else
+          //  {
+          //      _selectedPhotoGraph = new List<string>();
+          //      _selectedCameraMan = new List<string>();
+          //  }
 
-            if (serviceFactory.ServiceForm != null)
-            {
-                _startDate = serviceFactory.ServiceForm.EventStart;
-                _endDate = serviceFactory.ServiceForm.EventEnd;
-                var photoGraphResult = db.Employees.GroupBy(emp => emp.Id)
-                                    .Where(emp => emp.Any(empList => empList.Position == PhotographType
-                                        && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
-                                            && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
-                                        )).Select(emp => new PhotoGraph
-                                        {
-                                            Id = emp.FirstOrDefault().Id,
-                                            Name = emp.FirstOrDefault().Name,
-                                            IsSelect = _selectedPhotoGraph.Contains(emp.FirstOrDefault().Id)
-                                        }).ToList();
-                //ViewBag.PhotoGraphListDetails = new SelectList(photoGraphResult, "Id", "Name");
-                ViewBag.PhotoGraphListDetails = photoGraphResult;
+          //  if (serviceFactory.ServiceForm != null)
+          //  {
+          //      _startDate = serviceFactory.ServiceForm.EventStart;
+          //      _endDate = serviceFactory.ServiceForm.EventEnd;
+          //      var photoGraphResult = db.Employees.GroupBy(emp => emp.Id)
+          //                          .Where(emp => emp.Any(empList => empList.Position == PhotographType
+          //                              && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
+          //                                  && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
+          //                              )).Select(emp => new PhotoGraph
+          //                              {
+          //                                  Id = emp.FirstOrDefault().Id,
+          //                                  Name = emp.FirstOrDefault().Name,
+          //                                  IsSelect = _selectedPhotoGraph.Contains(emp.FirstOrDefault().Id)
+          //                              }).ToList();
+          //      //ViewBag.PhotoGraphListDetails = new SelectList(photoGraphResult, "Id", "Name");
+          //      ViewBag.PhotoGraphListDetails = photoGraphResult;
 
-                //Getting CameraMan
-                var cameraManResult = db.Employees.GroupBy(emp => emp.Id)
-                                        .Where(emp => emp.Any(empList => empList.Position == CameraManType
-                                            && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
-                                                && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
-                                            )).Select(emp => new CameraMan
-                                            {
-                                                Id = emp.FirstOrDefault().Id,
-                                                Name = emp.FirstOrDefault().Name,
-                                                IsSelect = _selectedCameraMan.Contains(emp.FirstOrDefault().Id)
-                                            }).ToList();
-                ViewBag.CameraManListDetails = cameraManResult;
-            }
-            else
-            { 
-                //if user did not select event day , so no need to generate data
-                ViewBag.CameraManListDetails = new List<PhotoGraph>();
-                ViewBag.PhotoGraphListDetails = new List<CameraMan>();
-            }
+          //      //Getting CameraMan
+          //      var cameraManResult = db.Employees.GroupBy(emp => emp.Id)
+          //                              .Where(emp => emp.Any(empList => empList.Position == CameraManType
+          //                                  && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
+          //                                      && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
+          //                                  )).Select(emp => new CameraMan
+          //                                  {
+          //                                      Id = emp.FirstOrDefault().Id,
+          //                                      Name = emp.FirstOrDefault().Name,
+          //                                      IsSelect = _selectedCameraMan.Contains(emp.FirstOrDefault().Id)
+          //                                  }).ToList();
+          //      ViewBag.CameraManListDetails = cameraManResult;
+          //  }
+          //  else
+          //  { 
+          //      //if user did not select event day , so no need to generate data
+          //      ViewBag.CameraManListDetails = new List<PhotoGraph>();
+          //      ViewBag.PhotoGraphListDetails = new List<CameraMan>();
+          //  }
 
             
-            //var _camearManResult = (from cameraEmp in db.Employees
-            //                       join empSchedule in db.EmployeeSchedules on cameraEmp.Id equals empSchedule.Employee.Id
-            //                       where cameraEmp.Position == CameraManType && empSchedule.StartTime >= _startDate && empSchedule.EndTime <= _endDate
-            //                       select cameraEmp).ToList();
+          //  //var _camearManResult = (from cameraEmp in db.Employees
+          //  //                       join empSchedule in db.EmployeeSchedules on cameraEmp.Id equals empSchedule.Employee.Id
+          //  //                       where cameraEmp.Position == CameraManType && empSchedule.StartTime >= _startDate && empSchedule.EndTime <= _endDate
+          //  //                       select cameraEmp).ToList();
 
-            //Create metadata for webpage structure
-            if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
-            {
-                ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphPreWeddingServices;
-                ViewData["DivServiceForm"] = HTMLPhotoServiceModalPreWedding;
-                ViewData["CollPhotoPanel"] = HTMLCollapsePhotoPreWedding;
-                ViewData["CollCameraPanel"] = HTMLCollapseCameraPreWedding;
-                ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + PreWedding;
-            }
-            else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
-            {
-                ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphEngagementServices;
-                ViewData["DivServiceForm"] = HTMLPhotoServiceModalEngagement;
-                ViewData["CollPhotoPanel"] = HTMLCollapsePhotoEngagement;
-                ViewData["CollCameraPanel"] = HTMLCollapseCameraEngagement;
-                ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + Engagement;
-            }
-            else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
-            {
-                ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphWeddingServices;
-                ViewData["DivServiceForm"] = HTMLPhotoServiceModalWedding;
-                ViewData["CollPhotoPanel"] = HTMLCollapsePhotoWedding;
-                ViewData["CollCameraPanel"] = HTMLCollapseCameraWedding;
-                ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + Wedding;
-            }
-            ViewData["ServiceType"] = serviceType;
+          //  //Create metadata for webpage structure
+          //  if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+          //  {
+          //      ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphPreWeddingServices;
+          //      ViewData["DivServiceForm"] = HTMLPhotoServiceModalPreWedding;
+          //      ViewData["CollPhotoPanel"] = HTMLCollapsePhotoPreWedding;
+          //      ViewData["CollCameraPanel"] = HTMLCollapseCameraPreWedding;
+          //      ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + PreWedding;
+          //  }
+          //  else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+          //  {
+          //      ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphEngagementServices;
+          //      ViewData["DivServiceForm"] = HTMLPhotoServiceModalEngagement;
+          //      ViewData["CollPhotoPanel"] = HTMLCollapsePhotoEngagement;
+          //      ViewData["CollCameraPanel"] = HTMLCollapseCameraEngagement;
+          //      ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + Engagement;
+          //  }
+          //  else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+          //  {
+          //      ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphWeddingServices;
+          //      ViewData["DivServiceForm"] = HTMLPhotoServiceModalWedding;
+          //      ViewData["CollPhotoPanel"] = HTMLCollapsePhotoWedding;
+          //      ViewData["CollCameraPanel"] = HTMLCollapseCameraWedding;
+          //      ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + Wedding;
+          //  }
+          //  ViewData["ServiceType"] = serviceType;
            
-            return PartialView(photoGraphService); 
+          //  return PartialView(photoGraphService); 
+          //}
+          #endregion
+
+          private void SaveServiceFormToLocal(string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber)
+          {
+              int statusNew = Constant.SERVICE_STATUS_NEW;
+              ServiceForm serviceForm = new ServiceForm();
+              if (ModelState.IsValid)
+              {
+                  ServiceType _serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, serviceType, true) == 0).FirstOrDefault();
+                  if (serviceType != null)
+                  {
+                      serviceForm.Name = "Default";
+                      serviceForm.EventStart = (DateTime)startDate;
+                      serviceForm.EventEnd = (DateTime)endDate;
+                      serviceForm.GuestsNumber = (int)guestNumber;
+                      serviceForm.ServiceType = _serviceType;
+                      //create string for mapping
+                      ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+                      if (serviceFactory != null)
+                      {
+                          serviceFactory.CreateServiceForm(serviceForm, statusNew, _serviceType.Id);
+                      }
+                  }
+
+              }
+          }
+
+          [HttpGet]
+          public async Task<PartialViewResult> CreatePhotoGraphServiceByModal(int? id, string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber)
+          {
+              if (startDate !=null && endDate !=null && guestNumber !=null)
+              SaveServiceFormToLocal(serviceType, startDate, endDate, guestNumber);
+              
+              PhotographService photoGraphService;
+              ViewData["PhotoGraphList"] = new SelectList(db.PhotographServices, "Id", "Name");
+              if (id != null)
+              { photoGraphService = await db.PhotographServices.FindAsync(id); }
+              else
+              { photoGraphService = await db.PhotographServices.FirstAsync(); }
+              ViewData["Code"] = photoGraphService.Id;
+
+              //Getting PhotoGraph
+              ServiceForm PreWeddingFromSection;
+
+              /*Need ************ Getting date from Form Section */
+              DateTime _startDate = DateTime.Now;
+              DateTime _endDate = DateTime.Now;
+              /*Need ************ Getting date from Form Section */
+              ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+              List<string> _selectedPhotoGraph;
+              List<string> _selectedCameraMan;
+              if (serviceFactory.PhotoGraphService != null)
+              {
+                  _selectedPhotoGraph = new List<string>(serviceFactory.PhotoGraphService.PhotoGraphIdList);
+                  _selectedCameraMan = new List<string>(serviceFactory.PhotoGraphService.CameraMandIdList);
+              }
+              else
+              {
+                  _selectedPhotoGraph = new List<string>();
+                  _selectedCameraMan = new List<string>();
+              }
+
+              if (serviceFactory.ServiceForm != null)
+              {
+                  _startDate = serviceFactory.ServiceForm.EventStart;
+                  _endDate = serviceFactory.ServiceForm.EventEnd;
+                  var photoGraphResult = db.Employees.GroupBy(emp => emp.Id)
+                                      .Where(emp => emp.Any(empList => empList.Position == PhotographType
+                                          && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
+                                              && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
+                                          )).Select(emp => new PhotoGraph
+                                          {
+                                              Id = emp.FirstOrDefault().Id,
+                                              Name = emp.FirstOrDefault().Name,
+                                              IsSelect = _selectedPhotoGraph.Contains(emp.FirstOrDefault().Id)
+                                          }).ToList();
+                  //ViewBag.PhotoGraphListDetails = new SelectList(photoGraphResult, "Id", "Name");
+                  ViewBag.PhotoGraphListDetails = photoGraphResult;
+
+                  //Getting CameraMan
+                  var cameraManResult = db.Employees.GroupBy(emp => emp.Id)
+                                          .Where(emp => emp.Any(empList => empList.Position == CameraManType
+                                              && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
+                                                  && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
+                                              )).Select(emp => new CameraMan
+                                              {
+                                                  Id = emp.FirstOrDefault().Id,
+                                                  Name = emp.FirstOrDefault().Name,
+                                                  IsSelect = _selectedCameraMan.Contains(emp.FirstOrDefault().Id)
+                                              }).ToList();
+                  ViewBag.CameraManListDetails = cameraManResult;
+              }
+              else
+              {
+                  //if user did not select event day , so no need to generate data
+                  ViewBag.CameraManListDetails = new List<PhotoGraph>();
+                  ViewBag.PhotoGraphListDetails = new List<CameraMan>();
+              }
+
+
+              //var _camearManResult = (from cameraEmp in db.Employees
+              //                       join empSchedule in db.EmployeeSchedules on cameraEmp.Id equals empSchedule.Employee.Id
+              //                       where cameraEmp.Position == CameraManType && empSchedule.StartTime >= _startDate && empSchedule.EndTime <= _endDate
+              //                       select cameraEmp).ToList();
+
+              //Create metadata for webpage structure
+              if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+              {
+                  ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphPreWeddingServices;
+                  ViewData["DivServiceForm"] = HTMLPhotoServiceModalPreWedding;
+                  ViewData["CollPhotoPanel"] = HTMLCollapsePhotoPreWedding;
+                  ViewData["CollCameraPanel"] = HTMLCollapseCameraPreWedding;
+                  ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + PreWedding;
+              }
+              else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+              {
+                  ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphEngagementServices;
+                  ViewData["DivServiceForm"] = HTMLPhotoServiceModalEngagement;
+                  ViewData["CollPhotoPanel"] = HTMLCollapsePhotoEngagement;
+                  ViewData["CollCameraPanel"] = HTMLCollapseCameraEngagement;
+                  ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + Engagement;
+              }
+              else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+              {
+                  ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphWeddingServices;
+                  ViewData["DivServiceForm"] = HTMLPhotoServiceModalWedding;
+                  ViewData["CollPhotoPanel"] = HTMLCollapsePhotoWedding;
+                  ViewData["CollCameraPanel"] = HTMLCollapseCameraWedding;
+                  ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + Wedding;
+              }
+              ViewData["ServiceType"] = serviceType;
+
+              return PartialView(photoGraphService);
           }
 
         [HttpPost]
-        public void CreatePhotoGraphServiceList([Bind(Include = "Name,PhotographerNumber,CameraManNumber,Description,Cost,Price")]PhotographService photoGraphService, string[] EmployeeId, string[] CameraId, string ServiceType, int Code)
+        public ActionResult CreatePhotoGraphServiceList([Bind(Include = "Name,PhotographerNumber,CameraManNumber,Description,Cost,Price")]PhotographService photoGraphService, string[] EmployeeId, string[] CameraId, string ServiceType, int Code)
         {
             PhotographService photo = photoGraphService;
             List<string> empList = new List<string>();
@@ -1672,7 +1808,8 @@ namespace NicePictureStudio
             {
                 serviceFactory.CreatePhotoGraphService(photo, empList, CameraId.ToList(),Code);
             }
-            
+
+            return RedirectToAction("CreateOutputServiceByModal", new { serviceType = ServiceType });
         }
 
         //[HttpPost]
@@ -1968,19 +2105,19 @@ namespace NicePictureStudio
             }
             
             //Create metadata for webpage structure
-            if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+            if (string.Compare(serviceType, PreWedding) == 0)
             {
                 ViewData["ButtonIdForDWL"] = HTMLDWLOutputPreWeddingServices;
                 ViewData["DivServiceForm"] = HTMLOutputModalPreWedding;
                 ViewData["TblEquipment"] = HTMLTableOutputPreWedding;
             }
-            else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+            else if (string.Compare(serviceType, Engagement) == 0)
             {
                 ViewData["ButtonIdForDWL"] = HTMLDWLOutputEngagementServices;
                 ViewData["DivServiceForm"] = HTMLOutputModalEngagement;
                 ViewData["TblEquipment"] = HTMLTableOutputEngagement;
             }
-            else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+            else if (string.Compare(serviceType, Wedding) == 0)
             {
                 ViewData["ButtonIdForDWL"] = HTMLDWLOutputWeddingServices;
                 ViewData["DivServiceForm"] = HTMLOutputModalWedding;
@@ -2927,9 +3064,40 @@ namespace NicePictureStudio
 
         #endregion
 
-
+        public async Task<PartialViewResult> ServicesNavigationOverall()
+        {
+            return PartialView();
+        }
 
         #region Private Section
+
+        //private ServiceFormFactory CreateServiceFormByInputSection(string serviceType)
+        //{
+        //    var _servicesTmp = TempData["Services"] as ServicesViewModel;
+        //    TempData.Keep();
+
+        //    if (_servicesTmp != null)
+        //    {
+        //        if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+        //        {
+        //            return _servicesTmp.ServiceFormPreWedding;
+        //        }
+        //        else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+        //        {
+        //            return _servicesTmp.ServiceFormEngagement;
+        //        }
+        //        else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+        //        {
+        //            return _servicesTmp.ServiceFormWedding;
+        //        }
+        //        else
+        //        { return null; }
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }  
+        //}
 
         private ServiceFormFactory CreateServiceFormByInputSection(string serviceType)
         {
@@ -2938,15 +3106,15 @@ namespace NicePictureStudio
 
             if (_servicesTmp != null)
             {
-                if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+                if (string.Compare(serviceType, PreWedding) == 0)
                 {
                     return _servicesTmp.ServiceFormPreWedding;
                 }
-                else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+                else if (string.Compare(serviceType, Engagement) == 0)
                 {
                     return _servicesTmp.ServiceFormEngagement;
                 }
-                else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+                else if (string.Compare(serviceType, Wedding) == 0)
                 {
                     return _servicesTmp.ServiceFormWedding;
                 }
@@ -2956,7 +3124,7 @@ namespace NicePictureStudio
             else
             {
                 return null;
-            }  
+            }
         }
 
         private ServiceFormFactory CreateServiceFormByInputSectionWhenEdit(string serviceType)

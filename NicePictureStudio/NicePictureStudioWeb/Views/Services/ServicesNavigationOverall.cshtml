@@ -1,0 +1,93 @@
+﻿<div id="ServiceNavigation">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-4 col-lg-4">
+            @using (Html.BeginForm())         
+               {
+                     @Html.AntiForgeryToken()
+                   <div class="panel panel-primary" id="FormSubmit">
+                       <div class="panel-heading">Services Details</div>
+                       <div class="panel-body">
+                           @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                           <div class="form-horizontal">
+                               <div class="form-group">
+                                   @Html.Label("ServiceType")
+                                   @Html.Kendo().DropDownList().Name("ServiceTypeId").BindTo(new string[] {"PreWedding","Engagement","Wedding"})
+                                   @Html.ValidationMessage("ServiceTypeId","*")
+                               </div>
+                               <div class="form-group">
+                                   @Html.Label("Event Start ")
+                                   @Html.Kendo().DateTimePicker().Name("EventStart").Min(DateTime.Now)
+                                   @Html.ValidationMessage("EventStart", "*")
+                               </div>
+                               <div class="form-group">
+                                   @Html.Label("Event End ")
+                                   @Html.Kendo().DateTimePicker().Name("EventEnd").Min(DateTime.Now)
+                                   @Html.ValidationMessage("EventEnd", "*")
+                               </div>
+                               <div class="form-group">
+                                   @Html.Label("จำนวกแขกในงาน")
+                                   @Html.Kendo().NumericTextBox().Name("GuestNumber").Min(1).Value(50)
+                                   @Html.ValidationMessage("GuestNumber", "*")
+                               </div>
+                               
+                               <div class="form-group">
+                                   <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>Start</button>
+                                 
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                }
+                <div class="panel panel-primary">
+                    <div class="panel-heading">รายละเอียดค่าใช้จ่าย</div>
+                        <div class="panel-body">
+                            <div class="form-horizontal">
+                                <form class="form-group">ค่าใช้จ่าย</form>
+                                <form class="form-group">ส่วนลด</form>
+                                <form class="form-group">ค่าใช้จ่ายสำหรับรายการนี้</form>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-8 col-lg-8">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"></div>
+                    <div class="panel-body">
+                        <div id="ServiceSelection">
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#EventStart").kendoDateTimePicker().attr("required", true);
+        $("#EventEnd").kendoDateTimePicker().attr("required", true);
+        $("#GuestNumber").kendoNumericTextBox().attr("required",true);
+
+        $("form").on("submit", function () {
+            event.preventDefault(); 
+            var url = '@Url.Action("CreatePhotoGraphServiceByModal", "Services")';
+            var selectedValue = $("#ServiceTypeId").data("kendoDropDownList").value();
+            var selectedStartDate = $("#EventStart").val();
+            var selectedEndDate = $("#EventEnd").val();
+            var guestNum = $("#GuestNumber").data("kendoNumericTextBox").value();
+
+            var validatorStartEvent = $("#FormSubmit").kendoValidator().data("kendoValidator");
+            validatorStartEvent.validate();
+
+            $.ajax({
+                url: url,
+                data: { id: null, serviceType: selectedValue, startDate: selectedStartDate, endDate: selectedEndDate, guestNumber: guestNum },
+                type: "GET",
+                success: function (data) { $("#ServiceSelection").replaceWith(data); }
+            })
+        });
+    });
+</script>

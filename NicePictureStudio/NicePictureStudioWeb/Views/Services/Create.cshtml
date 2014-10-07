@@ -42,6 +42,14 @@
                 success: function (data) { $("#SaveFormSection").replaceWith(data); }
             })
         });
+        //New Section of NavPattern Code
+        $("#NavigateFormGenerate").click(function () {
+            var url = $('#NavPattern').data('url');
+            $.get(url,null, function (data) {
+                $("#NavPatternBody").html(data);
+                $("#NavPattern").modal('show');
+            });
+        });
 
     });
 
@@ -321,6 +329,7 @@
         <tr>
             <td></td>
             <td>
+                <button type="button" id="NavigateFormGenerate" class=" btn btn-default"><span class="glyphicon glyphicon-adjust" >สร้าง</span></button>
                 <button type="button" id="btnSaveAll" class="btn btn-primary"><span class="glyphicon glyphicon-star"></span>Save All</button>
                 <button type="button" id="btnGenReport" class="btn btn-default disabled"><span class="glyphicon glyphicon-star"></span>Generate Report</button>
                 <button type="reset" id="btnResetForm" class="btn btn-default disabled">Cancel</button>
@@ -421,3 +430,30 @@
         </td>
     </tr>
 </table>
+
+<!-- Modal service pattern -->
+<div class="modal fade" id="NavPattern" tabindex="-1" role="dialog"
+     aria-labelledby="NavService" aria-hidden="true" data-url='@Url.Action("ServicesNavigationOverall", "Services")' data-servicetype="">
+    <div class="modal-dialog modal-lg" style="width:90%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="NavModelPattern">
+                   Welcome to NicePictureStudio Services :)
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="NavPatternBody"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancelPattern" type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

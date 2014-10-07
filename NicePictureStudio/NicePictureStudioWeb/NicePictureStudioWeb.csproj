@@ -780,6 +780,7 @@
     <Content Include="Views\CRMTemplates\CRMCustomerRelation.cshtml" />
     <Content Include="Views\CRMTemplates\CRMCustomerRelationDetails.cshtml" />
     <Content Include="Views\CRMTemplates\CRMReportCustomerRelation.cshtml" />
+    <Content Include="Views\Services\ServicesNavigationOverall.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">
