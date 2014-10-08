@@ -118,7 +118,7 @@ namespace NicePictureStudio.Models
             ServiceForm.GuestsNumber = serviceForm.GuestsNumber;
         }
 
-        public void CreatePhotoGraphService(PhotographService photoGraph, List<string> photoGraphList, List<string> cameraManList, int photoGraphServiceId)
+        public void CreatePhotoGraphService(PhotographService photoGraph, List<string> photoGraphList, List<string> cameraManList, int photoGraphServiceId, int cntPHoutsource, int cntCMoutsource)
         {
             PhotoGraphService = new PhotoGraphServiceViewModel();
             PhotoGraphService.Id = photoGraph.Id;
@@ -131,6 +131,8 @@ namespace NicePictureStudio.Models
             PhotoGraphService.PhotoGraphServiceId = photoGraphServiceId;
             PhotoGraphService.PhotoGraphIdList = new List<string>(photoGraphList);
             PhotoGraphService.CameraMandIdList = new List<string>(cameraManList);
+            PhotoGraphService.CameraManOrcCnt = cntCMoutsource;
+            PhotoGraphService.PhotoGraphOrcCnt = cntPHoutsource;
         }
 
        
@@ -306,6 +308,8 @@ namespace NicePictureStudio.Models
         public List<string> PhotoGraphIdList { get; set; }
         public List<string> CameraMandIdList { get; set; }
         public bool IsSelected { get; set; }
+        public int PhotoGraphOrcCnt { get; set; }
+        public int CameraManOrcCnt { get; set; }
 
         public void generatePhotoGraphService(PhotographService _photoGraphService)
         { 

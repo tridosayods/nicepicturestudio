@@ -17,10 +17,10 @@
 
         $("#btnBackStepToPhotoGraph").on("click", function () {
             event.preventDefault();
-            var url = '@Url.Action("CreatePhotoGraphServiceByModal", "Services")';
+            var url = '@Url.Action("MainFilterPhotoGrapService", "Services")';
             $.ajax({
                 url: url,
-                data: { id: null, serviceType: '@ViewData["ServiceType"]' },
+                data: { id: $("#page1Id").val(), serviceType: '@ViewData["ServiceType"]' },
                 type: "GET",
                 success: function (data) { $("#ServiceSelection").replaceWith(data); }
             })

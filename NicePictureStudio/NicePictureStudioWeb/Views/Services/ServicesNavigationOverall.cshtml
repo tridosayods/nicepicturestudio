@@ -64,6 +64,12 @@
         </div>
    </div>
 </div>
+<div id="HiddenNav">
+    @Html.Hidden("hdPage1",null, new { @id = "page1Id" });
+    @Html.Hidden("hdPage2", null, new {@id = "page2Id" });
+    @Html.Hidden("hdPage3");
+    @Html.Hidden("hdPage4");
+</div>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -73,7 +79,7 @@
 
         $("form").on("submit", function () {
             event.preventDefault(); 
-            var url = '@Url.Action("CreatePhotoGraphServiceByModal", "Services")';
+            var url = '@Url.Action("MainFilterPhotoGrapService", "Services")';
             var selectedValue = $("#ServiceTypeId").data("kendoDropDownList").value();
             var selectedStartDate = $("#EventStart").val();
             var selectedEndDate = $("#EventEnd").val();

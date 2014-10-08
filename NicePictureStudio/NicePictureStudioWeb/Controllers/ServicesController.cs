@@ -444,8 +444,16 @@ namespace NicePictureStudio
                     camearManIds.Add(emp.Employee.Id);
                 }
             }
+
+
+
             if (photoService != null)
-            _serviceFactory.CreatePhotoGraphService(photoService, photoGraphIds, camearManIds, photoGraphServiceId);
+            {
+                //****to be implemented => Getting from outsource photograph service**
+                int _cntPH = 0;
+                int _cntCM = 0;
+                _serviceFactory.CreatePhotoGraphService(photoService, photoGraphIds, camearManIds, photoGraphServiceId,_cntPH,_cntCM); 
+            }
 
             foreach (var equipment in _equipmentServiceList)
             {
@@ -1190,21 +1198,27 @@ namespace NicePictureStudio
               List<string> empList = new List<string>();
               List<string> camList = new List<string>();
               ServiceFormFactory serviceFactory = CreateServiceFormByInputSectionWhenEdit(ServiceType);
+              int _cntPH = 0;
+              int _cntCM = 0;
+
+              //if (OutsourcePHId != null) { _cntPH = OutsourcePHId.Count(); }
+              //if (OutsourceCMId != null) { _cntCM = OutsourceCMId.Count(); }
+
               if (EmployeeId == null && CameraId == null)
               {
-                  serviceFactory.CreatePhotoGraphService(photo, empList, camList, Code);
+                  serviceFactory.CreatePhotoGraphService(photo, empList, camList, Code,_cntPH,_cntCM);
               }
               else if (EmployeeId != null && CameraId != null)
               {
-                  serviceFactory.CreatePhotoGraphService(photo, EmployeeId.ToList(), CameraId.ToList(), Code);
+                  serviceFactory.CreatePhotoGraphService(photo, EmployeeId.ToList(), CameraId.ToList(), Code,_cntPH,_cntCM);
               }
               else if (EmployeeId != null)
               {
-                  serviceFactory.CreatePhotoGraphService(photo, EmployeeId.ToList(), camList, Code);
+                  serviceFactory.CreatePhotoGraphService(photo, EmployeeId.ToList(), camList, Code,_cntPH,_cntCM);
               }
               else
               {
-                  serviceFactory.CreatePhotoGraphService(photo, empList, CameraId.ToList(), Code);
+                  serviceFactory.CreatePhotoGraphService(photo, empList, CameraId.ToList(), Code,_cntPH,_cntCM);
               }
 
           }
@@ -1677,19 +1691,101 @@ namespace NicePictureStudio
               }
           }
 
-          [HttpGet]
-          public async Task<PartialViewResult> CreatePhotoGraphServiceByModal(int? id, string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber)
+          public PartialViewResult MainFilterPhotoGrapService(int? id, string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber)
           {
-              if (startDate !=null && endDate !=null && guestNumber !=null)
-              SaveServiceFormToLocal(serviceType, startDate, endDate, guestNumber);
-              
-              PhotographService photoGraphService;
-              ViewData["PhotoGraphList"] = new SelectList(db.PhotographServices, "Id", "Name");
-              if (id != null)
-              { photoGraphService = await db.PhotographServices.FindAsync(id); }
+              if (startDate != null && endDate != null && guestNumber != null)
+                  SaveServiceFormToLocal(serviceType, startDate, endDate, guestNumber);
+              // To be put Filter criteria
+              int conditionNumber = 0;
+              if(guestNumber !=null)
+                  conditionNumber = (int)guestNumber;
               else
-              { photoGraphService = await db.PhotographServices.FirstAsync(); }
+              {
+                  ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+                  if (serviceFactory != null)
+                      conditionNumber = (int)serviceFactory.ServiceForm.GuestsNumber;
+              }
+              IEnumerable<PhotographService> photoGraphServices;
+              int MinPhotographNumber = 0;
+              int MinCameraManNumber = 0;
+              int CurPhotographNumber = 0;
+              int CurCameraManNumber = 0;
+             
+              if (conditionNumber > 0 && conditionNumber <= 200)
+              {
+                  photoGraphServices = db.PhotographServices.Where(pg => pg.PhotographerNumber == 1 && pg.CameraManNumber == 1);
+                  MinPhotographNumber = 1;
+                  MinCameraManNumber = 0;
+                  CurPhotographNumber = 1;
+                  CurCameraManNumber =1;
+              }
+              else if (conditionNumber > 200 && conditionNumber <= 500)
+              {
+                  photoGraphServices = db.PhotographServices.Where(pg => pg.PhotographerNumber == 2 && pg.CameraManNumber == 1);
+                  MinPhotographNumber = 1;
+                  MinCameraManNumber = 0;
+                  CurPhotographNumber = 2;
+                  CurCameraManNumber = 1;
+              }
+              else if (conditionNumber > 500 && conditionNumber <= 1000)
+              {
+                  photoGraphServices = db.PhotographServices.Where(pg => pg.PhotographerNumber == 3 && pg.CameraManNumber == 1);
+                  MinPhotographNumber = 2;
+                  MinCameraManNumber = 0;
+                  CurPhotographNumber = 3;
+                  CurCameraManNumber = 1;
+              }
+              else if (conditionNumber > 1000 && conditionNumber <= 1500)
+              {
+                  photoGraphServices = db.PhotographServices.Where(pg => pg.PhotographerNumber == 4 && pg.CameraManNumber == 2);
+                  MinPhotographNumber = 3;
+                  MinCameraManNumber = 0;
+                  CurPhotographNumber = 4;
+                  CurCameraManNumber = 2;
+              }
+              else
+              {
+                  photoGraphServices = db.PhotographServices.Where(pg => pg.PhotographerNumber == 5 && pg.CameraManNumber == 3);
+                  MinPhotographNumber = 5;
+                  MinCameraManNumber = 3;
+                  CurPhotographNumber = 5;
+                  CurCameraManNumber = 3;
+              }
+              //1-200 : 1 C , 1M : 1C, 0M
+              //200-500 : 2 C , 1M : 2C ,0M, 2C, 2M
+              //500-1000 : 3 C ,1M : 3C, 2M
+              //1000-1500 : 4 C ,2M :3C ,2M , 3C, 1M ,3C ,0M
+              PhotographService photoGraphService;
+              ViewData["SType"] = serviceType;
+              ViewData["MinPHNum"] = MinPhotographNumber;
+              ViewData["MinCMNum"] = MinCameraManNumber;
+              ViewData["CurPHNum"] = CurPhotographNumber;
+              ViewData["CurCMNum"] = CurCameraManNumber;
+              ViewData["ServiceList"] = new SelectList(db.PhotographServices, "Id", "Name");
+              if (id != null)
+              { photoGraphService = db.PhotographServices.Where(pg => pg.Id == id).FirstOrDefault(); }
+              else
+              { photoGraphService = photoGraphServices.First(); }
               ViewData["Code"] = photoGraphService.Id;
+              return PartialView();
+          }
+
+          public int PhotoGraphFilterCalc(int Pnumber, int Cnumber)
+          {
+              PhotographService photoSelect = db.PhotographServices.Where(pg => pg.PhotographerNumber == Pnumber && pg.CameraManNumber == Cnumber).FirstOrDefault();
+              return photoSelect.Id;
+          }
+
+          [HttpGet]
+          public PartialViewResult CreatePhotoGraphServiceByModal(int? id, string serviceType)
+          {
+              PhotographService photoGraphService;
+              //ViewData["PhotoGraphList"] = new SelectList(db.PhotographServices, "Id", "Name");
+              if (id != null)
+              { photoGraphService =  db.PhotographServices.Find(id); }
+              else
+              { photoGraphService =  db.PhotographServices.First(); }
+              //ViewData["Code"] = photoGraphService.Id;
 
               //Getting PhotoGraph
               ServiceForm PreWeddingFromSection;
@@ -1701,10 +1797,14 @@ namespace NicePictureStudio
               ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
               List<string> _selectedPhotoGraph;
               List<string> _selectedCameraMan;
+              int _OrcPHCnt = 0;
+              int _OrcCMCnt = 0;
               if (serviceFactory.PhotoGraphService != null)
               {
                   _selectedPhotoGraph = new List<string>(serviceFactory.PhotoGraphService.PhotoGraphIdList);
                   _selectedCameraMan = new List<string>(serviceFactory.PhotoGraphService.CameraMandIdList);
+                  _OrcPHCnt = serviceFactory.PhotoGraphService.PhotoGraphOrcCnt;
+                  _OrcCMCnt = serviceFactory.PhotoGraphService.CameraManOrcCnt;
               }
               else
               {
@@ -1741,6 +1841,8 @@ namespace NicePictureStudio
                                                   IsSelect = _selectedCameraMan.Contains(emp.FirstOrDefault().Id)
                                               }).ToList();
                   ViewBag.CameraManListDetails = cameraManResult;
+
+
               }
               else
               {
@@ -1748,6 +1850,37 @@ namespace NicePictureStudio
                   ViewBag.CameraManListDetails = new List<PhotoGraph>();
                   ViewBag.PhotoGraphListDetails = new List<CameraMan>();
               }
+
+              //Outsource specific for 4 people
+              var OutPHResult = new List<PhotoGraph>();
+              int cntPHSelected = _OrcPHCnt;
+              for (var i = 1; i <= 4; i++)
+              {
+                  int index = i;
+                  var PHOrc = new PhotoGraph
+                  {
+                      Id = index.ToString(),
+                      Name = "Outsource" + index,
+                      IsSelect = (cntPHSelected >= index) ? true : false
+                  };
+                  OutPHResult.Add(PHOrc);
+              }
+              ViewBag.PhotoGraphOursourceList = OutPHResult;
+
+              var OutCMResult = new List<CameraMan>();
+              int cntCMSelected = _OrcCMCnt;
+              for (var i = 1; i <= 4; i++)
+              {
+                  int index = i;
+                  var CMOrc = new CameraMan
+                  {
+                      Id = index.ToString(),
+                      Name = "Outsource" + index,
+                      IsSelect = (cntCMSelected >= index) ? true : false
+                  };
+                  OutCMResult.Add(CMOrc);
+              }
+              ViewBag.CameraManOursourceList = OutCMResult;
 
 
               //var _camearManResult = (from cameraEmp in db.Employees
@@ -1786,29 +1919,35 @@ namespace NicePictureStudio
           }
 
         [HttpPost]
-        public ActionResult CreatePhotoGraphServiceList([Bind(Include = "Name,PhotographerNumber,CameraManNumber,Description,Cost,Price")]PhotographService photoGraphService, string[] EmployeeId, string[] CameraId, string ServiceType, int Code)
+          public ActionResult CreatePhotoGraphServiceList([Bind(Include = "Name,PhotographerNumber,CameraManNumber,Description,Cost,Price")]PhotographService photoGraphService, string[] EmployeeId, string[] CameraId, string ServiceType, int Code, string[] OutsourcePHId, string[] OutsourceCMId)
         {
             PhotographService photo = photoGraphService;
             List<string> empList = new List<string>();
             List<string> camList = new List<string>();
+            int _cntPH = 0;
+            int _cntCM =0;
+
+            if (OutsourcePHId != null){ _cntPH = OutsourcePHId.Count();}
+            if (OutsourceCMId != null){ _cntCM = OutsourceCMId.Count();}
+
             ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(ServiceType);
             if (EmployeeId == null && CameraId == null)
             {
-                serviceFactory.CreatePhotoGraphService(photo, empList, camList,Code);
+                serviceFactory.CreatePhotoGraphService(photo, empList, camList,Code,_cntPH,_cntCM);
             }
             else if (EmployeeId != null && CameraId != null)
             {
-                serviceFactory.CreatePhotoGraphService(photo, EmployeeId.ToList(), CameraId.ToList(),Code); 
+                serviceFactory.CreatePhotoGraphService(photo, EmployeeId.ToList(), CameraId.ToList(), Code, _cntPH, _cntCM); 
             }
             else if (EmployeeId != null)
             {
-                serviceFactory.CreatePhotoGraphService(photo, EmployeeId.ToList(), camList,Code);
+                serviceFactory.CreatePhotoGraphService(photo, EmployeeId.ToList(), camList,Code,_cntPH,_cntCM);
             }
             else
             {
-                serviceFactory.CreatePhotoGraphService(photo, empList, CameraId.ToList(),Code);
+                serviceFactory.CreatePhotoGraphService(photo, empList, CameraId.ToList(),Code,_cntPH,_cntCM);
             }
-
+            
             return RedirectToAction("CreateOutputServiceByModal", new { serviceType = ServiceType });
         }
 
