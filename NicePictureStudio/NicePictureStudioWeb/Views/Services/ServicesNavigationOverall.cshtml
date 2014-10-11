@@ -1,74 +1,154 @@
-﻿<div id="ServiceNavigation">
+﻿@model NicePictureStudio.App_Data.ServiceForm
+<div id="ServiceNavigation">
     <div class="container">
-        <div class="row">
+        <table class="table table-responsive">
+            <tr>
+                <td class="col-md-4 col-lg-4">
+                    @*<div class="row">*@
+                        <div>
+                            @Html.AntiForgeryToken()
+                            <form class="panel panel-primary" id="FormSubmit">
+                                <div class="panel-heading">Services Details</div>
+                                <div class="panel-body">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            @Html.Label("ServiceType")
+                                            @Html.Kendo().DropDownList().Name("ServiceTypeId").BindTo(new string[] { "PreWedding", "Engagement", "Wedding" })
+                                            @Html.ValidationMessage("ServiceTypeId", "*")
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.Label("Event Start ")
+                                            @Html.Kendo().DateTimePickerFor(model => model.EventStart).Min(DateTime.Now).HtmlAttributes(new { @id="EventStart"}).Value(Model.EventStart == null ? DateTime.Now : Model.EventStart)
+                                            @*@Html.Kendo().DateTimePicker().Name("EventStart").Min(DateTime.Now)*@
+                                            @Html.ValidationMessageFor(model => model.EventStart)
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.Label("Event End ")
+                                            @Html.Kendo().DateTimePickerFor(model => model.EventEnd).Min(DateTime.Now).HtmlAttributes(new { @id = "EventEnd" }).Value(Model.EventEnd == null ? DateTime.Now : Model.EventEnd)
+                                            @*@Html.Kendo().DateTimePicker().Name("EventEnd").Min(DateTime.Now)*@
+                                            @Html.ValidationMessageFor(model => model.EventEnd)
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.Label("จำนวกแขกในงาน")
+                                            @Html.Kendo().NumericTextBoxFor(model => model.GuestsNumber).Min(1).HtmlAttributes(new { @id = "GuestNumber" }).Value(Model.GuestsNumber == null ? 100 : Model.GuestsNumber)
+                                            @*@Html.Kendo().NumericTextBox().Name("GuestNumber").Min(1).Value(50)*@
+                                            @Html.ValidationMessageFor(model => model.GuestsNumber)
+                                        </div>
 
-            <div class="col-md-4 col-lg-4">
-            @using (Html.BeginForm())         
-               {
-                     @Html.AntiForgeryToken()
-                   <div class="panel panel-primary" id="FormSubmit">
-                       <div class="panel-heading">Services Details</div>
-                       <div class="panel-body">
-                           @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                           <div class="form-horizontal">
-                               <div class="form-group">
-                                   @Html.Label("ServiceType")
-                                   @Html.Kendo().DropDownList().Name("ServiceTypeId").BindTo(new string[] {"PreWedding","Engagement","Wedding"})
-                                   @Html.ValidationMessage("ServiceTypeId","*")
-                               </div>
-                               <div class="form-group">
-                                   @Html.Label("Event Start ")
-                                   @Html.Kendo().DateTimePicker().Name("EventStart").Min(DateTime.Now)
-                                   @Html.ValidationMessage("EventStart", "*")
-                               </div>
-                               <div class="form-group">
-                                   @Html.Label("Event End ")
-                                   @Html.Kendo().DateTimePicker().Name("EventEnd").Min(DateTime.Now)
-                                   @Html.ValidationMessage("EventEnd", "*")
-                               </div>
-                               <div class="form-group">
-                                   @Html.Label("จำนวกแขกในงาน")
-                                   @Html.Kendo().NumericTextBox().Name("GuestNumber").Min(1).Value(50)
-                                   @Html.ValidationMessage("GuestNumber", "*")
-                               </div>
-                               
-                               <div class="form-group">
-                                   <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>Start</button>
-                                 
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-                }
-                <div class="panel panel-primary">
-                    <div class="panel-heading">รายละเอียดค่าใช้จ่าย</div>
-                        <div class="panel-body">
-                            <div class="form-horizontal">
-                                <form class="form-group">ค่าใช้จ่าย</form>
-                                <form class="form-group">ส่วนลด</form>
-                                <form class="form-group">ค่าใช้จ่ายสำหรับรายการนี้</form>
+                                        <div class="form-group">
+                                            <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>Start</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">รายละเอียดค่าใช้จ่าย</div>
+                                <div class="panel-body">
+                                    <!-- Service Payment-->
+                                    <div id="divServicePriceSection">
+                                        <div class="row">
+                                            @using (@Ajax.BeginForm("CalculateServicesCostSummary", "Services", new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        InsertionMode = InsertionMode.Replace,
+                                        UpdateTargetId = "divServicePriceSection"
+                                    }))
+                                            {
+                                                <div class="form-horizontal">
+                                                    <div class="form-group-sm">
+                                                        <div>
+                                                            <label id="lblEstimateContext" class="control-label">Total Estimate Cost : </label>
+                                                        </div>
+                                                        <div>
+                                                            <label id="lblEstimateCost" class="control-label"> $0.00</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group-sm">
+                                                        <div class="col-md-6">
+                                                            <label id="lblPromotionContext" class="control-label">Promotion Selected : </label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label id="lblPromotionSelected" class="control-label"> - </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group-sm">
+                                                        <div class="col-md-6">
+                                                            <label id="lblPromotionDiscountContext" class="control-label">Promotion Discount : </label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label id="lblPromotionDiscount" class="control-label"> 0% </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group-sm">
+                                                        <div class="col-md-6">
+                                                            <label id="lblTotalCostContext" class="control-label">Total Price Before TAX: </label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label id="lblTotalCost" class="control-label">$0.00</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group-sm">
+                                                        <div class="col-md-6">
+                                                            <label class="control-label">VAT: </label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="control-label">10%</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group-sm">
+                                                        <div class="col-md-6">
+                                                            <label id="lblTotalWithTAXContext" class="control-label">Total Price: </label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label id="lblTotalCostWithTAX" class="control-label">$0.00</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tab-content">
+                                                        <div class="col-md-12 col-md-push-6">
+                                                            <br />
+                                                            <input class="btn-primary" type="submit" id="btnCalculatePrice" name="btnCalculatePrice" value="Calculate Price" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- End row-->
+                </td>
+                <td class="col-md-8 col-lg-8">
+                    <div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading"></div>
+                            <div class="panel-body">
+                                <div id="ServiceSelection">
+
+                                </div>
                             </div>
                         </div>
                     </div>
-            </div>
-            <div class="col-md-8 col-lg-8">
-                <div class="panel panel-primary">
-                    <div class="panel-heading"></div>
-                    <div class="panel-body">
-                        <div id="ServiceSelection">
-                         
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-   </div>
-</div>
+                </td>
+                </tr>
+            </table>
+                        @*</div>*@
+                    @*</div>*@
+    </div>
 <div id="HiddenNav">
     @Html.Hidden("hdPage1",null, new { @id = "page1Id" });
     @Html.Hidden("hdPage2", null, new {@id = "page2Id" });
-    @Html.Hidden("hdPage3");
-    @Html.Hidden("hdPage4");
+    @Html.Hidden("hdPage3", null, new { @id = "page3Id" });
+    @Html.Hidden("hdPage4", null, new { @id = "page4Id" });
 </div>
 
 <script type="text/javascript">
@@ -77,16 +157,17 @@
         $("#EventEnd").kendoDateTimePicker().attr("required", true);
         $("#GuestNumber").kendoNumericTextBox().attr("required",true);
 
-        $("form").on("submit", function () {
+        $("#FormSubmit").on("submit", function () {
             event.preventDefault(); 
+            var validatorStartEvent = $("#FormSubmit").kendoValidator().data("kendoValidator");
+            validatorStartEvent.validate();
+
             var url = '@Url.Action("MainFilterPhotoGrapService", "Services")';
             var selectedValue = $("#ServiceTypeId").data("kendoDropDownList").value();
             var selectedStartDate = $("#EventStart").val();
             var selectedEndDate = $("#EventEnd").val();
             var guestNum = $("#GuestNumber").data("kendoNumericTextBox").value();
 
-            var validatorStartEvent = $("#FormSubmit").kendoValidator().data("kendoValidator");
-            validatorStartEvent.validate();
 
             $.ajax({
                 url: url,

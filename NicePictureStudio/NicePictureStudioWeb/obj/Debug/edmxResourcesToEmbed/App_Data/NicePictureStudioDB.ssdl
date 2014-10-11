@@ -236,7 +236,7 @@
     </Key>
     <Property Name="LocationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="LocationName" Type="nvarchar" MaxLength="50" />
-    <Property Name="LocationType" Type="nvarchar" MaxLength="50" />
+    <Property Name="LocationType" Type="int" Nullable="false" />
     <Property Name="LocationAddress" Type="nvarchar(max)" />
     <Property Name="PostalCode" Type="nvarchar" MaxLength="10" />
     <Property Name="City" Type="nvarchar" MaxLength="100" />
@@ -451,6 +451,7 @@
     <Property Name="GuestsNumber" Type="int" />
     <Property Name="ServiceCost" Type="decimal" Precision="18" Scale="3" />
     <Property Name="ServicePrice" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="ServiceNetPrice" Type="decimal" Precision="18" Scale="3" />
   </EntityType>
   <EntityType Name="ServiceMapping">
     <Key>
@@ -736,13 +737,13 @@
   </Association>
   <Association Name="FK_Location_LocationType">
     <End Role="LocationType" Type="Self.LocationType" Multiplicity="1" />
-    <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+    <End Role="Location" Type="Self.Location" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="LocationType">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Location">
-        <PropertyRef Name="LocationId" />
+        <PropertyRef Name="LocationType" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

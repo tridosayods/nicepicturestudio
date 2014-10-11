@@ -43,7 +43,6 @@
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Equipment_EquipmentType" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_EquipmentService_Equipment" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Location_LocationStatus" />
-        <AssociationConnector Association="NicePictureStudioDBModel.FK_Location_LocationType" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_LocationService_Location" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceStatus" />
@@ -76,6 +75,7 @@
         <EntityTypeShape EntityType="NicePictureStudioDBModel.CRMServiceType" Width="1.5" PointX="13.75" PointY="25.625" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceType" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Services_Services" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_Location_LocationType1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

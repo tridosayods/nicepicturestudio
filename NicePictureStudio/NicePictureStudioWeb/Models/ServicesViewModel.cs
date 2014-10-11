@@ -107,6 +107,7 @@ namespace NicePictureStudio.Models
             ServiceForm.GuestsNumber = serviceForm.GuestsNumber;
             ServiceForm.ServiceCost = Convert.ToDecimal(serviceForm.ServiceCost);
             ServiceForm.ServicePrice = Convert.ToDecimal(serviceForm.ServicePrice);
+            ServiceForm.ServiceNetPrice = Convert.ToDecimal(serviceForm.ServiceNetPrice);
         }
 
         public void UpdateServiceForm(ServiceForm serviceForm)
@@ -139,7 +140,7 @@ namespace NicePictureStudio.Models
         public void CreateEquipmentServiceList(EquipmentService equipment, int equipmentId, int equipmentServiceId)
         {
             EquipmentServiceViewModel _equipmentService = new EquipmentServiceViewModel();
-            _equipmentService.Id = equipment.Id;
+            _equipmentService.Id = equipmentServiceId;
             _equipmentService.Name = equipment.Name;
             _equipmentService.Price = equipment.Price;
             _equipmentService.Cost = equipment.Cost;
@@ -153,7 +154,7 @@ namespace NicePictureStudio.Models
         public void CreateLocationServiceList(LocationService location, int locationId, int locationServiceId)
         {
             LocationServiceViewModel _locationService = new LocationServiceViewModel();
-            _locationService.Id = location.Id;
+            _locationService.Id = locationServiceId; //location.id
             _locationService.Name = location.Name;
             _locationService.IsOverNight = location.IsOverNight;
             _locationService.OverNightPeriod = location.OverNightPeriod;
@@ -169,7 +170,7 @@ namespace NicePictureStudio.Models
         public void CreateOutSoruceServiceList(OutsourceService outsource, int oursourceId, int outsourceServiceId)
         {
             OutsourceServiceViewModel _outsourceService = new OutsourceServiceViewModel();
-            _outsourceService.Id = outsource.Id;
+            _outsourceService.Id = outsourceServiceId; //outsource.id
             _outsourceService.Name = outsource.Name;
             _outsourceService.OutsourceId = oursourceId; // Only ID is required
             _outsourceService.PortFolioURL = outsource.PortFolioURL;
@@ -184,7 +185,7 @@ namespace NicePictureStudio.Models
         public void CreateOutputServiceList(OutputService output,int outputServiceId)
         {
             OutputServiceViewModel _outputService = new OutputServiceViewModel();
-            _outputService.Id = output.Id;
+            _outputService.Id = outputServiceId; //output.id
             _outputService.Name = output.Name;
             _outputService.OutputURL = output.OutputURL;
             _outputService.Price = output.Price;
@@ -293,6 +294,7 @@ namespace NicePictureStudio.Models
         public Nullable<int> GuestsNumber { get; set; }
         public decimal ServiceCost { get; set; }
         public decimal ServicePrice { get; set; }
+        public decimal ServiceNetPrice { get; set; }
     }
 
     public class PhotoGraphServiceViewModel
@@ -415,7 +417,8 @@ namespace NicePictureStudio.Models
         public string PromotionName { get; set; }
         public string ServiceTax { get; set; }
 
-        public decimal NetPrice { get; set; }
+        public decimal NetPriceWithoutTax { get; set; }
+        public decimal PriceWithoutTax { get; set; }
 
         public PromotionCalculator()
         {
@@ -470,10 +473,10 @@ namespace NicePictureStudio.Models
                     + (OutsourcePrice - (OutsourcePrice * currentPromotion.OutsourceDiscount / (decimal)100))
                     + (OutputPrice - (OutputPrice * currentPromotion.OutputDiscount / (decimal)100))
                     );
-
+                PriceWithoutTax = _totalPriceBeforeTax;
                 TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
                 _totalVat = (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
-                NetPrice = _totalPriceBeforeTax + _totalVat;
+                NetPriceWithoutTax = _totalPriceBeforeTax + _totalVat;
                 TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("C2", CultureInfo.CurrentCulture);
             }
             else
@@ -487,9 +490,42 @@ namespace NicePictureStudio.Models
                     + (OutsourcePrice)
                     + (OutputPrice)
                     );
+                PriceWithoutTax = _totalPriceBeforeTax;
                 TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
                 _totalVat = _totalPriceBeforeTax - (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
-                NetPrice = _totalPriceBeforeTax + _totalVat;
+                NetPriceWithoutTax = _totalPriceBeforeTax + _totalVat;
+                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("C2", CultureInfo.CurrentCulture);
+            }
+        }
+
+        public void CalculateTotalPrice(decimal? estimatePrice, decimal? netPrice)
+        {
+            decimal _totalPriceBeforeTax = 0;
+            decimal _totalVat = 0;
+            
+            if (hasPromotion)
+            {
+                EstimatePrice = estimatePrice.Value.ToString("C2",CultureInfo.CurrentCulture);
+                PromotionName = currentPromotion.PromotionName();
+                PromotionDiscount = ((currentPromotion.PhotoGraphDiscount + currentPromotion.EquipmentDiscount +
+                                                   currentPromotion.LocationDiscount + currentPromotion.OutsourceDiscount + currentPromotion.OutputDiscount) / (decimal)500).ToString("P");
+                _totalPriceBeforeTax = ((decimal)netPrice - ((decimal)netPrice * currentPromotion.OutputDiscount / (decimal)100));
+                PriceWithoutTax = _totalPriceBeforeTax;
+                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
+                _totalVat = (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
+                NetPriceWithoutTax = _totalPriceBeforeTax + _totalVat;
+                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("C2", CultureInfo.CurrentCulture);
+            }
+            else
+            {
+                EstimatePrice = estimatePrice.Value.ToString("C2", CultureInfo.CurrentCulture);
+                PromotionName = PromotionDefaultName;
+                PromotionDiscount = PromotionDiscountDefaultName;
+                _totalPriceBeforeTax = (decimal)netPrice;
+                PriceWithoutTax = _totalPriceBeforeTax;
+                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
+                _totalVat = (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
+                NetPriceWithoutTax = _totalPriceBeforeTax + _totalVat;
                 TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("C2", CultureInfo.CurrentCulture);
             }
         }

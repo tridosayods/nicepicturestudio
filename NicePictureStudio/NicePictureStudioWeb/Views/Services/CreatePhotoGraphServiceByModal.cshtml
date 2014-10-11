@@ -201,6 +201,7 @@
                     </div>
                 </div>
 
+                @Html.HiddenFor(model=>model.Cost)
                 <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
                 <input type="hidden" id="Code" name="Code" value="@Model.Id" />
 

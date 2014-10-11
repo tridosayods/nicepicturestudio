@@ -30,6 +30,7 @@ namespace NicePictureStudio.App_Data
         public Nullable<int> GuestsNumber { get; set; }
         public Nullable<decimal> ServiceCost { get; set; }
         public Nullable<decimal> ServicePrice { get; set; }
+        public Nullable<decimal> ServiceNetPrice { get; set; }
     
         public virtual ServiceStatu ServiceStatu { get; set; }
         public virtual ServiceType ServiceType { get; set; }

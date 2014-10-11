@@ -782,6 +782,28 @@
     <Content Include="Views\CRMTemplates\CRMReportCustomerRelation.cshtml" />
     <Content Include="Views\Services\ServicesNavigationOverall.cshtml" />
     <Content Include="Views\Services\MainFilterPhotoGrapService.cshtml" />
+    <Content Include="Views\Services\SecondFilterOutputService.cshtml" />
+    <Content Include="Views\Services\ThirdFilterLocationService.cshtml" />
+    <Content Include="Views\Services\FourthFilterOutsourceService.cshtml" />
+    <Content Include="Views\Services\ErrorServiceFormPage.cshtml" />
+    <Content Include="Views\Services\TableServices.cshtml" />
+    <Content Include="Views\Services\CalculateServiceOverall.cshtml" />
+    <Content Include="Views\Services\ServicesNavigationOverallWhenEditNew.cshtml" />
+    <Content Include="Views\Services\MainFilterPhotoGrapServiceWhenEditNew.cshtml" />
+    <Content Include="Views\Services\CreatePhotoGraphServiceByModalWhenEditNew.cshtml" />
+    <Content Include="Views\Services\CreatePhotoGraphServiceListWhenEditNew.cshtml" />
+    <Content Include="Views\Services\SecondFilterOutputServiceWhenEditNew.cshtml" />
+    <Content Include="Views\Services\CreateOutputServiceByModalWhenEditNew.cshtml" />
+    <Content Include="Views\Services\CreateOutputServiceTableWhenEditNew.cshtml" />
+    <Content Include="Views\Services\RemoveOutputWhenEditNew.cshtml" />
+    <Content Include="Views\Services\CreateLocationServiceByModalWhenEditNew.cshtml" />
+    <Content Include="Views\Services\CreateLocationServiceTableWhenEditNew.cshtml" />
+    <Content Include="Views\Services\RemoveLocationWhenEditNew.cshtml" />
+    <Content Include="Views\Services\FourthFilterOutsourceServiceWhenEditNew.cshtml" />
+    <Content Include="Views\Services\CreateOutsourceServiceByModalWhenEditNew.cshtml" />
+    <Content Include="Views\Services\ThirdFilterLocationServiceWhenEditNew.cshtml" />
+    <Content Include="Views\Services\CreateOutsourceServiceTableWhenEditNew.cshtml" />
+    <Content Include="Views\Services\RemoveOutsourceWhenEditNew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

@@ -1,0 +1,21 @@
+﻿<div id="tblOutput">
+    @if (@ViewBag.ModifyOutput != null)
+    {
+        <div class="form-group">
+            <table class="table table-striped">
+                <tr><th>Outsource Name</th><th>Description</th><th>OutputURL</th><th>Price</th><th>Action</th></tr>
+                @foreach (NicePictureStudio.Models.OutputServiceViewModel item in ViewBag.ModifyOutput)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td>@item.OutputURL</td>
+                        <td>@item.Price</td>
+                        <td>@Ajax.ActionLink("Remove", "RemoveOutputWhenEditNew", new { Id = @item.Id, serviceType = @ViewBag.OutputServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblOutput" })</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</div>
+

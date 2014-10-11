@@ -40,9 +40,18 @@
             })
         });
 
+        //New Section of NavPattern Code
+        $("#NavigateFormGenerate").click(function () {
+            var url = $('#NavPattern').data('url');
+            $.get(url, null, function (data) {
+                $("#NavPatternBody").html(data);
+                $("#NavPattern").modal('show');
+            });
+        });
+
     });
 
-    function AddPreWeddingService() {
+    @*function AddPreWeddingService() {
         $("#delPreWedService").show();
     }
 
@@ -53,6 +62,11 @@
             type: "GET",
             success: function (data) { $("#PreWeddingFormSection").replaceWith(data); }
         });
+    }*@
+
+    function DisableNav(id)
+    {
+        $("#NavPattern").modal('hide');
     }
 
     function toggle_visibility(id) {
@@ -68,7 +82,7 @@
 
 
 
-<h2>Create Services</h2>
+<h2>Edit Services</h2>
 <h5>Customers are heart of everything</h5>
 <div id="ServiceFormMain">
     <!-- Create Customer Form Section-->
@@ -170,7 +184,7 @@
             <td>
                 <h4>Services Cost</h4>
                 <hr />
-                <div id="divServicePriceSection">
+                @*<div id="divServicePriceSection">
                     @(Html.Partial("CalculateServicesCostSummaryWhenEdit", @Model.Calculator))
                 </div>
                 <div class="container-fluid">
@@ -178,22 +192,131 @@
                         <div id="SaveFormSection"><br /> - Need to create at leaset one service before save all</div>
                         <div id="CreateReportSection"> - Otherwise, no record save</div>
                     </div>
-                </div>
+                </div>*@
 
             </td>
         </tr>
         <tr>
             <td></td>
             <td>
-                <button type="button" id="btnSaveEditAll" class="btn btn-primary"><span class="glyphicon glyphicon-star"></span>Save All</button>
+                <button type="button" id="NavigateFormGenerate" class=" btn btn-default"><span class="glyphicon glyphicon-adjust">สร้าง</span></button>
+                @*<button type="button" id="btnSaveEditAll" class="btn btn-primary"><span class="glyphicon glyphicon-star"></span>Save All</button>
                 <button type="button" id="btnGenReport" class="btn btn-default disabled"><span class="glyphicon glyphicon-star"></span>Generate Report</button>
-                <button type="reset" id="btnResetForm" class="btn btn-default disabled">Cancel</button>
+                <button type="reset" id="btnResetForm" class="btn btn-default disabled">Cancel</button>*@
             </td>
         </tr>
     </table>
 </div>
 
-<table class="table table-bordered">
+<div id="Summary">
+    <div class="col-md-8 col-lg-6">
+        @{Html.RenderAction("TableServices", "Services", new { serviceId = @Model.Id });}
+    </div>
+    <div class="col-md-4 col-lg-6">
+        <div id="divServicesTotalPriceSection">
+            <div>Summary</div>
+            <div class="container-fluid">
+                @using (@Ajax.BeginForm("CalculateServiceOverallWhenEdit", "Services", new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "divServicesTotalPriceSection"
+                        }))
+                {
+                    <div class="form-horizontal">
+                        <div class="col-md-6 col-xs-4">
+                            <label id="lblEstimateContext" class="control-label">Total Estimate Cost : </label>
+                        </div>
+                        <div class="col-md-6 col-xs-4">
+                            <label id="lblEstimateCost" class="control-label"> $0.00</label>
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="col-md-6">
+                            <label id="lblPromotionContext" class="control-label">Promotion Selected : </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label id="lblPromotionSelected" class="control-label"> - </label>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal">
+                        <div class="col-md-6">
+                            <label id="lblPromotionDiscountContext" class="control-label">Promotion Discount : </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label id="lblPromotionDiscount" class="control-label"> 0% </label>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal">
+                        <div class="col-md-6">
+                            <label id="lblTotalCostContext" class="control-label">Total Price Before TAX: </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label id="lblTotalCost" class="control-label">$0.00</label>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal">
+                        <div class="col-md-6">
+                            <label class="control-label">VAT: </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">10%</label>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal">
+                        <div class="col-md-6">
+                            <label id="lblTotalWithTAXContext" class="control-label">Total Price: </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label id="lblTotalCostWithTAX" class="control-label">$0.00</label>
+                        </div>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="col-md-12 col-md-push-6">
+                            <br />
+                            <input class="btn-primary" type="submit" id="btnCalculateTotalPrice" name="btnCalculateTotalPrice" value="Calculate Total Price" />
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal service pattern -->
+<div class="modal fade" id="NavPattern" tabindex="-1" role="dialog"
+     aria-labelledby="NavService" aria-hidden="true" data-url='@Url.Action("ServicesNavigationOverallWhenEditNew", "Services")' data-servicetype="">
+    <div class="modal-dialog modal-lg" style="width:90%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="NavModelPattern">
+                    Welcome to NicePictureStudio Services :)
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="NavPatternBody"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancelPattern" type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@*<table class="table table-bordered">
     <tr>
         <td><button id="togPreWedService" type="button" class="btn btn-default btn" onclick="toggle_visibility('PreWeddingFormSection')"><span class="glyphicon glyphicon-briefcase"></span>PreWedding Service</button></td>
         <td><button id="delPreWedService" type="button" class="btn btn-warning right" onclick="RemovePreWeddingService()"><span class="glyphicon glyphicon-remove-sign"></span>RemovePreWeddingService</button></td>
@@ -210,7 +333,7 @@
                                 <button type="submit" id="btnPreWedding" name="Command" value="PreWedding" onclick="AddPreWeddingService()"> Add PreWedding Service </button>
                             </div>
                         }
-                        @*<div id="PreWeddingFormSection"></div>*@
+
                     </div>
                 }
                 else
@@ -243,13 +366,11 @@
                                 <button type="submit" id="btnEngagement" name="Command" value="Engagement"> Add Engagement Service </button>
                             </div>
                         }
-                        @*<div id="PreWeddingFormSection"></div>*@
                     </div>
                 }
                 else
                 {
                     <div id="EngagementFormSection">
-                        @*@Html.Action("CreateServiceFormFromServiceWhenEdit", "Services", new { serviceForm = @Model.ServiceFormEngagement.ServiceForm, Command = "Engagement" })*@
                         @{Html.RenderAction("CreateServiceFormFromServiceWhenEdit", new { serviceForm = @Model.ServiceFormEngagement.ServiceForm, Command = "Engagement" });}
                     </div>
                 }
@@ -281,7 +402,7 @@
                                 <button type="submit" id="btnPreWedding" name="Command" value="Wedding"> Add PreWedding Service </button>
                             </div>
                         }
-                        @*<div id="WeddingFormSection"></div>*@
+
                     </div>
                 }
                 else
@@ -293,4 +414,4 @@
             </div>
         </td>
     </tr>
-</table>
+</table>*@

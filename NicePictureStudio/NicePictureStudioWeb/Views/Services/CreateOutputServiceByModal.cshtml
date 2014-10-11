@@ -3,18 +3,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        $("#dwnServicePattern").on("change", function (item) {
-            event.preventDefault();
-            var selectedItem = $("#dwnServicePattern").val();
-            alert(selectedItem);
-            $.ajax({
-                url: '@Url.Action("CreateOutputServiceByModal","Services")',
-                data: { id: selectedItem, serviceType: '@ViewData["ServiceType"]' },
-                type: "GET",
-                success: function (data) { $("#divOutput").replaceWith(data); }
-            });
-        });
-
         $("#btnBackStepToPhotoGraph").on("click", function () {
             event.preventDefault();
             var url = '@Url.Action("MainFilterPhotoGrapService", "Services")';
@@ -27,26 +15,21 @@
         });
     });
 
+    function ValidateSummary()
+    {
+        $("#page2Id").val($("#Code").val());
+    }
+
 </script>
 
-<div id="ServiceSelection">
     <div id="divOutput">
         @using (Ajax.BeginForm("CreateOutputServiceTable", "Services", new AjaxOptions
-    {
-        HttpMethod = "POST",
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = ""
-    }))
         {
-            @Html.AntiForgeryToken()
-
-            <div class="form-group col-lg-12">
-                @Html.Label("OutputServices : ลองภาษาไทย", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="list-group col-md-10">
-                    @Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = "dwnServicePattern", @name = "dwnServicePattern" })
-                </div>
-            </div>
-
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "tblOutput"
+        }))
+        {
             <div class="form-horizontal">
                 <h4>OutputService</h4>
                 <hr />
@@ -75,13 +58,14 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
+                @Html.HiddenFor(model=>model.Cost)
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -100,16 +84,16 @@
                 </div>
 
                 <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
+                <input type="hidden" id="Code" name="Code" value="@Model.Id" />
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <button type="button" id="btnBackStepToPhotoGraph" value="Back to Previous step"></button>
-                        <input type="submit" value="Next" class="btn btn-default" />
+                        <input type="submit" value="Add OutputService" class="btn btn-default" />
                     </div>
                 </div>
             </div>
         }
-        <div id="@ViewData["tblequipment"].ToString()">
+        <div id="tblOutput">
             @if (@ViewBag.ListOutputServices != null)
             {
                 <div class="form-group">
@@ -122,16 +106,27 @@
                                 <td>@item.Description</td>
                                 <td>@item.OutputURL</td>
                                 <td>@item.Price</td>
-                                <td>@Ajax.ActionLink("Remove", "RemoveOutput", new { Id = @item.Id, serviceType = @ViewData["ServiceType"].ToString() }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = @ViewData["tblequipment"].ToString() })</td>
+                                <td>@Ajax.ActionLink("Remove", "RemoveOutput", new { Id = @item.Id, serviceType = @ViewData["ServiceType"].ToString() }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblOutput" })</td>
                             </tr>
                         }
                     </table>
                 </div>
             }
         </div>
-
+        @using (Ajax.BeginForm("ThirdFilterLocationService", "Services", new AjaxOptions
+        {
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "ServiceSelection",
+            OnBegin ="ValidateSummary"
+        }))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
+                <button type="button" id="btnBackStepToPhotoGraph" value="Back to Previous step">Back to Previous Step</button>
+                <button type="submit" id="btnNextStepToLocation" value="Next">Next</button>
+            }
     </div>
-</div>
 
 
 

@@ -5,4 +5,5 @@ D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioReporting\obj\Deb
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioReporting\obj\Debug\NicePictureStudioReporting.csproj.GenerateResource.Cache
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioReporting\obj\Debug\NicePictureStudioReporting.dll
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioReporting\obj\Debug\NicePictureStudioReporting.pdb
-D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioReporting\obj\Debug\NicePictureStudioReporting.csprojResolveAssemblyReference.cache
+D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioReporting\bin\Debug\NicePictureStudioReporting.dll.CodeAnalysisLog.xml
+D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioReporting\bin\Debug\NicePictureStudioReporting.dll.lastcodeanalysissucceeded

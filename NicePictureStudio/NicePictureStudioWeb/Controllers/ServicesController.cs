@@ -285,7 +285,13 @@ namespace NicePictureStudio
             }
 
            // ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.Id);
-            return PartialView(@"/Views/Services/CalculateServicesCostSummary.cshtml", new PromotionCalculator());
+           // return PartialView(@"/Views/Services/CalculateServicesCostSummary.cshtml", new PromotionCalculator());
+            return PartialView("ErrorServiceFormPage",service);
+        }
+
+        public PartialViewResult ErrorServiceFormPage(Service service)
+        {
+            return PartialView(service);
         }
 
         public async Task<PartialViewResult> DetailsService(int? Id)
@@ -391,21 +397,21 @@ namespace NicePictureStudio
             _servicesEdit.CreateService(service);
             _servicesEdit.Promotion = new PromotionViewModel(_promotion);
 
-            foreach (var serviceForm in service.ServiceForms)
-            {
-                if (serviceForm.ServiceType.Id == PREWEDDING_SERVICE)
-                {
-                    _servicesEdit.ServiceFormPreWedding = await RetrieveServiceFormsFromDB(serviceForm);
-                }
-                else if (serviceForm.ServiceType.Id == ENGAGEMENT_SERVICE)
-                {
-                    _servicesEdit.ServiceFormEngagement = await RetrieveServiceFormsFromDB(serviceForm);
-                }
-                else if (serviceForm.ServiceType.Id == WEDDING_SERVICE)
-                {
-                    _servicesEdit.ServiceFormWedding = await RetrieveServiceFormsFromDB(serviceForm);
-                }
-            }
+            //foreach (var serviceForm in service.ServiceForms)
+            //{
+            //    if (serviceForm.ServiceType.Id == PREWEDDING_SERVICE)
+            //    {
+            //        _servicesEdit.ServiceFormPreWedding = await RetrieveServiceFormsFromDB(serviceForm);
+            //    }
+            //    else if (serviceForm.ServiceType.Id == ENGAGEMENT_SERVICE)
+            //    {
+            //        _servicesEdit.ServiceFormEngagement = await RetrieveServiceFormsFromDB(serviceForm);
+            //    }
+            //    else if (serviceForm.ServiceType.Id == WEDDING_SERVICE)
+            //    {
+            //        _servicesEdit.ServiceFormWedding = await RetrieveServiceFormsFromDB(serviceForm);
+            //    }
+            //}
             _promotionCalculatorEdit = new PromotionCalculator(_servicesEdit.Promotion);
             _servicesEdit.Calculator = _promotionCalculatorEdit;
             TempData["ServiceEdit"] = _servicesEdit;
@@ -1036,6 +1042,8 @@ namespace NicePictureStudio
 
           }
 
+          
+
           [HttpGet]
           public async Task<PartialViewResult> CreatePhotoGraphServiceByModalWhenEdit(int? id, string serviceType = "")
           {
@@ -1555,6 +1563,35 @@ namespace NicePictureStudio
               return PartialView();
           }
 
+          private void SaveServiceFormToLocalWhenEdit(string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber)
+          {
+              int statusNew = Constant.SERVICE_STATUS_NEW;
+              ServiceForm serviceForm = new ServiceForm();
+              if (ModelState.IsValid)
+              {
+                  ServiceType _serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, serviceType, true) == 0).FirstOrDefault();
+                  if (serviceType != null)
+                  {
+                      serviceForm.Name = "Default";
+                      serviceForm.EventStart = (DateTime)startDate;
+                      serviceForm.EventEnd = (DateTime)endDate;
+                      serviceForm.GuestsNumber = (int)guestNumber;
+                      serviceForm.ServiceType = _serviceType;
+                      //create string for mapping
+                      ServiceFormFactory serviceFactory = CreateServiceFormByInputSectionWhenEdit(serviceType);
+                      if (serviceFactory != null)
+                      {
+                          serviceFactory.CreateServiceForm(serviceForm, statusNew, _serviceType.Id);
+                      }
+                  }
+
+              }
+          }
+
+          
+
+          
+
           #endregion
 
           #region CreateModal Window section
@@ -1691,6 +1728,22 @@ namespace NicePictureStudio
               }
           }
 
+          public PartialViewResult ServicesNavigationOverall(int? Id)
+          {
+              ServiceForm serviceForm = new ServiceForm();
+              if (Id !=null)
+               serviceForm = db.ServiceForms.Find(Id);
+              return PartialView(serviceForm);
+          }
+
+          public PartialViewResult ServicesNavigationOverallWhenEditNew(int? Id)
+          {
+              ServiceForm serviceForm = new ServiceForm();
+              if (Id != null)
+                  serviceForm = db.ServiceForms.Find(Id);
+              return PartialView(serviceForm);
+          }
+
           public PartialViewResult MainFilterPhotoGrapService(int? id, string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber)
           {
               if (startDate != null && endDate != null && guestNumber != null)
@@ -1718,6 +1771,85 @@ namespace NicePictureStudio
                   MinCameraManNumber = 0;
                   CurPhotographNumber = 1;
                   CurCameraManNumber =1;
+              }
+              else if (conditionNumber > 200 && conditionNumber <= 500)
+              {
+                  photoGraphServices = db.PhotographServices.Where(pg => pg.PhotographerNumber == 2 && pg.CameraManNumber == 1);
+                  MinPhotographNumber = 1;
+                  MinCameraManNumber = 0;
+                  CurPhotographNumber = 2;
+                  CurCameraManNumber = 1;
+              }
+              else if (conditionNumber > 500 && conditionNumber <= 1000)
+              {
+                  photoGraphServices = db.PhotographServices.Where(pg => pg.PhotographerNumber == 3 && pg.CameraManNumber == 1);
+                  MinPhotographNumber = 2;
+                  MinCameraManNumber = 0;
+                  CurPhotographNumber = 3;
+                  CurCameraManNumber = 1;
+              }
+              else if (conditionNumber > 1000 && conditionNumber <= 1500)
+              {
+                  photoGraphServices = db.PhotographServices.Where(pg => pg.PhotographerNumber == 4 && pg.CameraManNumber == 2);
+                  MinPhotographNumber = 3;
+                  MinCameraManNumber = 0;
+                  CurPhotographNumber = 4;
+                  CurCameraManNumber = 2;
+              }
+              else
+              {
+                  photoGraphServices = db.PhotographServices.Where(pg => pg.PhotographerNumber == 5 && pg.CameraManNumber == 3);
+                  MinPhotographNumber = 5;
+                  MinCameraManNumber = 3;
+                  CurPhotographNumber = 5;
+                  CurCameraManNumber = 3;
+              }
+              //1-200 : 1 C , 1M : 1C, 0M
+              //200-500 : 2 C , 1M : 2C ,0M, 2C, 2M
+              //500-1000 : 3 C ,1M : 3C, 2M
+              //1000-1500 : 4 C ,2M :3C ,2M , 3C, 1M ,3C ,0M
+              PhotographService photoGraphService;
+              ViewData["SType"] = serviceType;
+              ViewData["MinPHNum"] = MinPhotographNumber;
+              ViewData["MinCMNum"] = MinCameraManNumber;
+              ViewData["CurPHNum"] = CurPhotographNumber;
+              ViewData["CurCMNum"] = CurCameraManNumber;
+              ViewData["ServiceList"] = new SelectList(db.PhotographServices, "Id", "Name");
+              if (id != null)
+              { photoGraphService = db.PhotographServices.Where(pg => pg.Id == id).FirstOrDefault(); }
+              else
+              { photoGraphService = photoGraphServices.First(); }
+              ViewData["Code"] = photoGraphService.Id;
+              return PartialView();
+          }
+
+          public PartialViewResult MainFilterPhotoGrapServiceWhenEditNew(int? id, string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber)
+          {
+              if (startDate != null && endDate != null && guestNumber != null)
+                  SaveServiceFormToLocalWhenEdit(serviceType, startDate, endDate, guestNumber);
+              // To be put Filter criteria
+              int conditionNumber = 0;
+              if (guestNumber != null)
+                  conditionNumber = (int)guestNumber;
+              else
+              {
+                  ServiceFormFactory serviceFactory = CreateServiceFormByInputSectionWhenEdit(serviceType);
+                  if (serviceFactory != null)
+                      conditionNumber = (int)serviceFactory.ServiceForm.GuestsNumber;
+              }
+              IEnumerable<PhotographService> photoGraphServices;
+              int MinPhotographNumber = 0;
+              int MinCameraManNumber = 0;
+              int CurPhotographNumber = 0;
+              int CurCameraManNumber = 0;
+
+              if (conditionNumber > 0 && conditionNumber <= 200)
+              {
+                  photoGraphServices = db.PhotographServices.Where(pg => pg.PhotographerNumber == 1 && pg.CameraManNumber == 1);
+                  MinPhotographNumber = 1;
+                  MinCameraManNumber = 0;
+                  CurPhotographNumber = 1;
+                  CurCameraManNumber = 1;
               }
               else if (conditionNumber > 200 && conditionNumber <= 500)
               {
@@ -1920,7 +2052,7 @@ namespace NicePictureStudio
 
         [HttpPost]
           public ActionResult CreatePhotoGraphServiceList([Bind(Include = "Name,PhotographerNumber,CameraManNumber,Description,Cost,Price")]PhotographService photoGraphService, string[] EmployeeId, string[] CameraId, string ServiceType, int Code, string[] OutsourcePHId, string[] OutsourceCMId)
-        {
+            {
             PhotographService photo = photoGraphService;
             List<string> empList = new List<string>();
             List<string> camList = new List<string>();
@@ -1947,8 +2079,183 @@ namespace NicePictureStudio
             {
                 serviceFactory.CreatePhotoGraphService(photo, empList, CameraId.ToList(),Code,_cntPH,_cntCM);
             }
-            
-            return RedirectToAction("CreateOutputServiceByModal", new { serviceType = ServiceType });
+
+            return RedirectToAction("SecondFilterOutputService", new { serviceType = ServiceType });
+        }
+
+        [HttpGet]
+        public PartialViewResult CreatePhotoGraphServiceByModalWhenEditNew(int? id, string serviceType)
+        {
+            PhotographService photoGraphService;
+            //ViewData["PhotoGraphList"] = new SelectList(db.PhotographServices, "Id", "Name");
+            if (id != null)
+            { photoGraphService = db.PhotographServices.Find(id); }
+            else
+            { photoGraphService = db.PhotographServices.First(); }
+            //ViewData["Code"] = photoGraphService.Id;
+
+            //Getting PhotoGraph
+            ServiceForm PreWeddingFromSection;
+
+            /*Need ************ Getting date from Form Section */
+            DateTime _startDate = DateTime.Now;
+            DateTime _endDate = DateTime.Now;
+            /*Need ************ Getting date from Form Section */
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSectionWhenEdit(serviceType);
+            List<string> _selectedPhotoGraph;
+            List<string> _selectedCameraMan;
+            int _OrcPHCnt = 0;
+            int _OrcCMCnt = 0;
+            if (serviceFactory.PhotoGraphService != null)
+            {
+                _selectedPhotoGraph = new List<string>(serviceFactory.PhotoGraphService.PhotoGraphIdList);
+                _selectedCameraMan = new List<string>(serviceFactory.PhotoGraphService.CameraMandIdList);
+                _OrcPHCnt = serviceFactory.PhotoGraphService.PhotoGraphOrcCnt;
+                _OrcCMCnt = serviceFactory.PhotoGraphService.CameraManOrcCnt;
+            }
+            else
+            {
+                _selectedPhotoGraph = new List<string>();
+                _selectedCameraMan = new List<string>();
+            }
+
+            if (serviceFactory.ServiceForm != null)
+            {
+                _startDate = serviceFactory.ServiceForm.EventStart;
+                _endDate = serviceFactory.ServiceForm.EventEnd;
+                var photoGraphResult = db.Employees.GroupBy(emp => emp.Id)
+                                    .Where(emp => emp.Any(empList => empList.Position == PhotographType
+                                        && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
+                                            && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
+                                        )).Select(emp => new PhotoGraph
+                                        {
+                                            Id = emp.FirstOrDefault().Id,
+                                            Name = emp.FirstOrDefault().Name,
+                                            IsSelect = _selectedPhotoGraph.Contains(emp.FirstOrDefault().Id)
+                                        }).ToList();
+                //ViewBag.PhotoGraphListDetails = new SelectList(photoGraphResult, "Id", "Name");
+                ViewBag.PhotoGraphListDetails = photoGraphResult;
+
+                //Getting CameraMan
+                var cameraManResult = db.Employees.GroupBy(emp => emp.Id)
+                                        .Where(emp => emp.Any(empList => empList.Position == CameraManType
+                                            && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
+                                                && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
+                                            )).Select(emp => new CameraMan
+                                            {
+                                                Id = emp.FirstOrDefault().Id,
+                                                Name = emp.FirstOrDefault().Name,
+                                                IsSelect = _selectedCameraMan.Contains(emp.FirstOrDefault().Id)
+                                            }).ToList();
+                ViewBag.CameraManListDetails = cameraManResult;
+
+
+            }
+            else
+            {
+                //if user did not select event day , so no need to generate data
+                ViewBag.CameraManListDetails = new List<PhotoGraph>();
+                ViewBag.PhotoGraphListDetails = new List<CameraMan>();
+            }
+
+            //Outsource specific for 4 people
+            var OutPHResult = new List<PhotoGraph>();
+            int cntPHSelected = _OrcPHCnt;
+            for (var i = 1; i <= 4; i++)
+            {
+                int index = i;
+                var PHOrc = new PhotoGraph
+                {
+                    Id = index.ToString(),
+                    Name = "Outsource" + index,
+                    IsSelect = (cntPHSelected >= index) ? true : false
+                };
+                OutPHResult.Add(PHOrc);
+            }
+            ViewBag.PhotoGraphOursourceList = OutPHResult;
+
+            var OutCMResult = new List<CameraMan>();
+            int cntCMSelected = _OrcCMCnt;
+            for (var i = 1; i <= 4; i++)
+            {
+                int index = i;
+                var CMOrc = new CameraMan
+                {
+                    Id = index.ToString(),
+                    Name = "Outsource" + index,
+                    IsSelect = (cntCMSelected >= index) ? true : false
+                };
+                OutCMResult.Add(CMOrc);
+            }
+            ViewBag.CameraManOursourceList = OutCMResult;
+
+
+            //var _camearManResult = (from cameraEmp in db.Employees
+            //                       join empSchedule in db.EmployeeSchedules on cameraEmp.Id equals empSchedule.Employee.Id
+            //                       where cameraEmp.Position == CameraManType && empSchedule.StartTime >= _startDate && empSchedule.EndTime <= _endDate
+            //                       select cameraEmp).ToList();
+
+            //Create metadata for webpage structure
+            if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphPreWeddingServices;
+                ViewData["DivServiceForm"] = HTMLPhotoServiceModalPreWedding;
+                ViewData["CollPhotoPanel"] = HTMLCollapsePhotoPreWedding;
+                ViewData["CollCameraPanel"] = HTMLCollapseCameraPreWedding;
+                ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + PreWedding;
+            }
+            else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphEngagementServices;
+                ViewData["DivServiceForm"] = HTMLPhotoServiceModalEngagement;
+                ViewData["CollPhotoPanel"] = HTMLCollapsePhotoEngagement;
+                ViewData["CollCameraPanel"] = HTMLCollapseCameraEngagement;
+                ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + Engagement;
+            }
+            else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLPhotoGraphWeddingServices;
+                ViewData["DivServiceForm"] = HTMLPhotoServiceModalWedding;
+                ViewData["CollPhotoPanel"] = HTMLCollapsePhotoWedding;
+                ViewData["CollCameraPanel"] = HTMLCollapseCameraWedding;
+                ViewData["ModalWindowId"] = HTMLTagButtonPhotoGraph + Wedding;
+            }
+            ViewData["ServiceType"] = serviceType;
+
+            return PartialView(photoGraphService);
+        }
+
+        [HttpPost]
+        public ActionResult CreatePhotoGraphServiceListWhenEditNew([Bind(Include = "Name,PhotographerNumber,CameraManNumber,Description,Cost,Price")]PhotographService photoGraphService, string[] EmployeeId, string[] CameraId, string ServiceType, int Code, string[] OutsourcePHId, string[] OutsourceCMId)
+        {
+            PhotographService photo = photoGraphService;
+            List<string> empList = new List<string>();
+            List<string> camList = new List<string>();
+            int _cntPH = 0;
+            int _cntCM = 0;
+
+            if (OutsourcePHId != null) { _cntPH = OutsourcePHId.Count(); }
+            if (OutsourceCMId != null) { _cntCM = OutsourceCMId.Count(); }
+
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSectionWhenEdit(ServiceType);
+            if (EmployeeId == null && CameraId == null)
+            {
+                serviceFactory.CreatePhotoGraphService(photo, empList, camList, Code, _cntPH, _cntCM);
+            }
+            else if (EmployeeId != null && CameraId != null)
+            {
+                serviceFactory.CreatePhotoGraphService(photo, EmployeeId.ToList(), CameraId.ToList(), Code, _cntPH, _cntCM);
+            }
+            else if (EmployeeId != null)
+            {
+                serviceFactory.CreatePhotoGraphService(photo, EmployeeId.ToList(), camList, Code, _cntPH, _cntCM);
+            }
+            else
+            {
+                serviceFactory.CreatePhotoGraphService(photo, empList, CameraId.ToList(), Code, _cntPH, _cntCM);
+            }
+
+            return RedirectToAction("SecondFilterOutputServiceWhenEditNew", new { serviceType = ServiceType });
         }
 
         //[HttpPost]
@@ -2059,18 +2366,85 @@ namespace NicePictureStudio
             return PartialView();
         }
 
-        [HttpGet]
-        public async Task<PartialViewResult> CreateLocationServiceByModal(int? id, string serviceType = "")
+        public PartialViewResult ThirdFilterLocationService(int? id, string serviceType)
         {
             LocationService locationService;
             ViewData["LocationList"] = new SelectList(db.LocationServices, "Id", "Name");
             if (id != null)
-            { locationService = await db.LocationServices.FindAsync(id); }
+            { locationService = db.LocationServices.Find(id); }
             else
-            { locationService = await db.LocationServices.FirstAsync(); }
+            { locationService = db.LocationServices.First(); }
             ViewData["Code"] = locationService.Id;
+            ViewData["SType"] = serviceType;
+            return PartialView();
+        }
+
+        public PartialViewResult ThirdFilterLocationServiceWhenEditNew(int? id, string serviceType)
+        {
+            LocationService locationService;
+            ViewData["LocationList"] = new SelectList(db.LocationServices, "Id", "Name");
+            if (id != null)
+            { locationService = db.LocationServices.Find(id); }
+            else
+            { locationService = db.LocationServices.First(); }
+            ViewData["Code"] = locationService.Id;
+            ViewData["SType"] = serviceType;
+            return PartialView();
+        }
+
+        [HttpGet]
+        public PartialViewResult CreateLocationServiceByModal(int? id, string serviceType = "")
+        {
+            LocationService locationService;
+            if (id != null)
+            { locationService = db.LocationServices.Find(id); }
+            else
+            { locationService = db.LocationServices.First(); }
 
             ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+            //Create Equipment Service
+            if (serviceFactory.ListLocationServices.Count > 0)
+            {
+                ViewBag.ListLocationServices = new List<LocationServiceViewModel>(serviceFactory.ListLocationServices);
+            }
+            else
+            {
+                ViewBag.ListLocationServices = null;
+            }
+
+            //Create metadata for webpage structure
+            if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLLocationPreWeddingServices;
+                ViewData["DivServiceForm"] = HTMLLocationModalPreWedding;
+                ViewData["TblEquipment"] = HTMLTableLocationPreWedding;
+            }
+            else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLLocationEngagementServices;
+                ViewData["DivServiceForm"] = HTMLLocationModalEngagement;
+                ViewData["TblEquipment"] = HTMLTableLocationEngagement;
+            }
+            else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLLocationWeddingServices;
+                ViewData["DivServiceForm"] = HTMLLocationModalWedding;
+                ViewData["TblEquipment"] = HTMLTableLocationWedding;
+            }
+            ViewData["ServiceType"] = serviceType;
+            return PartialView(locationService);
+        }
+
+        [HttpGet]
+        public PartialViewResult CreateLocationServiceByModalWhenEditNew(int? id, string serviceType = "")
+        {
+            LocationService locationService;
+            if (id != null)
+            { locationService = db.LocationServices.Find(id); }
+            else
+            { locationService = db.LocationServices.First(); }
+
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSectionWhenEdit(serviceType);
             //Create Equipment Service
             if (serviceFactory.ListLocationServices.Count > 0)
             {
@@ -2126,6 +2500,28 @@ namespace NicePictureStudio
             return PartialView();
         }
 
+        [HttpPost]
+        public async Task<PartialViewResult> CreateLocationServiceTableWhenEditNew([Bind(Include = "Name,Price,Cost,IsOverNight,OverNightPeriod,Description")]LocationService locationService, int? LocationId, string ServiceType, int Code)
+        {
+            LocationService _locationService = locationService;
+            int _locationId = int.Parse(LocationId.ToString());
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSectionWhenEdit(ServiceType);
+            serviceFactory.CreateLocationServiceList(locationService, _locationId, Code);
+            //Create Equipment Service
+            if (serviceFactory.ListLocationServices.Count > 0)
+            {
+                ViewBag.ListLocationServices = new List<LocationServiceViewModel>(serviceFactory.ListLocationServices);
+                //Add to database
+            }
+            else
+            {
+                ViewBag.ListLocationServices = null;
+            }
+            ViewBag.LocationServiceType = ServiceType;
+            ViewData["TblEquipment"] = ServiceTypeForTable(ServiceType);
+            return PartialView();
+        }
+
         public PartialViewResult RemoveLocation(int? Id, string serviceType)
         {
             ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
@@ -2140,18 +2536,99 @@ namespace NicePictureStudio
             return PartialView();
         }
 
-        [HttpGet]
-        public async Task<PartialViewResult> CreateOutsourceServiceByModal(int? id, string serviceType = "")
+        public PartialViewResult RemoveLocationWhenEditNew(int? Id, string serviceType)
+        {
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+            if (serviceFactory != null)
+            {
+                var deleteTarget = serviceFactory.ListLocationServices.Select(element => element.Id == Id);
+                serviceFactory.ListLocationServices.RemoveAll(item => item.Id == Id);
+            }
+            ViewBag.ModifyLocation = serviceFactory.ListLocationServices;
+            ViewData["TblEquipment"] = ServiceTypeForTable(serviceType);
+            ViewBag.LocationServiceType = serviceType;
+            return PartialView();
+        }
+
+        public PartialViewResult FourthFilterOutsourceService(int? id, string serviceType)
         {
             OutsourceService outsourceService;
             ViewData["OutsourceList"] = new SelectList(db.OutsourceServices, "Id", "Name");
             if (id != null)
-            { outsourceService = await db.OutsourceServices.FindAsync(id); }
+            { outsourceService = db.OutsourceServices.Find(id); }
             else
-            { outsourceService = await db.OutsourceServices.FirstAsync(); }
+            { outsourceService = db.OutsourceServices.First(); }
             ViewData["Code"] = outsourceService.Id;
+            ViewData["SType"] = serviceType;
+            return PartialView();
+        }
+
+        public PartialViewResult FourthFilterOutsourceServiceWhenEditNew(int? id, string serviceType)
+        {
+            OutsourceService outsourceService;
+            ViewData["OutsourceList"] = new SelectList(db.OutsourceServices, "Id", "Name");
+            if (id != null)
+            { outsourceService = db.OutsourceServices.Find(id); }
+            else
+            { outsourceService = db.OutsourceServices.First(); }
+            ViewData["Code"] = outsourceService.Id;
+            ViewData["SType"] = serviceType;
+            return PartialView();
+        }
+
+        [HttpGet]
+        public async Task<PartialViewResult> CreateOutsourceServiceByModal(int? id, string serviceType = "")
+        {
+            OutsourceService outsourceService;
+            if (id != null)
+            { outsourceService = db.OutsourceServices.Find(id); }
+            else
+            { outsourceService = db.OutsourceServices.First(); }
 
             ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+            //Create Equipment Service
+            if (serviceFactory.ListOutsourceServices.Count > 0)
+            {
+                ViewBag.ListOutsourceServices = new List<OutsourceServiceViewModel>(serviceFactory.ListOutsourceServices);
+            }
+            else
+            {
+                ViewBag.ListOutsourceServices = null;
+            }
+
+            //Create metadata for webpage structure
+            if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLOutsourcePreWeddingServices;
+                ViewData["DivServiceForm"] = HTMLOutsourceModalPreWedding;
+                ViewData["TblEquipment"] = HTMLTableOutsourcePreWedding;
+            }
+            else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLOutsourceEngagementServices;
+                ViewData["DivServiceForm"] = HTMLOutsourceModalEngagement;
+                ViewData["TblEquipment"] = HTMLTableOutsourceEngagement;
+            }
+            else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLOutsourceWeddingServices;
+                ViewData["DivServiceForm"] = HTMLOutsourceModalWedding;
+                ViewData["TblEquipment"] = HTMLTableOutsourceWedding;
+            }
+            ViewData["ServiceType"] = serviceType;
+            return PartialView(outsourceService);
+        }
+
+        [HttpGet]
+        public async Task<PartialViewResult> CreateOutsourceServiceByModalWhenEditNew(int? id, string serviceType = "")
+        {
+            OutsourceService outsourceService;
+            if (id != null)
+            { outsourceService = db.OutsourceServices.Find(id); }
+            else
+            { outsourceService = db.OutsourceServices.First(); }
+
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSectionWhenEdit(serviceType);
             //Create Equipment Service
             if (serviceFactory.ListOutsourceServices.Count > 0)
             {
@@ -2207,6 +2684,28 @@ namespace NicePictureStudio
             return PartialView();
         }
 
+        [HttpPost]
+        public async Task<PartialViewResult> CreateOutsourceServiceTableWhenEditNew([Bind(Include = "Name,PortFolioURL,Price,Cost,Description")]OutsourceService outsourceService, int? OutsourceId, string ServiceType, int Code)
+        {
+            OutsourceService _outsourceService = outsourceService;
+            int _outsourceId = int.Parse(OutsourceId.ToString());
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSectionWhenEdit(ServiceType);
+            serviceFactory.CreateOutSoruceServiceList(outsourceService, _outsourceId, Code);
+            //Create Equipment Service
+            if (serviceFactory.ListOutsourceServices.Count > 0)
+            {
+                ViewBag.ListOutsourceServices = new List<OutsourceServiceViewModel>(serviceFactory.ListOutsourceServices);
+                //Add to database
+            }
+            else
+            {
+                ViewBag.ListOutsourceServices = null;
+            }
+            ViewBag.OutsourceServiceType = ServiceType;
+            ViewData["TblEquipment"] = ServiceTypeForTable(ServiceType);
+            return PartialView();
+        }
+
         public PartialViewResult RemoveOutsource(int? Id, string serviceType)
         {
             ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
@@ -2221,17 +2720,140 @@ namespace NicePictureStudio
             return PartialView();
         }
 
-        [HttpGet]
-        public async Task<PartialViewResult> CreateOutputServiceByModal(int? id, string serviceType = "")
+        public PartialViewResult RemoveOutsourceWhenEditNew(int? Id, string serviceType)
         {
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSectionWhenEdit(serviceType);
+            if (serviceFactory != null)
+            {
+                var deleteTarget = serviceFactory.ListOutsourceServices.Select(element => element.Id == Id);
+                serviceFactory.ListOutsourceServices.RemoveAll(item => item.Id == Id);
+            }
+            ViewBag.ModifyOutsource = serviceFactory.ListOutsourceServices;
+            ViewData["TblEquipment"] = ServiceTypeForTable(serviceType);
+            ViewBag.OutsourceServiceType = serviceType;
+            return PartialView();
+        }
+
+
+        #region OldOutputService
+        //[HttpGet]
+        //public async Task<PartialViewResult> CreateOutputServiceByModal(int? id, string serviceType = "")
+        //{
+        //    OutputService outputService;
+        //    ViewData["OutputList"] = new SelectList(db.OutputServices, "Id", "Name");
+        //    if (id != null)
+        //    { outputService = await db.OutputServices.FindAsync(id); }
+        //    else
+        //    { outputService = await db.OutputServices.FirstAsync(); }
+        //    ViewData["Code"] = outputService.Id;
+
+        //    ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+        //    //Create Equipment Service
+        //    if (serviceFactory.ListOutputServices.Count > 0)
+        //    {
+        //        ViewBag.ListOutputServices = new List<OutputServiceViewModel>(serviceFactory.ListOutputServices);
+        //    }
+        //    else
+        //    {
+        //        ViewBag.ListOutputServices = null;
+        //    }
+            
+        //    //Create metadata for webpage structure
+        //    if (string.Compare(serviceType, PreWedding) == 0)
+        //    {
+        //        ViewData["ButtonIdForDWL"] = HTMLDWLOutputPreWeddingServices;
+        //        ViewData["DivServiceForm"] = HTMLOutputModalPreWedding;
+        //        ViewData["TblEquipment"] = HTMLTableOutputPreWedding;
+        //    }
+        //    else if (string.Compare(serviceType, Engagement) == 0)
+        //    {
+        //        ViewData["ButtonIdForDWL"] = HTMLDWLOutputEngagementServices;
+        //        ViewData["DivServiceForm"] = HTMLOutputModalEngagement;
+        //        ViewData["TblEquipment"] = HTMLTableOutputEngagement;
+        //    }
+        //    else if (string.Compare(serviceType, Wedding) == 0)
+        //    {
+        //        ViewData["ButtonIdForDWL"] = HTMLDWLOutputWeddingServices;
+        //        ViewData["DivServiceForm"] = HTMLOutputModalWedding;
+        //        ViewData["TblEquipment"] = HTMLTableOutputWedding;
+        //    }
+        //    ViewData["ServiceType"] = serviceType;
+        //    return PartialView(outputService);
+        //}
+
+        //[HttpPost]
+        //public async Task<PartialViewResult> CreateOutputServiceTable([Bind(Include = "Name,PortFolioURL,Price,Cost,Description")]OutputService outputService, string ServiceType,int Code)
+        //{
+        //    OutputService _outputService = outputService;
+        //    ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(ServiceType);
+        //    serviceFactory.CreateOutputServiceList(outputService,Code);
+        //    //Create Equipment Service
+        //    if (serviceFactory.ListOutputServices.Count > 0)
+        //    {
+        //        ViewBag.ListOutputServices = new List<OutputServiceViewModel>(serviceFactory.ListOutputServices);
+        //        //Add to database
+        //    }
+        //    else
+        //    {
+        //        ViewBag.ListOutputServices = null;
+        //    }
+        //    ViewData["TblEquipment"] = ServiceTypeForTable(ServiceType);
+        //    ViewBag.OutputServiceType = ServiceType;
+        //    return PartialView();
+        //}
+
+        //public PartialViewResult RemoveOutput(int? Id, string serviceType)
+        //{
+        //    ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+        //    if (serviceFactory != null)
+        //    {
+        //        var deleteTarget = serviceFactory.ListOutputServices.Select(element => element.Id == Id);
+        //        serviceFactory.ListOutputServices.RemoveAll(item => item.Id == Id);
+        //    }
+        //    ViewBag.ModifyOutput = serviceFactory.ListOutputServices;
+        //    ViewData["TblEquipment"] = ServiceTypeForTable(serviceType);
+        //    ViewBag.OutputServiceType = serviceType;
+        //    return PartialView();
+        //}
+        #endregion
+
+        public PartialViewResult SecondFilterOutputService(int? id, string serviceType)
+        {
+          
             OutputService outputService;
             ViewData["OutputList"] = new SelectList(db.OutputServices, "Id", "Name");
             if (id != null)
-            { outputService = await db.OutputServices.FindAsync(id); }
+            { outputService = db.OutputServices.Find(id); }
             else
-            { outputService = await db.OutputServices.FirstAsync(); }
+            { outputService = db.OutputServices.First(); }
             ViewData["Code"] = outputService.Id;
+            ViewData["SType"] = serviceType;
+            return PartialView();
+        }
 
+        public PartialViewResult SecondFilterOutputServiceWhenEditNew(int? id, string serviceType)
+        {
+
+            OutputService outputService;
+            ViewData["OutputList"] = new SelectList(db.OutputServices, "Id", "Name");
+            if (id != null)
+            { outputService = db.OutputServices.Find(id); }
+            else
+            { outputService = db.OutputServices.First(); }
+            ViewData["Code"] = outputService.Id;
+            ViewData["SType"] = serviceType;
+            return PartialView();
+        }
+        
+        [HttpGet]
+        public async Task<PartialViewResult> CreateOutputServiceByModal(int? id, string serviceType = "")
+        {
+
+            OutputService outputService;
+            if (id != null)
+            { outputService = db.OutputServices.Find(id); }
+            else
+            { outputService = db.OutputServices.First(); }
             ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
             //Create Equipment Service
             if (serviceFactory.ListOutputServices.Count > 0)
@@ -2242,7 +2864,50 @@ namespace NicePictureStudio
             {
                 ViewBag.ListOutputServices = null;
             }
-            
+
+            //Create metadata for webpage structure
+            if (string.Compare(serviceType, PreWedding) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLOutputPreWeddingServices;
+                ViewData["DivServiceForm"] = HTMLOutputModalPreWedding;
+                ViewData["TblEquipment"] = HTMLTableOutputPreWedding;
+            }
+            else if (string.Compare(serviceType, Engagement) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLOutputEngagementServices;
+                ViewData["DivServiceForm"] = HTMLOutputModalEngagement;
+                ViewData["TblEquipment"] = HTMLTableOutputEngagement;
+            }
+            else if (string.Compare(serviceType, Wedding) == 0)
+            {
+                ViewData["ButtonIdForDWL"] = HTMLDWLOutputWeddingServices;
+                ViewData["DivServiceForm"] = HTMLOutputModalWedding;
+                ViewData["TblEquipment"] = HTMLTableOutputWedding;
+            }
+            ViewData["ServiceType"] = serviceType;
+            return PartialView(outputService);
+        }
+
+        [HttpGet]
+        public async Task<PartialViewResult> CreateOutputServiceByModalWhenEditNew(int? id, string serviceType = "")
+        {
+
+            OutputService outputService;
+            if (id != null)
+            { outputService = db.OutputServices.Find(id); }
+            else
+            { outputService = db.OutputServices.First(); }
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSectionWhenEdit(serviceType);
+            //Create Equipment Service
+            if (serviceFactory.ListOutputServices.Count > 0)
+            {
+                ViewBag.ListOutputServices = new List<OutputServiceViewModel>(serviceFactory.ListOutputServices);
+            }
+            else
+            {
+                ViewBag.ListOutputServices = null;
+            }
+
             //Create metadata for webpage structure
             if (string.Compare(serviceType, PreWedding) == 0)
             {
@@ -2267,11 +2932,11 @@ namespace NicePictureStudio
         }
 
         [HttpPost]
-        public async Task<PartialViewResult> CreateOutputServiceTable([Bind(Include = "Name,PortFolioURL,Price,Cost,Description")]OutputService outputService, string ServiceType,int Code)
+        public async Task<PartialViewResult> CreateOutputServiceTable([Bind(Include = "Name,PortFolioURL,Price,Cost,Description")]OutputService outputService, string ServiceType, int Code)
         {
             OutputService _outputService = outputService;
             ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(ServiceType);
-            serviceFactory.CreateOutputServiceList(outputService,Code);
+            serviceFactory.CreateOutputServiceList(outputService, Code);
             //Create Equipment Service
             if (serviceFactory.ListOutputServices.Count > 0)
             {
@@ -2282,7 +2947,28 @@ namespace NicePictureStudio
             {
                 ViewBag.ListOutputServices = null;
             }
-            ViewData["TblEquipment"] = ServiceTypeForTable(ServiceType);
+            //ViewData["TblEquipment"] = ServiceTypeForTable(ServiceType);
+            ViewBag.OutputServiceType = ServiceType;
+            return PartialView();
+        }
+
+        [HttpPost]
+        public async Task<PartialViewResult> CreateOutputServiceTableWhenEditNew([Bind(Include = "Name,PortFolioURL,Price,Cost,Description")]OutputService outputService, string ServiceType, int Code)
+        {
+            OutputService _outputService = outputService;
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSectionWhenEdit(ServiceType);
+            serviceFactory.CreateOutputServiceList(outputService, Code);
+            //Create Equipment Service
+            if (serviceFactory.ListOutputServices.Count > 0)
+            {
+                ViewBag.ListOutputServices = new List<OutputServiceViewModel>(serviceFactory.ListOutputServices);
+                //Add to database
+            }
+            else
+            {
+                ViewBag.ListOutputServices = null;
+            }
+            //ViewData["TblEquipment"] = ServiceTypeForTable(ServiceType);
             ViewBag.OutputServiceType = ServiceType;
             return PartialView();
         }
@@ -2296,12 +2982,36 @@ namespace NicePictureStudio
                 serviceFactory.ListOutputServices.RemoveAll(item => item.Id == Id);
             }
             ViewBag.ModifyOutput = serviceFactory.ListOutputServices;
-            ViewData["TblEquipment"] = ServiceTypeForTable(serviceType);
+            //ViewData["TblEquipment"] = ServiceTypeForTable(serviceType);
             ViewBag.OutputServiceType = serviceType;
             return PartialView();
         }
 
-        #endregion
+        public PartialViewResult RemoveOutputWhenEditNew(int? Id, string serviceType)
+        {
+            ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+            if (serviceFactory != null)
+            {
+                var deleteTarget = serviceFactory.ListOutputServices.Select(element => element.Id == Id);
+                serviceFactory.ListOutputServices.RemoveAll(item => item.Id == Id);
+            }
+            ViewBag.ModifyOutput = serviceFactory.ListOutputServices;
+            //ViewData["TblEquipment"] = ServiceTypeForTable(serviceType);
+            ViewBag.OutputServiceType = serviceType;
+            return PartialView();
+        }
+
+        [HttpGet]
+        public PartialViewResult TableServices(int? serviceId)
+        {
+            int _serviceId = serviceId != null ? (int)serviceId : 0;
+            List<ServiceForm> _serviceForms = new List<ServiceForm>();
+            _serviceForms = db.ServiceForms.Where(s => s.Service.Id == serviceId).ToList();
+            @ViewBag.ServicesListSummary = _serviceForms;
+            return PartialView();
+        }
+
+          #endregion
 
         #region Save Form and Calculate Service Charge
 
@@ -2351,6 +3061,7 @@ namespace NicePictureStudio
                                                                        + GettingCostFromLocationService(_servicesTmp.ServiceFormPreWedding)
                                                                        + GettingCostFromOutsourceService(_servicesTmp.ServiceFormPreWedding)
                                                                        + GettingCostFromOutputService(_servicesTmp.ServiceFormPreWedding);
+                    _servicesTmp.ServiceFormPreWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
                 }
             }
 
@@ -2369,6 +3080,7 @@ namespace NicePictureStudio
                                                                         + GettingCostFromLocationService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingCostFromOutsourceService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingCostFromOutputService(_servicesTmp.ServiceFormEngagement);
+                    _servicesTmp.ServiceFormEngagement.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
                 }
             }
 
@@ -2387,6 +3099,7 @@ namespace NicePictureStudio
                                                                                + GettingCostFromLocationService(_servicesTmp.ServiceFormWedding)
                                                                                + GettingCostFromOutsourceService(_servicesTmp.ServiceFormWedding)
                                                                                + GettingCostFromOutputService(_servicesTmp.ServiceFormWedding);
+                    _servicesTmp.ServiceFormWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
                 }
             }
 
@@ -2441,6 +3154,7 @@ namespace NicePictureStudio
                                                                        + GettingCostFromLocationService(_servicesTmp.ServiceFormPreWedding)
                                                                        + GettingCostFromOutsourceService(_servicesTmp.ServiceFormPreWedding)
                                                                        + GettingCostFromOutputService(_servicesTmp.ServiceFormPreWedding);
+                    _servicesTmp.ServiceFormPreWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
                 }
             }
 
@@ -2459,6 +3173,7 @@ namespace NicePictureStudio
                                                                         + GettingCostFromLocationService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingCostFromOutsourceService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingCostFromOutputService(_servicesTmp.ServiceFormEngagement);
+                    _servicesTmp.ServiceFormEngagement.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
                 }
             }
 
@@ -2477,6 +3192,7 @@ namespace NicePictureStudio
                                                                                + GettingCostFromLocationService(_servicesTmp.ServiceFormWedding)
                                                                                + GettingCostFromOutsourceService(_servicesTmp.ServiceFormWedding)
                                                                                + GettingCostFromOutputService(_servicesTmp.ServiceFormWedding);
+                    _servicesTmp.ServiceFormWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
                 }
             }
 
@@ -2518,120 +3234,137 @@ namespace NicePictureStudio
         }
 
         [HttpPost]
-        public async Task<PartialViewResult> SaveAllDocument()
+        public async Task<ActionResult> SaveAllDocument()
         {
             List<String> messages = new List<string>();
+            var _promotionCalculatorTmp = TempData["Promotion"] as PromotionCalculator;
             var _servicesTmp = TempData["Services"] as ServicesViewModel;
             TempData.Keep();
+            //TempData.Keep();
+            SummarizePrice();
+            int _serviceId = 0;
+            decimal price = Convert.ToDecimal(_promotionCalculatorTmp.NetPriceWithoutTax);
+            //decimal esitmatePrice = Convert.ToDecimal(_promotionCalculatorTmp.EstimatePrice);
             if (_servicesTmp.Customer != null)
             {
-                if (_servicesTmp.ServiceFormEngagement.ServiceForm != null)
-                { 
-                    //Save ServiceForm Engagement, service status =1 => New
-                    ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSection(Engagement + HTMLTagForReplace);
-                    ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, Engagement, true) == 0).FirstOrDefault();
-                    await SaveServiceByCategory(_serviceFormFactory,serviceType);
-
-                    #region original form
-                    //ServiceStatu serviceStatus = db.ServiceStatus.Where(s=>s.Id ==1).FirstOrDefault();
-                    //Service service = await db.Services.FindAsync(_services.Id);
-                    //ServiceForm serviceForm = new ServiceForm
-                    //{
-                    //    Name = _services.ServiceFormEngagement.ServiceForm.Name,
-                    //    ServiceType = serviceType,
-                    //    ServiceStatu = serviceStatus,
-                    //    EventStart = _services.ServiceFormEngagement.ServiceForm.EventStart,
-                    //    EventEnd = _services.ServiceFormEngagement.ServiceForm.EventEnd,
-                    //    GuestsNumber = _services.ServiceFormEngagement.ServiceForm.GuestsNumber,
-                    //    ServiceCost = _services.ServiceFormEngagement.ServiceForm.ServiceCost,
-                    //    ServicePrice = _services.ServiceFormEngagement.ServiceForm.ServicePrice,
-                    //    Service = service
-                    //};
-                    //try
-                    //{
-                    //    db.ServiceForms.Add(serviceForm);
-                    //    await db.SaveChangesAsync();
-                    //}
-                    //catch (DbEntityValidationException dbEx)
-                    //{
-                    //    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    //    {
-                    //        foreach (var validationError in validationErrors.ValidationErrors)
-                    //        {
-                    //            Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
-                    //                validationErrors.Entry.Entity.GetType().FullName,
-                    //                validationError.PropertyName,
-                    //                validationError.ErrorMessage);
-                    //        }
-                    //    }
-
-                    //    throw new Exception(dbEx.Message);
-                    //}
-                    
-
-                    //List<string> listPhotograph = _services.ServiceFormEngagement.PhotoGraphService.PhotoGraphIdList;
-                    //List<string> listCameraMan = _services.ServiceFormEngagement.PhotoGraphService.CameraMandIdList;
-                    //foreach (var emp in listPhotograph)
-                    //{
-                    //    Employee photograph = await db.Employees.FindAsync(emp);
-                    //    EmployeeSchedule empSchedule = new EmployeeSchedule
-                    //    {
-                    //        Id = serviceForm.Id,
-                    //        ServiceForm = serviceForm,
-                    //        Employee = photograph,
-                    //        StartTime = _services.ServiceFormEngagement.ServiceForm.EventStart,
-                    //        EndTime = _services.ServiceFormEngagement.ServiceForm.EventEnd
-                    //    };
-                    //    db.EmployeeSchedules.Add(empSchedule);
-                    //}
-
-                    //foreach (var emp in listCameraMan)
-                    //{
-                    //    Employee photograph = await db.Employees.FindAsync(emp);
-                    //    EmployeeSchedule empSchedule = new EmployeeSchedule
-                    //    {
-                    //        Id = serviceForm.Id,
-                    //        ServiceForm = serviceForm,
-                    //        Employee = photograph,
-                    //        StartTime = _services.ServiceFormEngagement.ServiceForm.EventStart,
-                    //        EndTime = _services.ServiceFormEngagement.ServiceForm.EventEnd
-                    //    };
-                    //    db.EmployeeSchedules.Add(empSchedule);
-                    //}
-                    //try
-                    //{
-                    //    var result = await db.SaveChangesAsync();
-                    //}
-                    //catch (DbEntityValidationException dbEx)
-                    //{
-                    //    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    //    {
-                    //        foreach (var validationError in validationErrors.ValidationErrors)
-                    //        {
-                    //            Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
-                    //                validationErrors.Entry.Entity.GetType().FullName,
-                    //                validationError.PropertyName,
-                    //                validationError.ErrorMessage);
-                    //        }
-                    //    }
-                    //    throw new Exception(dbEx.Message);
-                    //}
-#endregion
-                    
-                }
-
-                if (_servicesTmp.ServiceFormPreWedding.ServiceForm != null)
+                if (_servicesTmp.Id > 0)
                 {
-                    ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSection(PreWedding + HTMLTagForReplace);
-                    ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, PreWedding, true) == 0).FirstOrDefault();
-                    await SaveServiceByCategory(_serviceFormFactory, serviceType);
-                }
+                    if (_servicesTmp.ServiceFormEngagement.ServiceForm != null)
+                    {
+                        //Save ServiceForm Engagement, service status =1 => New
+                        ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSection(Engagement);
+                        ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, Engagement, true) == 0).FirstOrDefault();
+                        await SaveServiceByCategory(_serviceFormFactory, serviceType);
+                        _servicesTmp.ServiceFormEngagement = new ServiceFormFactory();
+                        
 
-                if (_servicesTmp.ServiceFormWedding.ServiceForm != null)
+                        #region original form
+                        //ServiceStatu serviceStatus = db.ServiceStatus.Where(s=>s.Id ==1).FirstOrDefault();
+                        //Service service = await db.Services.FindAsync(_services.Id);
+                        //ServiceForm serviceForm = new ServiceForm
+                        //{
+                        //    Name = _services.ServiceFormEngagement.ServiceForm.Name,
+                        //    ServiceType = serviceType,
+                        //    ServiceStatu = serviceStatus,
+                        //    EventStart = _services.ServiceFormEngagement.ServiceForm.EventStart,
+                        //    EventEnd = _services.ServiceFormEngagement.ServiceForm.EventEnd,
+                        //    GuestsNumber = _services.ServiceFormEngagement.ServiceForm.GuestsNumber,
+                        //    ServiceCost = _services.ServiceFormEngagement.ServiceForm.ServiceCost,
+                        //    ServicePrice = _services.ServiceFormEngagement.ServiceForm.ServicePrice,
+                        //    Service = service
+                        //};
+                        //try
+                        //{
+                        //    db.ServiceForms.Add(serviceForm);
+                        //    await db.SaveChangesAsync();
+                        //}
+                        //catch (DbEntityValidationException dbEx)
+                        //{
+                        //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        //    {
+                        //        foreach (var validationError in validationErrors.ValidationErrors)
+                        //        {
+                        //            Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
+                        //                validationErrors.Entry.Entity.GetType().FullName,
+                        //                validationError.PropertyName,
+                        //                validationError.ErrorMessage);
+                        //        }
+                        //    }
+
+                        //    throw new Exception(dbEx.Message);
+                        //}
+
+
+                        //List<string> listPhotograph = _services.ServiceFormEngagement.PhotoGraphService.PhotoGraphIdList;
+                        //List<string> listCameraMan = _services.ServiceFormEngagement.PhotoGraphService.CameraMandIdList;
+                        //foreach (var emp in listPhotograph)
+                        //{
+                        //    Employee photograph = await db.Employees.FindAsync(emp);
+                        //    EmployeeSchedule empSchedule = new EmployeeSchedule
+                        //    {
+                        //        Id = serviceForm.Id,
+                        //        ServiceForm = serviceForm,
+                        //        Employee = photograph,
+                        //        StartTime = _services.ServiceFormEngagement.ServiceForm.EventStart,
+                        //        EndTime = _services.ServiceFormEngagement.ServiceForm.EventEnd
+                        //    };
+                        //    db.EmployeeSchedules.Add(empSchedule);
+                        //}
+
+                        //foreach (var emp in listCameraMan)
+                        //{
+                        //    Employee photograph = await db.Employees.FindAsync(emp);
+                        //    EmployeeSchedule empSchedule = new EmployeeSchedule
+                        //    {
+                        //        Id = serviceForm.Id,
+                        //        ServiceForm = serviceForm,
+                        //        Employee = photograph,
+                        //        StartTime = _services.ServiceFormEngagement.ServiceForm.EventStart,
+                        //        EndTime = _services.ServiceFormEngagement.ServiceForm.EventEnd
+                        //    };
+                        //    db.EmployeeSchedules.Add(empSchedule);
+                        //}
+                        //try
+                        //{
+                        //    var result = await db.SaveChangesAsync();
+                        //}
+                        //catch (DbEntityValidationException dbEx)
+                        //{
+                        //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        //    {
+                        //        foreach (var validationError in validationErrors.ValidationErrors)
+                        //        {
+                        //            Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
+                        //                validationErrors.Entry.Entity.GetType().FullName,
+                        //                validationError.PropertyName,
+                        //                validationError.ErrorMessage);
+                        //        }
+                        //    }
+                        //    throw new Exception(dbEx.Message);
+                        //}
+                        #endregion
+
+                    }
+
+                    if (_servicesTmp.ServiceFormPreWedding.ServiceForm != null)
+                    {
+                        ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSection(PreWedding);
+                        ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, PreWedding, true) == 0).FirstOrDefault();
+                        await SaveServiceByCategory(_serviceFormFactory, serviceType);
+                        _servicesTmp.ServiceFormPreWedding = new ServiceFormFactory();
+                    }
+
+                    if (_servicesTmp.ServiceFormWedding.ServiceForm != null)
+                    {
+                        ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSection(Wedding);
+                        ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, Wedding, true) == 0).FirstOrDefault();
+                        await SaveServiceByCategory(_serviceFormFactory, serviceType);
+                        _servicesTmp.ServiceFormWedding = new ServiceFormFactory();
+                    }
+                }
+                else
                 {
-                    ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSection(Wedding + HTMLTagForReplace);
-                    ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, Wedding, true) == 0).FirstOrDefault();
-                    await SaveServiceByCategory(_serviceFormFactory, serviceType);
+                    messages.Add("Please fill up Service FOrm Imformation");
                 }
             }
             else
@@ -2640,19 +3373,83 @@ namespace NicePictureStudio
             }
             //return RedirectToAction("Index");
             //Calculator Cost for all services
-            var _promotionCalculatorTmp = TempData["Promotion"] as PromotionCalculator;
-            SummarizePrice();
-            decimal price = Convert.ToDecimal(_promotionCalculatorTmp.NetPrice);
-            Service _service = await db.Services.FindAsync(_servicesTmp.Id);
-            if (_service != null)
-            { 
-                _service.PayAmount = price;
-                db.Entry(_service).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-            }
+            //var _promotionCalculatorTmp = TempData["Promotion"] as PromotionCalculator;
+            //TempData.Keep();
+            //SummarizePrice();
+            //int _serviceId = 0;
+            //decimal price = Convert.ToDecimal(_promotionCalculatorTmp.NetPrice);
+            
+            //Move to another calculation
+            //Service _service = await db.Services.FindAsync(_servicesTmp.Id);
+            //if (_service != null)
+            //{ 
+            //    _service.PayAmount = price;
+            //    db.Entry(_service).State = EntityState.Modified;
+            //    await db.SaveChangesAsync();
+            //    _serviceId = _service.Id;
+            //}
 
-            TempData.Clear();
-            return PartialView();
+            //No need to clear for now
+            _serviceId = _servicesTmp.Id;
+            //TempData.Clear();
+            return RedirectToAction("TableServices", new { serviceId = _serviceId });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveAllDocumentWhenEditNew()
+        {
+            List<String> messages = new List<string>();
+            var _promotionCalculatorTmp = TempData["PromotionEdit"] as PromotionCalculator;
+            var _servicesTmp = TempData["ServicesEdit"] as ServicesViewModel;
+            TempData.Keep();
+            //TempData.Keep();
+            SummarizePriceForEdit();
+            int _serviceId = 0;
+            decimal price = Convert.ToDecimal(_promotionCalculatorTmp.NetPriceWithoutTax);
+            //decimal esitmatePrice = Convert.ToDecimal(_promotionCalculatorTmp.EstimatePrice);
+            if (_servicesTmp.Customer != null)
+            {
+                if (_servicesTmp.Id > 0)
+                {
+                    if (_servicesTmp.ServiceFormEngagement.ServiceForm != null)
+                    {
+                        //Save ServiceForm Engagement, service status =1 => New
+                        ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSectionWhenEdit(Engagement);
+                        ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, Engagement, true) == 0).FirstOrDefault();
+                        await SaveServiceByCategoryWhenEditNew(_serviceFormFactory, serviceType);
+                        _servicesTmp.ServiceFormEngagement = new ServiceFormFactory();
+                    }
+
+                    if (_servicesTmp.ServiceFormPreWedding.ServiceForm != null)
+                    {
+                        ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSectionWhenEdit(PreWedding);
+                        ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, PreWedding, true) == 0).FirstOrDefault();
+                        await SaveServiceByCategoryWhenEditNew(_serviceFormFactory, serviceType);
+                        _servicesTmp.ServiceFormPreWedding = new ServiceFormFactory();
+                    }
+
+                    if (_servicesTmp.ServiceFormWedding.ServiceForm != null)
+                    {
+                        ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSectionWhenEdit(Wedding);
+                        ServiceType serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, Wedding, true) == 0).FirstOrDefault();
+                        await SaveServiceByCategoryWhenEditNew(_serviceFormFactory, serviceType);
+                        _servicesTmp.ServiceFormWedding = new ServiceFormFactory();
+                    }
+                }
+                else
+                {
+                    messages.Add("Please fill up Service FOrm Imformation");
+                }
+            }
+            else
+            {
+                messages.Add("Please create customer information");
+            }
+           
+            //No need to clear for now
+            _serviceId = _servicesTmp.Id;
+            //TempData.Clear();
+            return RedirectToAction("TableServices", new { serviceId = _serviceId });
         }
 
         private async Task SaveServiceByCategory(ServiceFormFactory _serviceFactory, ServiceType _serviceType)
@@ -2672,6 +3469,7 @@ namespace NicePictureStudio
                 GuestsNumber = _serviceFactory.ServiceForm.GuestsNumber,
                 ServiceCost = _serviceFactory.ServiceForm.ServiceCost,
                 ServicePrice = _serviceFactory.ServiceForm.ServicePrice,
+                ServiceNetPrice = _serviceFactory.ServiceForm.ServiceNetPrice,
                 Service = service
             };
             try
@@ -2832,6 +3630,217 @@ namespace NicePictureStudio
             }
         }
 
+        private async Task SaveServiceByCategoryWhenEditNew(ServiceFormFactory _serviceFactory, ServiceType _serviceType)
+        {
+            var _servicesTmp = TempData["ServicesEdit"] as ServicesViewModel;
+            int statusScheduler = 1; //status new
+            TempData.Keep();
+            ServiceStatu serviceStatus = db.ServiceStatus.Where(s => s.Id == 1).FirstOrDefault();
+            Service service = await db.Services.FindAsync(_servicesTmp.Id);
+            ServiceForm serviceForm = new ServiceForm
+            {
+                Name = _serviceFactory.ServiceForm.Name,
+                ServiceType = _serviceType,
+                ServiceStatu = serviceStatus,
+                EventStart = _serviceFactory.ServiceForm.EventStart,
+                EventEnd = _serviceFactory.ServiceForm.EventEnd,
+                GuestsNumber = _serviceFactory.ServiceForm.GuestsNumber,
+                ServiceCost = _serviceFactory.ServiceForm.ServiceCost,
+                ServicePrice = _serviceFactory.ServiceForm.ServicePrice,
+                ServiceNetPrice = _serviceFactory.ServiceForm.ServiceNetPrice,
+                Service = service
+            };
+            try
+            {
+                db.ServiceForms.Add(serviceForm);
+                await db.SaveChangesAsync();
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
+                            validationErrors.Entry.Entity.GetType().FullName,
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                    }
+                }
+
+                throw new Exception(dbEx.Message);
+            }
+
+            if (_serviceFactory.PhotoGraphService != null)
+            {
+                List<string> listPhotograph = _serviceFactory.PhotoGraphService.PhotoGraphIdList;
+                foreach (var emp in listPhotograph)
+                {
+                    Employee photograph = await db.Employees.FindAsync(emp);
+                    EmployeeSchedule empSchedule = new EmployeeSchedule
+                    {
+                        ServiceForm = serviceForm,
+                        Employee = photograph,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd,
+                        EmployeeServiceId = _serviceFactory.PhotoGraphService.PhotoGraphServiceId,
+                        Status = statusScheduler
+                    };
+                    db.EmployeeSchedules.Add(empSchedule);
+                }
+            }
+
+            if (_serviceFactory.PhotoGraphService != null)
+            {
+                List<string> listCameraMan = _serviceFactory.PhotoGraphService.CameraMandIdList;
+                foreach (var emp in listCameraMan)
+                {
+                    Employee photograph = await db.Employees.FindAsync(emp);
+                    EmployeeSchedule empSchedule = new EmployeeSchedule
+                    {
+                        ServiceForm = serviceForm,
+                        Employee = photograph,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd,
+                        EmployeeServiceId = _serviceFactory.PhotoGraphService.PhotoGraphServiceId,
+                        Status = statusScheduler
+                    };
+                    db.EmployeeSchedules.Add(empSchedule);
+                }
+            }
+
+
+            //Equipment Section
+            if (_serviceFactory.ListEquipmentServices.Count > 0)
+            {
+                List<EquipmentServiceViewModel> lstEqp = new List<EquipmentServiceViewModel>(_serviceFactory.ListEquipmentServices);
+                foreach (var eqp in lstEqp)
+                {
+                    EquipmentSchedule equipSchedule = new EquipmentSchedule
+                    {
+                        ServiceForm = serviceForm,
+                        EquipmentId = eqp.EquipmentId,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd,
+                        EquipmentServiceId = eqp.EquipmentServiceId,
+                        Status = statusScheduler
+                    };
+                    db.EquipmentSchedules.Add(equipSchedule);
+                }
+            }
+
+            //Location Section
+            if (_serviceFactory.ListLocationServices.Count > 0)
+            {
+                List<LocationServiceViewModel> lstLocation = new List<LocationServiceViewModel>(_serviceFactory.ListLocationServices);
+                foreach (var loc in lstLocation)
+                {
+                    LocationSchedule locationSchedule = new LocationSchedule
+                    {
+                        ServiceForm = serviceForm,
+                        LocationId = loc.LocationId,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd,
+                        LocationServiceId = loc.LocationServiceId,
+                        Status = statusScheduler
+                    };
+                    db.LocationSchedules.Add(locationSchedule);
+                }
+            }
+
+            //Outsource Section
+            if (_serviceFactory.ListOutsourceServices.Count > 0)
+            {
+                List<OutsourceServiceViewModel> lstOutsourceService = new List<OutsourceServiceViewModel>(_serviceFactory.ListOutsourceServices);
+                foreach (var outsource in lstOutsourceService)
+                {
+                    OutsourceSchedule outsourceSchedule = new OutsourceSchedule
+                    {
+                        ServiceForm = serviceForm,
+                        OutsourceId = outsource.OutsourceId,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd,
+                        OutsourceServiceId = outsource.OutsourceServiceId,
+                        Status = statusScheduler
+                    };
+                    db.OutsourceSchedules.Add(outsourceSchedule);
+                }
+            }
+
+            //Output Section
+            if (_serviceFactory.ListOutputServices.Count > 0)
+            {
+                //status new -> 1
+                int _statusNewOutput = 1;
+                List<OutputServiceViewModel> lstOutputService = new List<OutputServiceViewModel>(_serviceFactory.ListOutputServices);
+                foreach (var output in lstOutputService)
+                {
+                    OutputSchedule outputSchedule = new OutputSchedule
+                    {
+                        ServiceForm = serviceForm,
+                        OutputServiceId = output.OutputServiceId,
+                        TargetDate = serviceForm.EventEnd,
+                        HandOnDate = serviceForm.EventEnd.AddDays(14),
+                        PackageName = output.Name,
+                        Status = _statusNewOutput,
+                    };
+                    db.OutputSchedules.Add(outputSchedule);
+                }
+            }
+
+            try
+            {
+                var result = await db.SaveChangesAsync();
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
+                            validationErrors.Entry.Entity.GetType().FullName,
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                    }
+                }
+                throw new Exception(dbEx.Message);
+            }
+        }
+
+        public async Task<PartialViewResult> CalculateServiceOverall()
+        {
+            var _servicesTmp = TempData["Services"] as ServicesViewModel;
+            var _promotionCalculatorTmp = TempData["Promotion"] as PromotionCalculator;
+            TempData.Keep();
+            List<ServiceForm> _serviceForms = db.ServiceForms.Where(srv => srv.Service.Id == _servicesTmp.Id).ToList();
+            decimal? estimatePrice = 0;
+            foreach (var item in _serviceForms)
+            {
+                estimatePrice += item.ServicePrice;
+            }
+            decimal? netPrice = 0;
+            foreach (var item in _serviceForms)
+            {
+                netPrice += item.ServiceNetPrice;
+            }
+
+            _promotionCalculatorTmp.CalculateTotalPrice(estimatePrice, netPrice);
+
+            decimal payAmount = _promotionCalculatorTmp.PriceWithoutTax;
+            decimal payment = _promotionCalculatorTmp.NetPriceWithoutTax;
+
+            Service _service = await db.Services.FindAsync(_servicesTmp.Id);
+            if (_service != null)
+            {
+                _service.PayAmount = payAmount;
+                _service.Payment = payment;
+                db.Entry(_service).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+            return PartialView(_promotionCalculatorTmp);
+        }
+
         #region Save Document for Editing
         [HttpPost]
         public async Task<PartialViewResult> SaveAllDocumentWhenEdit()
@@ -2958,7 +3967,7 @@ namespace NicePictureStudio
             //Calculator Cost for all services
             var _promotionCalculatorTmp = TempData["PromotionEdit"] as PromotionCalculator;
             SummarizePrice();
-            decimal price = Convert.ToDecimal(_promotionCalculatorTmp.NetPrice);
+            decimal price = Convert.ToDecimal(_promotionCalculatorTmp.NetPriceWithoutTax);
             Service _service = await db.Services.FindAsync(_servicesTmp.Id);
             if (_service != null)
             {
@@ -3199,14 +4208,44 @@ namespace NicePictureStudio
                 throw new Exception(dbEx.Message);
             }
         }
-        #endregion
 
-        #endregion
-
-        public async Task<PartialViewResult> ServicesNavigationOverall()
+        public async Task<PartialViewResult> CalculateServiceOverallWhenEdit()
         {
-            return PartialView();
+            var _servicesTmp = TempData["ServicesEdit"] as ServicesViewModel;
+            var _promotionCalculatorTmp = TempData["PromotionEdit"] as PromotionCalculator;
+            TempData.Keep();
+            List<ServiceForm> _serviceForms = db.ServiceForms.Where(srv => srv.Service.Id == _servicesTmp.Id).ToList();
+            decimal? estimatePrice = 0;
+            foreach (var item in _serviceForms)
+            {
+                estimatePrice += item.ServicePrice;
+            }
+            decimal? netPrice = 0;
+            foreach (var item in _serviceForms)
+            {
+                netPrice += item.ServiceNetPrice;
+            }
+
+            _promotionCalculatorTmp.CalculateTotalPrice(estimatePrice, netPrice);
+
+            decimal payAmount = _promotionCalculatorTmp.PriceWithoutTax;
+            decimal payment = _promotionCalculatorTmp.NetPriceWithoutTax;
+
+            Service _service = await db.Services.FindAsync(_servicesTmp.Id);
+            if (_service != null)
+            {
+                _service.PayAmount = payAmount;
+                _service.Payment = payment;
+                db.Entry(_service).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+            }
+            return PartialView("CalculateServiceOverall",_promotionCalculatorTmp);
         }
+        #endregion
+
+        #endregion
+
+       
 
         #region Private Section
 
@@ -3273,15 +4312,15 @@ namespace NicePictureStudio
 
             if (_servicesTmp != null)
             {
-                if (string.Compare(serviceType, string.Concat(PreWedding, HTMLTagForReplace)) == 0)
+                if (string.Compare(serviceType, string.Concat(PreWedding)) == 0)
                 {
                     return _servicesTmp.ServiceFormPreWedding;
                 }
-                else if (string.Compare(serviceType, string.Concat(Engagement, HTMLTagForReplace)) == 0)
+                else if (string.Compare(serviceType, string.Concat(Engagement)) == 0)
                 {
                     return _servicesTmp.ServiceFormEngagement;
                 }
-                else if (string.Compare(serviceType, string.Concat(Wedding, HTMLTagForReplace)) == 0)
+                else if (string.Compare(serviceType, string.Concat(Wedding)) == 0)
                 {
                     return _servicesTmp.ServiceFormWedding;
                 }

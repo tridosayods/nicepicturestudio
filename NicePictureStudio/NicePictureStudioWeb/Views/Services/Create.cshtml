@@ -7,7 +7,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         // Hide the "busy" Gif at load:
-         // $("#ServiceFromSection").show();
+        // $("#ServiceFromSection").show();
         //$("#btnHidden").on("click", function (event) { event.preventDefault(); $("#PreWeddingFromSection").hide(); });
         $("#tblCustomerFromService").hide();
         $("#PreWeddingFormSection").hide();
@@ -53,19 +53,23 @@
 
     });
 
-    function AddPreWeddingService()
+
+    function DisableNav(id)
     {
+        $("#NavPattern").modal('hide');
+        @*$.ajax({
+            url: '@Url.Action("TableServices", "Services")',
+            type: "GET",
+            success: function (data) { $("#PreWeddingFormSection").replaceWith(data); }
+        });*@
+    }
+
+    function AddPreWeddingService() {
         $("#delPreWedService").show();
     }
 
-    function RemovePreWeddingService()
-    {
+    function RemovePreWeddingService() {
         $("#delPreWedService").hide();
-        $.ajax({
-            url: '@Url.Action("RemovePreWeddingService", "Services")',
-            type: "GET",
-            success: function (data) { $("#PreWeddingFormSection").replaceWith(data); }
-        });
     }
     //function showServiceForm()
     //{
@@ -136,12 +140,12 @@
             <td class="col-md-6">
                 <div id="MainSection">
                     @using (@Ajax.BeginForm("Create", "Services", new AjaxOptions
-                {
-                    HttpMethod = "POST",
-                    InsertionMode = InsertionMode.Replace,
-                    UpdateTargetId = "MainSection"
-                }
-                ))
+                    {
+                        HttpMethod = "POST",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "MainSection"
+                     }
+                     ))
                     {
                         @Html.AntiForgeryToken()
 
@@ -245,7 +249,7 @@
             <td>
                 <h4>Services Cost</h4>            
                 <hr />
-                <div id="divServicePriceSection">
+                @*<div id="divServicePriceSection_Old">
                     <div class="container-fluid">
                         @using (@Ajax.BeginForm("CalculateServicesCostSummary", "Services", new AjaxOptions
                         {
@@ -316,7 +320,7 @@
                             </div>
                         }
                     </div>
-                </div>
+                </div>*@
                 <div class="container-fluid">
                     <div class="rowa">
                         <div id="SaveFormSection"><br /> </div>
@@ -338,6 +342,105 @@
     </table>
 </div>
 
+<div id="Summary">
+    <div class="col-md-8 col-lg-6">
+        <div id="tblServiceFormSummary">
+
+            @if (@ViewBag.ServicesListSummary != null)
+            {
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Service Type</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                    @foreach (var item in @ViewBag.ServicesListSummary)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                        </tr>
+                    }
+                </table>
+            }
+
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-6">
+        <div id="divServicesTotalPriceSection">
+            <div>Summary</div>
+            <div class="container-fluid">
+                @using (@Ajax.BeginForm("CalculateServiceOverall", "Services", new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "divServicesTotalPriceSection"
+                        }))
+                {
+                    <div class="form-horizontal">
+                        <div class="col-md-6 col-xs-4">
+                            <label id="lblEstimateContext" class="control-label">Total Estimate Cost : </label>
+                        </div>
+                        <div class="col-md-6 col-xs-4">
+                            <label id="lblEstimateCost" class="control-label"> $0.00</label>
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="col-md-6">
+                            <label id="lblPromotionContext" class="control-label">Promotion Selected : </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label id="lblPromotionSelected" class="control-label"> - </label>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal">
+                        <div class="col-md-6">
+                            <label id="lblPromotionDiscountContext" class="control-label">Promotion Discount : </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label id="lblPromotionDiscount" class="control-label"> 0% </label>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal">
+                        <div class="col-md-6">
+                            <label id="lblTotalCostContext" class="control-label">Total Price Before TAX: </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label id="lblTotalCost" class="control-label">$0.00</label>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal">
+                        <div class="col-md-6">
+                            <label class="control-label">VAT: </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">10%</label>
+                        </div>
+                    </div>
+
+                    <div class="form-horizontal">
+                        <div class="col-md-6">
+                            <label id="lblTotalWithTAXContext" class="control-label">Total Price: </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label id="lblTotalCostWithTAX" class="control-label">$0.00</label>
+                        </div>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="col-md-12 col-md-push-6">
+                            <br />
+                            <input class="btn-primary" type="submit" id="btnCalculateTotalPrice" name="btnCalculateTotalPrice" value="Calculate Total Price" />
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+  </div>
+</div>
 <!-- Create Service Form Section-->
 
 @*<div class="form-horizontal">

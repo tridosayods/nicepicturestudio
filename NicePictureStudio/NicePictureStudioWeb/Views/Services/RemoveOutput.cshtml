@@ -1,4 +1,4 @@
-﻿<div id="@ViewData["tblequipment"].ToString()">
+﻿<div id="tblOutput">
     @if (@ViewBag.ModifyOutput != null)
     {
         <div class="form-group">
@@ -11,7 +11,7 @@
                         <td>@item.Description</td>
                         <td>@item.OutputURL</td>
                         <td>@item.Price</td>
-                        <td>@Ajax.ActionLink("Remove", "RemoveOutput", new { Id = @item.Id, serviceType = @ViewBag.OutputServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = @ViewData["tblequipment"].ToString() })</td>
+                        <td>@Ajax.ActionLink("Remove", "RemoveOutput", new { Id = @item.Id, serviceType = @ViewBag.OutputServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblOutput" })</td>
                     </tr>
                 }
             </table>

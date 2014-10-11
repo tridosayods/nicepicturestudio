@@ -1,0 +1,43 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        $("#dwnServicePattern").on("change", function (item) {
+            event.preventDefault();
+            var selectedItem = $("#dwnServicePattern").val();
+            alert(selectedItem);
+            $.ajax({
+                url: '@Url.Action("CreateLocationServiceByModal","Services")',
+                data: { id: selectedItem, serviceType: '@ViewData["SType"]' },
+                type: "GET",
+                success: function (data) { $("#divLocation").replaceWith(data); }
+            });
+        });
+
+    });
+
+</script>
+
+<div id="ServiceSelection">
+    <div class="panel panel-default">
+        <div class="panel-heading">ตัวเลือกต่างๆ</div>
+        <div class="panel-info">
+            <div class="form-horizontal">
+                <div class="form-group-sm">
+                    <div>สถานที่</div>
+                    <div>@Html.Kendo().DropDownList().Name("LocationCatalog").HtmlAttributes(new { @class = "form-control", @id = "dwnLocationCatalog" })</div>
+                    <div>ประเภทของสถานที่</div>
+                    <div>@Html.Kendo().DropDownList().Name("LocationType").HtmlAttributes(new { @class = "form-control", @id = "dwnLocationType" })</div>
+                </div>
+                <div class="form-group col-lg-12">
+                    @Html.Label("สถานที่", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="list-group col-md-10">
+                        @*@Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
+                        @Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["LocationList"] as IEnumerable<SelectListItem>).HtmlAttributes(new { @class = "form-control", @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            @{Html.RenderAction("CreateLocationServiceByModal", "Services", new { id = @ViewData["Code"], ServiceType = @ViewData["SType"] });}
+        </div>
+    </div>
+</div>

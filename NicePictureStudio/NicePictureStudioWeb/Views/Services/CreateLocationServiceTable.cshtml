@@ -1,4 +1,4 @@
-﻿<div id="@ViewData["tblequipment"].ToString()">
+﻿<div id="tblLocation">
     @if (@ViewBag.ListLocationServices != null)
     {
         <div class="form-group">
@@ -18,7 +18,7 @@
                             <td>No</td>
                             <td>-</td> }
                         <td>@item.Price</td>
-                        <td>@Ajax.ActionLink("Remove", "RemoveLocation", new { Id = @item.Id, serviceType = @ViewBag.LocationServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = @ViewData["tblequipment"].ToString() })</td>
+                        <td>@Ajax.ActionLink("Remove", "RemoveLocation", new { Id = @item.Id, serviceType = @ViewBag.LocationServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblLocation" })</td>
                     </tr>
                 }
             </table>

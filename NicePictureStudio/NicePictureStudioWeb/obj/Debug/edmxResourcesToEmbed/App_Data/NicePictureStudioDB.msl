@@ -131,7 +131,6 @@
           <ScalarProperty Name="City" ColumnName="City" />
           <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
           <ScalarProperty Name="LocationAddress" ColumnName="LocationAddress" />
-          <ScalarProperty Name="LocationType" ColumnName="LocationType" />
           <ScalarProperty Name="LocationName" ColumnName="LocationName" />
           <ScalarProperty Name="LocationId" ColumnName="LocationId" />
         </MappingFragment>
@@ -303,6 +302,7 @@
     <EntitySetMapping Name="ServiceForms">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceForm">
         <MappingFragment StoreEntitySet="ServiceForm">
+          <ScalarProperty Name="ServiceNetPrice" ColumnName="ServiceNetPrice" />
           <ScalarProperty Name="ServicePrice" ColumnName="ServicePrice" />
           <ScalarProperty Name="ServiceCost" ColumnName="ServiceCost" />
           <ScalarProperty Name="GuestsNumber" ColumnName="GuestsNumber" />
@@ -680,6 +680,14 @@
       </EndProperty>
       <EndProperty Name="ServiceStatu">
         <ScalarProperty Name="Id" ColumnName="Status" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Location_LocationType1" TypeName="NicePictureStudioDBModel.FK_Location_LocationType1" StoreEntitySet="Location">
+      <EndProperty Name="Location">
+        <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+      </EndProperty>
+      <EndProperty Name="LocationType">
+        <ScalarProperty Name="Id" ColumnName="LocationType" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

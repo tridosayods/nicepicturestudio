@@ -14,10 +14,15 @@ namespace NicePictureStudio.App_Data
     
     public partial class LocationType
     {
+        public LocationType()
+        {
+            this.Locations = new HashSet<Location>();
+        }
+    
         public int Id { get; set; }
         public string TypeName { get; set; }
         public string Description { get; set; }
     
-        public virtual Location Location { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
     }
 }

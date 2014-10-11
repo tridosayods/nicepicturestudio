@@ -18,7 +18,7 @@ namespace NicePictureStudio
         // GET: Locations
         public async Task<ActionResult> Index()
         {
-            var locations = db.Locations.Include(l => l.LocationType1);
+            var locations = db.Locations.Include(l => l.LocationType);
             return View(await locations.ToListAsync());
         }
 

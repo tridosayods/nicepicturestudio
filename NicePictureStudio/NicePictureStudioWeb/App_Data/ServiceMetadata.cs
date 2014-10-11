@@ -19,10 +19,20 @@ namespace NicePictureStudio.App_Data
         [Required]
         public object BrideName { get; set; }
 
+        //[Required]
+        //public object Payment { get; set; }
+        //[Required]
+        //public object PayAmount { get; set; }
+    }
+
+    [MetadataType(typeof(ServiceMetadata))]
+    public partial class ServiceFprm
+    { }
+
+    public class ServiceFormMetadata
+    {
         [Required]
-        public object Payment { get; set; }
-        [Required]
-        public object PayAmount { get; set; }
+        public object GuestNumber { get; set; }
     }
 
 }
