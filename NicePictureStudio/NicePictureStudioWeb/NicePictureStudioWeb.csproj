@@ -806,6 +806,7 @@
     <Content Include="Views\Services\RemoveOutsourceWhenEditNew.cshtml" />
     <Content Include="Views\Services\ServicesNavigationOverallWhenEdit.cshtml" />
     <Content Include="Views\Services\CalculateServiceOverallWhenEdit.cshtml" />
+    <Content Include="Views\Bookings\EditorTemplates\BookingTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

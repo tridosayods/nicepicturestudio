@@ -46,8 +46,9 @@ namespace NicePictureStudio
             bundles.Add(new StyleBundle("~/Content/styles/css").Include(
                       "~/Content/styles/kendo.common-bootstrap.min.css",
                       "~/Content/styles/kendo.bootstrap.min.css",
-                      "~/Content/styles/kendo.common.min.css",
+                      //"~/Content/styles/kendo.common.min.css",
                       //"~/Content/styles/kendo.blueopal.min.css",
+                       // "~/Content/styles/kendo.silver.min.css",
                       "~/Content/font-awesome-4.2.0/css/font-awesome.css"
                       ));
             bundles.IgnoreList.Clear();

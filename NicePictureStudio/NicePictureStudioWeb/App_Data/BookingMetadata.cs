@@ -15,7 +15,7 @@ namespace NicePictureStudio.App_Data
     public class BookingMetadata
     {
             [Required]
-            [StringLength(5,ErrorMessage="Booking Code is not over 5 digits")]
+            [StringLength(11,ErrorMessage="Booking Code is not over 11 digits")]
             public object BookingCode { get; set; }
     }
 

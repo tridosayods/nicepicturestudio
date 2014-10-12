@@ -46,6 +46,25 @@ namespace NicePictureStudio
             return Json(tasks.ToDataSourceResult(request));
         }
 
+        public ActionResult BookingsNotConfirm_read([DataSourceRequest] DataSourceRequest request)
+        {
+            var bookings = db.Bookings.Include(b => b.BookingStatu).Include(b => b.Promotion).Include(b => b.Service).ToList();
+            var bookingNotConfirm = bookings.Where(book => book.BookingStatu.Id < 2);
+            IQueryable<BookingViewsModel> tasks = bookingNotConfirm.Select(task => new BookingViewsModel()
+            {
+                Id = task.Id,
+                Name = task.Name,
+                AppointmentDate = task.AppointmentDate,
+                BookingCode = task.BookingCode,
+                BookingStatus = task.BookingStatu.Name,
+                Details = task.Details,
+                PromotionName = task.Promotion == null ? string.Empty : task.Promotion.Name,
+                ServiceName = task.Service == null ? string.Empty : task.Service.Customer.CustomerName,
+            }
+             ).AsQueryable();
+            return Json(tasks.ToDataSourceResult(request));
+        }
+
         // GET: Bookings/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -69,7 +88,9 @@ namespace NicePictureStudio
             ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name");
             ViewBag.PromotionId = new SelectList(db.Promotions, "Id", "Name");
             ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName");
-            ViewBag.BookingNumber = Math.Abs(Convert.ToInt32(DateTime.Now.GetHashCode())).ToString().Substring(0,5);
+            int _latestBookingId = db.Bookings.Max(p => p.Id);
+            ViewBag.BookingNumber = DateTime.Now.ToString("yyyy") + DateTime.Now.Month + DateTime.Now.Day+ _latestBookingId.ToString();
+            //ViewBag.BookingNumber = Math.Abs(Convert.ToInt32(DateTime.Now.GetHashCode())).ToString().Substring(0,5);
             return View();
         }
 

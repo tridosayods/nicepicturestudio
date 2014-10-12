@@ -10,54 +10,54 @@
         }))
         {
             <div class="form-horizontal">
-                <div class="col-md-6 col-xs-4">
-                    <label id="lblEstimateContext" class="control-label">Total Estimate Cost : </label>
-                </div>
-                <div class="col-md-6 col-xs-4">
+              
+                    <label id="lblEstimateContext" class="control-label col-sm-6">Estimate Cost : </label>
+         
+                <div class="col-sm-6">
                     <label id="lblEstimateCost" class="control-label"> @Model.EstimatePrice</label>
                 </div>
             </div>
             <div class="form-horizontal">
-                <div class="col-md-6">
-                    <label id="lblPromotionContext" class="control-label">Promotion Selected : </label>
-                </div>
-                <div class="col-md-6">
+               
+                    <label id="lblPromotionContext" class="control-label col-sm-6">Promotion : </label>
+                
+                <div class="col-sm-6">
                     <label id="lblPromotionSelected" class="control-label"> @Model.PromotionName </label>
                 </div>
             </div>
 
             <div class="form-horizontal">
-                <div class="col-md-6">
-                    <label id="lblPromotionDiscountContext" class="control-label">Promotion Discount : </label>
-                </div>
-                <div class="col-md-6">
+                
+                    <label id="lblPromotionDiscountContext" class="control-label col-md-6 col-xs-6">Discount : </label>
+               
+                <div class="col-md-6 col-xs-6">
                     <label id="lblPromotionDiscount" class="control-label"> @Model.PromotionDiscount </label>
                 </div>
             </div>
 
             <div class="form-horizontal">
-                <div class="col-md-6">
-                    <label id="lblTotalCostContext" class="control-label">Total Price Before TAX: </label>
-                </div>
-                <div class="col-md-6">
+                
+                <label id="lblTotalCostContext" class="control-label col-md-6 col-xs-4">Price Before TAX: </label>
+               
+                <div class="col-md-6 col-xs-4">
                     <label id="lblTotalCost" class="control-label">@Model.TotalPriceBeforeTax</label>
                 </div>
             </div>
 
             <div class="form-horizontal">
-                <div class="col-md-6">
-                    <label class="control-label">VAT: </label>
-                </div>
-                <div class="col-md-6">
+                
+                <label class="control-label col-md-6 col-xs-4">VAT: </label>
+                
+                <div class="col-md-6 col-xs-4">
                     <label class="control-label">10%</label>
                 </div>
             </div>
 
             <div class="form-horizontal">
-                <div class="col-md-6">
-                    <label id="lblTotalWithTAXContext" class="control-label">Total Price: </label>
-                </div>
-                <div class="col-md-6">
+                
+                <label id="lblTotalWithTAXContext" class="control-label col-md-6 col-xs-4">Total Price: </label>
+              
+                <div class="col-md-6 col-xs-4">
                     <label id="lblTotalCostWithTAX" class="control-label">@Model.TotalPrice</label>
                 </div>
             </div>

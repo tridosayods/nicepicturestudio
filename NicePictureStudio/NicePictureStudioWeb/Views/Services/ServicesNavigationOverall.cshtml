@@ -13,32 +13,41 @@
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                     <div class="form-horizontal">
                                         <div class="form-group">
-                                            @Html.Label("ServiceType")
-                                            @Html.Kendo().DropDownList().Name("ServiceTypeId").BindTo(new string[] { "PreWedding", "Engagement", "Wedding" })
-                                            @Html.ValidationMessage("ServiceTypeId", "*")
+                                            @Html.Label("ประเภทบริการ", new {@class="col-sm-3" })
+                                            <div class="col-sm-9">
+                                                @Html.Kendo().DropDownList().Name("ServiceTypeId").BindTo(new string[] { "PreWedding", "Engagement", "Wedding" })
+                                                @Html.ValidationMessage("ServiceTypeId", "*")
+                                              </div>
+                                           </div>
+                                        <div class="form-group">
+                                            @Html.Label("เริ่มต้น ", new {@class="col-sm-3" })
+                                            <div class="col-sm-9">
+                                                @Html.Kendo().DateTimePickerFor(model => model.EventStart).Min(DateTime.Now).HtmlAttributes(new { @id = "EventStart", @styles = "width:120px" }).Value(Model.EventStart == DateTime.MinValue ? DateTime.Now : Model.EventStart)
+                                                @*@Html.Kendo().DateTimePicker().Name("EventStart").Min(DateTime.Now)*@
+                                                @Html.ValidationMessageFor(model => model.EventStart)
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            @Html.Label("Event Start ")
-                                            @Html.Kendo().DateTimePickerFor(model => model.EventStart).Min(DateTime.Now).HtmlAttributes(new { @id="EventStart"}).Value(Model.EventStart == null ? DateTime.Now : Model.EventStart)
-                                            @*@Html.Kendo().DateTimePicker().Name("EventStart").Min(DateTime.Now)*@
-                                            @Html.ValidationMessageFor(model => model.EventStart)
-                                        </div>
+                                            @Html.Label("สิ้นสุด ", new { @class = "col-sm-3" })
+                                            <div class="col-sm-9">
+                                                @Html.Kendo().DateTimePickerFor(model => model.EventEnd).Min(DateTime.Now).HtmlAttributes(new { @id = "EventEnd", @styles = "width:80px" }).Value(Model.EventEnd == DateTime.MinValue ? DateTime.Now : Model.EventEnd)
+                                                @*@Html.Kendo().DateTimePicker().Name("EventEnd").Min(DateTime.Now)*@
+                                                @Html.ValidationMessageFor(model => model.EventEnd)
+                                            </div>
+                                            </div>
                                         <div class="form-group">
-                                            @Html.Label("Event End ")
-                                            @Html.Kendo().DateTimePickerFor(model => model.EventEnd).Min(DateTime.Now).HtmlAttributes(new { @id = "EventEnd" }).Value(Model.EventEnd == null ? DateTime.Now : Model.EventEnd)
-                                            @*@Html.Kendo().DateTimePicker().Name("EventEnd").Min(DateTime.Now)*@
-                                            @Html.ValidationMessageFor(model => model.EventEnd)
-                                        </div>
+                                            @Html.Label("จำนวกแขกในงาน", new { @class = "col-sm-3" })
+                                            <div class="col-sm-9">
+                                                @Html.Kendo().NumericTextBox().Name("GuestNumber").Min(1).HtmlAttributes(new { @id = "GuestNumber", @styles = "width:20px" }).Value(Model.GuestsNumber == null ? 100 : Model.GuestsNumber).Format("D")
+                                                @*@Html.Kendo().NumericTextBox().Name("GuestNumber").Min(1).Value(50)*@
+                                                @Html.ValidationMessageFor(model => model.GuestsNumber)
+                                            </div>
+                                            </div>
                                         <div class="form-group">
-                                            @Html.Label("จำนวกแขกในงาน")
-                                            @Html.Kendo().NumericTextBoxFor(model => model.GuestsNumber).Min(1).HtmlAttributes(new { @id = "GuestNumber" }).Value(Model.GuestsNumber == null ? 100 : Model.GuestsNumber)
-                                            @*@Html.Kendo().NumericTextBox().Name("GuestNumber").Min(1).Value(50)*@
-                                            @Html.ValidationMessageFor(model => model.GuestsNumber)
-                                        </div>
-
-                                        <div class="form-group">
-                                            <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>Start</button>
-
+                                            <div style="align-content:center" class="col-sm-12">
+                                                <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>Start</button>
+                                            </div>
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -59,53 +68,53 @@
                                             {
                                                 <div class="form-horizontal">
                                                     <div class="form-group-sm">
-                                                        <div>
-                                                            <label id="lblEstimateContext" class="control-label">Total Estimate Cost : </label>
-                                                        </div>
-                                                        <div>
+                                                        
+                                                            <label id="lblEstimateContext" class="control-label col-sm-6">Total Estimate Cost : </label>
+                                                       
+                                                        <div class="col-sm-6">
                                                             <label id="lblEstimateCost" class="control-label"> $0.00</label>
                                                         </div>
                                                     </div>
                                                     <div class="form-group-sm">
-                                                        <div class="col-md-6">
-                                                            <label id="lblPromotionContext" class="control-label">Promotion Selected : </label>
-                                                        </div>
+                                                      
+                                                            <label id="lblPromotionContext" class="control-label col-sm-6">Promotion Selected : </label>
+                                                    
                                                         <div class="col-md-6">
                                                             <label id="lblPromotionSelected" class="control-label"> - </label>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group-sm">
-                                                        <div class="col-md-6">
-                                                            <label id="lblPromotionDiscountContext" class="control-label">Promotion Discount : </label>
-                                                        </div>
+                                                        
+                                                            <label id="lblPromotionDiscountContext" class="control-label col-sm-6">Promotion Discount : </label>
+                                                       
                                                         <div class="col-md-6">
                                                             <label id="lblPromotionDiscount" class="control-label"> 0% </label>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group-sm">
-                                                        <div class="col-md-6">
-                                                            <label id="lblTotalCostContext" class="control-label">Total Price Before TAX: </label>
-                                                        </div>
+                                                      
+                                                            <label id="lblTotalCostContext" class="control-label col-sm-6">Price Before TAX: </label>
+                                                        
                                                         <div class="col-md-6">
                                                             <label id="lblTotalCost" class="control-label">$0.00</label>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group-sm">
-                                                        <div class="col-md-6">
-                                                            <label class="control-label">VAT: </label>
-                                                        </div>
+                                                      
+                                                            <label class="control-label col-sm-6">VAT: </label>
+                                                       
                                                         <div class="col-md-6">
                                                             <label class="control-label">10%</label>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group-sm">
-                                                        <div class="col-md-6">
-                                                            <label id="lblTotalWithTAXContext" class="control-label">Total Price: </label>
-                                                        </div>
+                                                     
+                                                            <label id="lblTotalWithTAXContext" class="control-label col-sm-6">Total Price: </label>
+                                                       
                                                         <div class="col-md-6">
                                                             <label id="lblTotalCostWithTAX" class="control-label">$0.00</label>
                                                         </div>

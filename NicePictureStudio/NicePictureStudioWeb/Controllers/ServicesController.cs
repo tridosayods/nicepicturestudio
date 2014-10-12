@@ -231,6 +231,20 @@ namespace NicePictureStudio
             }), JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetListForGroomNameAutocomplete(string term)
+        {
+            Customer[] matching = string.IsNullOrWhiteSpace(term) ?
+                db.Customers.ToArray() :
+                db.Customers.Where(c => (c.CustomerName.ToUpper().StartsWith(term.ToUpper()))).ToArray();
+
+            return Json(matching.Select(m => new
+            {
+                id = m.CustomerId,
+                value = m.CustomerName,
+                label = m.CustomerName
+            }), JsonRequestBehavior.AllowGet);
+        }
+
 
         // POST: Services/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -251,7 +265,18 @@ namespace NicePictureStudio
                 TempData.Keep();
 
                 Promotion promotion = new Promotion();
-                if (BookingId > 0) { promotion = await db.Promotions.FindAsync(BookingId); }
+                Booking _booking = new Booking();
+                if (BookingId > 0) {
+                    _booking = await db.Bookings.FindAsync(BookingId);
+                    if (_booking != null)
+                    {
+                        promotion = await db.Promotions.FindAsync(_booking.Promotion.Id);
+                    }
+                    else 
+                    {
+                        return HttpNotFound();
+                    }
+                }
                 else { return HttpNotFound(); }
 
                

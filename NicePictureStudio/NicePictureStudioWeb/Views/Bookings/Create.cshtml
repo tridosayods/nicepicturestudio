@@ -4,10 +4,10 @@
     ViewBag.Title = "Create";
 }
 
-<h2>จองรายการให้บริการ</h2>
+<h2><span class="glyphicon glyphicon-bullhorn"/>&nbsp;การจองรายการให้บริการ</h2>
 
+   
 
-    @Html.AntiForgeryToken()
     <table class="table table-responsive">
         <tr>
             <td class="col-lg-8">
@@ -20,16 +20,18 @@
                             </a>
                         </div>
                     </div>
-                    <h4>โปรดกรอกข้อมูลของผู้ให้บริการ</h4>
-                    <hr />
+                    
                    </div> 
                 </td>
             </tr>
             <tr>
             <td colspan="2">
+                <h4><span class="glyphicon glyphicon-bullhorn"></span> โปรดกรอกข้อมูลของผู้ให้บริการ</h4>
+                <hr />
             @using (Html.BeginForm())
             {
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                 @Html.AntiForgeryToken() 
+                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                  <div class="form-horizontal container-fluid">  
                     <div class="form-group">
                       
@@ -59,7 +61,7 @@
                     <div class="form-group">
                         @Html.Label("หมายเลขการจอง", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.BookingCode, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.BookingNumber,@Disabled = true } })
+                            @Html.EditorFor(model => model.BookingCode, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.BookingNumber, @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.BookingCode, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -99,7 +101,7 @@
                     <div class="form-group">
                         @Html.Label("สถานะการจอง", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.DropDownList("BookingStatus", null, htmlAttributes: new { @class = "form-control",@Disabled = true })
+                            @Html.DropDownList("BookingStatus", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
                             @Html.ValidationMessageFor(model => model.BookingStatu, "", new { @class = "text-danger" })
                         </div>
                     </div>

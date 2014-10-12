@@ -15,96 +15,169 @@
             <h4>Customer</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+
+            <div class="panel panel-default">
+                <div class="panel-heading">ข้อมูลลูกค้า</div>
+            <div class="panel panel-body">
+                <div class="form-group">
+                    @Html.Label("คำนำหน้า", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Kendo().DropDownList().Name("CustomerPrefixName").BindTo(new string[] { "นาย", "นางสาว", "นาง" }).HtmlAttributes(new { @Style = "width:100px" }).SelectedIndex(0)
+                        @*@Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("ชื่อลูกค้าฝ่ายชาย", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("นามสกุลลูกค้าฝ่ายชาย", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Editor("CustomerSurname", new { htmlAttributes = new { @class = "form-control" } })
+                        @*@Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })*@
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("คำนำหน้า", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Kendo().DropDownList().Name("Customer2PrefixName").BindTo(new string[] { "นาย", "นางสาว", "นาง" }).HtmlAttributes(new { @Style = "width:100px" }).SelectedIndex(1)
+                        @*@Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("ชื่อลูกค้าฝ่ายหญิง", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Editor("Customer2Name", new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("นามสกุลลูกค้าฝ่ายหญิง", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Editor("Customer2Surname", new { htmlAttributes = new { @class = "form-control" } })
+                        @*@Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })*@
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("วันครอบรอบแต่งงาน", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10 k-rtl">
+                        @*@Html.EditorFor(model => model.AnniversaryDate, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.Kendo().DateTimePickerFor(model => model.AnniversaryDate).Name("AnniversaryDate")
+                        @Html.ValidationMessageFor(model => model.AnniversaryDate, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
+             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+            <div class="panel panel-default">
+                <div class="panel-heading">ที่อยู่</div>
+                <div class="panel-body">
+                <div class="form-group">
+                    @Html.Label("หมายเลขโทรศัพท์", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.Address, htmlAttributes: new { @class = "form-control" ,@rows="7"})
-                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.Label("ที่อยู่ปัจจุบัน", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Address, htmlAttributes: new { @class = "form-control" ,@rows="7"})
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.AnniversaryDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10 k-rtl">
-                    @*@Html.EditorFor(model => model.AnniversaryDate, new { htmlAttributes = new { @class = "form-control" } })*@
-                    @Html.Kendo().DateTimePickerFor(model => model.AnniversaryDate).Name("AnniversaryDate")
-                    @Html.ValidationMessageFor(model => model.AnniversaryDate, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.Label("จังหวัด", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.Label("รหัสไปรษณีย์", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PostcalCode, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PostcalCode, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="form-group">
+                    @Html.Label("อีเมล", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
                         @*<span class="input-group-addon">@@</span>*@
                         @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                    
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+                    </div>
                 </div>
+              </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.PostcalCode, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.PostcalCode, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.PostcalCode, "", new { @class = "text-danger" })
-                </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.ReferencePerson, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ReferencePerson, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ReferencePerson, "", new { @class = "text-danger" })
+            <div class="panel panel-warning">
+                <div class="panel-heading">ข้อมูลผู้แนะบริการ</div>
+                <div class="panel-body">
+                <div class="form-group">
+                    @Html.Label("คำนำหน้า", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Kendo().DropDownList().Name("ReferencePersonPrefixName").BindTo(new string[] { "นาย", "นางสาว", "นาง" }).HtmlAttributes(new { @Style = "width:100px" }).SelectedIndex(0)
+                        @*@Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })*@
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.ReferenceEmail, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="form-group">
+                    @Html.Label("ชื่อผู้แนะนำ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ReferencePerson, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ReferencePerson, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("นามสกุลผู้แนะนำ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Editor("ReferencePersonSurName", new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ReferencePerson, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("อีเมล", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
                         @*<span class="input-group-addon">@@</span>*@
                         @Html.EditorFor(model => model.ReferenceEmail, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.ReferenceEmail, "", new { @class = "text-danger" })
                     </div>
-            </div>
+                </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.ReferencePhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ReferencePhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ReferencePhoneNumber, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.Label("เบอร์ติดต่อผู้แนะนำ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ReferencePhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ReferencePhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                    <input type="reset" value="Clear" class="btn btn-default" />
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                        <input type="reset" value="Clear" class="btn btn-default" />
+                    </div>
                 </div>
             </div>
-        </div>
     }
 </div> <!-- End Main Div --><!--End Main Div -->
