@@ -804,6 +804,8 @@
     <Content Include="Views\Services\ThirdFilterLocationServiceWhenEditNew.cshtml" />
     <Content Include="Views\Services\CreateOutsourceServiceTableWhenEditNew.cshtml" />
     <Content Include="Views\Services\RemoveOutsourceWhenEditNew.cshtml" />
+    <Content Include="Views\Services\ServicesNavigationOverallWhenEdit.cshtml" />
+    <Content Include="Views\Services\CalculateServiceOverallWhenEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

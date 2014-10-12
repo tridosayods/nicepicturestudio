@@ -204,7 +204,7 @@
             @Html.HiddenFor(model => model.Cost)
             <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
             <input type="hidden" id="Code" name="Code" value="@Model.Id" />
-
+            @Html.Hidden("IsEditTable", new { IsEditTable = @ViewBag.IsEditTable})
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Next" class="btn btn-default" />

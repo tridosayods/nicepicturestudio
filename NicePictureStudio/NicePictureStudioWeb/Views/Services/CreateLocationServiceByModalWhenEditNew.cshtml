@@ -7,7 +7,7 @@
             var url = '@Url.Action("SecondFilterOutputServiceWhenEditNew", "Services")';
             $.ajax({
                 url: url,
-                data: { id: $("#page2Id").val(), serviceType: '@ViewData["ServiceType"]' },
+                data: { id: $("#page2Id").val(), serviceType: '@ViewData["ServiceType"]',IsEditTable : '@ViewBag.IsEditTable' },
                 type: "GET",
                 success: function (data) { $("#ServiceSelection").replaceWith(data); }
             })
@@ -90,6 +90,7 @@
             @Html.HiddenFor(model => model.Location.LocationId, htmlAttributes: new { @id = "LocationId", @Name = "LocationId" })
             <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
             <input type="hidden" id="Code" name="Code" value="@Model.Id" />
+            @Html.Hidden("IsEditTable", new { IsEditTable = @ViewBag.IsEditTable})
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -120,7 +121,7 @@
                                 <td>No</td>
                                 <td>-</td> }
                             <td>@item.Price</td>
-                            <td>@Ajax.ActionLink("Remove", "RemoveLocationWhenEditNew", new { Id = @item.Id, serviceType = @ViewData["ServiceType"] }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblLocation" })</td>
+                            <td>@Ajax.ActionLink("Remove", "RemoveLocationWhenEditNew", new { Id = @item.Id, serviceType = @ViewData["ServiceType"],IsEditTable = @ViewBag.IsEditTable }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblLocation" })</td>
                         </tr>
                     }
                 </table>
@@ -138,6 +139,7 @@
     {
         @Html.AntiForgeryToken()
         <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
+        @Html.Hidden("IsEditTable", new { IsEditTable = @ViewBag.IsEditTable})
         <input type="button" id="btnBackStepToOutput" value="Back" />
         <input type="submit" id="btnNextToOutsource" value="Next" />
     }

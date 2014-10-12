@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="panel-body">
-            @{Html.RenderAction("CreateOutputServiceByModalWhenEditNew", "Services", new { id = @ViewData["Code"], ServiceType = @ViewData["SType"] });}
+            @{Html.RenderAction("CreateOutputServiceByModalWhenEditNew", "Services", new { id = @ViewData["Code"], ServiceType = @ViewData["SType"], IsEditTable = @ViewBag.IsEditTable });}
         </div>
     </div>
 </div>

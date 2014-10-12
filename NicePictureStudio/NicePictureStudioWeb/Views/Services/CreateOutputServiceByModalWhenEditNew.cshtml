@@ -8,7 +8,7 @@
             var url = '@Url.Action("MainFilterPhotoGrapServiceWhenEditNew", "Services")';
             $.ajax({
                 url: url,
-                data: { id: $("#page1Id").val(), serviceType: '@ViewData["ServiceType"]' },
+                data: { id: $("#page1Id").val(), serviceType: '@ViewData["ServiceType"]', IsEditTable : '@ViewBag.IsEditTable' },
                 type: "GET",
                 success: function (data) { $("#ServiceSelection").replaceWith(data); }
             })
@@ -85,6 +85,7 @@
 
             <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
             <input type="hidden" id="Code" name="Code" value="@Model.Id" />
+            @Html.Hidden("IsEditTable", new { IsEditTable = @ViewBag.IsEditTable })
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -106,7 +107,7 @@
                             <td>@item.Description</td>
                             <td>@item.OutputURL</td>
                             <td>@item.Price</td>
-                            <td>@Ajax.ActionLink("Remove", "RemoveOutput", new { Id = @item.Id, serviceType = @ViewData["ServiceType"].ToString() }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblOutput" })</td>
+                            <td>@Ajax.ActionLink("Remove", "RemoveOutputWhenEditNew", new { Id = @item.Id, serviceType = @ViewData["ServiceType"].ToString(), IsEditTable = @ViewBag.IsEditTable }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblOutput" })</td>
                         </tr>
                     }
                 </table>
@@ -123,6 +124,7 @@
     {
         @Html.AntiForgeryToken()
         <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
+        @Html.Hidden("IsEditTable", new { IsEditTable = @ViewBag.IsEditTable })
         <button type="button" id="btnBackStepToPhotoGraph" value="Back to Previous step">Back to Previous Step</button>
         <button type="submit" id="btnNextStepToLocation" value="Next">Next</button>
     }

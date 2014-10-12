@@ -11,7 +11,7 @@
                         <td>@item.Description</td>
                         <td>@item.PortFolioURL</td>
                         <td>@item.Price</td>
-                        <td>@Ajax.ActionLink("Remove", "RemoveOutsourceWhenEditNew", new { Id = @item.Id, serviceType = @ViewBag.OutsourceServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblOutsource" })</td>
+                        <td>@Ajax.ActionLink("Remove", "RemoveOutsourceWhenEditNew", new { Id = @item.Id, serviceType = @ViewBag.OutsourceServiceType, IsEditTable = @ViewBag.IsEditTable }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblOutsource" })</td>
                     </tr>
                 }
             </table>

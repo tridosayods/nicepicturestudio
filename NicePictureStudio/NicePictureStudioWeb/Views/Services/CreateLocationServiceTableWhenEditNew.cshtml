@@ -18,7 +18,7 @@
                             <td>No</td>
                             <td>-</td> }
                         <td>@item.Price</td>
-                        <td>@Ajax.ActionLink("Remove", "RemoveLocationWhenEditNew", new { Id = @item.Id, serviceType = @ViewBag.LocationServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblLocation" })</td>
+                        <td>@Ajax.ActionLink("Remove", "RemoveLocationWhenEditNew", new { Id = @item.Id, serviceType = @ViewBag.LocationServiceType, IsEditTable = @ViewBag.IsEditTable}, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblLocation" })</td>
                     </tr>
                 }
             </table>

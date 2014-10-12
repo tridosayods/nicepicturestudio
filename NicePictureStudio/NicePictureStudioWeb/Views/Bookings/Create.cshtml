@@ -4,88 +4,135 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>จองรายการให้บริการ</h2>
 
-@using (Html.BeginForm()) 
-{
+
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Booking</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <table class="table table-responsive">
+        <tr>
+            <td class="col-lg-8">
+                <div class="form-horizontal container-fluid">
+                   
+                    <div class="form-horizontal container-fluid">
+                        <div class="row">
+                            <a href="#" class="img-rounded">
+                                <img src="@Url.Content("~/Content/images/PhotoGraph/Cover/BookingCover1.jpg")" class="img-thumbnail" />
+                            </a>
+                        </div>
+                    </div>
+                    <h4>โปรดกรอกข้อมูลของผู้ให้บริการ</h4>
+                    <hr />
+                   </div> 
+                </td>
+            </tr>
+            <tr>
+            <td colspan="2">
+            @using (Html.BeginForm())
+            {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                 <div class="form-horizontal container-fluid">  
+                    <div class="form-group">
+                      
+                                @Html.Label("คำนำหน้า*", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.Kendo().DropDownList().Name("PrefixName").BindTo(new string[] { "นาย", "นางสาว", "นาง" }).HtmlAttributes(new {@Style="width:100px" })
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.BookingCode, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.BookingCode, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.BookingNumber } })
-                @Html.ValidationMessageFor(model => model.BookingCode, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group">
+                            @Html.Label("ชื่อ*", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.AppointmentDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.AppointmentDate, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.Kendo().DateTimePickerFor(model => model.AppointmentDate).Animation(true).Value(DateTime.Now)
-                @Html.ValidationMessageFor(model => model.AppointmentDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                             </div>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SpecialOrder, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.SpecialOrder, htmlAttributes: new { @class = "form-control",@rows="7"} )
-                @Html.ValidationMessageFor(model => model.SpecialOrder, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                     <div class="form-group">
+                        @Html.Label("นามสกุล*", htmlAttributes: new { @class = "control-label col-md-2" })
+                         <div class="col-md-10">
+                             @Html.Editor("Surname", new { htmlAttributes = new { @class = "form-control" } })
+                         </div>
+                    
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group">
+                        @Html.Label("หมายเลขการจอง", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.BookingCode, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.BookingNumber,@Disabled = true } })
+                            @Html.ValidationMessageFor(model => model.BookingCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.BookingStatu, "BookingStatus", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("BookingStatus", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.BookingStatu, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group">
+                        @Html.Label("วันนัดพบ*", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @*@Html.EditorFor(model => model.AppointmentDate, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.Kendo().DateTimePickerFor(model => model.AppointmentDate).Animation(true).Value(DateTime.Now).Min(DateTime.Now)
+                            @Html.ValidationMessageFor(model => model.AppointmentDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <!-- Special Order -->
+                    <div class="form-group">
+                        @Html.Label("คำขอร้องพิเศษ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.Kendo().DropDownList().Name("Themes").BindTo(new string[] { "รูปแบบทันสมัย", "รูปแบบย้อนยุค", "รูปแบบการ์ตูน","รูปแบบพิธีไทย","รูปแบบพิธีจีน" ,"รูปแบบพิธีตะวันตก" }).HtmlAttributes(new { @Style = "width:250px" })
+                        </div>
+                    </div>
+                    <!-- Special Order -->
+                    <div class="form-group">
+                        @Html.Label("หมายเหตุ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.SpecialOrder, htmlAttributes: new { @class = "form-control", @rows = "7" })
+                            @Html.ValidationMessageFor(model => model.SpecialOrder, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Promotion.Id, "PromotionId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("PromotionId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Promotion.Id, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    @*<div class="form-group">
+                        @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.Service.Id, "ServiceId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("ServiceId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Service.Id, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+                    <div class="form-group">
+                        @Html.Label("สถานะการจอง", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("BookingStatus", null, htmlAttributes: new { @class = "form-control",@Disabled = true })
+                            @Html.ValidationMessageFor(model => model.BookingStatu, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
+                    <div class="form-group">
+                        @Html.Label("เลือกโปรโมชั่น", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("PromotionId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Promotion.Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.Service.Id, "ServiceId", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("ServiceId", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Service.Id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            }
+            </td>
+                
+            
+        </tr>
+    </table>
+
 
 <div>
     @Html.ActionLink("Back to List", "Index")

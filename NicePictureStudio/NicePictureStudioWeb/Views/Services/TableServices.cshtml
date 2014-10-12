@@ -28,8 +28,8 @@
 <script type="text/javascript">
     function OpenServiceDialog(id) {
         alert(id);
-        var url = '@Url.Action("ServicesNavigationOverall", "Services")';
-        var data = { Id: id };
+        var url = '@Url.Action("ServicesNavigationOverallWhenEdit", "Services")';
+        var data = { id : id };
         $.get(url, data, function (data) {
             $("#NavPatternBody").html(data);
             $("#NavPattern").modal('show');

@@ -188,5 +188,49 @@ namespace NicePictureStudio
             }
             base.Dispose(disposing);
         }
+
+        public virtual JsonResult Appointments_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            IQueryable<SchedulerViewModels> tasks = CreateApppointmentSchedules().Select(task => new SchedulerViewModels()
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                Start = task.Start,
+                End = task.End,
+                StartTimezone = task.StartTimezone,
+                EndTimezone = task.EndTimezone,
+                IsAllDay = task.IsAllDay,
+                Recurrence = task.Recurrence,
+                RecurrenceException = task.RecurrenceException,
+                selectedStatus = task.selectedStatus
+            }
+            ).AsQueryable();
+            return Json(tasks.ToDataSourceResult(request));
+        }
+
+        private List<SchedulerViewModels> CreateApppointmentSchedules()
+        {
+            List<SchedulerViewModels> _listSchecule = new List<SchedulerViewModels>();
+            var allAppointment = (from app in db.Bookings
+                                  select app).ToList();
+            foreach (var item in allAppointment)
+            {
+                if (item != null)
+                {
+                    SchedulerViewModels _scheduler = new SchedulerViewModels
+                    {
+                        Id = item.Id,
+                        Title = item.Name,
+                        Description = item.Details,
+                        Start = item.AppointmentDate,
+                        End = item.AppointmentDate.AddHours(3),
+                        selectedStatus = item.BookingStatu.Id
+                    };
+                    _listSchecule.Add(_scheduler);
+                }
+            }
+            return _listSchecule;
+        }
     }
 }

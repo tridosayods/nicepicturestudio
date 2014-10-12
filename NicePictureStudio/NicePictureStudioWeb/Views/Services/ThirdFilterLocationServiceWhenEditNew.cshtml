@@ -6,7 +6,7 @@
             alert(selectedItem);
             $.ajax({
                 url: '@Url.Action("CreateLocationServiceByModalWhenEditNew","Services")',
-                data: { id: selectedItem, serviceType: '@ViewData["SType"]' },
+                data: { id: selectedItem, serviceType: '@ViewData["SType"]', IsEditTable : '@ViewBag.IsEditTable' },
                 type: "GET",
                 success: function (data) { $("#divLocation").replaceWith(data); }
             });
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="panel-body">
-            @{Html.RenderAction("CreateLocationServiceByModalWhenEditNew", "Services", new { id = @ViewData["Code"], ServiceType = @ViewData["SType"] });}
+            @{Html.RenderAction("CreateLocationServiceByModalWhenEditNew", "Services", new { id = @ViewData["Code"], ServiceType = @ViewData["SType"], IsEditTable = @ViewBag.IsEditTable });}
         </div>
     </div>
 </div>

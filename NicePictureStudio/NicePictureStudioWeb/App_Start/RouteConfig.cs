@@ -26,7 +26,12 @@ namespace NicePictureStudio
                url: "{controller}/{action}/{id}",
                defaults: new { controller = "CRMTemplates", action = "CRMApprisal", id = UrlParameter.Optional }
            );
-
+            
+            routes.MapRoute(
+               name: "CalculatorRoute",
+               url: "{controller}/{action}/{id}",
+               defaults: new { controller = "Services", action = "ServicesNavigationOverallWhenEdit", id = UrlParameter.Optional }
+           );
         }
     }
 }
