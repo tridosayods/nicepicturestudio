@@ -216,6 +216,9 @@
     <Compile Include="App_Data\Booking.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\BookingSpecialRequest.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\BookingStatu.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
@@ -249,7 +252,8 @@
     <Compile Include="App_Data\EmployeeLogin.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="App_Data\EmployeeLoginMetadata.cs" />
+    <Compile Include="Metadata\CustomerMetadata.cs" />
+    <Compile Include="Metadata\EmployeeLoginMetadata.cs" />
     <Compile Include="App_Data\EmployeeSchedule.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
@@ -348,10 +352,10 @@
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
-    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\EmployeeSchedulesController.cs" />
     <Compile Include="Controllers\EquipmentSchedulesController.cs" />
     <Compile Include="Controllers\CRMTemplatesController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -392,7 +396,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
-    <Compile Include="App_Data\BookingMetadata.cs" />
+    <Compile Include="Metadata\BookingMetadata.cs" />
     <Compile Include="Models\BookingViewsModel.cs" />
     <Compile Include="Models\CRMModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -421,7 +425,7 @@
     <Compile Include="Controllers\PromotionsController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
-    <Compile Include="App_Data\ServiceMetadata.cs" />
+    <Compile Include="Metadata\ServiceMetadata.cs" />
     <Compile Include="Controllers\ServiceFormsController.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\Constant.cs" />
@@ -645,11 +649,6 @@
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
-    <Content Include="Views\Customers\Create.cshtml" />
-    <Content Include="Views\Customers\Delete.cshtml" />
-    <Content Include="Views\Customers\Details.cshtml" />
-    <Content Include="Views\Customers\Edit.cshtml" />
-    <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Equipments\Create.cshtml" />
     <Content Include="Views\Equipments\Delete.cshtml" />
     <Content Include="Views\Equipments\Details.cshtml" />
@@ -807,6 +806,11 @@
     <Content Include="Views\Services\ServicesNavigationOverallWhenEdit.cshtml" />
     <Content Include="Views\Services\CalculateServiceOverallWhenEdit.cshtml" />
     <Content Include="Views\Bookings\EditorTemplates\BookingTemplate.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

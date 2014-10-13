@@ -747,7 +747,6 @@ namespace NicePictureStudio
                         CustomerId = customer.CustomerId,
                         Address = customer.Address,
                         AnniversaryDate = customer.AnniversaryDate,
-                        City = customer.City,
                         CustomerName = customer.CustomerName,
                         Email = customer.Email,
                         PhoneNumber = customer.PhoneNumber,
@@ -834,18 +833,36 @@ namespace NicePictureStudio
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<PartialViewResult> CreateCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,AnniversaryDate,City,Email,PostcalCode,ReferencePerson,ReferenceEmail,ReferencePhoneNumber")] Customer customer)
+        public async Task<PartialViewResult> CreateCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,Email,PostcalCode,AnniversaryDate,ReferencePerson,ReferenceEmail,ReferencePhoneNumber,CustomerTitle,CustomerSurname,CoupleTitle,CoupleName,CoupleSurname,CouplePhoneNumber,BuildingBlock,Road,Subdistrict,District,Province,Country,CoupleEmail,ReferenceTitle,ReferenceSurname")] Customer customer)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Customers.Add(customer);
-                await db.SaveChangesAsync();
-                var _servicesTmp = TempData["Services"] as ServicesViewModel;
-                TempData.Keep();
-                _servicesTmp.CreateCustomer(customer);
-                TempData["Services"] = _servicesTmp;
-                Customer _customer = customer;
-                return PartialView(@"/Views/Services/DetailsCustomerFromService.cshtml", _customer);
+                if (ModelState.IsValid)
+                {
+                    db.Customers.Add(customer);
+                    await db.SaveChangesAsync();
+                    var _servicesTmp = TempData["Services"] as ServicesViewModel;
+                    TempData.Keep();
+                    _servicesTmp.CreateCustomer(customer);
+                    TempData["Services"] = _servicesTmp;
+                    Customer _customer = customer;
+                    return PartialView(@"/Views/Services/DetailsCustomerFromService.cshtml", _customer);
+                }
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
+                            validationErrors.Entry.Entity.GetType().FullName,
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                    }
+                }
+
+                throw new Exception(dbEx.Message);
             }
 
             return PartialView();

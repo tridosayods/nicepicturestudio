@@ -29,14 +29,16 @@
 
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.Title))
+    @*@(Html.LabelFor(model => model.Title))*@
+    @Html.Label("ชื่อ")
 </div>
 <div data-container-for="title" class="k-edit-field">
     @(Html.TextBoxFor(model => model.Title, new { @class = "k-textbox", data_bind = "value:title",  @disabled = "true"  }))
 </div>
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.Start))
+    @*@(Html.LabelFor(model => model.Start))*@
+    @Html.Label("เวลานัดพบเริ่มต้นที่")
 </div>
 <div data-container-for="start" class="k-edit-field">
 
@@ -51,7 +53,8 @@
 </div>
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.End))
+    @*@(Html.LabelFor(model => model.End))*@
+    @Html.Label("เวลานัดพบสิ้นสุดต้นที่")
 </div>
 <div data-container-for="end" class="k-edit-field">
 
@@ -91,7 +94,7 @@
 </div>*@
 
 <div class="k-edit-label">
-    @(Html.Label("Status"))
+    @(Html.Label("สถานะการจอง"))
 </div>
 <div data-container-for="selectedStatus" class="k-edit-field">
     @(Html.Kendo().DropDownListFor(model => model.selectedStatus)
@@ -104,12 +107,13 @@
                     .BindTo(new[] {
                             new { Text = "รายการจองใหม่", Value = 1, Color = "\\#CC0000" },
                             new { Text = "เสร็จสิ้นการจอง", Value = 2, Color = "\\#3366CC" },
-                            new { Text = "ยกเลิกการจอง", Value = 3, Color = "\\#99CC93" }
+                            new { Text = "เริ่มต้นให้บริการ", Value = 3, Color = "\\#00FFFF" },
+                            new { Text = "ยกเลิกการจอง", Value = 4, Color = "\\#666666" }
                         }).ToClientTemplate()
     )
 </div>
 
-<div class="k-edit-label">
+@*<div class="k-edit-label">
     @(Html.LabelFor(model => model.Description))
 </div>
 <div data-container-for="description" class="k-edit-field">
@@ -118,7 +122,7 @@
 <div class="k-edit-label">@Html.Label("Details")</div>
 <div class="k-edit-field container">
     <button type="button" class="ui-button btn-default"><span class="glyphicon glyphicon-book"></span>Show Details</button>
-</div>
+</div>*@
         @*<script>
                 $(".k-timezone-toggle").on("click", function () {
                     var isVisible = $(this).is(":checked");

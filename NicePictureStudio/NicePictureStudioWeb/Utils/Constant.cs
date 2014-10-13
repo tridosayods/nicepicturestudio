@@ -8,6 +8,11 @@ namespace NicePictureStudio.Utils
 {
     public static class Constant
     {
+        public static readonly int BOOKING_STATUS_NEW = 1;
+        public static readonly int BOOKING_STATUS_CONFIRM = 2;
+        public static readonly int BOOKING_STATUS_OPERATED = 3;
+        public static readonly int BOOKING_STATUS_CANCEL = 4;
+        
         public static readonly int SERVICE_STATUS_NEW = 1;
         public static readonly int SERVICE_STATUS_CONFIRM = 2;
         public static readonly int SERVICE_STATUS_COMPLETE = 3;

@@ -4,17 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d1b6a36b3623465492412af731b07f40" Name="Diagram1" ZoomLevel="71" >
+      <Diagram DiagramId="d1b6a36b3623465492412af731b07f40" Name="Diagram1" ZoomLevel="61" >
         <EntityTypeShape EntityType="NicePictureStudioDBModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.Booking" Width="1.75" PointX="11.875" PointY="6.875" IsExpanded="true" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.BookingStatu" Width="1.5" PointX="11.25" PointY="10.5" />
-        <EntityTypeShape EntityType="NicePictureStudioDBModel.Customer" Width="1.5" PointX="7.5" PointY="1.625" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.Customer" Width="1.5" PointX="7.375" PointY="0.5" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.EmployeeClaim" Width="1.5" PointX="0.75" PointY="3.25" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.EmployeeLogin" Width="1.875" PointX="5.125" PointY="3" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.Equipment" Width="1.5" PointX="17" PointY="5" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.EquipmentSchedule" Width="2" PointX="3.375" PointY="15.5" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.EquipmentService" Width="2.125" PointX="19.25" PointY="5" />
-        <EntityTypeShape EntityType="NicePictureStudioDBModel.EquipmentStatu" Width="1.5" PointX="14.75" PointY="8.25" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.EquipmentStatu" Width="1.5" PointX="19.375" PointY="8.375" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.EquipmentType" Width="1.5" PointX="14.75" PointY="5.25" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.Location" Width="1.5" PointX="17" PointY="11" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.LocationSchedule" Width="2.125" PointX="9.25" PointY="23.375" />
@@ -76,6 +76,8 @@
         <AssociationConnector Association="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceType" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Services_Services" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Location_LocationType1" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.BookingSpecialRequest" Width="1.5" PointX="15" PointY="9" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_Booking_BookingSpecialRequest" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

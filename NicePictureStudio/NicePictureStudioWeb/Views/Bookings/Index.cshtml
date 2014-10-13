@@ -176,6 +176,7 @@
                                             .Views(views =>
                                             {
                                                 views.MonthView(montview => montview.Selected(true));
+                                                views.WeekView();
                                             })
                                                    .Editable(editable =>
                                                     {
@@ -207,7 +208,7 @@
 
                                                     })
                                                     .Read("Appointments_Read", "Bookings")
-
+                                                    .Update("Appointments_Update","Bookings")
                                                 )
             )
         </td>

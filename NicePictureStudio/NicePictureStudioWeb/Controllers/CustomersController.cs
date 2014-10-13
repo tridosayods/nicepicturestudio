@@ -42,13 +42,12 @@ namespace NicePictureStudio
             return View();
         }
 
-              
         // POST: Customers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,AnniversaryDate")] Customer customer)
+        public async Task<ActionResult> Create([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,Email,PostcalCode,AnniversaryDate,ReferencePerson,ReferenceEmail,ReferencePhoneNumber,CustomerTitle,CustomerSurname,CoupleTitle,CoupleName,CoupleSurname,CouplePhoneNumber,BuildingBlock,Road,Subdistrict,District,Province,Country,CoupleEmail,ReferenceTitle,ReferenceSurname")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +79,7 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,AnniversaryDate")] Customer customer)
+        public async Task<ActionResult> Edit([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,Email,PostcalCode,AnniversaryDate,ReferencePerson,ReferenceEmail,ReferencePhoneNumber,CustomerTitle,CustomerSurname,CoupleTitle,CoupleName,CoupleSurname,CouplePhoneNumber,BuildingBlock,Road,Subdistrict,District,Province,Country,CoupleEmail,ReferenceTitle,ReferenceSurname")] Customer customer)
         {
             if (ModelState.IsValid)
             {

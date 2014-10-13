@@ -12,19 +12,17 @@ namespace NicePictureStudio.App_Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Booking
+    public partial class BookingSpecialRequest
     {
+        public BookingSpecialRequest()
+        {
+            this.Bookings = new HashSet<Booking>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
-        public string BookingCode { get; set; }
-        public System.DateTime AppointmentDate { get; set; }
-        public string Details { get; set; }
-        public string Title { get; set; }
-        public string Surname { get; set; }
+        public string Description { get; set; }
     
-        public virtual BookingStatu BookingStatu { get; set; }
-        public virtual Promotion Promotion { get; set; }
-        public virtual Service Service { get; set; }
-        public virtual BookingSpecialRequest BookingSpecialRequest { get; set; }
+        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }

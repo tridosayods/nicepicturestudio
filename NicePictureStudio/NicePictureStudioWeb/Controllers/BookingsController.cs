@@ -14,6 +14,7 @@ using NicePictureStudio.Models;
 using AutoMapper;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
+using NicePictureStudio.Utils;
 
 namespace NicePictureStudio
 {
@@ -24,7 +25,7 @@ namespace NicePictureStudio
         // GET: Bookings
         public async Task<ActionResult> Index()
         {
-            var bookings = db.Bookings.Include(b => b.BookingStatu).Include(b => b.Promotion).Include(b => b.Service);
+            var bookings = db.Bookings.Include(b => b.BookingStatu).Include(b => b.Promotion).Include(b => b.Service).Include(s =>s.BookingSpecialRequest);
             return View(await bookings.ToListAsync());
         }
 
@@ -34,7 +35,7 @@ namespace NicePictureStudio
             IQueryable<BookingViewsModel> tasks = bookings.Select(task => new BookingViewsModel()
             {
                 Id = task.Id,
-                Name = task.Name,
+                Name = task.Title + " "+  task.Name + " " + task.Surname,
                 AppointmentDate = task.AppointmentDate,
                 BookingCode = task.BookingCode,
                 BookingStatus = task.BookingStatu.Name,
@@ -49,11 +50,11 @@ namespace NicePictureStudio
         public ActionResult BookingsNotConfirm_read([DataSourceRequest] DataSourceRequest request)
         {
             var bookings = db.Bookings.Include(b => b.BookingStatu).Include(b => b.Promotion).Include(b => b.Service).ToList();
-            var bookingNotConfirm = bookings.Where(book => book.BookingStatu.Id < 2);
+            var bookingNotConfirm = bookings.Where(book => book.BookingStatu.Id < Constant.BOOKING_STATUS_OPERATED);
             IQueryable<BookingViewsModel> tasks = bookingNotConfirm.Select(task => new BookingViewsModel()
             {
                 Id = task.Id,
-                Name = task.Name,
+                Name = task.Title + " " + task.Name + " " + task.Surname,
                 AppointmentDate = task.AppointmentDate,
                 BookingCode = task.BookingCode,
                 BookingStatus = task.BookingStatu.Name,
@@ -85,9 +86,12 @@ namespace NicePictureStudio
         // GET: Bookings/Create
         public ActionResult Create()
         {
+            //Getting Valid Promotion
+            var validPromotion = db.Promotions.Where(pt => DateTime.Now <= pt.ExpireDate);
             ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name");
-            ViewBag.PromotionId = new SelectList(db.Promotions, "Id", "Name");
+            ViewBag.PromotionId = new SelectList(validPromotion, "Id", "Name");
             ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName");
+            ViewBag.SpecialOrder = new SelectList(db.BookingSpecialRequests, "Id", "Name");
             int _latestBookingId = db.Bookings.Max(p => p.Id);
             ViewBag.BookingNumber = DateTime.Now.ToString("yyyy") + DateTime.Now.Month + DateTime.Now.Day+ _latestBookingId.ToString();
             //ViewBag.BookingNumber = Math.Abs(Convert.ToInt32(DateTime.Now.GetHashCode())).ToString().Substring(0,5);
@@ -99,17 +103,20 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,BookingCode,AppointmentDate,SpecialOrder,Details,BookingStatu,PromotionId,ServiceId")] Booking booking, int BookingStatus, int PromotionId)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Name,Surname,BookingCode,AppointmentDate,SpecialOrder,Details,BookingStatu,PromotionId,ServiceId")] Booking booking, int PromotionId,int SpecialOrder)
         {
+            int statusConfirm = Constant.BOOKING_STATUS_CONFIRM;
             if (ModelState.IsValid)
             {
                 try
                 {
                     //booking status always 1
-                    BookingStatu bookingStatus = await db.BookingStatus.FindAsync(BookingStatus);
+                    BookingStatu bookingStatus = await db.BookingStatus.FindAsync(statusConfirm);
                     Promotion promotion = await db.Promotions.FindAsync(PromotionId);
+                    BookingSpecialRequest specialorder = await db.BookingSpecialRequests.FindAsync(SpecialOrder);
                     booking.BookingStatu = bookingStatus;
                     booking.Promotion = promotion;
+                    booking.BookingSpecialRequest = specialorder;
                     db.Bookings.Add(booking);
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");
@@ -150,9 +157,12 @@ namespace NicePictureStudio
             {
                 return HttpNotFound();
             }
+            var InvalidPromotion = db.Promotions.Where(pt => DateTime.Now > pt.ExpireDate);
+            var targetPromotion = db.Promotions.Where(tg => tg.Id == booking.Promotion.Id);
+            var ValidPromotion = (db.Promotions.Except<Promotion>(InvalidPromotion).AsEnumerable()).Union(targetPromotion);
             ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name", booking.BookingStatu.Id);
-            ViewBag.PromotionId = new SelectList(db.Promotions, "Id", "Name", booking.Promotion.Id);
-            //ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName", booking.Service.Id);
+            ViewBag.PromotionId = new SelectList(ValidPromotion, "Id", "Name", booking.Promotion.Id);
+            ViewBag.SpecialOrder = new SelectList(db.BookingSpecialRequests, "Id", "Name", booking.BookingSpecialRequest.Id);
             return View(booking);
         }
 
@@ -161,11 +171,38 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,BookingCode,AppointmentDate,SpecialOrder,Details,BookingStatus,PromotionId,ServiceId")] Booking booking)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Name,Surname,BookingCode,AppointmentDate,SpecialOrder,Details,PromotionId,ServiceId")] Booking booking,int BookingStatus, int PromotionId, int SpecialOrder)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(booking).State = EntityState.Modified;
+                
+                Booking currentBooking = await db.Bookings.FindAsync(booking.Id);
+                Promotion promotion = await db.Promotions.FindAsync(PromotionId);
+                BookingSpecialRequest specialorder = await db.BookingSpecialRequests.FindAsync(SpecialOrder);
+                BookingStatu bookingStauts = await db.BookingStatus.FindAsync(BookingStatus);
+
+                currentBooking.Title = booking.Title;
+                currentBooking.Name = booking.Name;
+                currentBooking.Surname = booking.Surname;
+                currentBooking.AppointmentDate = booking.AppointmentDate;
+                currentBooking.Details = booking.Details;
+                
+                currentBooking.BookingStatu = bookingStauts;
+                currentBooking.Promotion = promotion;
+                currentBooking.BookingSpecialRequest = specialorder;
+                db.Entry(currentBooking).State = EntityState.Modified;
+                
+                //db.Bookings.Attach(booking);
+                ////db.Entry(currentBooking).Reference(st => st.BookingStatu).Load();
+                //booking.BookingStatu = bookingStauts;
+                
+                //booking.Promotion = promotion;
+                //booking.BookingSpecialRequest = specialorder;
+                //db.Entry(booking.BookingStatu).State = EntityState.Modified;
+                //db.Entry(booking.Promotion).State = EntityState.Modified;
+                //db.Entry(booking.BookingSpecialRequest).State = EntityState.Modified;
+                
+                //db.Entry(booking).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -228,6 +265,38 @@ namespace NicePictureStudio
             }
             ).AsQueryable();
             return Json(tasks.ToDataSourceResult(request));
+        }
+
+        public virtual JsonResult Appointments_Update([DataSourceRequest] DataSourceRequest request, SchedulerViewModels service)
+        {
+            if (ModelState.IsValid)
+            {
+                if (ValidateModel(service, ModelState))
+                {
+                    if (string.IsNullOrEmpty(service.Title))
+                    {
+                        service.Title = "";
+                    }
+                    var entity = db.Bookings.FirstOrDefault(m => m.Id == service.Id);
+                    var entityStatus = db.BookingStatus.FirstOrDefault(bs => bs.Id == service.selectedStatus);
+                    entity.BookingStatu = entityStatus;
+                    db.Entry(entity).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+
+            return Json(new[] { service }.ToDataSourceResult(request, ModelState));
+        }
+
+        private bool ValidateModel(SchedulerViewModels service, ModelStateDictionary modelState)
+        {
+            if (service.Start > service.End)
+            {
+                modelState.AddModelError("errors", "End date must be greater or equal to Start date.");
+                return false;
+            }
+
+            return true;
         }
 
         private List<SchedulerViewModels> CreateApppointmentSchedules()

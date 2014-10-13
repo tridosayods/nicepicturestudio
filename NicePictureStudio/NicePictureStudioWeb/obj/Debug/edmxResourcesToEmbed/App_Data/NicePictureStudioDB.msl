@@ -14,8 +14,9 @@
     <EntitySetMapping Name="Bookings">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.Booking">
         <MappingFragment StoreEntitySet="Booking">
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Details" ColumnName="Details" />
-          <ScalarProperty Name="SpecialOrder" ColumnName="SpecialOrder" />
           <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
           <ScalarProperty Name="BookingCode" ColumnName="BookingCode" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -35,13 +36,27 @@
     <EntitySetMapping Name="Customers">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.Customer">
         <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="ReferenceSurname" ColumnName="ReferenceSurname" />
+          <ScalarProperty Name="ReferenceTitle" ColumnName="ReferenceTitle" />
+          <ScalarProperty Name="CoupleEmail" ColumnName="CoupleEmail" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="Province" ColumnName="Province" />
+          <ScalarProperty Name="District" ColumnName="District" />
+          <ScalarProperty Name="Subdistrict" ColumnName="Subdistrict" />
+          <ScalarProperty Name="Road" ColumnName="Road" />
+          <ScalarProperty Name="BuildingBlock" ColumnName="BuildingBlock" />
+          <ScalarProperty Name="CouplePhoneNumber" ColumnName="CouplePhoneNumber" />
+          <ScalarProperty Name="CoupleSurname" ColumnName="CoupleSurname" />
+          <ScalarProperty Name="CoupleName" ColumnName="CoupleName" />
+          <ScalarProperty Name="CoupleTitle" ColumnName="CoupleTitle" />
+          <ScalarProperty Name="CustomerSurname" ColumnName="CustomerSurname" />
+          <ScalarProperty Name="CustomerTitle" ColumnName="CustomerTitle" />
           <ScalarProperty Name="ReferencePhoneNumber" ColumnName="ReferencePhoneNumber" />
           <ScalarProperty Name="ReferenceEmail" ColumnName="ReferenceEmail" />
           <ScalarProperty Name="ReferencePerson" ColumnName="ReferencePerson" />
           <ScalarProperty Name="AnniversaryDate" ColumnName="AnniversaryDate" />
           <ScalarProperty Name="PostcalCode" ColumnName="PostcalCode" />
           <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="City" ColumnName="City" />
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
           <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
@@ -688,6 +703,23 @@
       </EndProperty>
       <EndProperty Name="LocationType">
         <ScalarProperty Name="Id" ColumnName="LocationType" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="BookingSpecialRequests">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.BookingSpecialRequest">
+        <MappingFragment StoreEntitySet="BookingSpecialRequest">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_Booking_BookingSpecialRequest" TypeName="NicePictureStudioDBModel.FK_Booking_BookingSpecialRequest" StoreEntitySet="Booking">
+      <EndProperty Name="Booking">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="BookingSpecialRequest">
+        <ScalarProperty Name="Id" ColumnName="SpecialOrder" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

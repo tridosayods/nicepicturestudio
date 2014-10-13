@@ -49,6 +49,7 @@ namespace NicePictureStudio
                       //"~/Content/styles/kendo.common.min.css",
                       //"~/Content/styles/kendo.blueopal.min.css",
                        // "~/Content/styles/kendo.silver.min.css",
+                       "~/Content/styles/kendo.rtl.min.css",
                       "~/Content/font-awesome-4.2.0/css/font-awesome.css"
                       ));
             bundles.IgnoreList.Clear();

@@ -65,5 +65,6 @@ namespace NicePictureStudio.App_Data
         public virtual DbSet<CRMTemplate> CRMTemplates { get; set; }
         public virtual DbSet<CRMServiceCategory> CRMServiceCategories { get; set; }
         public virtual DbSet<CRMServiceType> CRMServiceTypes { get; set; }
+        public virtual DbSet<BookingSpecialRequest> BookingSpecialRequests { get; set; }
     }
 }

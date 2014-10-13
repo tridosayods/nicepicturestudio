@@ -62,13 +62,29 @@ namespace NicePictureStudio.Models
             Customer.CustomerName = customer.CustomerName;
             Customer.Address = customer.Address;
             Customer.AnniversaryDate = customer.AnniversaryDate;
-            Customer.City = customer.City;
             Customer.Email = customer.Email;
             Customer.PhoneNumber = customer.PhoneNumber;
             Customer.PostcalCode = customer.PostcalCode;
             Customer.ReferenceEmail = customer.ReferenceEmail;
             Customer.ReferencePerson = customer.ReferencePerson;
             Customer.ReferencePhoneNumber = customer.ReferencePhoneNumber;
+            Customer.CustomerTitle = customer.CustomerTitle;
+            Customer.CustomerSurname = customer.CustomerSurname;
+
+            Customer.CustomerSurname  = customer.CustomerSurname;
+            Customer.CoupleTitle = customer.CoupleName;
+            Customer.CoupleName = customer.CoupleName;
+            Customer.CoupleSurname =customer.CoupleSurname;
+             Customer.CouplePhoneNumber = customer.CouplePhoneNumber;
+             Customer.BuildingBlock = customer.BuildingBlock;
+             Customer.Road = customer.Road;
+             Customer.Subdistrict = customer.Subdistrict;
+             Customer.District = customer.District;
+             Customer.Province = customer.Province;
+             Customer.Country = customer.Country;
+             Customer.CoupleEmail = customer.CoupleEmail;
+             Customer.ReferenceTitle = customer.ReferenceTitle;
+             Customer.ReferenceSurname = customer.ReferenceSurname;
         }
 
     }
@@ -204,13 +220,27 @@ namespace NicePictureStudio.Models
         public string CustomerName { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
-        public string City { get; set; }
         public string Email { get; set; }
         public string PostcalCode { get; set; }
         public Nullable<System.DateTime> AnniversaryDate { get; set; }
         public string ReferencePerson { get; set; }
         public string ReferenceEmail { get; set; }
         public string ReferencePhoneNumber { get; set; }
+        public string CustomerTitle { get; set; }
+        public string CustomerSurname { get; set; }
+        public string CoupleTitle { get; set; }
+        public string CoupleName { get; set; }
+        public string CoupleSurname { get; set; }
+        public string CouplePhoneNumber { get; set; }
+        public string BuildingBlock { get; set; }
+        public string Road { get; set; }
+        public string Subdistrict { get; set; }
+        public string District { get; set; }
+        public string Province { get; set; }
+        public string Country { get; set; }
+        public string CoupleEmail { get; set; }
+        public string ReferenceTitle { get; set; }
+        public string ReferenceSurname { get; set; }
     }
 
     public class PromotionViewModel

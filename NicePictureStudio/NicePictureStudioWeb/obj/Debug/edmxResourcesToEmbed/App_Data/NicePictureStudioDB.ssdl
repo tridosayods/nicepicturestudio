@@ -15,14 +15,24 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="10" />
     <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Surname" Type="nvarchar" MaxLength="100" />
     <Property Name="BookingCode" Type="nvarchar" MaxLength="11" Nullable="false" />
     <Property Name="AppointmentDate" Type="datetime" Nullable="false" />
-    <Property Name="SpecialOrder" Type="nvarchar(max)" />
+    <Property Name="SpecialOrder" Type="int" Nullable="false" />
     <Property Name="Details" Type="nvarchar(max)" />
     <Property Name="BookingStatus" Type="int" Nullable="false" />
     <Property Name="PromotionId" Type="int" />
     <Property Name="ServiceId" Type="int" />
+  </EntityType>
+  <EntityType Name="BookingSpecialRequest">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="BookingStatus">
     <Key>
@@ -79,14 +89,28 @@
       <PropertyRef Name="CustomerId" />
     </Key>
     <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerTitle" Type="nvarchar" MaxLength="10" />
     <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerSurname" Type="nvarchar" MaxLength="50" />
+    <Property Name="CoupleTitle" Type="nvarchar" MaxLength="10" />
+    <Property Name="CoupleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="CoupleSurname" Type="nvarchar" MaxLength="50" />
     <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
-    <Property Name="Address" Type="nvarchar(max)" />
-    <Property Name="City" Type="nvarchar" MaxLength="50" />
+    <Property Name="CouplePhoneNumber" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar" MaxLength="100" />
+    <Property Name="BuildingBlock" Type="nvarchar" MaxLength="100" />
+    <Property Name="Road" Type="nvarchar" MaxLength="100" />
+    <Property Name="Subdistrict" Type="nvarchar" MaxLength="100" />
+    <Property Name="District" Type="nchar" MaxLength="10" />
+    <Property Name="Province" Type="nvarchar" MaxLength="100" />
+    <Property Name="Country" Type="nvarchar" MaxLength="100" />
     <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="CoupleEmail" Type="nvarchar" MaxLength="50" />
     <Property Name="PostcalCode" Type="nvarchar" MaxLength="10" />
     <Property Name="AnniversaryDate" Type="datetime" />
+    <Property Name="ReferenceTitle" Type="nvarchar" MaxLength="10" />
     <Property Name="ReferencePerson" Type="nvarchar" MaxLength="100" />
+    <Property Name="ReferenceSurname" Type="nvarchar" MaxLength="100" />
     <Property Name="ReferenceEmail" Type="nvarchar" MaxLength="50" />
     <Property Name="ReferencePhoneNumber" Type="nvarchar" MaxLength="20" />
   </EntityType>
@@ -491,6 +515,18 @@
     <Property Name="ServiceTypeName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
+  <Association Name="FK_Booking_BookingSpecialRequest">
+    <End Role="BookingSpecialRequest" Type="Self.BookingSpecialRequest" Multiplicity="1" />
+    <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BookingSpecialRequest">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="SpecialOrder" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Booking_BookingStatus">
     <End Role="BookingStatus" Type="Self.BookingStatus" Multiplicity="1" />
     <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
@@ -954,6 +990,7 @@
   <EntityContainer Name="NicePictureStudioDBModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookingSpecialRequest" EntityType="Self.BookingSpecialRequest" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BookingStatus" EntityType="Self.BookingStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CRMForm" EntityType="Self.CRMForm" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CRMScrores" EntityType="Self.CRMScrores" Schema="dbo" store:Type="Tables" />
@@ -999,6 +1036,10 @@
     <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceStatus" EntityType="Self.ServiceStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceType" EntityType="Self.ServiceType" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Booking_BookingSpecialRequest" Association="Self.FK_Booking_BookingSpecialRequest">
+      <End Role="BookingSpecialRequest" EntitySet="BookingSpecialRequest" />
+      <End Role="Booking" EntitySet="Booking" />
+    </AssociationSet>
     <AssociationSet Name="FK_Booking_BookingStatus" Association="Self.FK_Booking_BookingStatus">
       <End Role="BookingStatus" EntitySet="BookingStatus" />
       <End Role="Booking" EntitySet="Booking" />

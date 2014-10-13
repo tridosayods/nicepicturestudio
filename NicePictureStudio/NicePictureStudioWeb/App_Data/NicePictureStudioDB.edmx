@@ -20,14 +20,24 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="10" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="100" />
           <Property Name="BookingCode" Type="nvarchar" MaxLength="11" Nullable="false" />
           <Property Name="AppointmentDate" Type="datetime" Nullable="false" />
-          <Property Name="SpecialOrder" Type="nvarchar(max)" />
+          <Property Name="SpecialOrder" Type="int" Nullable="false" />
           <Property Name="Details" Type="nvarchar(max)" />
           <Property Name="BookingStatus" Type="int" Nullable="false" />
           <Property Name="PromotionId" Type="int" />
           <Property Name="ServiceId" Type="int" />
+        </EntityType>
+        <EntityType Name="BookingSpecialRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="BookingStatus">
           <Key>
@@ -84,14 +94,28 @@
             <PropertyRef Name="CustomerId" />
           </Key>
           <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerTitle" Type="nvarchar" MaxLength="10" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CustomerSurname" Type="nvarchar" MaxLength="50" />
+          <Property Name="CoupleTitle" Type="nvarchar" MaxLength="10" />
+          <Property Name="CoupleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CoupleSurname" Type="nvarchar" MaxLength="50" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
-          <Property Name="Address" Type="nvarchar(max)" />
-          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="CouplePhoneNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" />
+          <Property Name="BuildingBlock" Type="nvarchar" MaxLength="100" />
+          <Property Name="Road" Type="nvarchar" MaxLength="100" />
+          <Property Name="Subdistrict" Type="nvarchar" MaxLength="100" />
+          <Property Name="District" Type="nchar" MaxLength="10" />
+          <Property Name="Province" Type="nvarchar" MaxLength="100" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="CoupleEmail" Type="nvarchar" MaxLength="50" />
           <Property Name="PostcalCode" Type="nvarchar" MaxLength="10" />
           <Property Name="AnniversaryDate" Type="datetime" />
+          <Property Name="ReferenceTitle" Type="nvarchar" MaxLength="10" />
           <Property Name="ReferencePerson" Type="nvarchar" MaxLength="100" />
+          <Property Name="ReferenceSurname" Type="nvarchar" MaxLength="100" />
           <Property Name="ReferenceEmail" Type="nvarchar" MaxLength="50" />
           <Property Name="ReferencePhoneNumber" Type="nvarchar" MaxLength="20" />
         </EntityType>
@@ -496,6 +520,18 @@
           <Property Name="ServiceTypeName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
+        <Association Name="FK_Booking_BookingSpecialRequest">
+          <End Role="BookingSpecialRequest" Type="Self.BookingSpecialRequest" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookingSpecialRequest">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="SpecialOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Booking_BookingStatus">
           <End Role="BookingStatus" Type="Self.BookingStatus" Multiplicity="1" />
           <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
@@ -959,6 +995,7 @@
         <EntityContainer Name="NicePictureStudioDBModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookingSpecialRequest" EntityType="Self.BookingSpecialRequest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookingStatus" EntityType="Self.BookingStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CRMForm" EntityType="Self.CRMForm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CRMScrores" EntityType="Self.CRMScrores" Schema="dbo" store:Type="Tables" />
@@ -1004,6 +1041,10 @@
           <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceStatus" EntityType="Self.ServiceStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceType" EntityType="Self.ServiceType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Booking_BookingSpecialRequest" Association="Self.FK_Booking_BookingSpecialRequest">
+            <End Role="BookingSpecialRequest" EntitySet="BookingSpecialRequest" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
           <AssociationSet Name="FK_Booking_BookingStatus" Association="Self.FK_Booking_BookingStatus">
             <End Role="BookingStatus" EntitySet="BookingStatus" />
             <End Role="Booking" EntitySet="Booking" />
@@ -1326,6 +1367,11 @@
             <End Role="LocationType" EntitySet="LocationTypes" />
             <End Role="Location" EntitySet="Locations" />
           </AssociationSet>
+          <EntitySet Name="BookingSpecialRequests" EntityType="NicePictureStudioDBModel.BookingSpecialRequest" />
+          <AssociationSet Name="FK_Booking_BookingSpecialRequest" Association="NicePictureStudioDBModel.FK_Booking_BookingSpecialRequest">
+            <End Role="BookingSpecialRequest" EntitySet="BookingSpecialRequests" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
@@ -1345,11 +1391,13 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="BookingCode" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
           <Property Name="AppointmentDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="SpecialOrder" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BookingStatu" Relationship="NicePictureStudioDBModel.FK_Booking_BookingStatus" FromRole="Booking" ToRole="BookingStatu" />
           <NavigationProperty Name="Promotion" Relationship="NicePictureStudioDBModel.FK_Booking_Promotion" FromRole="Booking" ToRole="Promotion" />
           <NavigationProperty Name="Service" Relationship="NicePictureStudioDBModel.FK_Booking_Services" FromRole="Booking" ToRole="Service" />
+          <NavigationProperty Name="BookingSpecialRequest" Relationship="NicePictureStudioDBModel.FK_Booking_BookingSpecialRequest" FromRole="Booking" ToRole="BookingSpecialRequest" />
+          <Property Name="Title" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="BookingStatu">
           <Key>
@@ -1367,8 +1415,7 @@
           <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PostcalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="AnniversaryDate" Type="DateTime" Precision="3" />
@@ -1376,6 +1423,21 @@
           <Property Name="ReferenceEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ReferencePhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Services" Relationship="NicePictureStudioDBModel.FK_Services_Customer" FromRole="Customer" ToRole="Service" />
+          <Property Name="CustomerTitle" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerSurname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CoupleTitle" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CoupleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CoupleSurname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CouplePhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BuildingBlock" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Road" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Subdistrict" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="District" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Province" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CoupleEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceTitle" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceSurname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="EmployeeClaim">
           <Key>
@@ -1961,6 +2023,19 @@
           <End Type="NicePictureStudioDBModel.LocationType" Role="LocationType" Multiplicity="1" />
           <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="*" />
         </Association>
+        <EntityType Name="BookingSpecialRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bookings" Relationship="NicePictureStudioDBModel.FK_Booking_BookingSpecialRequest" FromRole="BookingSpecialRequest" ToRole="Booking" />
+        </EntityType>
+        <Association Name="FK_Booking_BookingSpecialRequest">
+          <End Type="NicePictureStudioDBModel.BookingSpecialRequest" Role="BookingSpecialRequest" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.Booking" Role="Booking" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1980,8 +2055,9 @@
           <EntitySetMapping Name="Bookings">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.Booking">
               <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Details" ColumnName="Details" />
-                <ScalarProperty Name="SpecialOrder" ColumnName="SpecialOrder" />
                 <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
                 <ScalarProperty Name="BookingCode" ColumnName="BookingCode" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2001,13 +2077,27 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="ReferenceSurname" ColumnName="ReferenceSurname" />
+                <ScalarProperty Name="ReferenceTitle" ColumnName="ReferenceTitle" />
+                <ScalarProperty Name="CoupleEmail" ColumnName="CoupleEmail" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="Subdistrict" ColumnName="Subdistrict" />
+                <ScalarProperty Name="Road" ColumnName="Road" />
+                <ScalarProperty Name="BuildingBlock" ColumnName="BuildingBlock" />
+                <ScalarProperty Name="CouplePhoneNumber" ColumnName="CouplePhoneNumber" />
+                <ScalarProperty Name="CoupleSurname" ColumnName="CoupleSurname" />
+                <ScalarProperty Name="CoupleName" ColumnName="CoupleName" />
+                <ScalarProperty Name="CoupleTitle" ColumnName="CoupleTitle" />
+                <ScalarProperty Name="CustomerSurname" ColumnName="CustomerSurname" />
+                <ScalarProperty Name="CustomerTitle" ColumnName="CustomerTitle" />
                 <ScalarProperty Name="ReferencePhoneNumber" ColumnName="ReferencePhoneNumber" />
                 <ScalarProperty Name="ReferenceEmail" ColumnName="ReferenceEmail" />
                 <ScalarProperty Name="ReferencePerson" ColumnName="ReferencePerson" />
                 <ScalarProperty Name="AnniversaryDate" ColumnName="AnniversaryDate" />
                 <ScalarProperty Name="PostcalCode" ColumnName="PostcalCode" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
@@ -2654,6 +2744,23 @@
             </EndProperty>
             <EndProperty Name="LocationType">
               <ScalarProperty Name="Id" ColumnName="LocationType" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="BookingSpecialRequests">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.BookingSpecialRequest">
+              <MappingFragment StoreEntitySet="BookingSpecialRequest">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_Booking_BookingSpecialRequest" TypeName="NicePictureStudioDBModel.FK_Booking_BookingSpecialRequest" StoreEntitySet="Booking">
+            <EndProperty Name="Booking">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="BookingSpecialRequest">
+              <ScalarProperty Name="Id" ColumnName="SpecialOrder" />
             </EndProperty>
           </AssociationSetMapping>
           </EntityContainerMapping>
