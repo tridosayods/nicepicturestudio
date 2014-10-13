@@ -21,22 +21,58 @@
     <div class="panel panel-default">
         <div class="panel-heading">ตัวเลือกต่างๆ</div>
         <div class="panel-info">
-            <div class="form-horizontal">
-                <div class="form-group-sm">
-                    <div>ประเภทของการให้บริการ</div>
-                    <div>@Html.Kendo().DropDownList().Name("OutsourceCatalog").HtmlAttributes(new { @class = "form-control", @id = "dwnOutsourceCatalog" })</div>
-                    <div>บริการ</div>
-                    <div>@Html.Kendo().DropDownList().Name("OutsourceType").HtmlAttributes(new { @class = "form-control", @id = "dwnOutsourceType" })</div>
-                </div>
-                <div class="form-group col-lg-12">
-                    @Html.Label("สถานที่", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="list-group col-md-10">
-                        @*@Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
-                        @Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["OutsourceList"] as IEnumerable<SelectListItem>).HtmlAttributes(new { @class = "form-control", @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))
+            <table class="table table-responsive">
+                <tr>
+                    <td>
+                        <div class="form-horizontal">
+                            <div class="form-group-sm">
+                                <div>ประเภทของการให้บริการ</div>
+                                <div>
+                                    @Html.Kendo().DropDownList().Name("OutsourceCatalog").HtmlAttributes(new { @id = "dwnOutsourceCatalog" }).BindTo(
+                                                           new string[] { "ช่างถ่ายภาพ", "ช่างถ่าพภาพวีดีโอ", "ช่างแต่งหน้า", "เช่าชุดแต่งงาน", "ของที่ระลึกวันแต่งงาน" })
+
+                            </div>
+                        </div>
+                        <div class="form-group-sm">
+                            <div>ช่วงราคาค่าบริการ</div>
+                            <div>
+                                @Html.Kendo().DropDownList().Name("OutsourceType").HtmlAttributes(new { @id = "dwnOutsourceType" }).BindTo(
+                                                           new string[] { "5000-15000", "10000-25000", "20000-35000", "มากกว่า 45000" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group-sm">
+                        <div>ช่วงราคาจาก</div>
+                        <div>@Html.Kendo().NumericTextBox().Name("OutsourcePriceLower").Min(5000).Max(100000).Format("D").Value(5000)</div>
+                    </div>
+                    <div class="form-group-sm">
+                        <div>ถึง</div>
+                        <div>@Html.Kendo().NumericTextBox().Name("OutsourcePriceHigher").Min(5000).Max(100000).Format("D").Value(5000)</div>
+                    </div>
+
+                    <div class="form-group-sm">
+                        @*@Html.Label("สถานที่", htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div>บริการจัดจ้าง</div>
+                        <div class="list-group col-md-10">
+                            @*@Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
+                            @Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["OutsourceList"] as IEnumerable<SelectListItem>).HtmlAttributes(new { @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </td>
+            <td>
+                <div class="form-horizontal container-fluid">
+                    <div class="row">
+                        <a href="#" class="img-rounded">
+                            <img src="@Url.Content("~/Content/images/PhotoGraph/Cover/PhotoGraphCover8.jpg")" class="img-thumbnail" />
+                        </a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    </div>
         <div class="panel-body">
             @{Html.RenderAction("CreateOutsourceServiceByModal", "Services", new { id = @ViewData["Code"], ServiceType = @ViewData["SType"] });}
         </div>

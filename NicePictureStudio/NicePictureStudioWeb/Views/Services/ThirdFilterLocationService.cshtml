@@ -20,21 +20,52 @@
     <div class="panel panel-default">
         <div class="panel-heading">ตัวเลือกต่างๆ</div>
         <div class="panel-info">
-            <div class="form-horizontal">
-                <div class="form-group-sm">
-                    <div>สถานที่</div>
-                    <div>@Html.Kendo().DropDownList().Name("LocationCatalog").HtmlAttributes(new { @class = "form-control", @id = "dwnLocationCatalog" })</div>
-                    <div>ประเภทของสถานที่</div>
-                    <div>@Html.Kendo().DropDownList().Name("LocationType").HtmlAttributes(new { @class = "form-control", @id = "dwnLocationType" })</div>
-                </div>
-                <div class="form-group col-lg-12">
-                    @Html.Label("สถานที่", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="list-group col-md-10">
-                        @*@Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
-                        @Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["LocationList"] as IEnumerable<SelectListItem>).HtmlAttributes(new { @class = "form-control", @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))
-                    </div>
-                </div>
-            </div>
+            <table class="table table-responsive">
+                <tr>
+                    <td class="col-md-5">
+                        <div class="form-horizontal">
+                            <div class="form-group-sm">
+                                <div>ค้นหาชื่อสภถานที่</div>
+                                <div>
+                                    @Html.Kendo().AutoComplete().Name("HotelList").BindTo(new string[] {"Hilton","Sheraton","Shangarila","Orienten","Dusit","Centara Grand" }).HtmlAttributes(new { @style="width:250px"})
+                                   
+                                </div>
+                            </div>
+                            <div class="form-group-sm">
+                                <div>ประเภทของสถานที่</div>
+                                    <div>
+                                        @Html.Kendo().DropDownList().Name("LocationCatalog").HtmlAttributes(new { @id = "dwnLocationCatalog" }).BindTo(
+                                                              new string[] { "โรงแรม", "สถานที่ต้องขออนุญาติ", "สถานที่ราชการ", "สตูดิโอ","ร้านอาหาร","โบสถ์","อื่นๆ" })
+                                  </div>
+                              </div>
+                                <div class="form-group-sm">
+                                    <div>รูปแบบงานพิธี</div>
+                                    <div>@Html.Kendo().DropDownList().Name("LocationType").HtmlAttributes(new { @id = "dwnLocationType" }).BindTo(
+                                            new string[] { "พิธีกงานกลางแจ้ง", "พิธีงานในร่ม", "พิธีงานให้ห้องโรงแรม" })
+                                    </div>
+                                </div>
+  
+                            <div class="form-group-sm">
+                                @*@Html.Label("สถานที่", htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                <div>สถานที่ที่ถูกเลือก</div>
+                                <div class="list-group col-md-10">
+                                    @*@Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
+                                    @Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["LocationList"] as IEnumerable<SelectListItem>).HtmlAttributes(new {  @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))
+                                </div>
+                            </div>
+                        </div>
+                     </td>
+                    <td class="col-md-7">
+                        <div class="form-horizontal container-fluid">
+                            <div class="row">
+                                <a href="#" class="img-rounded">
+                                    <img src="@Url.Content("~/Content/images/Hotel/HotelCover1.jpg")" class="img-thumbnail" />
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
         <div class="panel-body">
             @{Html.RenderAction("CreateLocationServiceByModal", "Services", new { id = @ViewData["Code"], ServiceType = @ViewData["SType"] });}

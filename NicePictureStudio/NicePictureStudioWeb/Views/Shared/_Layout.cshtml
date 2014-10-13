@@ -41,7 +41,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">ตารางการถ่ายภาพ <span class="caret"></span></a>
                         <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
-                            <li>@Html.ActionLink("ตารางงาน", "Index", "ServiceForms")</li>
+                            <li>@Html.ActionLink("ตารางงานการให้บริการ", "Index", "ServiceForms")</li>
                             <li>@Html.ActionLink("ตารางงานของช่างภาพ", "Index", "EmployeeSchedules")</li>
                             <li>@Html.ActionLink("ตารางอุปกรณ์", "Index", "EquipmentSchedules")</li>
                             <li>@Html.ActionLink("ตารางสถานที่", "Index", "LocationSchedules")</li>
@@ -52,17 +52,18 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">ลูกค้า <span class="caret"></span></a>
                         <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
-                            <li>@Html.ActionLink("ลูกค้า", "Index", "Customers")</li>
-                            <li>@Html.ActionLink("โปรโมชั่น", "Index", "Promotions")</li>
-                            <li>@Html.ActionLink("การสร้างแบบประเมิน", "Index", "CRMTemplates")</li>
-                            <li>@Html.ActionLink("ตัวอย่าง CRM", "CRMApprisal", "CRMTemplates", new { id = 3 },null)</li>
-                            <li>@Html.ActionLink("ลูกค้าสัมพันธ์", "CRMCustomerRelation", "CRMTemplates")</li>
+                            
+                            <li>@Html.ActionLink("ตารางโปรโมชั่น", "Index", "Promotions")</li>
+                            <li>@Html.ActionLink("ตารางลูกค้าสัมพันธ์", "CRMCustomerRelation", "CRMTemplates")</li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">รายงาน <span class="caret"></span></a>
                         <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
                             <li>@Html.ActionLink("รายงาน", "CRMReportCustomerRelation", "CRMTemplates")</li>
+                            <li>@Html.ActionLink("ตารางรายละเอียดลูกค้า", "Index", "Customers")</li>
+                            <li>@Html.ActionLink("การสร้างแบบประเมิน", "Index", "CRMTemplates")</li>
+                            <li>@Html.ActionLink("ตัวอย่าง CRM", "CRMApprisal", "CRMTemplates", new { id = 3 }, null)</li>
                         </ul>
                     </li>
                       <li class="dropdown">

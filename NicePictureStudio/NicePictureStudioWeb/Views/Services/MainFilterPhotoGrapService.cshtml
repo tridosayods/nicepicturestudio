@@ -66,22 +66,43 @@
     <div class="panel panel-default">
         <div class="panel-heading">ตัวเลือกต่างๆ</div>
         <div class="panel-info">
-            <div class="form-horizontal">
-                <div class="form-group-sm">
-                    <div>จำนวนช่างภาพ</div>
-                    <div>@Html.Kendo().NumericTextBox().Name("PhotoGraphNumberInput").Min(Convert.ToDouble(ViewData["MinPHNum"])).Max(5).Format("D").Value(Convert.ToDouble(ViewData["CurPHNum"]))</div>
-                    <div>จำนวนช่างภาพวีดีโอ</div>
-                    <div>@Html.Kendo().NumericTextBox().Name("CameraManNumberInput").Min(Convert.ToDouble(ViewData["MinCMNum"])).Max(3).Format("D").Value(Convert.ToDouble(ViewData["CurCMNum"]))</div>
-                </div>
-                <div class="form-group">
-                    @Html.Label("PhotographServices", htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="list-group col-md-9">
-                        @*@Html.Kendo().DropDownList("Code", @ViewData["ServiceList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
-                        @Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["ServiceList"] as IEnumerable<SelectListItem>).HtmlAttributes(new { @class = "form-control", @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))
-                    </div>
-                </div>
-            </div>
+            <table>
+                <tr>
+                    <td>
+                        <div class="form-horizontal">
+                            <div class="form-group-sm">
+                                <div>จำนวนช่างภาพ</div>
+                                <div>@Html.Kendo().NumericTextBox().Name("PhotoGraphNumberInput").Min(Convert.ToDouble(ViewData["MinPHNum"])).Max(5).Format("D").Value(Convert.ToDouble(ViewData["CurPHNum"]))</div>
+                            </div>
+                            <div class="form-group-sm">
+                                <div>จำนวนช่างภาพวีดีโอ</div>
+                                <div>@Html.Kendo().NumericTextBox().Name("CameraManNumberInput").Min(Convert.ToDouble(ViewData["MinCMNum"])).Max(3).Format("D").Value(Convert.ToDouble(ViewData["CurCMNum"]))</div>
+                            </div>
+
+                            <div class="form-group-sm">
+                                @*@Html.Label("PhotographServices", htmlAttributes: new { @class = "control-label col-md-3" })*@
+                                <div>บริการช่างถ่ายภาพ</div>
+                                <div class="list-group col-md-9">
+                                    @*@Html.Kendo().DropDownList("Code", @ViewData["ServiceList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
+                                    @Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["ServiceList"] as IEnumerable<SelectListItem>).HtmlAttributes(new { @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-horizontal container-fluid">
+                            <div class="row">
+                                <a href="#" class="img-rounded">
+                                    <img src="@Url.Content("~/Content/images/PhotoGraph/Cover/PhotoGraphCover8.jpg")" class="img-thumbnail" />
+                                </a>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
         </div>
+
         <div class="panel-body">
             @{Html.RenderAction("CreatePhotoGraphServiceByModal", "Services", new { id=@ViewData["Code"],ServiceType = @ViewData["SType"] });}
         </div>

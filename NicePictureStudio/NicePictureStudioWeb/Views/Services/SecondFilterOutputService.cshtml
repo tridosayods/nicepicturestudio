@@ -19,28 +19,47 @@
     <div class="panel panel-default">
         <div class="panel-heading">ตัวเลือกต่างๆ</div>
         <div class="panel-info">
-            <div class="form-horizontal">
-                <div class="form-group-sm">
-                    <div>รูปแบบรูปภาพ</div>
-                    <div>
-                        @Html.Kendo().DropDownList().Name("OutputType").HtmlAttributes(new { @class = "form-control", @id = "dwnOutputType" }).BindTo(
-                                              new string[] { "กรอบรูป","รูปภาพ","โฟโต้บุค","วีดีโอ"}
-                        )
-                    </div>
-                    <div>ประเภทของผลงาน</div>
-                    <div>@Html.Kendo().DropDownList().Name("OutputSize").HtmlAttributes(new { @class = "form-control", @id = "dwnOutputSize" }).BindTo(
-                            new string[] { "6*9'","10*15'","20*30'","10รูป","30รูป","50รูป","ทั้งหมด","ดีวีดี","ทั้มไดร์ฟ","พรีเซยเทชั่น"}
-                    )
+            <table class="table table-responsive"><tr>
+                <td>
+                    <div class="form-horizontal">
+                        <div class="form-group-sm">
+                            <div>รูปแบบรูปภาพ</div>
+                            <div>
+                                @Html.Kendo().DropDownList().Name("OutputType").HtmlAttributes(new { @class = "form-control", @id = "dwnOutputType" }).BindTo(
+                                                              new string[] { "กรอบรูป", "รูปภาพ", "โฟโต้บุค", "วีดีโอ" }
+                                        )
+                            </div>
+                        </div>
+                            <div class="form-group-sm">
+                                <div>ประเภทของผลงาน</div>
+                                <div>
+                                    @Html.Kendo().DropDownList().Name("OutputSize").HtmlAttributes(new { @class = "form-control", @id = "dwnOutputSize" }).BindTo(
+                                            new string[] { "6*9'", "10*15'", "20*30'", "10รูป", "30รูป", "50รูป", "ทั้งหมด", "ดีวีดี", "ทั้มไดร์ฟ", "พรีเซนเทชั่น" }
+                                    )
+                                </div>
+                            </div>
+                           
+                    <div class="form-group-sm">
+                        @*<div>@Html.Label("OutputServices", htmlAttributes: new { @class = "control-label col-md-2" })</div>*@
+                        <div>บริการรูปภาพ</div>
+                        <div class="list-group col-md-10">
+                            @*@Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
+                            @Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["OutputList"] as IEnumerable<SelectListItem>).HtmlAttributes(new { @class = "form-control", @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))
+                        </div>
                     </div>
                 </div>
-                <div class="form-group-sm">
-                    <div>@Html.Label("OutputServices", htmlAttributes: new { @class = "control-label col-md-2" })</div>
-                    <div class="list-group col-md-10">
-                        @*@Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
-                        @Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["OutputList"] as IEnumerable<SelectListItem>).HtmlAttributes(new { @class = "form-control", @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))
+            </td>
+                <td>
+                    <div class="form-horizontal container-fluid">
+                        <div class="row">
+                            <a href="#" class="img-rounded">
+                                <img src="@Url.Content("~/Content/images/PhotoGraph/Cover/OutputCover1.jpg")" class="img-thumbnail" />
+                            </a>
+                        </div>
                     </div>
-                </div>
-            </div>
+
+                </td>
+            </tr> </table>
         </div>
         <div class="panel-body">
             @{Html.RenderAction("CreateOutputServiceByModal", "Services", new { id = @ViewData["Code"], ServiceType = @ViewData["SType"] });}
