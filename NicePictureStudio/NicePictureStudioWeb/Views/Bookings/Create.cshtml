@@ -80,8 +80,8 @@
                     <div class="form-group">
                         @Html.Label("คำขอร้องพิเศษ", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @*@Html.Kendo().DropDownList().Name("SpecialOrder").BindTo(@ViewBag.SpecialOrder as SelectList).HtmlAttributes(new { @Style = "width:250px", @id = "SpecialOrder" })*@
-                            @Html.Kendo().DropDownListFor(model => model.BookingSpecialRequest).Name("SpecialOrder").BindTo(@ViewBag.SpecialOrder as SelectList).HtmlAttributes(new { @Style = "width:250px", @id = "SpecialOrder" })
+                            @*@Html.Kendo().DropDownListFor(model => model.BookingSpecialRequest).Name("SpecialOrder").BindTo(@ViewBag.SpecialOrder as SelectList).HtmlAttributes(new { @Style = "width:250px", @id = "SpecialOrder" })*@
+                            @Html.Kendo().MultiSelectFor(model => model.BookingSpecialRequests).Name("SpecialOrder").BindTo(@ViewBag.SpecialOrder as MultiSelectList).HtmlAttributes(new { @Style = "width:250px", @id = "SpecialOrder" })
                         </div>
                     </div>
                     <!-- Special Order -->

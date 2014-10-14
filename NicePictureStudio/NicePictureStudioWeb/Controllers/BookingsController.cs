@@ -25,7 +25,7 @@ namespace NicePictureStudio
         // GET: Bookings
         public async Task<ActionResult> Index()
         {
-            var bookings = db.Bookings.Include(b => b.BookingStatu).Include(b => b.Promotion).Include(b => b.Service).Include(s =>s.BookingSpecialRequest);
+            var bookings = db.Bookings.Include(b => b.BookingStatu).Include(b => b.Promotion).Include(b => b.Service);
             return View(await bookings.ToListAsync());
         }
 
@@ -91,7 +91,7 @@ namespace NicePictureStudio
             ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name");
             ViewBag.PromotionId = new SelectList(validPromotion, "Id", "Name");
             ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName");
-            ViewBag.SpecialOrder = new SelectList(db.BookingSpecialRequests, "Id", "Name");
+            ViewBag.SpecialOrder = new MultiSelectList(db.BookingSpecialRequests, "Id", "Name");
             int _latestBookingId = db.Bookings.Max(p => p.Id);
             ViewBag.BookingNumber = DateTime.Now.ToString("yyyy") + DateTime.Now.Month + DateTime.Now.Day+ _latestBookingId.ToString();
             //ViewBag.BookingNumber = Math.Abs(Convert.ToInt32(DateTime.Now.GetHashCode())).ToString().Substring(0,5);
@@ -103,7 +103,7 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Name,Surname,BookingCode,AppointmentDate,SpecialOrder,Details,BookingStatu,PromotionId,ServiceId")] Booking booking, int PromotionId,int SpecialOrder)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Name,Surname,BookingCode,AppointmentDate,SpecialOrder,Details,BookingStatu,PromotionId,ServiceId")] Booking booking, int PromotionId,int[] SpecialOrder)
         {
             int statusConfirm = Constant.BOOKING_STATUS_CONFIRM;
             if (ModelState.IsValid)
@@ -111,14 +111,25 @@ namespace NicePictureStudio
                 try
                 {
                     //booking status always 1
+                    
                     BookingStatu bookingStatus = await db.BookingStatus.FindAsync(statusConfirm);
+                    if (SpecialOrder != null)
+                    {
+                        foreach (int reqId in SpecialOrder)
+                        {
+                            BookingSpecialRequest specialorder = db.BookingSpecialRequests.Find(reqId);
+                            booking.BookingSpecialRequests.Add(specialorder);
+                        }
+                    }
+                    
                     Promotion promotion = await db.Promotions.FindAsync(PromotionId);
-                    BookingSpecialRequest specialorder = await db.BookingSpecialRequests.FindAsync(SpecialOrder);
+                    //BookingSpecialRequest specialorder = await db.BookingSpecialRequests.FindAsync(SpecialOrder);
                     booking.BookingStatu = bookingStatus;
                     booking.Promotion = promotion;
-                    booking.BookingSpecialRequest = specialorder;
+                    //booking.BookingSpecialRequest = specialorder;
                     db.Bookings.Add(booking);
                     await db.SaveChangesAsync();
+                    
                     return RedirectToAction("Index");
                 }
                 catch (DbEntityValidationException dbEx)
@@ -160,9 +171,11 @@ namespace NicePictureStudio
             var InvalidPromotion = db.Promotions.Where(pt => DateTime.Now > pt.ExpireDate);
             var targetPromotion = db.Promotions.Where(tg => tg.Id == booking.Promotion.Id);
             var ValidPromotion = (db.Promotions.Except<Promotion>(InvalidPromotion).AsEnumerable()).Union(targetPromotion);
+            var SelectedSpecialOrder = booking.BookingSpecialRequests.AsEnumerable();
+            ViewBag.SelectedSpecialOrder = new MultiSelectList(SelectedSpecialOrder, "Id", "Name");
             ViewBag.BookingStatus = new SelectList(db.BookingStatus, "Id", "Name", booking.BookingStatu.Id);
             ViewBag.PromotionId = new SelectList(ValidPromotion, "Id", "Name", booking.Promotion.Id);
-            ViewBag.SpecialOrder = new SelectList(db.BookingSpecialRequests, "Id", "Name", booking.BookingSpecialRequest.Id);
+            ViewBag.SpecialOrder = new MultiSelectList(db.BookingSpecialRequests, "Id", "Name", SelectedSpecialOrder); 
             return View(booking);
         }
 
@@ -171,14 +184,14 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Name,Surname,BookingCode,AppointmentDate,SpecialOrder,Details,PromotionId,ServiceId")] Booking booking,int BookingStatus, int PromotionId, int SpecialOrder)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Name,Surname,BookingCode,AppointmentDate,SpecialOrder,Details,PromotionId,ServiceId")] Booking booking,int BookingStatus, int PromotionId, int[] SpecialOrder)
         {
             if (ModelState.IsValid)
             {
                 
                 Booking currentBooking = await db.Bookings.FindAsync(booking.Id);
                 Promotion promotion = await db.Promotions.FindAsync(PromotionId);
-                BookingSpecialRequest specialorder = await db.BookingSpecialRequests.FindAsync(SpecialOrder);
+                //BookingSpecialRequest specialorder = await db.BookingSpecialRequests.FindAsync(SpecialOrder);
                 BookingStatu bookingStauts = await db.BookingStatus.FindAsync(BookingStatus);
 
                 currentBooking.Title = booking.Title;
@@ -189,7 +202,34 @@ namespace NicePictureStudio
                 
                 currentBooking.BookingStatu = bookingStauts;
                 currentBooking.Promotion = promotion;
-                currentBooking.BookingSpecialRequest = specialorder;
+                //Comparing recorded
+
+                if (SpecialOrder != null)
+                {
+                    var existSpecialOrderList = currentBooking.BookingSpecialRequests;
+                    List<BookingSpecialRequest> newList = new List<BookingSpecialRequest>();
+
+                    foreach (int reqId in SpecialOrder)
+                    {
+                        BookingSpecialRequest specialorder = await db.BookingSpecialRequests.FindAsync(reqId);
+                        newList.Add(specialorder);
+                    }
+                    var intersectBookingList = existSpecialOrderList.Intersect<BookingSpecialRequest>(newList.AsEnumerable());
+
+                    var updateBookingList = intersectBookingList.Union(newList.AsEnumerable());
+                    currentBooking.BookingSpecialRequests.Clear();
+
+                    foreach (var newBooking in updateBookingList)
+                    {
+                        currentBooking.BookingSpecialRequests.Add(newBooking);
+                    }
+                }
+                else
+                {
+                    currentBooking.BookingSpecialRequests.Clear();
+                }
+                
+                //currentBooking.BookingSpecialRequest = specialorder;
                 db.Entry(currentBooking).State = EntityState.Modified;
                 
                 //db.Bookings.Attach(booking);

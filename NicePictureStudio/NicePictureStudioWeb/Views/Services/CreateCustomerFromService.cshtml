@@ -49,6 +49,17 @@
                 </div>
 
                 <div class="form-group">
+                    @Html.Label("ชื่อเล่นลูกค้าฝ่ายชาย", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="label label-default">T</span></div>
+                            @Html.EditorFor(model => model.CustomerNickname, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CustomerNickname, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     @Html.Label("หมายเลขโทรศัพท์", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         <div class="input-group">
@@ -100,6 +111,17 @@
                 </div>
 
                 <div class="form-group">
+                    @Html.Label("ชื่อเล่นลูกค้าฝ่ายหญิง", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="label label-default">T</span></div>
+                            @Html.EditorFor(model => model.CoupleNickname, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CoupleNickname, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     @Html.Label("หมายเลขโทรศัพท์", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         <div class="input-group">
@@ -122,7 +144,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.Label("วันครอบรอบแต่งงาน", htmlAttributes: new { @class ="control-label col-md-2" })
+                    @Html.Label("วันพิธีแต่งงาน", htmlAttributes: new { @class ="control-label col-md-2" })
                     <div class="col-md-10">
                         @*@Html.EditorFor(model => model.AnniversaryDate, new { htmlAttributes = new { @class = "form-control" } })*@
                        @Html.Kendo().DateTimePickerFor(model => model.AnniversaryDate).Name("AnniversaryDate").HtmlAttributes(new { @class="k-rtl"})

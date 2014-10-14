@@ -166,9 +166,14 @@
       <End Role="Location" EntitySet="Locations" />
     </AssociationSet>
     <EntitySet Name="BookingSpecialRequests" EntityType="NicePictureStudioDBModel.BookingSpecialRequest" />
-    <AssociationSet Name="FK_Booking_BookingSpecialRequest" Association="NicePictureStudioDBModel.FK_Booking_BookingSpecialRequest">
-      <End Role="BookingSpecialRequest" EntitySet="BookingSpecialRequests" />
+    <AssociationSet Name="BookingRequestRelation" Association="NicePictureStudioDBModel.BookingRequestRelation">
       <End Role="Booking" EntitySet="Bookings" />
+      <End Role="BookingSpecialRequest" EntitySet="BookingSpecialRequests" />
+    </AssociationSet>
+    <EntitySet Name="ServiceSuggestions" EntityType="NicePictureStudioDBModel.ServiceSuggestion" />
+    <AssociationSet Name="ServiceSuggestMap" Association="NicePictureStudioDBModel.ServiceSuggestMap">
+      <End Role="Service" EntitySet="Services" />
+      <End Role="ServiceSuggestion" EntitySet="ServiceSuggestions" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
@@ -193,9 +198,9 @@
     <NavigationProperty Name="BookingStatu" Relationship="NicePictureStudioDBModel.FK_Booking_BookingStatus" FromRole="Booking" ToRole="BookingStatu" />
     <NavigationProperty Name="Promotion" Relationship="NicePictureStudioDBModel.FK_Booking_Promotion" FromRole="Booking" ToRole="Promotion" />
     <NavigationProperty Name="Service" Relationship="NicePictureStudioDBModel.FK_Booking_Services" FromRole="Booking" ToRole="Service" />
-    <NavigationProperty Name="BookingSpecialRequest" Relationship="NicePictureStudioDBModel.FK_Booking_BookingSpecialRequest" FromRole="Booking" ToRole="BookingSpecialRequest" />
     <Property Name="Title" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
     <Property Name="Surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="BookingSpecialRequests" Relationship="NicePictureStudioDBModel.BookingRequestRelation" FromRole="Booking" ToRole="BookingSpecialRequest" />
   </EntityType>
   <EntityType Name="BookingStatu">
     <Key>
@@ -236,6 +241,8 @@
     <Property Name="CoupleEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ReferenceTitle" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
     <Property Name="ReferenceSurname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerNickname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CoupleNickname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="EmployeeClaim">
     <Key>
@@ -523,7 +530,7 @@
     <Property Name="BookingName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="GroomName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="BrideName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="SpecialRequest" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="SpecialRequest" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Payment" Type="Decimal" Precision="18" Scale="3" />
     <Property Name="PayAmount" Type="Decimal" Precision="18" Scale="3" />
     <Property Name="CRMFormId" Type="Int32" />
@@ -531,6 +538,7 @@
     <NavigationProperty Name="Customer" Relationship="NicePictureStudioDBModel.FK_Services_Customer" FromRole="Service" ToRole="Customer" />
     <NavigationProperty Name="ServiceForms" Relationship="NicePictureStudioDBModel.ServiceMapping" FromRole="Service" ToRole="ServiceForm" />
     <NavigationProperty Name="ServiceStatu" Relationship="NicePictureStudioDBModel.FK_Services_Services" FromRole="Service" ToRole="ServiceStatu" />
+    <NavigationProperty Name="ServiceSuggestions" Relationship="NicePictureStudioDBModel.ServiceSuggestMap" FromRole="Service" ToRole="ServiceSuggestion" />
   </EntityType>
   <EntityType Name="ServiceStatu">
     <Key>
@@ -828,10 +836,23 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Bookings" Relationship="NicePictureStudioDBModel.FK_Booking_BookingSpecialRequest" FromRole="BookingSpecialRequest" ToRole="Booking" />
+    <NavigationProperty Name="Bookings" Relationship="NicePictureStudioDBModel.BookingRequestRelation" FromRole="BookingSpecialRequest" ToRole="Booking" />
   </EntityType>
-  <Association Name="FK_Booking_BookingSpecialRequest">
-    <End Type="NicePictureStudioDBModel.BookingSpecialRequest" Role="BookingSpecialRequest" Multiplicity="1" />
+  <Association Name="BookingRequestRelation">
     <End Type="NicePictureStudioDBModel.Booking" Role="Booking" Multiplicity="*" />
+    <End Type="NicePictureStudioDBModel.BookingSpecialRequest" Role="BookingSpecialRequest" Multiplicity="*" />
+  </Association>
+  <EntityType Name="ServiceSuggestion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Services" Relationship="NicePictureStudioDBModel.ServiceSuggestMap" FromRole="ServiceSuggestion" ToRole="Service" />
+  </EntityType>
+  <Association Name="ServiceSuggestMap">
+    <End Type="NicePictureStudioDBModel.Service" Role="Service" Multiplicity="*" />
+    <End Type="NicePictureStudioDBModel.ServiceSuggestion" Role="ServiceSuggestion" Multiplicity="*" />
   </Association>
 </Schema>

@@ -47,7 +47,7 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,Email,PostcalCode,AnniversaryDate,ReferencePerson,ReferenceEmail,ReferencePhoneNumber,CustomerTitle,CustomerSurname,CoupleTitle,CoupleName,CoupleSurname,CouplePhoneNumber,BuildingBlock,Road,Subdistrict,District,Province,Country,CoupleEmail,ReferenceTitle,ReferenceSurname")] Customer customer)
+        public async Task<ActionResult> Create([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,Email,PostcalCode,AnniversaryDate,ReferencePerson,ReferenceEmail,ReferencePhoneNumber,CustomerTitle,CustomerSurname,CoupleTitle,CoupleName,CoupleSurname,CouplePhoneNumber,BuildingBlock,Road,Subdistrict,District,Province,Country,CoupleEmail,ReferenceTitle,ReferenceSurname,CustomerNickname,CoupleNickname")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,Email,PostcalCode,AnniversaryDate,ReferencePerson,ReferenceEmail,ReferencePhoneNumber,CustomerTitle,CustomerSurname,CoupleTitle,CoupleName,CoupleSurname,CouplePhoneNumber,BuildingBlock,Road,Subdistrict,District,Province,Country,CoupleEmail,ReferenceTitle,ReferenceSurname")] Customer customer)
+        public async Task<ActionResult> Edit([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,Email,PostcalCode,AnniversaryDate,ReferencePerson,ReferenceEmail,ReferencePhoneNumber,CustomerTitle,CustomerSurname,CoupleTitle,CoupleName,CoupleSurname,CouplePhoneNumber,BuildingBlock,Road,Subdistrict,District,Province,Country,CoupleEmail,ReferenceTitle,ReferenceSurname,,CustomerNickname,CoupleNickname")] Customer customer)
         {
             if (ModelState.IsValid)
             {

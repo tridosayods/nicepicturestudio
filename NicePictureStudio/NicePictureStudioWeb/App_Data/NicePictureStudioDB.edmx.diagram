@@ -76,8 +76,10 @@
         <AssociationConnector Association="NicePictureStudioDBModel.FK_CRMTemplates_CRMServiceType" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Services_Services" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Location_LocationType1" />
-        <EntityTypeShape EntityType="NicePictureStudioDBModel.BookingSpecialRequest" Width="1.5" PointX="15" PointY="9" />
-        <AssociationConnector Association="NicePictureStudioDBModel.FK_Booking_BookingSpecialRequest" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.BookingSpecialRequest" Width="1.5" PointX="14.875" PointY="9" />
+        <AssociationConnector Association="NicePictureStudioDBModel.BookingRequestRelation" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.ServiceSuggestion" Width="1.5" PointX="12" PointY="28.5" />
+        <AssociationConnector Association="NicePictureStudioDBModel.ServiceSuggestMap" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

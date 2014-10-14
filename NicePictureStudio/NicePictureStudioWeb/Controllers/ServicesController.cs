@@ -212,24 +212,47 @@ namespace NicePictureStudio
             ViewBag.BookingId = new SelectList(db.Bookings, "Id", "Name");
             //Binding a promotion from scracth or create new promotion
             ViewBag.BookingList = new SelectList(db.Bookings, "Id", "BookingName");
+            ViewBag.SpecialOrder = new MultiSelectList(db.BookingSpecialRequests, "Id", "Name");
+            ViewBag.SuggestionService = new MultiSelectList(db.ServiceSuggestions, "Id", "Name");
             return View();
+        }
+
+        public JsonResult GetSelectedSpecialRequest(int bookingId)
+        {
+            var booking = db.Bookings.Find(bookingId);
+            var specialOrderList = booking.BookingSpecialRequests.AsEnumerable();
+            string[] selectedOrder = specialOrderList.Select(s => s.Id.ToString()).ToArray();
+            return Json(selectedOrder, JsonRequestBehavior.AllowGet);
+            //return Json(specialOrderList.Select(s => new BookingSpecialRequest{ 
+            //    Id = s.Id,
+            //    Name = s.Name,
+            //    Description = s.Description
+            //}),JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetListForBookingAutocomplete(string term)
         {
-            // Booking staus = 1 means opened booking.
-            int _bookingOpened = 1;
-            Booking[] matching = string.IsNullOrWhiteSpace(term) ?
-                db.Bookings.ToArray() :
-                db.Bookings.Where(p => (p.BookingCode.ToUpper().StartsWith(term.ToUpper()) || p.Name.ToUpper().StartsWith(term.ToUpper())) && p.BookingStatu.Id == _bookingOpened).ToArray();
-
-            return Json(matching.Select(m => new
+            if (string.Compare(term, string.Empty) != 0)
             {
-                id = m.Id,
-                value = m.Name,
-                label = m.Name
-            }), JsonRequestBehavior.AllowGet);
+                // Booking staus = 1 means opened booking.
+                int _bookingOpened = 1;
+                Booking[] matching = string.IsNullOrWhiteSpace(term) ?
+                    db.Bookings.ToArray() :
+                    db.Bookings.Where(p => (p.BookingCode.ToUpper().StartsWith(term.ToUpper()) || p.Name.ToUpper().StartsWith(term.ToUpper())) && p.BookingStatu.Id == _bookingOpened).ToArray();
+
+                return Json(matching.Select(m => new
+                {
+                    id = m.Id,
+                    value = m.Name,
+                    label = m.Name
+                }), JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(null);
+            }
         }
+
 
         public JsonResult GetListForGroomNameAutocomplete(string term)
         {
@@ -240,8 +263,22 @@ namespace NicePictureStudio
             return Json(matching.Select(m => new
             {
                 id = m.CustomerId,
-                value = m.CustomerName,
-                label = m.CustomerName
+                value = m.CustomerTitle + " " + m.CustomerName + " " + m.CustomerSurname + (m.CustomerNickname == null ? string.Empty : " ( " + m.CoupleNickname + " )"),
+                label = m.CustomerName + " " + m.CustomerSurname
+            }), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetListForBrideNameAutocomplete(string term)
+        {
+            Customer[] matching = string.IsNullOrWhiteSpace(term) ?
+                db.Customers.ToArray() :
+                db.Customers.Where(c => (c.CoupleName.ToUpper().StartsWith(term.ToUpper()))).ToArray();
+
+            return Json(matching.Select(m => new
+            {
+                id = m.CustomerId,
+                value = m.CoupleTitle +" "+ m.CoupleName +" "+ m.CoupleSurname + (m.CoupleNickname == null ? string.Empty : " ( "+m.CoupleNickname+" )"),
+                label = m.CoupleName + " " + m.CoupleSurname
             }), JsonRequestBehavior.AllowGet);
         }
 
@@ -251,11 +288,11 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,BookingName,GroomName,BrideName,SpecialRequest,Payment,PayAmount,CustomerId,CRMFormId")] Service service, int BookingId=0)
+        public async Task<ActionResult> Create([Bind(Include = "Id,BookingName,GroomName,BrideName,SpecialRequest,Payment,PayAmount,CustomerId,CRMFormId")] Service service, int[] BookingSpecialRequests, int[] ServiceSuggestions, int BookingId = 0)
         {
             //booking status 2 => booking confirm
             //Service status 1 => create new
-            int _bookingConfirm = 2;
+            int _bookingConfirm = Constant.BOOKING_STATUS_OPERATED;
             int _serviceNew = 1;
             if (ModelState.IsValid)
             {
@@ -287,10 +324,23 @@ namespace NicePictureStudio
                 SummarizePrice();
 
                 //Save to DB
+                //Need to check if customer is valid or not
                 service.Customer = await db.Customers.FindAsync(_servicesTmp.Customer.CustomerId);
                 service.ServiceStatu = await db.ServiceStatus.FindAsync(_serviceNew);
                 service.PayAmount = 0;
                 service.Payment = 0;
+
+                //Create suggestion service section
+                if (ServiceSuggestions != null)
+                {
+                    foreach (var srvId in ServiceSuggestions)
+                    {
+                        ServiceSuggestion srvSuggest = db.ServiceSuggestions.Find(srvId);
+                        service.ServiceSuggestions.Add(srvSuggest);
+                    }
+                }
+
+
                 db.Services.Add(service);
                 db.SaveChanges();
 
@@ -298,6 +348,33 @@ namespace NicePictureStudio
                 Booking booking = await db.Bookings.FindAsync(BookingId);
                 booking.Service = service;
                 booking.BookingStatu = await db.BookingStatus.FindAsync(_bookingConfirm);
+
+                //Update SpecialOrder if it be changed
+                if (BookingSpecialRequests != null)
+                {
+                    var existSpecialOrderList = booking.BookingSpecialRequests;
+                    List<BookingSpecialRequest> newList = new List<BookingSpecialRequest>();
+
+                    foreach (int reqId in BookingSpecialRequests)
+                    {
+                        BookingSpecialRequest specialorder = await db.BookingSpecialRequests.FindAsync(reqId);
+                        newList.Add(specialorder);
+                    }
+                    var intersectBookingList = existSpecialOrderList.Intersect<BookingSpecialRequest>(newList.AsEnumerable());
+
+                    var updateBookingList = intersectBookingList.Union(newList.AsEnumerable());
+                    booking.BookingSpecialRequests.Clear();
+
+                    foreach (var newBooking in updateBookingList)
+                    {
+                        booking.BookingSpecialRequests.Add(newBooking);
+                    }
+                }
+                else
+                {
+                    booking.BookingSpecialRequests.Clear();
+                }
+
                 db.Entry(booking).State = EntityState.Modified;
 
                 var result = await db.SaveChangesAsync();
@@ -344,7 +421,21 @@ namespace NicePictureStudio
         {
             if (Id != null)
             {
+                ViewBag.BookingId = Id;
+                ViewBag.SpecialOrder = new MultiSelectList(db.BookingSpecialRequests, "Id", "Name");
+                ViewBag.SuggestionService = new MultiSelectList(db.ServiceSuggestions, "Id", "Name");
+                
                 Service service = await db.Services.FindAsync(Id);
+                Booking booking = db.Bookings.Where(bk => bk.Service.Id == (int)Id).Select(s => s).FirstOrDefault();
+                
+                //selected special order
+                var SelectedSpecialOrder = booking.BookingSpecialRequests.AsEnumerable();
+                ViewBag.SelectedSpecialOrder = new MultiSelectList(SelectedSpecialOrder, "Id", "Name");
+
+                //selected suggest service
+                var SelectedSuggestion = service.ServiceSuggestions.AsEnumerable();
+                ViewBag.SelectedSuggestion = new MultiSelectList(SelectedSuggestion,"Id","Name");
+                
                 if (service == null)
                 {
                     return PartialView();
@@ -359,14 +450,74 @@ namespace NicePictureStudio
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<PartialViewResult> EditService([Bind(Include = "Id,BookingName,GroomName,BrideName,SpecialRequest,Payment,PayAmount,CustomerId,CRMFormId")] Service service)
+        public async Task<PartialViewResult> EditService([Bind(Include = "Id,BookingName,GroomName,BrideName,SpecialRequest,Payment,PayAmount,CustomerId,CRMFormId")] Service service, int[] BookingSpecialRequests, int[] ServiceSuggestions, int BookingId = 0)
         {
             if (ModelState.IsValid)
             {
                 var _servicesTmp = TempData["Services"] as ServicesViewModel;
                 TempData.Keep();
+
+                Service currentService = db.Services.Find(service.Id);
+
+                //Update Special Order List
+                Booking booking = db.Bookings.Where(bk => bk.Service.Id == service.Id).FirstOrDefault();
+                if (BookingSpecialRequests != null)
+                {
+                    var existSpecialOrderList = booking.BookingSpecialRequests;
+                    List<BookingSpecialRequest> newList = new List<BookingSpecialRequest>();
+
+                    foreach (int reqId in BookingSpecialRequests)
+                    {
+                        BookingSpecialRequest specialorder = await db.BookingSpecialRequests.FindAsync(reqId);
+                        newList.Add(specialorder);
+                    }
+                    var intersectBookingList = existSpecialOrderList.Intersect<BookingSpecialRequest>(newList.AsEnumerable());
+
+                    var updateBookingList = intersectBookingList.Union(newList.AsEnumerable());
+                    booking.BookingSpecialRequests.Clear();
+
+                    foreach (var newBooking in updateBookingList)
+                    {
+                        booking.BookingSpecialRequests.Add(newBooking);
+                    }
+                }
+                else
+                {
+                    booking.BookingSpecialRequests.Clear();
+                }
                 
-                db.Entry(service).State = EntityState.Modified;
+                //Update Suggest List 
+                if (ServiceSuggestions != null)
+                {
+                    var existSuggestionList = currentService.ServiceSuggestions;
+                    List<ServiceSuggestion> newSuggestionList = new List<ServiceSuggestion>();
+
+                    foreach (int reqId in ServiceSuggestions)
+                    {
+                        ServiceSuggestion suggestionOrder = await db.ServiceSuggestions.FindAsync(reqId);
+                        newSuggestionList.Add(suggestionOrder);
+                    }
+                    var intersectSuggestionList = existSuggestionList.Intersect<ServiceSuggestion>(newSuggestionList.AsEnumerable());
+
+                    var updateSuggestionList = intersectSuggestionList.Union(newSuggestionList.AsEnumerable());
+                    currentService.ServiceSuggestions.Clear();
+
+                    foreach (var newSuggestion in updateSuggestionList)
+                    {
+                        currentService.ServiceSuggestions.Add(newSuggestion);
+                    }
+                }
+                else
+                {
+                    currentService.ServiceSuggestions.Clear();
+                }
+
+                //Update Service
+                currentService.BrideName = service.BrideName;
+                currentService.GroomName = service.GroomName;
+
+                db.Entry(currentService).State = EntityState.Modified;
+                db.Entry(booking).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 _servicesTmp.CreateService(service);
                 TempData["Services"] = _servicesTmp;
@@ -833,7 +984,7 @@ namespace NicePictureStudio
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<PartialViewResult> CreateCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,Email,PostcalCode,AnniversaryDate,ReferencePerson,ReferenceEmail,ReferencePhoneNumber,CustomerTitle,CustomerSurname,CoupleTitle,CoupleName,CoupleSurname,CouplePhoneNumber,BuildingBlock,Road,Subdistrict,District,Province,Country,CoupleEmail,ReferenceTitle,ReferenceSurname")] Customer customer)
+        public async Task<PartialViewResult> CreateCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,Email,PostcalCode,AnniversaryDate,ReferencePerson,ReferenceEmail,ReferencePhoneNumber,CustomerTitle,CustomerSurname,CoupleTitle,CoupleName,CoupleSurname,CouplePhoneNumber,BuildingBlock,Road,Subdistrict,District,Province,Country,CoupleEmail,ReferenceTitle,ReferenceSurname,CustomerNickname,CoupleNickname")] Customer customer)
         {
             try
             {
@@ -911,7 +1062,7 @@ namespace NicePictureStudio
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<PartialViewResult> EditCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,AnniversaryDate,City,Email,PostcalCode,ReferencePerson,ReferenceEmail,ReferencePhoneNumber")] Customer customer)
+        public async Task<PartialViewResult> EditCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,AnniversaryDate,City,Email,PostcalCode,ReferencePerson,ReferenceEmail,ReferencePhoneNumber,CustomerNickname,CoupleNickname")] Customer customer)
         {
             if (ModelState.IsValid)
             {

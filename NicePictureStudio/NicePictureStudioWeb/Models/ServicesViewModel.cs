@@ -85,6 +85,8 @@ namespace NicePictureStudio.Models
              Customer.CoupleEmail = customer.CoupleEmail;
              Customer.ReferenceTitle = customer.ReferenceTitle;
              Customer.ReferenceSurname = customer.ReferenceSurname;
+             Customer.CustomerNickname = customer.CustomerNickname;
+             Customer.CoupleNickname = customer.CoupleNickname;
         }
 
     }
@@ -241,6 +243,8 @@ namespace NicePictureStudio.Models
         public string CoupleEmail { get; set; }
         public string ReferenceTitle { get; set; }
         public string ReferenceSurname { get; set; }
+        public string CustomerNickname { get; set; }
+        public string CoupleNickname { get; set; }
     }
 
     public class PromotionViewModel

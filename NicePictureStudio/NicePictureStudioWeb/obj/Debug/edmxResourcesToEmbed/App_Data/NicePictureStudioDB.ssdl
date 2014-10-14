@@ -20,11 +20,18 @@
     <Property Name="Surname" Type="nvarchar" MaxLength="100" />
     <Property Name="BookingCode" Type="nvarchar" MaxLength="11" Nullable="false" />
     <Property Name="AppointmentDate" Type="datetime" Nullable="false" />
-    <Property Name="SpecialOrder" Type="int" Nullable="false" />
     <Property Name="Details" Type="nvarchar(max)" />
     <Property Name="BookingStatus" Type="int" Nullable="false" />
     <Property Name="PromotionId" Type="int" />
     <Property Name="ServiceId" Type="int" />
+  </EntityType>
+  <EntityType Name="BookingRequestRelation">
+    <Key>
+      <PropertyRef Name="BookingId" />
+      <PropertyRef Name="BookingSPRequestId" />
+    </Key>
+    <Property Name="BookingId" Type="int" Nullable="false" />
+    <Property Name="BookingSPRequestId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="BookingSpecialRequest">
     <Key>
@@ -92,9 +99,11 @@
     <Property Name="CustomerTitle" Type="nvarchar" MaxLength="10" />
     <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
     <Property Name="CustomerSurname" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerNickname" Type="nvarchar" MaxLength="50" />
     <Property Name="CoupleTitle" Type="nvarchar" MaxLength="10" />
     <Property Name="CoupleName" Type="nvarchar" MaxLength="50" />
     <Property Name="CoupleSurname" Type="nvarchar" MaxLength="50" />
+    <Property Name="CoupleNickname" Type="nvarchar" MaxLength="50" />
     <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
     <Property Name="CouplePhoneNumber" Type="nvarchar" MaxLength="50" />
     <Property Name="Address" Type="nvarchar" MaxLength="100" />
@@ -492,7 +501,7 @@
     <Property Name="BookingName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="GroomName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="BrideName" Type="nvarchar" MaxLength="100" Nullable="false" />
-    <Property Name="SpecialRequest" Type="nvarchar" MaxLength="100" />
+    <Property Name="SpecialRequest" Type="nvarchar(max)" />
     <Property Name="Payment" Type="decimal" Precision="18" Scale="3" />
     <Property Name="PayAmount" Type="decimal" Precision="18" Scale="3" />
     <Property Name="CustomerId" Type="int" Nullable="false" />
@@ -507,6 +516,22 @@
     <Property Name="StatusName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
+  <EntityType Name="ServiceSuggestion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="ServiceSuggestMap">
+    <Key>
+      <PropertyRef Name="ServiceId" />
+      <PropertyRef Name="ServiceSuggestId" />
+    </Key>
+    <Property Name="ServiceId" Type="int" Nullable="false" />
+    <Property Name="ServiceSuggestId" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="ServiceType">
     <Key>
       <PropertyRef Name="Id" />
@@ -515,18 +540,6 @@
     <Property Name="ServiceTypeName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
-  <Association Name="FK_Booking_BookingSpecialRequest">
-    <End Role="BookingSpecialRequest" Type="Self.BookingSpecialRequest" Multiplicity="1" />
-    <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="BookingSpecialRequest">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Booking">
-        <PropertyRef Name="SpecialOrder" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Booking_BookingStatus">
     <End Role="BookingStatus" Type="Self.BookingStatus" Multiplicity="1" />
     <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
@@ -560,6 +573,30 @@
       </Principal>
       <Dependent Role="Booking">
         <PropertyRef Name="ServiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BookingRequestRelation_Booking">
+    <End Role="Booking" Type="Self.Booking" Multiplicity="1" />
+    <End Role="BookingRequestRelation" Type="Self.BookingRequestRelation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Booking">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BookingRequestRelation">
+        <PropertyRef Name="BookingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BookingRequestRelation_BookingSpecialRequest">
+    <End Role="BookingSpecialRequest" Type="Self.BookingSpecialRequest" Multiplicity="1" />
+    <End Role="BookingRequestRelation" Type="Self.BookingRequestRelation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BookingSpecialRequest">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BookingRequestRelation">
+        <PropertyRef Name="BookingSPRequestId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -963,33 +1000,34 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Services_Customer">
-    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
-    <End Role="Services" Type="Self.Services" Multiplicity="*" />
+  <Association Name="FK_ServiceSuggestMap_Services">
+    <End Role="Services" Type="Self.Services" Multiplicity="1" />
+    <End Role="ServiceSuggestMap" Type="Self.ServiceSuggestMap" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Customer">
-        <PropertyRef Name="CustomerId" />
+      <Principal Role="Services">
+        <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Services">
-        <PropertyRef Name="CustomerId" />
+      <Dependent Role="ServiceSuggestMap">
+        <PropertyRef Name="ServiceId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Services_Services">
-    <End Role="ServiceStatus" Type="Self.ServiceStatus" Multiplicity="1" />
-    <End Role="Services" Type="Self.Services" Multiplicity="*" />
+  <Association Name="FK_ServiceSuggestMap_ServiceSuggestion">
+    <End Role="ServiceSuggestion" Type="Self.ServiceSuggestion" Multiplicity="1" />
+    <End Role="ServiceSuggestMap" Type="Self.ServiceSuggestMap" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="ServiceStatus">
+      <Principal Role="ServiceSuggestion">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Services">
-        <PropertyRef Name="Status" />
+      <Dependent Role="ServiceSuggestMap">
+        <PropertyRef Name="ServiceSuggestId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="NicePictureStudioDBModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookingRequestRelation" EntityType="Self.BookingRequestRelation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BookingSpecialRequest" EntityType="Self.BookingSpecialRequest" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BookingStatus" EntityType="Self.BookingStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CRMForm" EntityType="Self.CRMForm" Schema="dbo" store:Type="Tables" />
@@ -1035,11 +1073,9 @@
     <EntitySet Name="ServiceMapping" EntityType="Self.ServiceMapping" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceStatus" EntityType="Self.ServiceStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ServiceSuggestion" EntityType="Self.ServiceSuggestion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ServiceSuggestMap" EntityType="Self.ServiceSuggestMap" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceType" EntityType="Self.ServiceType" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_Booking_BookingSpecialRequest" Association="Self.FK_Booking_BookingSpecialRequest">
-      <End Role="BookingSpecialRequest" EntitySet="BookingSpecialRequest" />
-      <End Role="Booking" EntitySet="Booking" />
-    </AssociationSet>
     <AssociationSet Name="FK_Booking_BookingStatus" Association="Self.FK_Booking_BookingStatus">
       <End Role="BookingStatus" EntitySet="BookingStatus" />
       <End Role="Booking" EntitySet="Booking" />
@@ -1051,6 +1087,14 @@
     <AssociationSet Name="FK_Booking_Services" Association="Self.FK_Booking_Services">
       <End Role="Services" EntitySet="Services" />
       <End Role="Booking" EntitySet="Booking" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BookingRequestRelation_Booking" Association="Self.FK_BookingRequestRelation_Booking">
+      <End Role="Booking" EntitySet="Booking" />
+      <End Role="BookingRequestRelation" EntitySet="BookingRequestRelation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BookingRequestRelation_BookingSpecialRequest" Association="Self.FK_BookingRequestRelation_BookingSpecialRequest">
+      <End Role="BookingSpecialRequest" EntitySet="BookingSpecialRequest" />
+      <End Role="BookingRequestRelation" EntitySet="BookingRequestRelation" />
     </AssociationSet>
     <AssociationSet Name="FK_CRMScrores_CRMForm" Association="Self.FK_CRMScrores_CRMForm">
       <End Role="CRMForm" EntitySet="CRMForm" />
@@ -1184,13 +1228,13 @@
       <End Role="Services" EntitySet="Services" />
       <End Role="ServiceMapping" EntitySet="ServiceMapping" />
     </AssociationSet>
-    <AssociationSet Name="FK_Services_Customer" Association="Self.FK_Services_Customer">
-      <End Role="Customer" EntitySet="Customer" />
+    <AssociationSet Name="FK_ServiceSuggestMap_Services" Association="Self.FK_ServiceSuggestMap_Services">
       <End Role="Services" EntitySet="Services" />
+      <End Role="ServiceSuggestMap" EntitySet="ServiceSuggestMap" />
     </AssociationSet>
-    <AssociationSet Name="FK_Services_Services" Association="Self.FK_Services_Services">
-      <End Role="ServiceStatus" EntitySet="ServiceStatus" />
-      <End Role="Services" EntitySet="Services" />
+    <AssociationSet Name="FK_ServiceSuggestMap_ServiceSuggestion" Association="Self.FK_ServiceSuggestMap_ServiceSuggestion">
+      <End Role="ServiceSuggestion" EntitySet="ServiceSuggestion" />
+      <End Role="ServiceSuggestMap" EntitySet="ServiceSuggestMap" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

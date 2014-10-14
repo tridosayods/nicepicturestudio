@@ -36,6 +36,8 @@
     <EntitySetMapping Name="Customers">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.Customer">
         <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="CoupleNickname" ColumnName="CoupleNickname" />
+          <ScalarProperty Name="CustomerNickname" ColumnName="CustomerNickname" />
           <ScalarProperty Name="ReferenceSurname" ColumnName="ReferenceSurname" />
           <ScalarProperty Name="ReferenceTitle" ColumnName="ReferenceTitle" />
           <ScalarProperty Name="CoupleEmail" ColumnName="CoupleEmail" />
@@ -714,12 +716,29 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="FK_Booking_BookingSpecialRequest" TypeName="NicePictureStudioDBModel.FK_Booking_BookingSpecialRequest" StoreEntitySet="Booking">
-      <EndProperty Name="Booking">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
+    <AssociationSetMapping Name="BookingRequestRelation" TypeName="NicePictureStudioDBModel.BookingRequestRelation" StoreEntitySet="BookingRequestRelation">
       <EndProperty Name="BookingSpecialRequest">
-        <ScalarProperty Name="Id" ColumnName="SpecialOrder" />
+        <ScalarProperty Name="Id" ColumnName="BookingSPRequestId" />
+      </EndProperty>
+      <EndProperty Name="Booking">
+        <ScalarProperty Name="Id" ColumnName="BookingId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="ServiceSuggestions">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceSuggestion">
+        <MappingFragment StoreEntitySet="ServiceSuggestion">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ServiceSuggestMap" TypeName="NicePictureStudioDBModel.ServiceSuggestMap" StoreEntitySet="ServiceSuggestMap">
+      <EndProperty Name="ServiceSuggestion">
+        <ScalarProperty Name="Id" ColumnName="ServiceSuggestId" />
+      </EndProperty>
+      <EndProperty Name="Service">
+        <ScalarProperty Name="Id" ColumnName="ServiceId" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

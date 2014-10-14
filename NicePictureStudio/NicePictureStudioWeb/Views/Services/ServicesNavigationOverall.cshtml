@@ -43,6 +43,97 @@
                                                 @Html.ValidationMessageFor(model => model.GuestsNumber)
                                             </div>
                                             </div>
+
+                                       
+                                        <!--Location Section-->
+                                            <div class="panel panel-info">
+                                                <div class="panel-heading">ข้อมูลส่วนสถานที่ในการถ่ายภาพ</div>
+                                                <div class="panel-body">
+                                                    <div class="form-group text-left center-block" style="vertical-align:central">     
+                                                         <div class="col-sm-1">
+                                                             @Html.CheckBox("IsLocationSelected", false, new { @class = "form-contorl chekbox checkbox-inline", @onclick = "toggle_option_location('LocationInformation')" })
+                                                         </div>
+                                                       <div class="col-sm-10"> @Html.Label("ลูกค้าติดต่อสถานที่ถ่ายภาพไว้แล้ว", new { @class ="" })</div>
+                                                      
+                                                    </div>
+
+                                                    <div id="LocationInformation">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-2">&nbsp;</div>
+                                                            <h5><a class="btn-link" onclick="toggle_option_location('LocationFillUp')"><span class="glyphicon glyphicon-arrow-down"></span>ดูรายละเอียด</a></h5>
+                                                        </div>
+                                                            <div id="LocationFillUp">
+                                                                <div class="panel panel-info">
+                                                                    <div class="panel-heading"></div>
+                                                                    <div class="panel-body">
+                                                                        <div class="form-group">
+                                                                            @Html.Label("ค้นหาสถานที่", new { @class = "col-sm-4" })
+                                                                            <div class="col-sm-8">
+                                                                                @Html.Kendo().AutoComplete().Name("LocationSearch").HtmlAttributes(new { @class = "" })
+                                                                                @Html.Hidden("LocationId")
+                                                                                @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                            @Html.Label("ชื่อสถานที่", new { @class = "col-sm-4" })
+                                                                            <div class="col-sm-8">
+                                                                                @Html.TextBox("LocationName", null, new { @class = "form-contorl" })
+                                                                                @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                            @Html.Label("ที่ตั้ง", new { @class = "col-sm-4" })
+                                                                            <div class="col-sm-8">
+                                                                                @Html.TextBox("LocationAddress", null, new { @class = "form-contorl" })
+                                                                                @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                            @Html.Label("รายละเอียดของสถานที่", new { @class = "col-sm-4" })
+                                                                            <div class="col-sm-8">
+                                                                                @Html.TextArea("LocationAddress", null, new { @class = "form-contorl", @rows = "5" })
+                                                                                @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                            @Html.Label("แผนที่", new { @class = "col-sm-4" })
+                                                                            <div class="col-sm-8">
+                                                                                @Html.TextBox("LocationMapWeb", null, new { @class = "form-contorl" })
+                                                                                @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                                            </div>
+                                                                        </div>
+
+                                                                            <div class="form-group">
+                                                                                @Html.Label("รายละเอียดการเดินทาง", new { @class = "col-sm-4" })
+                                                                                <div class="col-sm-8">
+                                                                                    @Html.TextArea("LocationMapWeb", new { @class = "form-contorl", @rows = "5" })
+                                                                                    @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                                                </div>
+                                                                            </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    <div class="form-group text-left center-block" style="vertical-align:central">
+                                                        <div class="col-sm-1">
+                                                            @Html.CheckBox("IsOvernightSelected", false, new { @class = "form-contorl chekbox checkbox-inline", @onclick = "toggle_option_location('TravelOption')" })
+                                                        </div>
+                                                        <div class="col-sm-10"> @Html.Label("เลือกสถานที่ต่างจังหวัด", new { @class = "" })</div>
+
+                                                    </div>
+
+                                                    <div id="TravelOption">
+                                                        <div>test</div>
+                                                    </div>
+                                                </div>
+                                             </div>
+                                        <!--Location Section-->
+
                                         <div class="form-group">
                                             <div style="align-content:center" class="col-sm-12">
                                                 <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>Start</button>
@@ -142,7 +233,38 @@
                             <div class="panel-heading"></div>
                             <div class="panel-body">
                                 <div id="ServiceSelection">
-
+                                   
+                                    @*<script>
+                                            var geocoder;
+                                            var map;
+                                            function initialize() {
+                                                geocoder = new google.maps.Geocoder();
+                                                var latlng = new google.maps.LatLng(-34.397, 150.644);
+                                                var mapOptions = {
+                                                    zoom: 8,
+                                                    center: latlng,
+                                                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                                                }
+                                                map = new google.maps.Map(document.getElementById("canvas_maps"), mapOptions);
+                                            }
+                                            function codeAddress() {
+                                                var address = document.getElementById('<%= hdnAddress.ClientID %>').value;
+                                                //alert(address);
+                                                geocoder.geocode({ 'address': address }, function (results, status) {
+                                                    if (status == google.maps.GeocoderStatus.OK) {
+                                                        map.setCenter(results[0].geometry.location);
+                                                        var marker = new google.maps.Marker({
+                                                            map: map,
+                                                            position: results[0].geometry.location
+                                                        });
+                                                    } else {
+                                                        alert("Geocode was not successful for the following reason: " + status);
+                                                    }
+                                                });
+                                            }
+                                    </script> 
+                                    <div id="canvas_maps" style="width: 300px; height: 300px;"></div>
+                                    <div id="map-canvas" style="width:300px; height:300px"></div>*@
                                 </div>
                             </div>
                         </div>
@@ -162,6 +284,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
         $("#EventStart").kendoDateTimePicker().attr("required", true);
         $("#EventEnd").kendoDateTimePicker().attr("required", true);
         $("#GuestNumber").kendoNumericTextBox().attr("required",true);
@@ -185,5 +308,23 @@
                 success: function (data) { $("#ServiceSelection").replaceWith(data); }
             })
         });
+
+        //$(function () {
+        //    initialize();
+        //});
+        $("#LocationInformation").hide();
+        $("#TravelOption").hide();
     });
+
+    function toggle_option_location(id) {
+        var e = document.getElementById(id);
+        if (e.style.display == 'block' || e.style.display == '') {
+            e.style.display = 'none';
+        }
+        else {
+            e.style.display = 'block';
+        }
+    }
+
+
 </script>

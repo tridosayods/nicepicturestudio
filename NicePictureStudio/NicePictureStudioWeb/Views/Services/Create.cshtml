@@ -33,6 +33,34 @@
             });
         });
 
+        $(function () {
+            $(".autocomplete-with-hidden-booking").autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    var url = $(this.element).data("url");
+
+                    $.getJSON(url, { term: request.term }, function (data) {
+                        response(data);
+                    })
+                },
+                select: function (event, ui) {
+                    $(event.target).next("input[type=hidden]").val(ui.item.id);
+                    var orderUrl = '@Url.Action("GetSelectedSpecialRequest", "Services")'
+                    $.getJSON(orderUrl, { bookingId: ui.item.id }, function (data) {
+                        var multiselect = $("#BookingSpecialRequests").data("kendoMultiSelect")
+                        multiselect.dataSource.filter({});
+                        multiselect.value(data);
+                    })
+                   
+                },
+                change: function (event, ui) {
+                    if (!ui.item) {
+                        $(event.target).val("").next("input[type=hidden]").val("");
+                    }
+                }
+            });
+        });
+
         $("#btnSaveAll").on("click", function () {
             event.preventDefault();
             var url = '@Url.Action("SaveAllDocument", "Services")';
@@ -194,7 +222,7 @@
                             <div class="form-group">
                                 @Html.Label("หมายเลขการจอง", htmlAttributes: new { @class = "control-label col-md-3" })
                                 <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.BookingName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForBookingAutocomplete", "Services"), placeholder = "..กรุณากรอกหมายเลขการจอง..." })
+                                    @Html.TextBoxFor(model => model.BookingName, new { @class = "autocomplete-with-hidden-booking form-control", data_url = Url.Action("GetListForBookingAutocomplete", "Services"), placeholder = "..กรุณากรอกหมายเลขการจอง..." })
                                     @Html.Hidden("BookingId")
                                     @Html.ValidationMessageFor(model => model.BookingName)
                                 </div>
@@ -211,7 +239,7 @@
                             <div class="form-group">
                                 @Html.Label("ชื่อเจ้าบ่าว*", htmlAttributes: new { @class = "control-label col-md-3" })
                                 <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.GroomName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForGroomNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อลูกค้า..." })
+                                    @Html.TextBoxFor(model => model.GroomName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForGroomNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าบ่าว..." })
                                     @*@Html.EditorFor(model => model.GroomName, new { htmlAttributes = new { @class = "form-control" } })*@
                                     @Html.ValidationMessageFor(model => model.GroomName, "", new { @class = "text-danger" })
                                 </div>
@@ -220,13 +248,24 @@
                             <div class="form-group">
                                 @Html.Label("ชื่อเจ้าสาว*", htmlAttributes: new { @class = "control-label col-md-3" })
                                 <div class="col-md-9">
-                                    @Html.EditorFor(model => model.BrideName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.TextBoxFor(model => model.BrideName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForBrideNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าสาว..." })
+                                    @*@Html.EditorFor(model => model.BrideName, new { htmlAttributes = new { @class = "form-control" } })*@
                                     @Html.ValidationMessageFor(model => model.BrideName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             
                             <div class="form-group">
                                 @Html.Label("คำขอพิเศษ", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @(Html.Kendo().MultiSelect()
+                                     .Name("BookingSpecialRequests")
+                                       .BindTo(@ViewBag.SpecialOrder as MultiSelectList).HtmlAttributes(new { @Style = "width:200px", @id = "BookingSpecialRequests" }))
+                                                
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                @Html.Label("บริการให้คำแนะนำ", htmlAttributes: new { @class = "control-label col-md-3" })
                                 <div class="col-md-9">
                                  @(Html.Kendo().MultiSelect()
                                       .Name("SpecialRequests")
@@ -238,6 +277,16 @@
                                           "ต้องการคำแนะนำพิธีจีน"
                                       }).HtmlAttributes(new { @Style = "width:200px" })
                                 )
+                                </div>
+                            </div>*@
+
+                            <div class="form-group">
+                                @Html.Label("บริการให้คำแนะนำ", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @(Html.Kendo().MultiSelect()
+                                      .Name("ServiceSuggestions")
+                                      .BindTo(@ViewBag.SuggestionService as MultiSelectList).HtmlAttributes(new { @Style = "width:200px", @id = "ServiceSuggestions" })
+                                    )
                                 </div>
                             </div>
 

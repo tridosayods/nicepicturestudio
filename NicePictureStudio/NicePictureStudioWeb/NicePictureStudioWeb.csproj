@@ -252,6 +252,9 @@
     <Compile Include="App_Data\EmployeeLogin.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\ServiceSuggestion.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Metadata\CustomerMetadata.cs" />
     <Compile Include="Metadata\EmployeeLoginMetadata.cs" />
     <Compile Include="App_Data\EmployeeSchedule.cs">

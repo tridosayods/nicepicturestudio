@@ -40,3 +40,13 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+.ui-autocomplete { 
+    /* same as above */
+    max-height:200px; 
+    max-width: 236px; 
+
+    /* note that x is hidden now */
+    overflow-x:hidden;
+    overflow-y:scroll;
+} 

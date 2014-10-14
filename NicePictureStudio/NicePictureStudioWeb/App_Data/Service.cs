@@ -18,6 +18,7 @@ namespace NicePictureStudio.App_Data
         {
             this.Bookings = new HashSet<Booking>();
             this.ServiceForms = new HashSet<ServiceForm>();
+            this.ServiceSuggestions = new HashSet<ServiceSuggestion>();
         }
     
         public int Id { get; set; }
@@ -33,5 +34,6 @@ namespace NicePictureStudio.App_Data
         public virtual Customer Customer { get; set; }
         public virtual ICollection<ServiceForm> ServiceForms { get; set; }
         public virtual ServiceStatu ServiceStatu { get; set; }
+        public virtual ICollection<ServiceSuggestion> ServiceSuggestions { get; set; }
     }
 }

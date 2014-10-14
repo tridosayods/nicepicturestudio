@@ -44,6 +44,8 @@ namespace NicePictureStudio.App_Data
         public string CoupleEmail { get; set; }
         public string ReferenceTitle { get; set; }
         public string ReferenceSurname { get; set; }
+        public string CustomerNickname { get; set; }
+        public string CoupleNickname { get; set; }
     
         public virtual ICollection<Service> Services { get; set; }
     }
