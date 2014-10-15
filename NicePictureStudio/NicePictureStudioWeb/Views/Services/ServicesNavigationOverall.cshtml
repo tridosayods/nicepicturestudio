@@ -1,4 +1,30 @@
 ﻿@model NicePictureStudio.App_Data.ServiceForm
+
+<script>
+
+    function startChange() {
+        var endPicker = $("#EventEndDate").data("kendoDateTimePicker"),
+            startDate = this.value();
+
+        if (startDate) {
+            startDate = new Date(startDate);
+            startDate.setDate(startDate.getDate() + 1);
+            endPicker.min(startDate);
+        }
+    }
+
+    function endChange() {
+        var startPicker = $("#EventStartDate").data("kendoDateTimePicker"),
+            endDate = this.value();
+
+        if (endDate) {
+            endDate = new Date(endDate);
+            endDate.setDate(endDate.getDate() - 1);
+            startPicker.max(endDate);
+        }
+    }
+</script>
+
 <div id="ServiceNavigation">
     <div class="container">
         <table class="table table-responsive">
@@ -16,22 +42,30 @@
                                             @Html.Label("ประเภทบริการ", new {@class="col-sm-3" })
                                             <div class="col-sm-9">
                                                 @Html.Kendo().DropDownList().Name("ServiceTypeId").BindTo(new string[] { "PreWedding", "Engagement", "Wedding" })
-                                                @Html.ValidationMessage("ServiceTypeId", "*")
+                                                @Html.ValidationMessage("ServiceTypeId", "กรุณาเลือกประเภทการให้บริการ")
                                               </div>
                                            </div>
                                         <div class="form-group">
                                             @Html.Label("เริ่มต้น ", new {@class="col-sm-3" })
                                             <div class="col-sm-9">
-                                                @Html.Kendo().DateTimePickerFor(model => model.EventStart).Min(DateTime.Now).HtmlAttributes(new { @id = "EventStart", @styles = "width:120px" }).Value(Model.EventStart == DateTime.MinValue ? DateTime.Now : Model.EventStart)
-                                                @*@Html.Kendo().DateTimePicker().Name("EventStart").Min(DateTime.Now)*@
+                                                @Html.Kendo().DateTimePickerFor(model => model.EventStart).Min(DateTime.Now).HtmlAttributes(new
+                                           {
+                                               @id = "EventStartDate",
+                                               @styles = "width:120px"
+                                                  }).Value(Model.EventStart == DateTime.MinValue ? DateTime.Now : Model.EventStart).Events(e =>
+                                                    e.Change("startChange"))
+                                                @*@Html.Kendo().DateTimePicker().Name("EventStartDate").Min(DateTime.Now.AddDays(-1)).Events(e => e.Change("startChange")).Value(DateTime.Now)*@
                                                 @Html.ValidationMessageFor(model => model.EventStart)
                                             </div>
+                                          
                                         </div>
                                         <div class="form-group">
                                             @Html.Label("สิ้นสุด ", new { @class = "col-sm-3" })
                                             <div class="col-sm-9">
-                                                @Html.Kendo().DateTimePickerFor(model => model.EventEnd).Min(DateTime.Now).HtmlAttributes(new { @id = "EventEnd", @styles = "width:80px" }).Value(Model.EventEnd == DateTime.MinValue ? DateTime.Now : Model.EventEnd)
-                                                @*@Html.Kendo().DateTimePicker().Name("EventEnd").Min(DateTime.Now)*@
+                                                @Html.Kendo().DateTimePickerFor(model => model.EventEnd).Min(DateTime.Now).HtmlAttributes(new {
+                                               @id = "EventEndDate", @styles = "width:120px" }).Value(Model.EventEnd == DateTime.MinValue ? DateTime.Now : Model.EventEnd).Events(e => 
+                                                   e.Change("endChange"))
+                                                @*@Html.Kendo().DateTimePicker().Name("EventEndDate").Min(DateTime.Now).Events(e => e.Change("endChange"))*@
                                                 @Html.ValidationMessageFor(model => model.EventEnd)
                                             </div>
                                             </div>
@@ -62,7 +96,7 @@
                                                             <div class="col-sm-2">&nbsp;</div>
                                                             <h5><a class="btn-link" onclick="toggle_option_location('LocationFillUp')"><span class="glyphicon glyphicon-arrow-down"></span>ดูรายละเอียด</a></h5>
                                                         </div>
-                                                            <div id="LocationFillUp">
+                                                            @*<div id="LocationFillUp">
                                                                 <div class="panel panel-info">
                                                                     <div class="panel-heading"></div>
                                                                     <div class="panel-body">
@@ -71,7 +105,7 @@
                                                                             <div class="col-sm-8">
                                                                                 @Html.Kendo().AutoComplete().Name("LocationSearch").HtmlAttributes(new { @class = "" })
                                                                                 @Html.Hidden("LocationId")
-                                                                                @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                                   
                                                                             </div>
                                                                         </div>
 
@@ -79,7 +113,7 @@
                                                                             @Html.Label("ชื่อสถานที่", new { @class = "col-sm-4" })
                                                                             <div class="col-sm-8">
                                                                                 @Html.TextBox("LocationName", null, new { @class = "form-contorl" })
-                                                                                @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                                      
                                                                             </div>
                                                                         </div>
 
@@ -87,7 +121,7 @@
                                                                             @Html.Label("ที่ตั้ง", new { @class = "col-sm-4" })
                                                                             <div class="col-sm-8">
                                                                                 @Html.TextBox("LocationAddress", null, new { @class = "form-contorl" })
-                                                                                @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                                          
                                                                             </div>
                                                                         </div>
 
@@ -95,7 +129,7 @@
                                                                             @Html.Label("รายละเอียดของสถานที่", new { @class = "col-sm-4" })
                                                                             <div class="col-sm-8">
                                                                                 @Html.TextArea("LocationAddress", null, new { @class = "form-contorl", @rows = "5" })
-                                                                                @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                                    
                                                                             </div>
                                                                         </div>
 
@@ -103,7 +137,7 @@
                                                                             @Html.Label("แผนที่", new { @class = "col-sm-4" })
                                                                             <div class="col-sm-8">
                                                                                 @Html.TextBox("LocationMapWeb", null, new { @class = "form-contorl" })
-                                                                                @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                                       
                                                                             </div>
                                                                         </div>
 
@@ -111,12 +145,12 @@
                                                                                 @Html.Label("รายละเอียดการเดินทาง", new { @class = "col-sm-4" })
                                                                                 <div class="col-sm-8">
                                                                                     @Html.TextArea("LocationMapWeb", new { @class = "form-contorl", @rows = "5" })
-                                                                                    @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                                                  
                                                                                 </div>
                                                                             </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div>*@
                                                         </div>
 
                                                     <div class="form-group text-left center-block" style="vertical-align:central">
@@ -135,8 +169,8 @@
                                         <!--Location Section-->
 
                                         <div class="form-group">
-                                            <div style="align-content:center" class="col-sm-12">
-                                                <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>Start</button>
+                                            <div style="align-content:center" class="col-sm-12 text-right">
+                                                <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>&nbsp;บันทึก และ ไปยังขั้นตอนถัดไป</button>
                                             </div>
                                            
                                         </div>
@@ -232,41 +266,37 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading"></div>
                             <div class="panel-body">
-                                <div id="ServiceSelection">
-                                   
-                                    @*<script>
-                                            var geocoder;
-                                            var map;
-                                            function initialize() {
-                                                geocoder = new google.maps.Geocoder();
-                                                var latlng = new google.maps.LatLng(-34.397, 150.644);
-                                                var mapOptions = {
-                                                    zoom: 8,
-                                                    center: latlng,
-                                                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                                                }
-                                                map = new google.maps.Map(document.getElementById("canvas_maps"), mapOptions);
-                                            }
-                                            function codeAddress() {
-                                                var address = document.getElementById('<%= hdnAddress.ClientID %>').value;
-                                                //alert(address);
-                                                geocoder.geocode({ 'address': address }, function (results, status) {
-                                                    if (status == google.maps.GeocoderStatus.OK) {
-                                                        map.setCenter(results[0].geometry.location);
-                                                        var marker = new google.maps.Marker({
-                                                            map: map,
-                                                            position: results[0].geometry.location
-                                                        });
-                                                    } else {
-                                                        alert("Geocode was not successful for the following reason: " + status);
-                                                    }
-                                                });
-                                            }
-                                    </script> 
-                                    <div id="canvas_maps" style="width: 300px; height: 300px;"></div>
-                                    <div id="map-canvas" style="width:300px; height:300px"></div>*@
+
+
+                                <!--Location Section -->
+
+                                <div id="LocationFillUp">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading"></div>
+                                        <div class="panel-body">
+                                            <div class="form-horizontal" role="form">
+                                                <div class="form-group">
+                                                    @Html.Label("ค้นหาสถานที่", new { @class = "col-md-3" })
+                                                    <div class="col-md-9 col-xs-5">
+                                                        @Html.TextBox("LocationSearch", null, new { @class = "autocomplete-with-hidden-location form-control", data_url = Url.Action("GetLocationSearching", "Services") })
+                                                        @Html.Hidden("LocationId")
+                                                        @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                    </div>
+                                                </div>
+                                                <div id="SelectedLocationSection">
+                                                    @{Html.RenderAction("LocationServicesForm");}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>  
+                                <!--Location Section -->     
+
+                            <div class="panel-body">
+                              <div id="ServiceSelection">  </div>
                             </div>
+                         
                         </div>
                     </div>
                 </td>
@@ -287,7 +317,12 @@
 
         $("#EventStart").kendoDateTimePicker().attr("required", true);
         $("#EventEnd").kendoDateTimePicker().attr("required", true);
-        $("#GuestNumber").kendoNumericTextBox().attr("required",true);
+        $("#GuestNumber").kendoNumericTextBox().attr("required", true);
+        $("#GuestNumber").kendoNumericTextBox({
+            format: "d",
+            decimals: 0
+        });
+        $("#GuestNumber").data("kendoNumericTextBox").wrapper.width("100px");
 
         $("#FormSubmit").on("submit", function () {
             event.preventDefault(); 
@@ -309,9 +344,38 @@
             })
         });
 
-        //$(function () {
-        //    initialize();
-        //});
+     
+
+        $(function () {
+            $(".autocomplete-with-hidden-location").autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    var url = $(this.element).data("url");
+
+                    $.getJSON(url, { term: request.term }, function (data) {
+                        response(data);
+                    })
+                },
+                select: function (event, ui) {
+                    $(event.target).next("input[type=hidden]").val(ui.item.id);
+                    var url = '@Url.Action("LocationServicesForm","Services")'
+                    $.ajax({
+                        url: url,
+                        data: { id: ui.item.id },
+                        type: "GET",
+                        success: function (data) { $("#SelectedLocationSection").replaceWith(data); }
+                    })
+                },
+                change: function (event, ui) {
+                    if (!ui.item) {
+                        $(event.target).val("").next("input[type=hidden]").val("");
+                    }
+                }
+            });
+        });
+
+
+
         $("#LocationInformation").hide();
         $("#TravelOption").hide();
     });
@@ -324,7 +388,19 @@
         else {
             e.style.display = 'block';
         }
+
+        if (id == "LocationInformation")
+        {
+            var b = document.getElementById("StartCreateService");
+            if (b.disabled == true) {
+                b.disabled = false;
+            }
+            else {
+                b.disabled = true;
+            }
+        }
     }
 
+   
 
 </script>

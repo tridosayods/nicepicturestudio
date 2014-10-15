@@ -5042,7 +5042,95 @@ namespace NicePictureStudio
 
         #endregion
 
-       
+
+        #region Special Location Section
+        public async Task<ActionResult> LocationServicesForm(int? id)
+        {
+            if (id != null)
+            {
+                Location location = await db.Locations.FindAsync(id);
+                LocationType selectedLocationType = await db.LocationTypes.FindAsync(location.LocationType.Id);
+                LocationStyle selectedLocationStyle = await db.LocationStyles.FindAsync(location.LocationStyle.Id);
+                ViewBag.LocationTypes = new SelectList(db.LocationTypes, "Id", "TypeName", selectedLocationType);
+                ViewBag.LocationStyles = new SelectList(db.LocationStyles, "Id", "Name", selectedLocationStyle);
+                return PartialView(location);
+            }
+            else 
+            {
+                ViewBag.LocationTypes = new SelectList(db.LocationTypes, "Id", "TypeName");
+                ViewBag.LocationStyles = new SelectList(db.LocationStyles, "Id", "Name");
+                return PartialView();
+            }
+            
+        }
+
+        public JsonResult GetLocationSearching(string term)
+        {
+            Location[] matching = string.IsNullOrWhiteSpace(term) ?
+                   db.Locations.ToArray() :
+                   db.Locations.Where(l => (l.LocationName.ToUpper().StartsWith(term.ToUpper()))).ToArray();
+
+            return Json(matching.Select(m => new
+            {
+                id = m.LocationId,
+                value = m.LocationName,
+                label = m.LocationName
+            }), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public int SaveAndGetIdFromLocation([Bind(Include = "LocationName,LocationAddress,Detail,MapURL,MapExplanation")]Location location,string btnSubmitCLocation, int LocationType, int LocationStyle, int? LocationId)
+        {
+            if (btnSubmitCLocation == "CreateNew")
+            {
+                int _status = Constant.LOCATION_STATUS_MOREINFO;
+                LocationType _locationType = db.LocationTypes.Find(LocationType);
+                LocationStyle _locationStyle = db.LocationStyles.Find(LocationStyle);
+                LocationStatu _locaionStatus = db.LocationStatus.Find(_status);
+                location.LocationType = _locationType;
+                location.LocationStyle = _locationStyle;
+                location.LocationStatu = _locaionStatus;
+                db.Locations.Add(location);
+                db.SaveChanges();
+                return location.LocationId;
+            }
+            else if (btnSubmitCLocation == "Create")
+            {
+                if (LocationId != null)
+                    return (int)LocationId;
+                else
+                    return 0;
+            }
+            else
+            { return 0; }
+        }
+
+        [HttpPost]
+        public int EditAndGetIdFromLocation([Bind(Include = "LocationName,LocationAddress,Detail,MapURL,MapExplanation")]Location location, string btnSubmitCLocation, int LocationType, int LocationStyle, int? LocationId)
+        {
+            if (LocationId != null)
+            {
+                Location _location = db.Locations.Find(LocationId);
+                _location.LocationName = location.LocationName;
+                _location.LocationAddress = location.LocationAddress;
+                _location.Detail = location.Detail;
+                _location.MapURL = location.MapURL;
+                _location.MapExplanation = location.MapExplanation;
+
+                LocationType _locationType = db.LocationTypes.Find(LocationType);
+                LocationStyle _locationStyle = db.LocationStyles.Find(LocationStyle);
+                _location.LocationType = _locationType;
+                _location.LocationStyle = _locationStyle;
+
+                db.Entry(_location).State = EntityState.Modified;
+                db.SaveChanges();
+                return _location.LocationId;
+            }
+            else
+            { return 0; }
+        }
+        #endregion
+
 
         #region Private Section
 

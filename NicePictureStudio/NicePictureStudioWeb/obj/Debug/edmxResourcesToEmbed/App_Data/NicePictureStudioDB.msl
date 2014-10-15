@@ -137,22 +137,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Locations">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Location">
-        <MappingFragment StoreEntitySet="Location">
-          <ScalarProperty Name="Detail" ColumnName="Detail" />
-          <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
-          <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
-          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-          <ScalarProperty Name="State" ColumnName="State" />
-          <ScalarProperty Name="City" ColumnName="City" />
-          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-          <ScalarProperty Name="LocationAddress" ColumnName="LocationAddress" />
-          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
-          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="LocationSchedules">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationSchedule">
         <MappingFragment StoreEntitySet="LocationSchedule">
@@ -183,15 +167,6 @@
         <MappingFragment StoreEntitySet="LocationStatus">
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="LocationTypes">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationType">
-        <MappingFragment StoreEntitySet="LocationType">
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -319,6 +294,8 @@
     <EntitySetMapping Name="ServiceForms">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceForm">
         <MappingFragment StoreEntitySet="ServiceForm">
+          <ScalarProperty Name="IsOverNight" ColumnName="IsOverNight" />
+          <ScalarProperty Name="IsLocationSelected" ColumnName="IsLocationSelected" />
           <ScalarProperty Name="ServiceNetPrice" ColumnName="ServiceNetPrice" />
           <ScalarProperty Name="ServicePrice" ColumnName="ServicePrice" />
           <ScalarProperty Name="ServiceCost" ColumnName="ServiceCost" />
@@ -418,22 +395,6 @@
       </EndProperty>
       <EndProperty Name="Equipment">
         <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="FK_Location_LocationStatus" TypeName="NicePictureStudioDBModel.FK_Location_LocationStatus" StoreEntitySet="Location">
-      <EndProperty Name="Location">
-        <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-      </EndProperty>
-      <EndProperty Name="LocationStatu">
-        <ScalarProperty Name="Id" ColumnName="Status" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="FK_LocationService_Location" TypeName="NicePictureStudioDBModel.FK_LocationService_Location" StoreEntitySet="LocationService">
-      <EndProperty Name="LocationService">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <EndProperty Name="Location">
-        <ScalarProperty Name="LocationId" ColumnName="LocationId" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="FK_OutsourceContact_OutsourceServiceType" TypeName="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType" StoreEntitySet="OutsourceContact">
@@ -699,14 +660,6 @@
         <ScalarProperty Name="Id" ColumnName="Status" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="FK_Location_LocationType1" TypeName="NicePictureStudioDBModel.FK_Location_LocationType1" StoreEntitySet="Location">
-      <EndProperty Name="Location">
-        <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-      </EndProperty>
-      <EndProperty Name="LocationType">
-        <ScalarProperty Name="Id" ColumnName="LocationType" />
-      </EndProperty>
-    </AssociationSetMapping>
     <EntitySetMapping Name="BookingSpecialRequests">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.BookingSpecialRequest">
         <MappingFragment StoreEntitySet="BookingSpecialRequest">
@@ -739,6 +692,82 @@
       </EndProperty>
       <EndProperty Name="Service">
         <ScalarProperty Name="Id" ColumnName="ServiceId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="ServiceFormLocations">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceFormLocation">
+        <MappingFragment StoreEntitySet="ServiceFormLocation">
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+          <ScalarProperty Name="ServiceFormId" ColumnName="ServiceFormId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LocationStyles">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationStyle">
+        <MappingFragment StoreEntitySet="LocationStyles">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LocationTypes">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationType">
+        <MappingFragment StoreEntitySet="LocationType">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Location">
+        <MappingFragment StoreEntitySet="Location">
+          <ScalarProperty Name="MapExplanation" ColumnName="MapExplanation" />
+          <ScalarProperty Name="MapURL" ColumnName="MapURL" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
+          <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="LocationAddress" ColumnName="LocationAddress" />
+          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_Location_LocationStatus" TypeName="NicePictureStudioDBModel.FK_Location_LocationStatus" StoreEntitySet="Location">
+      <EndProperty Name="Location">
+        <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+      </EndProperty>
+      <EndProperty Name="LocationStatu">
+        <ScalarProperty Name="Id" ColumnName="Status" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_LocationService_Location" TypeName="NicePictureStudioDBModel.FK_LocationService_Location" StoreEntitySet="LocationService">
+      <EndProperty Name="LocationService">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="Location">
+        <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Location_LocationStyles" TypeName="NicePictureStudioDBModel.FK_Location_LocationStyles" StoreEntitySet="Location">
+      <EndProperty Name="Location">
+        <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+      </EndProperty>
+      <EndProperty Name="LocationStyle">
+        <ScalarProperty Name="Id" ColumnName="LocationStyle" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_Location_LocationType1" TypeName="NicePictureStudioDBModel.FK_Location_LocationType1" StoreEntitySet="Location">
+      <EndProperty Name="Location">
+        <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+      </EndProperty>
+      <EndProperty Name="LocationType">
+        <ScalarProperty Name="Id" ColumnName="LocationType" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

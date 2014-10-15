@@ -279,6 +279,9 @@
     <Property Name="CloseTime" Type="time" Precision="7" />
     <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="MapURL" Type="nvarchar(max)" />
+    <Property Name="MapExplanation" Type="nvarchar(max)" />
+    <Property Name="LocationStyle" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="LocationSchedule">
     <Key>
@@ -317,6 +320,14 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="StatusName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="LocationStyles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="LocationType">
@@ -485,6 +496,16 @@
     <Property Name="ServiceCost" Type="decimal" Precision="18" Scale="3" />
     <Property Name="ServicePrice" Type="decimal" Precision="18" Scale="3" />
     <Property Name="ServiceNetPrice" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="IsLocationSelected" Type="bit" />
+    <Property Name="IsOverNight" Type="bit" />
+  </EntityType>
+  <EntityType Name="ServiceFormLocation">
+    <Key>
+      <PropertyRef Name="ServiceFormId" />
+      <PropertyRef Name="LocationId" />
+    </Key>
+    <Property Name="ServiceFormId" Type="int" Nullable="false" />
+    <Property Name="LocationId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ServiceMapping">
     <Key>
@@ -808,7 +829,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Location_LocationType">
+  <Association Name="FK_Location_LocationStyles">
+    <End Role="LocationStyles" Type="Self.LocationStyles" Multiplicity="1" />
+    <End Role="Location" Type="Self.Location" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LocationStyles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Location">
+        <PropertyRef Name="LocationStyle" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Location_LocationType1">
     <End Role="LocationType" Type="Self.LocationType" Multiplicity="1" />
     <End Role="Location" Type="Self.Location" Multiplicity="*" />
     <ReferentialConstraint>
@@ -976,6 +1009,32 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ServiceFormLocation_Location">
+    <End Role="Location" Type="Self.Location" Multiplicity="1" />
+    <End Role="ServiceFormLocation" Type="Self.ServiceFormLocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="ServiceFormLocation">
+        <PropertyRef Name="LocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--Errors Found During Generation:
+warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has been omitted from the storage model. Column 'LocationId' of table 'NicePictureStudioDBModel.Store.ServiceFormLocation' is a foreign key participating in multiple relationships. A one-to-one Entity Model will not validate since data inconsistency is possible.
+        <Association Name="FK_ServiceFormLocation_ServiceForm">
+          <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
+          <End Role="ServiceFormLocation" Type="Self.ServiceFormLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceForm">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceFormLocation">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>-->
   <Association Name="FK_ServiceMapping_ServiceForm">
     <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
     <End Role="ServiceMapping" Type="Self.ServiceMapping" Multiplicity="0..1" />
@@ -1054,6 +1113,7 @@
     <EntitySet Name="LocationService" EntityType="Self.LocationService" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LocationServiceTiming" EntityType="Self.LocationServiceTiming" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LocationStatus" EntityType="Self.LocationStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LocationStyles" EntityType="Self.LocationStyles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LocationType" EntityType="Self.LocationType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OutputSchedule" EntityType="Self.OutputSchedule" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OutputService" EntityType="Self.OutputService" Schema="dbo" store:Type="Tables" />
@@ -1070,6 +1130,7 @@
     <EntitySet Name="PromotionStatus" EntityType="Self.PromotionStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceForm" EntityType="Self.ServiceForm" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ServiceFormLocation" EntityType="Self.ServiceFormLocation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceMapping" EntityType="Self.ServiceMapping" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceStatus" EntityType="Self.ServiceStatus" Schema="dbo" store:Type="Tables" />
@@ -1164,7 +1225,11 @@
       <End Role="LocationStatus" EntitySet="LocationStatus" />
       <End Role="Location" EntitySet="Location" />
     </AssociationSet>
-    <AssociationSet Name="FK_Location_LocationType" Association="Self.FK_Location_LocationType">
+    <AssociationSet Name="FK_Location_LocationStyles" Association="Self.FK_Location_LocationStyles">
+      <End Role="LocationStyles" EntitySet="LocationStyles" />
+      <End Role="Location" EntitySet="Location" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Location_LocationType1" Association="Self.FK_Location_LocationType1">
       <End Role="LocationType" EntitySet="LocationType" />
       <End Role="Location" EntitySet="Location" />
     </AssociationSet>
@@ -1219,6 +1284,10 @@
     <AssociationSet Name="FK_ServiceForm_ServiceType" Association="Self.FK_ServiceForm_ServiceType">
       <End Role="ServiceType" EntitySet="ServiceType" />
       <End Role="ServiceForm" EntitySet="ServiceForm" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ServiceFormLocation_Location" Association="Self.FK_ServiceFormLocation_Location">
+      <End Role="Location" EntitySet="Location" />
+      <End Role="ServiceFormLocation" EntitySet="ServiceFormLocation" />
     </AssociationSet>
     <AssociationSet Name="FK_ServiceMapping_ServiceForm" Association="Self.FK_ServiceMapping_ServiceForm">
       <End Role="ServiceForm" EntitySet="ServiceForm" />

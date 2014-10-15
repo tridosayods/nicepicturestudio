@@ -36,11 +36,9 @@ namespace NicePictureStudio.App_Data
         public virtual DbSet<EquipmentService> EquipmentServices { get; set; }
         public virtual DbSet<EquipmentStatu> EquipmentStatus { get; set; }
         public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
-        public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<LocationSchedule> LocationSchedules { get; set; }
         public virtual DbSet<LocationService> LocationServices { get; set; }
         public virtual DbSet<LocationStatu> LocationStatus { get; set; }
-        public virtual DbSet<LocationType> LocationTypes { get; set; }
         public virtual DbSet<OutputSchedule> OutputSchedules { get; set; }
         public virtual DbSet<OutputService> OutputServices { get; set; }
         public virtual DbSet<OutsourceContact> OutsourceContacts { get; set; }
@@ -67,5 +65,9 @@ namespace NicePictureStudio.App_Data
         public virtual DbSet<CRMServiceType> CRMServiceTypes { get; set; }
         public virtual DbSet<BookingSpecialRequest> BookingSpecialRequests { get; set; }
         public virtual DbSet<ServiceSuggestion> ServiceSuggestions { get; set; }
+        public virtual DbSet<ServiceFormLocation> ServiceFormLocations { get; set; }
+        public virtual DbSet<LocationStyle> LocationStyles { get; set; }
+        public virtual DbSet<LocationType> LocationTypes { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
     }
 }

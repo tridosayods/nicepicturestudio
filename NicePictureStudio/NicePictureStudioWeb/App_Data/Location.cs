@@ -17,6 +17,7 @@ namespace NicePictureStudio.App_Data
         public Location()
         {
             this.LocationServices = new HashSet<LocationService>();
+            this.ServiceFormLocations = new HashSet<ServiceFormLocation>();
         }
     
         public int LocationId { get; set; }
@@ -29,9 +30,13 @@ namespace NicePictureStudio.App_Data
         public Nullable<System.TimeSpan> OpenTime { get; set; }
         public Nullable<System.TimeSpan> CloseTime { get; set; }
         public string Detail { get; set; }
+        public string MapURL { get; set; }
+        public string MapExplanation { get; set; }
     
         public virtual LocationStatu LocationStatu { get; set; }
         public virtual ICollection<LocationService> LocationServices { get; set; }
+        public virtual ICollection<ServiceFormLocation> ServiceFormLocations { get; set; }
+        public virtual LocationStyle LocationStyle { get; set; }
         public virtual LocationType LocationType { get; set; }
     }
 }

@@ -284,6 +284,9 @@
           <Property Name="CloseTime" Type="time" Precision="7" />
           <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="MapURL" Type="nvarchar(max)" />
+          <Property Name="MapExplanation" Type="nvarchar(max)" />
+          <Property Name="LocationStyle" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="LocationSchedule">
           <Key>
@@ -322,6 +325,14 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StatusName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="LocationStyles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="LocationType">
@@ -490,6 +501,16 @@
           <Property Name="ServiceCost" Type="decimal" Precision="18" Scale="3" />
           <Property Name="ServicePrice" Type="decimal" Precision="18" Scale="3" />
           <Property Name="ServiceNetPrice" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="IsLocationSelected" Type="bit" />
+          <Property Name="IsOverNight" Type="bit" />
+        </EntityType>
+        <EntityType Name="ServiceFormLocation">
+          <Key>
+            <PropertyRef Name="ServiceFormId" />
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="ServiceFormId" Type="int" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ServiceMapping">
           <Key>
@@ -813,7 +834,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Location_LocationType">
+        <Association Name="FK_Location_LocationStyles">
+          <End Role="LocationStyles" Type="Self.LocationStyles" Multiplicity="1" />
+          <End Role="Location" Type="Self.Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocationStyles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="LocationStyle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Location_LocationType1">
           <End Role="LocationType" Type="Self.LocationType" Multiplicity="1" />
           <End Role="Location" Type="Self.Location" Multiplicity="*" />
           <ReferentialConstraint>
@@ -981,6 +1014,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ServiceFormLocation_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="ServiceFormLocation" Type="Self.ServiceFormLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="ServiceFormLocation">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has been omitted from the storage model. Column 'LocationId' of table 'NicePictureStudioDBModel.Store.ServiceFormLocation' is a foreign key participating in multiple relationships. A one-to-one Entity Model will not validate since data inconsistency is possible.
+        <Association Name="FK_ServiceFormLocation_ServiceForm">
+          <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
+          <End Role="ServiceFormLocation" Type="Self.ServiceFormLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceForm">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceFormLocation">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>-->
         <Association Name="FK_ServiceMapping_ServiceForm">
           <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
           <End Role="ServiceMapping" Type="Self.ServiceMapping" Multiplicity="0..1" />
@@ -1059,6 +1118,7 @@
           <EntitySet Name="LocationService" EntityType="Self.LocationService" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LocationServiceTiming" EntityType="Self.LocationServiceTiming" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LocationStatus" EntityType="Self.LocationStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LocationStyles" EntityType="Self.LocationStyles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LocationType" EntityType="Self.LocationType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OutputSchedule" EntityType="Self.OutputSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OutputService" EntityType="Self.OutputService" Schema="dbo" store:Type="Tables" />
@@ -1075,6 +1135,7 @@
           <EntitySet Name="PromotionStatus" EntityType="Self.PromotionStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceForm" EntityType="Self.ServiceForm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceFormLocation" EntityType="Self.ServiceFormLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceMapping" EntityType="Self.ServiceMapping" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceStatus" EntityType="Self.ServiceStatus" Schema="dbo" store:Type="Tables" />
@@ -1169,7 +1230,11 @@
             <End Role="LocationStatus" EntitySet="LocationStatus" />
             <End Role="Location" EntitySet="Location" />
           </AssociationSet>
-          <AssociationSet Name="FK_Location_LocationType" Association="Self.FK_Location_LocationType">
+          <AssociationSet Name="FK_Location_LocationStyles" Association="Self.FK_Location_LocationStyles">
+            <End Role="LocationStyles" EntitySet="LocationStyles" />
+            <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_LocationType1" Association="Self.FK_Location_LocationType1">
             <End Role="LocationType" EntitySet="LocationType" />
             <End Role="Location" EntitySet="Location" />
           </AssociationSet>
@@ -1225,6 +1290,10 @@
             <End Role="ServiceType" EntitySet="ServiceType" />
             <End Role="ServiceForm" EntitySet="ServiceForm" />
           </AssociationSet>
+          <AssociationSet Name="FK_ServiceFormLocation_Location" Association="Self.FK_ServiceFormLocation_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="ServiceFormLocation" EntitySet="ServiceFormLocation" />
+          </AssociationSet>
           <AssociationSet Name="FK_ServiceMapping_ServiceForm" Association="Self.FK_ServiceMapping_ServiceForm">
             <End Role="ServiceForm" EntitySet="ServiceForm" />
             <End Role="ServiceMapping" EntitySet="ServiceMapping" />
@@ -1258,11 +1327,9 @@
           <EntitySet Name="EquipmentServices" EntityType="NicePictureStudioDBModel.EquipmentService" />
           <EntitySet Name="EquipmentStatus" EntityType="NicePictureStudioDBModel.EquipmentStatu" />
           <EntitySet Name="EquipmentTypes" EntityType="NicePictureStudioDBModel.EquipmentType" />
-          <EntitySet Name="Locations" EntityType="NicePictureStudioDBModel.Location" />
           <EntitySet Name="LocationSchedules" EntityType="NicePictureStudioDBModel.LocationSchedule" />
           <EntitySet Name="LocationServices" EntityType="NicePictureStudioDBModel.LocationService" />
           <EntitySet Name="LocationStatus" EntityType="NicePictureStudioDBModel.LocationStatu" />
-          <EntitySet Name="LocationTypes" EntityType="NicePictureStudioDBModel.LocationType" />
           <EntitySet Name="OutputSchedules" EntityType="NicePictureStudioDBModel.OutputSchedule" />
           <EntitySet Name="OutputServices" EntityType="NicePictureStudioDBModel.OutputService" />
           <EntitySet Name="OutsourceContacts" EntityType="NicePictureStudioDBModel.OutsourceContact" />
@@ -1304,14 +1371,6 @@
           <AssociationSet Name="FK_EquipmentService_Equipment" Association="NicePictureStudioDBModel.FK_EquipmentService_Equipment">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="EquipmentService" EntitySet="EquipmentServices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Location_LocationStatus" Association="NicePictureStudioDBModel.FK_Location_LocationStatus">
-            <End Role="LocationStatu" EntitySet="LocationStatus" />
-            <End Role="Location" EntitySet="Locations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LocationService_Location" Association="NicePictureStudioDBModel.FK_LocationService_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="LocationService" EntitySet="LocationServices" />
           </AssociationSet>
           <AssociationSet Name="FK_OutsourceContact_OutsourceServiceType" Association="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType">
             <End Role="OutsourceServiceType" EntitySet="OutsourceServiceTypes" />
@@ -1407,10 +1466,6 @@
             <End Role="ServiceStatu" EntitySet="ServiceStatus" />
             <End Role="Service" EntitySet="Services" />
           </AssociationSet>
-          <AssociationSet Name="FK_Location_LocationType1" Association="NicePictureStudioDBModel.FK_Location_LocationType1">
-            <End Role="LocationType" EntitySet="LocationTypes" />
-            <End Role="Location" EntitySet="Locations" />
-          </AssociationSet>
           <EntitySet Name="BookingSpecialRequests" EntityType="NicePictureStudioDBModel.BookingSpecialRequest" />
           <AssociationSet Name="BookingRequestRelation" Association="NicePictureStudioDBModel.BookingRequestRelation">
             <End Role="Booking" EntitySet="Bookings" />
@@ -1420,6 +1475,30 @@
           <AssociationSet Name="ServiceSuggestMap" Association="NicePictureStudioDBModel.ServiceSuggestMap">
             <End Role="Service" EntitySet="Services" />
             <End Role="ServiceSuggestion" EntitySet="ServiceSuggestions" />
+          </AssociationSet>
+          <EntitySet Name="ServiceFormLocations" EntityType="NicePictureStudioDBModel.ServiceFormLocation" />
+          <EntitySet Name="LocationStyles" EntityType="NicePictureStudioDBModel.LocationStyle" />
+          <EntitySet Name="LocationTypes" EntityType="NicePictureStudioDBModel.LocationType" />
+          <EntitySet Name="Locations" EntityType="NicePictureStudioDBModel.Location" />
+          <AssociationSet Name="FK_Location_LocationStatus" Association="NicePictureStudioDBModel.FK_Location_LocationStatus">
+            <End Role="LocationStatu" EntitySet="LocationStatus" />
+            <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationService_Location" Association="NicePictureStudioDBModel.FK_LocationService_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="LocationService" EntitySet="LocationServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceFormLocation_Location" Association="NicePictureStudioDBModel.FK_ServiceFormLocation_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="ServiceFormLocation" EntitySet="ServiceFormLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_LocationStyles" Association="NicePictureStudioDBModel.FK_Location_LocationStyles">
+            <End Role="LocationStyle" EntitySet="LocationStyles" />
+            <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Location_LocationType1" Association="NicePictureStudioDBModel.FK_Location_LocationType1">
+            <End Role="LocationType" EntitySet="LocationTypes" />
+            <End Role="Location" EntitySet="Locations" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="C__MigrationHistory">
@@ -1565,24 +1644,6 @@
           <Property Name="Descriptoin" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Equipments" Relationship="NicePictureStudioDBModel.FK_Equipment_EquipmentType" FromRole="EquipmentType" ToRole="Equipment" />
         </EntityType>
-        <EntityType Name="Location">
-          <Key>
-            <PropertyRef Name="LocationId" />
-          </Key>
-          <Property Name="LocationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LocationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LocationAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PostalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="State" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OpenTime" Type="Time" Precision="7" />
-          <Property Name="CloseTime" Type="Time" Precision="7" />
-          <Property Name="Detail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="LocationStatu" Relationship="NicePictureStudioDBModel.FK_Location_LocationStatus" FromRole="Location" ToRole="LocationStatu" />
-          <NavigationProperty Name="LocationServices" Relationship="NicePictureStudioDBModel.FK_LocationService_Location" FromRole="Location" ToRole="LocationService" />
-          <NavigationProperty Name="LocationType" Relationship="NicePictureStudioDBModel.FK_Location_LocationType1" FromRole="Location" ToRole="LocationType" />
-        </EntityType>
         <EntityType Name="LocationSchedule">
           <Key>
             <PropertyRef Name="Id" />
@@ -1605,8 +1666,8 @@
           <Property Name="Cost" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="IsOverNight" Type="Boolean" Nullable="false" />
           <Property Name="OverNightPeriod" Type="Int32" />
-          <NavigationProperty Name="Location" Relationship="NicePictureStudioDBModel.FK_LocationService_Location" FromRole="LocationService" ToRole="Location" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Location" Relationship="NicePictureStudioDBModel.FK_LocationService_Location" FromRole="LocationService" ToRole="Location" />
         </EntityType>
         <EntityType Name="LocationStatu">
           <Key>
@@ -1616,15 +1677,6 @@
           <Property Name="StatusName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Locations" Relationship="NicePictureStudioDBModel.FK_Location_LocationStatus" FromRole="LocationStatu" ToRole="Location" />
-        </EntityType>
-        <EntityType Name="LocationType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Locations" Relationship="NicePictureStudioDBModel.FK_Location_LocationType1" FromRole="LocationType" ToRole="Location" />
         </EntityType>
         <EntityType Name="OutputSchedule">
           <Key>
@@ -1767,7 +1819,9 @@
           <Property Name="ServiceCost" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="ServicePrice" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="ServiceNetPrice" Type="Decimal" Precision="18" Scale="3" />
-        </EntityType>
+          <Property Name="IsLocationSelected" Type="Boolean" />
+          <Property Name="IsOverNight" Type="Boolean" />
+          </EntityType>
         <EntityType Name="Service">
           <Key>
             <PropertyRef Name="Id" />
@@ -1832,14 +1886,6 @@
         <Association Name="FK_EquipmentService_Equipment">
           <End Type="NicePictureStudioDBModel.Equipment" Role="Equipment" Multiplicity="1" />
           <End Type="NicePictureStudioDBModel.EquipmentService" Role="EquipmentService" Multiplicity="*" />
-        </Association>
-        <Association Name="FK_Location_LocationStatus">
-          <End Type="NicePictureStudioDBModel.LocationStatu" Role="LocationStatu" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="*" />
-        </Association>
-        <Association Name="FK_LocationService_Location">
-          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.LocationService" Role="LocationService" Multiplicity="*" />
         </Association>
         <Association Name="FK_OutsourceContact_OutsourceServiceType">
           <End Type="NicePictureStudioDBModel.OutsourceServiceType" Role="OutsourceServiceType" Multiplicity="1" />
@@ -2071,10 +2117,6 @@
           <End Type="NicePictureStudioDBModel.ServiceStatu" Role="ServiceStatu" Multiplicity="1" />
           <End Type="NicePictureStudioDBModel.Service" Role="Service" Multiplicity="*" />
         </Association>
-        <Association Name="FK_Location_LocationType1">
-          <End Type="NicePictureStudioDBModel.LocationType" Role="LocationType" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="*" />
-        </Association>
         <EntityType Name="BookingSpecialRequest">
           <Key>
             <PropertyRef Name="Id" />
@@ -2100,6 +2142,83 @@
         <Association Name="ServiceSuggestMap">
           <End Type="NicePictureStudioDBModel.Service" Role="Service" Multiplicity="*" />
           <End Type="NicePictureStudioDBModel.ServiceSuggestion" Role="ServiceSuggestion" Multiplicity="*" />
+        </Association>
+        <EntityType Name="ServiceFormLocation">
+          <Key>
+            <PropertyRef Name="ServiceFormId" />
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="ServiceFormId" Type="Int32" Nullable="false" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Location" Relationship="NicePictureStudioDBModel.FK_ServiceFormLocation_Location" FromRole="ServiceFormLocation" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="LocationStyle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Locations" Relationship="NicePictureStudioDBModel.FK_Location_LocationStyles" FromRole="LocationStyle" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="LocationType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Locations" Relationship="NicePictureStudioDBModel.FK_Location_LocationType1" FromRole="LocationType" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LocationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LocationAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OpenTime" Type="Time" Precision="7" />
+          <Property Name="CloseTime" Type="Time" Precision="7" />
+          <Property Name="Detail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MapURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MapExplanation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LocationStatu" Relationship="NicePictureStudioDBModel.FK_Location_LocationStatus" FromRole="Location" ToRole="LocationStatu" />
+          <NavigationProperty Name="LocationServices" Relationship="NicePictureStudioDBModel.FK_LocationService_Location" FromRole="Location" ToRole="LocationService" />
+          <NavigationProperty Name="ServiceFormLocations" Relationship="NicePictureStudioDBModel.FK_ServiceFormLocation_Location" FromRole="Location" ToRole="ServiceFormLocation" />
+          <NavigationProperty Name="LocationStyle" Relationship="NicePictureStudioDBModel.FK_Location_LocationStyles" FromRole="Location" ToRole="LocationStyle" />
+          <NavigationProperty Name="LocationType" Relationship="NicePictureStudioDBModel.FK_Location_LocationType1" FromRole="Location" ToRole="LocationType" />
+        </EntityType>
+        <Association Name="FK_Location_LocationStatus">
+          <End Type="NicePictureStudioDBModel.LocationStatu" Role="LocationStatu" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_LocationService_Location">
+          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.LocationService" Role="LocationService" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_ServiceFormLocation_Location">
+          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.ServiceFormLocation" Role="ServiceFormLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="ServiceFormLocation">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Location_LocationStyles">
+          <End Type="NicePictureStudioDBModel.LocationStyle" Role="LocationStyle" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Location_LocationType1">
+          <End Type="NicePictureStudioDBModel.LocationType" Role="LocationType" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -2243,22 +2362,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Locations">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.Location">
-              <MappingFragment StoreEntitySet="Location">
-                <ScalarProperty Name="Detail" ColumnName="Detail" />
-                <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
-                <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="LocationAddress" ColumnName="LocationAddress" />
-                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="LocationSchedules">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationSchedule">
               <MappingFragment StoreEntitySet="LocationSchedule">
@@ -2289,15 +2392,6 @@
               <MappingFragment StoreEntitySet="LocationStatus">
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LocationTypes">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationType">
-              <MappingFragment StoreEntitySet="LocationType">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2425,6 +2519,8 @@
           <EntitySetMapping Name="ServiceForms">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceForm">
               <MappingFragment StoreEntitySet="ServiceForm">
+                <ScalarProperty Name="IsOverNight" ColumnName="IsOverNight" />
+                <ScalarProperty Name="IsLocationSelected" ColumnName="IsLocationSelected" />
                 <ScalarProperty Name="ServiceNetPrice" ColumnName="ServiceNetPrice" />
                 <ScalarProperty Name="ServicePrice" ColumnName="ServicePrice" />
                 <ScalarProperty Name="ServiceCost" ColumnName="ServiceCost" />
@@ -2524,22 +2620,6 @@
             </EndProperty>
             <EndProperty Name="Equipment">
               <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_Location_LocationStatus" TypeName="NicePictureStudioDBModel.FK_Location_LocationStatus" StoreEntitySet="Location">
-            <EndProperty Name="Location">
-              <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-            </EndProperty>
-            <EndProperty Name="LocationStatu">
-              <ScalarProperty Name="Id" ColumnName="Status" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_LocationService_Location" TypeName="NicePictureStudioDBModel.FK_LocationService_Location" StoreEntitySet="LocationService">
-            <EndProperty Name="LocationService">
-              <ScalarProperty Name="Id" ColumnName="Id" />
-            </EndProperty>
-            <EndProperty Name="Location">
-              <ScalarProperty Name="LocationId" ColumnName="LocationId" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="FK_OutsourceContact_OutsourceServiceType" TypeName="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType" StoreEntitySet="OutsourceContact">
@@ -2805,14 +2885,6 @@
               <ScalarProperty Name="Id" ColumnName="Status" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_Location_LocationType1" TypeName="NicePictureStudioDBModel.FK_Location_LocationType1" StoreEntitySet="Location">
-            <EndProperty Name="Location">
-              <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-            </EndProperty>
-            <EndProperty Name="LocationType">
-              <ScalarProperty Name="Id" ColumnName="LocationType" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="BookingSpecialRequests">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.BookingSpecialRequest">
               <MappingFragment StoreEntitySet="BookingSpecialRequest">
@@ -2845,6 +2917,82 @@
             </EndProperty>
             <EndProperty Name="Service">
               <ScalarProperty Name="Id" ColumnName="ServiceId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="ServiceFormLocations">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceFormLocation">
+              <MappingFragment StoreEntitySet="ServiceFormLocation">
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="ServiceFormId" ColumnName="ServiceFormId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationStyles">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationStyle">
+              <MappingFragment StoreEntitySet="LocationStyles">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationTypes">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationType">
+              <MappingFragment StoreEntitySet="LocationType">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="MapExplanation" ColumnName="MapExplanation" />
+                <ScalarProperty Name="MapURL" ColumnName="MapURL" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
+                <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="LocationAddress" ColumnName="LocationAddress" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_Location_LocationStatus" TypeName="NicePictureStudioDBModel.FK_Location_LocationStatus" StoreEntitySet="Location">
+            <EndProperty Name="Location">
+              <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+            </EndProperty>
+            <EndProperty Name="LocationStatu">
+              <ScalarProperty Name="Id" ColumnName="Status" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_LocationService_Location" TypeName="NicePictureStudioDBModel.FK_LocationService_Location" StoreEntitySet="LocationService">
+            <EndProperty Name="LocationService">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Location">
+              <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Location_LocationStyles" TypeName="NicePictureStudioDBModel.FK_Location_LocationStyles" StoreEntitySet="Location">
+            <EndProperty Name="Location">
+              <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+            </EndProperty>
+            <EndProperty Name="LocationStyle">
+              <ScalarProperty Name="Id" ColumnName="LocationStyle" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Location_LocationType1" TypeName="NicePictureStudioDBModel.FK_Location_LocationType1" StoreEntitySet="Location">
+            <EndProperty Name="Location">
+              <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+            </EndProperty>
+            <EndProperty Name="LocationType">
+              <ScalarProperty Name="Id" ColumnName="LocationType" />
             </EndProperty>
           </AssociationSetMapping>
           </EntityContainerMapping>

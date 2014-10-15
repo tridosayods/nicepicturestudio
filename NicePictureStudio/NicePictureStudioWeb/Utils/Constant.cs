@@ -78,6 +78,10 @@ namespace NicePictureStudio.Utils
         public static readonly int CRM_SERVICE_CATEGORY_OUTSOURCE = 4;
         public static readonly int CRM_SERVICE_CATEGORY_OUTPUT = 5;
 
+        public static readonly int LOCATION_STATUS_OPENED = 1;
+        public static readonly int LOCATION_STATUS_MOREINFO = 2;
+        public static readonly int LOCATION_STATUS_CLOSED = 3;
+
     }
 
     public static class RazorExtensions

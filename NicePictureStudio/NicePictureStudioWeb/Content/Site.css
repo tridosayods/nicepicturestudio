@@ -49,4 +49,10 @@ input[type="checkbox"].input-validation-error {
     /* note that x is hidden now */
     overflow-x:hidden;
     overflow-y:scroll;
+    z-index:5000 !important;
+    position:absolute;
 } 
+
+.ui-selectmenu-menu {
+    z-index:100;
+}

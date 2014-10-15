@@ -1,0 +1,178 @@
+﻿@model NicePictureStudio.App_Data.Location
+
+<div id="SelectedLocationSection">
+    @using (Ajax.BeginForm("SaveAndGetIdFromLocation", "Services", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnBegin = "ValidateFormClocation",
+        OnSuccess = "FinishSubmitCLocation",
+    }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Location</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.Label("ชื่อสถานที่", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LocationName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LocationName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("ที่ตั้ง", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LocationAddress, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LocationAddress, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.Label("รายละเอียดของสถานที่", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Detail, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("ประเภทของสถานที่", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Kendo().DropDownListFor(model => model.LocationType).HtmlAttributes(new { @id = "LocationType" }).BindTo(@ViewBag.LocationTypes as SelectList)
+                    @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("รูปแบบของสถานที่", new { @class = "col-md-2" })
+                <div class="col-md-10">
+                    @Html.Kendo().DropDownListFor(model => model.LocationStyle).HtmlAttributes(new { @id = "LocationStyle" }).BindTo(@ViewBag.LocationStyles as SelectList)
+                    @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("แผนที่", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MapURL, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MapURL, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("รายละเอียดการเดินทาง", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MapExplanation, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MapExplanation, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @Html.HiddenFor(model => model.LocationId, new { @id="LocationFormId"})
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" id="btnSubmitNewCLocation" name="btnSubmitCLocation" value="CreateNew" class="btn btn-default">บันทึกเป็นถานที่ใหม่</button>
+                    <button type="submit" id="btnSubmitCLocation" name="btnSubmitCLocation" value="Create" class="btn btn-default">บันทึกสถานที่จากการค้นหา</button>
+                    <button type="button" id="btnEditCLocation" name="btnEditCLocation" value="Edit" class="btn btn-default" onclick="EnableCLocationForm()">แก้ไข</button>
+                    <button type="button" id="btnSaveEditCLocation" name="btnSaveEditCLocation" value="SaveEdit" class="btn btn-default">บันทึกการแก้ไข</button>
+                    <button type="button" name="btnReset" value="Clean" onclick="CleanFormCLocation()" class="btn btn-default">ล้างข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnEditCLocation").attr("disabled", "disabled");
+        $("#btnSaveEditCLocation").attr("disabled", "disabled");
+
+        $("#btnSaveEditCLocation").on("click", function () {
+            event.preventDefault();
+            alert($("#LocationType").data("kendoDropDownList").value());
+            var url = '@Url.Action("EditAndGetIdFromLocation", "Services")';
+            var data = {
+                LocationName: $("#LocationName").val(),
+                LocationAddress: $("#LocationAddress").val(),
+                Detail: $("#Detail").val(),
+                MapURL: $("#MapURL").val(),
+                MapExplanation: $("#MapExplanation").val(),
+                LocationType : $("#LocationType").data("kendoDropDownList").value(),
+                LocationStyle : $("#LocationStyle").data("kendoDropDownList").value(),
+                LocationFormId: $("#LocationFormId").val()
+                };
+            $.ajax({
+                url: url,
+                type: "POST",
+                data : data,
+                success: function (data) { DisableCLocationForm(); }
+            })
+        });
+
+    });
+
+    function ValidateFormClocation()
+    {
+        if (($("#LocationFormId").val() == 0) || $("#LocationFormId").val() == null)
+        {
+            alert("กรุณาเลือกสถานที่ ให้เสร็จสิ้น");
+            return false;
+        }
+    }
+
+    function CleanFormCLocation()
+    {
+        $("#LocationName").val("");
+        $("#LocationAddress").val("");
+        $("#Detail").val("");
+        $("#MapURL").val("");
+        $("#MapExplanation").val("");
+        $("#LocationType").data("kendoDropDownList").select(0);
+        $("#LocationStyle").data("kendoDropDownList").select(0);
+        $("#LocationFormId").val("");
+    }
+
+    function FinishSubmitCLocation(data)
+    {
+        $("#btnSubmitNewCLocation").attr("disabled", "disabled");
+        $("#btnSubmitCLocation").attr("disabled", "disabled");
+        //$("#btnReset").attr("disabled", "disabled");
+        $("#btnEditCLocation").attr("disabled", null);
+        $("#btnSaveEditCLocation").attr("disabled", null);
+        $("#LocationFormId").val(data);
+        $("#StartCreateService").attr("disabled", null);
+        DisableCLocationForm();
+    }
+
+    function EnableCLocationForm()
+    {
+        $("#LocationName").attr("disabled", null);
+        $("#LocationAddress").attr("disabled", null);
+        $("#Detail").attr("disabled", null);
+        $("#MapURL").attr("disabled", null);
+        $("#MapExplanation").attr("disabled", null);
+        $("#LocationType").attr("disabled", null);
+        $("#LocationStyle").attr("disabled", null);
+        $("#LocationType").data("kendoDropDownList").enable();
+        $("#LocationStyle").data("kendoDropDownList").enable();
+    }
+
+    function DisableCLocationForm()
+    {
+        $("#LocationName").attr("disabled", "disabled");
+        $("#LocationAddress").attr("disabled", "disabled");
+        $("#Detail").attr("disabled", "disabled");
+        $("#MapURL").attr("disabled", "disabled");
+        $("#MapExplanation").attr("disabled", "disabled");
+        $("#LocationType").attr("disabled", "disabled");
+        $("#LocationStyle").attr("disabled", "disabled");
+        $("#LocationType").data("kendoDropDownList").enable(false);
+        $("#LocationStyle").data("kendoDropDownList").enable(false);
+    }  
+    
+
+</script>

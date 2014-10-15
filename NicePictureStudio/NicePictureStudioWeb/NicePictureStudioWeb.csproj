@@ -252,6 +252,12 @@
     <Compile Include="App_Data\EmployeeLogin.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\LocationStyle.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\ServiceFormLocation.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\ServiceSuggestion.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
@@ -814,6 +820,7 @@
     <Content Include="Views\Customers\Details.cshtml" />
     <Content Include="Views\Customers\Edit.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Services\LocationServicesForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">
