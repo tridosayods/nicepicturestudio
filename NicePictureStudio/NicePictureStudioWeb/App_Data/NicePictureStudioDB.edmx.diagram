@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d1b6a36b3623465492412af731b07f40" Name="Diagram1" ZoomLevel="92" >
+      <Diagram DiagramId="d1b6a36b3623465492412af731b07f40" Name="Diagram1" ZoomLevel="78" >
         <EntityTypeShape EntityType="NicePictureStudioDBModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.Booking" Width="1.75" PointX="11.875" PointY="6.875" IsExpanded="true" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.BookingStatu" Width="1.5" PointX="11.25" PointY="10.5" />
@@ -84,6 +84,14 @@
         <AssociationConnector Association="NicePictureStudioDBModel.FK_ServiceFormLocation_Location" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Location_LocationStyles" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Location_LocationType1" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.EmployeeInfo" Width="1.5" PointX="0.5" PointY="10.375" />
+        <AssociationConnector Association="NicePictureStudioDBModel.EmployeeRelatedInfo" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.EmployeePosition" Width="1.5" PointX="1.875" PointY="22.25" />
+        <AssociationConnector Association="NicePictureStudioDBModel.EmployeePositionRelation" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.OutputSize" Width="1.5" PointX="0.75" PointY="7" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.OutputType" Width="1.5" PointX="0.75" PointY="19.5" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_OutputService_OutputSize" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_OutputService_OutputType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

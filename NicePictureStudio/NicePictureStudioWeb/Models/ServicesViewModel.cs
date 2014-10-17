@@ -100,7 +100,7 @@ namespace NicePictureStudio.Models
         public List<OutputServiceViewModel> ListOutputServices = new List<OutputServiceViewModel>();
         public List<LocationServiceViewModel> ListLocationServices = new List<LocationServiceViewModel>();
 
-        public void CreateServiceForm(ServiceForm serviceForm, int statusId, int typeId)
+        public void CreateServiceForm(ServiceForm serviceForm, int statusId, int typeId, int? locationId)
         {
             ServiceForm = new ServiceFormViewModel();
             ServiceForm.Id = serviceForm.Id;
@@ -110,6 +110,9 @@ namespace NicePictureStudio.Models
             ServiceForm.EventStart = serviceForm.EventStart;
             ServiceForm.EventEnd = serviceForm.EventEnd;
             ServiceForm.GuestsNumber = serviceForm.GuestsNumber;
+            ServiceForm.IsLocationSelected = (bool)serviceForm.IsLocationSelected;
+            ServiceForm.IsOvernightSelected = (bool)serviceForm.IsLocationSelected;
+            ServiceForm.LocationId = locationId == null ? 0 : (int)locationId;
         }
 
         //For Edit purpose => using Clone wording
@@ -329,6 +332,9 @@ namespace NicePictureStudio.Models
         public decimal ServiceCost { get; set; }
         public decimal ServicePrice { get; set; }
         public decimal ServiceNetPrice { get; set; }
+        public bool IsLocationSelected { get; set; }
+        public bool IsOvernightSelected { get; set; }
+        public int LocationId { get; set; }
     }
 
     public class PhotoGraphServiceViewModel
@@ -357,6 +363,7 @@ namespace NicePictureStudio.Models
     { 
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Specialability { get; set; }
         public bool IsSelect { get; set; }
 
         public PhotoGraph() {}
@@ -365,6 +372,7 @@ namespace NicePictureStudio.Models
         {
             Id = photograph.Id;
             Name = photograph.Name;
+            Specialability = photograph.Specialability;
             IsSelect = selectedId.Contains(photograph.Id);
         }
     }
@@ -374,11 +382,14 @@ namespace NicePictureStudio.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public bool IsSelect { get; set; }
+        public string Specialability { get; set; }
+
         public CameraMan() { }
         public CameraMan(Employee cameraman, List<string> selectedId)
         {
             Id = cameraman.Id;
             Name = cameraman.Name;
+            Specialability = cameraman.Specialability;
             IsSelect = selectedId.Contains(cameraman.Id);
         }
 

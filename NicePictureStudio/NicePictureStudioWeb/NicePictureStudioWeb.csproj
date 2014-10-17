@@ -249,10 +249,22 @@
     <Compile Include="App_Data\EmployeeClaim.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\EmployeeInfo.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\EmployeeLogin.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\EmployeePosition.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\LocationStyle.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\OutputSize.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\OutputType.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Data\ServiceFormLocation.cs">

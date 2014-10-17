@@ -166,6 +166,16 @@
           <Property Name="ClaimType" Type="nvarchar(max)" />
           <Property Name="ClaimValue" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="EmployeeInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="30" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Nickname" Type="nvarchar" MaxLength="250" />
+        </EntityType>
         <EntityType Name="EmployeeLogin">
           <Key>
             <PropertyRef Name="LoginProvider" />
@@ -175,6 +185,30 @@
           <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeePosition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="EmployeePositionRelation">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="EmployeePositionId" />
+          </Key>
+          <Property Name="EmployeeId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="EmployeePositionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeRelatedInfo">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="EmployeeInfoId" />
+          </Key>
+          <Property Name="EmployeeId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="EmployeeInfoId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EmployeeRole">
           <Key>
@@ -366,6 +400,8 @@
           <Property Name="Price" Type="decimal" Precision="18" Scale="3" />
           <Property Name="Cost" Type="decimal" Precision="18" Scale="3" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="OutputType" Type="int" Nullable="false" />
+          <Property Name="OutputSize" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OutputServiceTiming">
           <Key>
@@ -374,12 +410,28 @@
           <Property Name="OutputScheduleId" Type="int" Nullable="false" />
           <Property Name="ServiceFormId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="OutputSize">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="OutputStatus">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="OutputType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="OutsourceContact">
@@ -702,6 +754,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EmployeePositionRelation_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeePositionRelation" Type="Self.EmployeePositionRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeePositionRelation">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeePositionRelation_EmployeePosition">
+          <End Role="EmployeePosition" Type="Self.EmployeePosition" Multiplicity="1" />
+          <End Role="EmployeePositionRelation" Type="Self.EmployeePositionRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeePosition">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeePositionRelation">
+              <PropertyRef Name="EmployeePositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeRelatedInfo_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeRelatedInfo" Type="Self.EmployeeRelatedInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRelatedInfo">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeRelatedInfo_EmployeeInfo">
+          <End Role="EmployeeInfo" Type="Self.EmployeeInfo" Multiplicity="1" />
+          <End Role="EmployeeRelatedInfo" Type="Self.EmployeeRelatedInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeRelatedInfo">
+              <PropertyRef Name="EmployeeInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EmployeeRole_Employee">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
           <End Role="EmployeeRole" Type="Self.EmployeeRole" Multiplicity="*" />
@@ -891,6 +991,30 @@
             </Principal>
             <Dependent Role="LocationServiceTiming">
               <PropertyRef Name="ServiceFormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OutputService_OutputSize">
+          <End Role="OutputSize" Type="Self.OutputSize" Multiplicity="1" />
+          <End Role="OutputService" Type="Self.OutputService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OutputSize">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OutputService">
+              <PropertyRef Name="OutputSize" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OutputService_OutputType">
+          <End Role="OutputType" Type="Self.OutputType" Multiplicity="1" />
+          <End Role="OutputService" Type="Self.OutputService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OutputType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OutputService">
+              <PropertyRef Name="OutputType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1102,7 +1226,11 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeClaim" EntityType="Self.EmployeeClaim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeInfo" EntityType="Self.EmployeeInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeLogin" EntityType="Self.EmployeeLogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeePosition" EntityType="Self.EmployeePosition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeePositionRelation" EntityType="Self.EmployeePositionRelation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeRelatedInfo" EntityType="Self.EmployeeRelatedInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeRole" EntityType="Self.EmployeeRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeSchedule" EntityType="Self.EmployeeSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeServiceTiming" EntityType="Self.EmployeeServiceTiming" Schema="dbo" store:Type="Tables" />
@@ -1123,7 +1251,9 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
           <EntitySet Name="OutputSchedule" EntityType="Self.OutputSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OutputService" EntityType="Self.OutputService" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OutputServiceTiming" EntityType="Self.OutputServiceTiming" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OutputSize" EntityType="Self.OutputSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OutputStatus" EntityType="Self.OutputStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OutputType" EntityType="Self.OutputType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OutsourceContact" EntityType="Self.OutsourceContact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OutsourceSchedule" EntityType="Self.OutsourceSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OutsourceService" EntityType="Self.OutsourceService" Schema="dbo" store:Type="Tables" />
@@ -1185,6 +1315,22 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
           <AssociationSet Name="FK_dbo_EmployeeLogin_dbo_Employee_UserId" Association="Self.FK_dbo_EmployeeLogin_dbo_Employee_UserId">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="EmployeeLogin" EntitySet="EmployeeLogin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeePositionRelation_Employee" Association="Self.FK_EmployeePositionRelation_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeePositionRelation" EntitySet="EmployeePositionRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeePositionRelation_EmployeePosition" Association="Self.FK_EmployeePositionRelation_EmployeePosition">
+            <End Role="EmployeePosition" EntitySet="EmployeePosition" />
+            <End Role="EmployeePositionRelation" EntitySet="EmployeePositionRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeRelatedInfo_Employee" Association="Self.FK_EmployeeRelatedInfo_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeRelatedInfo" EntitySet="EmployeeRelatedInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeRelatedInfo_EmployeeInfo" Association="Self.FK_EmployeeRelatedInfo_EmployeeInfo">
+            <End Role="EmployeeInfo" EntitySet="EmployeeInfo" />
+            <End Role="EmployeeRelatedInfo" EntitySet="EmployeeRelatedInfo" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeRole_Employee" Association="Self.FK_EmployeeRole_Employee">
             <End Role="Employee" EntitySet="Employee" />
@@ -1249,6 +1395,14 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
           <AssociationSet Name="FK_LocationServiceTiming_ServiceForm" Association="Self.FK_LocationServiceTiming_ServiceForm">
             <End Role="ServiceForm" EntitySet="ServiceForm" />
             <End Role="LocationServiceTiming" EntitySet="LocationServiceTiming" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OutputService_OutputSize" Association="Self.FK_OutputService_OutputSize">
+            <End Role="OutputSize" EntitySet="OutputSize" />
+            <End Role="OutputService" EntitySet="OutputService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OutputService_OutputType" Association="Self.FK_OutputService_OutputType">
+            <End Role="OutputType" EntitySet="OutputType" />
+            <End Role="OutputService" EntitySet="OutputService" />
           </AssociationSet>
           <AssociationSet Name="FK_OutputServiceTiming_OutputSchedule" Association="Self.FK_OutputServiceTiming_OutputSchedule">
             <End Role="OutputSchedule" EntitySet="OutputSchedule" />
@@ -1500,6 +1654,26 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
             <End Role="LocationType" EntitySet="LocationTypes" />
             <End Role="Location" EntitySet="Locations" />
           </AssociationSet>
+          <EntitySet Name="EmployeeInfoes" EntityType="NicePictureStudioDBModel.EmployeeInfo" />
+          <AssociationSet Name="EmployeeRelatedInfo" Association="NicePictureStudioDBModel.EmployeeRelatedInfo">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeInfo" EntitySet="EmployeeInfoes" />
+          </AssociationSet>
+          <EntitySet Name="EmployeePositions" EntityType="NicePictureStudioDBModel.EmployeePosition" />
+          <AssociationSet Name="EmployeePositionRelation" Association="NicePictureStudioDBModel.EmployeePositionRelation">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeePosition" EntitySet="EmployeePositions" />
+          </AssociationSet>
+          <EntitySet Name="OutputSizes" EntityType="NicePictureStudioDBModel.OutputSize" />
+          <EntitySet Name="OutputTypes" EntityType="NicePictureStudioDBModel.OutputType" />
+          <AssociationSet Name="FK_OutputService_OutputSize" Association="NicePictureStudioDBModel.FK_OutputService_OutputSize">
+            <End Role="OutputSize" EntitySet="OutputSizes" />
+            <End Role="OutputService" EntitySet="OutputServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OutputService_OutputType" Association="NicePictureStudioDBModel.FK_OutputService_OutputType">
+            <End Role="OutputType" EntitySet="OutputTypes" />
+            <End Role="OutputService" EntitySet="OutputServices" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
@@ -1702,6 +1876,8 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
           <Property Name="Price" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="Cost" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OutputSize" Relationship="NicePictureStudioDBModel.FK_OutputService_OutputSize" FromRole="OutputService" ToRole="OutputSize" />
+          <NavigationProperty Name="OutputType" Relationship="NicePictureStudioDBModel.FK_OutputService_OutputType" FromRole="OutputService" ToRole="OutputType" />
         </EntityType>
         <EntityType Name="OutsourceContact">
           <Key>
@@ -1983,6 +2159,8 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
           <NavigationProperty Name="EmployeeLogins" Relationship="NicePictureStudioDBModel.FK_dbo_EmployeeLogin_dbo_Employee_UserId" FromRole="Employee" ToRole="EmployeeLogin" />
           <NavigationProperty Name="EmployeeSchedules" Relationship="NicePictureStudioDBModel.FK_EmployeeSchedule_Employee" FromRole="Employee" ToRole="EmployeeSchedule" />
           <NavigationProperty Name="Roles" Relationship="NicePictureStudioDBModel.EmployeeRole" FromRole="Employee" ToRole="Role" />
+          <NavigationProperty Name="EmployeeInfoes" Relationship="NicePictureStudioDBModel.EmployeeRelatedInfo" FromRole="Employee" ToRole="EmployeeInfo" />
+          <NavigationProperty Name="EmployeePositions" Relationship="NicePictureStudioDBModel.EmployeePositionRelation" FromRole="Employee" ToRole="EmployeePosition" />
         </EntityType>
         <Association Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId">
           <End Type="NicePictureStudioDBModel.Employee" Role="Employee" Multiplicity="1">
@@ -2219,6 +2397,60 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
         <Association Name="FK_Location_LocationType1">
           <End Type="NicePictureStudioDBModel.LocationType" Role="LocationType" Multiplicity="1" />
           <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="*" />
+        </Association>
+        <EntityType Name="EmployeeInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Nickname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="NicePictureStudioDBModel.EmployeeRelatedInfo" FromRole="EmployeeInfo" ToRole="Employee" />
+        </EntityType>
+        <Association Name="EmployeeRelatedInfo">
+          <End Type="NicePictureStudioDBModel.Employee" Role="Employee" Multiplicity="*" />
+          <End Type="NicePictureStudioDBModel.EmployeeInfo" Role="EmployeeInfo" Multiplicity="*" />
+        </Association>
+        <EntityType Name="EmployeePosition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="NicePictureStudioDBModel.EmployeePositionRelation" FromRole="EmployeePosition" ToRole="Employee" />
+        </EntityType>
+        <Association Name="EmployeePositionRelation">
+          <End Type="NicePictureStudioDBModel.Employee" Role="Employee" Multiplicity="*" />
+          <End Type="NicePictureStudioDBModel.EmployeePosition" Role="EmployeePosition" Multiplicity="*" />
+        </Association>
+        <EntityType Name="OutputSize">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OutputServices" Relationship="NicePictureStudioDBModel.FK_OutputService_OutputSize" FromRole="OutputSize" ToRole="OutputService" />
+        </EntityType>
+        <EntityType Name="OutputType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OutputServices" Relationship="NicePictureStudioDBModel.FK_OutputService_OutputType" FromRole="OutputType" ToRole="OutputService" />
+        </EntityType>
+        <Association Name="FK_OutputService_OutputSize">
+          <End Type="NicePictureStudioDBModel.OutputSize" Role="OutputSize" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.OutputService" Role="OutputService" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_OutputService_OutputType">
+          <End Type="NicePictureStudioDBModel.OutputType" Role="OutputType" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.OutputService" Role="OutputService" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -2993,6 +3225,76 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
             </EndProperty>
             <EndProperty Name="LocationType">
               <ScalarProperty Name="Id" ColumnName="LocationType" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="EmployeeInfoes">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeeInfo">
+              <MappingFragment StoreEntitySet="EmployeeInfo">
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="EmployeeRelatedInfo" TypeName="NicePictureStudioDBModel.EmployeeRelatedInfo" StoreEntitySet="EmployeeRelatedInfo">
+            <EndProperty Name="EmployeeInfo">
+              <ScalarProperty Name="Id" ColumnName="EmployeeInfoId" />
+            </EndProperty>
+            <EndProperty Name="Employee">
+              <ScalarProperty Name="Id" ColumnName="EmployeeId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="EmployeePositions">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EmployeePosition">
+              <MappingFragment StoreEntitySet="EmployeePosition">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="EmployeePositionRelation" TypeName="NicePictureStudioDBModel.EmployeePositionRelation" StoreEntitySet="EmployeePositionRelation">
+            <EndProperty Name="EmployeePosition">
+              <ScalarProperty Name="Id" ColumnName="EmployeePositionId" />
+            </EndProperty>
+            <EndProperty Name="Employee">
+              <ScalarProperty Name="Id" ColumnName="EmployeeId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="OutputSizes">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutputSize">
+              <MappingFragment StoreEntitySet="OutputSize">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OutputTypes">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutputType">
+              <MappingFragment StoreEntitySet="OutputType">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_OutputService_OutputSize" TypeName="NicePictureStudioDBModel.FK_OutputService_OutputSize" StoreEntitySet="OutputService">
+            <EndProperty Name="OutputService">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="OutputSize">
+              <ScalarProperty Name="Id" ColumnName="OutputSize" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_OutputService_OutputType" TypeName="NicePictureStudioDBModel.FK_OutputService_OutputType" StoreEntitySet="OutputService">
+            <EndProperty Name="OutputService">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="OutputType">
+              <ScalarProperty Name="Id" ColumnName="OutputType" />
             </EndProperty>
           </AssociationSetMapping>
           </EntityContainerMapping>

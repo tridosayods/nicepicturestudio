@@ -162,7 +162,7 @@
                                                     </div>
 
                                                     <div id="TravelOption">
-                                                        <div>test</div>
+                                                        <div>ในการเดินทางไปต่างจังหวัด ลูกค้าจะมีค่าใช้จ่ายเพิ่มเติมอีก 3,500 บาท ในส่วนของค่ายกกองต่อการเดินทางในแต่ละครั้ง</div>
                                                     </div>
                                                 </div>
                                              </div>
@@ -194,15 +194,15 @@
                                                 <div class="form-horizontal">
                                                     <div class="form-group-sm">
                                                         
-                                                            <label id="lblEstimateContext" class="control-label col-sm-6">Total Estimate Cost : </label>
+                                                            <label id="lblEstimateContext" class="control-label col-sm-6">ค่าใช้จ่ายเบื้องต้น</label>
                                                        
                                                         <div class="col-sm-6">
-                                                            <label id="lblEstimateCost" class="control-label"> $0.00</label>
+                                                            <label id="lblEstimateCost" class="control-label"> 0.00</label>
                                                         </div>
                                                     </div>
                                                     <div class="form-group-sm">
                                                       
-                                                            <label id="lblPromotionContext" class="control-label col-sm-6">Promotion Selected : </label>
+                                                            <label id="lblPromotionContext" class="control-label col-sm-6">โปรโมชั่นที่เลือกไว้</label>
                                                     
                                                         <div class="col-md-6">
                                                             <label id="lblPromotionSelected" class="control-label"> - </label>
@@ -211,25 +211,25 @@
 
                                                     <div class="form-group-sm">
                                                         
-                                                            <label id="lblPromotionDiscountContext" class="control-label col-sm-6">Promotion Discount : </label>
+                                                            <label id="lblPromotionDiscountContext" class="control-label col-sm-6">ส่วนลด </label>
                                                        
                                                         <div class="col-md-6">
-                                                            <label id="lblPromotionDiscount" class="control-label"> 0% </label>
+                                                            <label id="lblPromotionDiscount" class="control-label"> 0.00% </label>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group-sm">
                                                       
-                                                            <label id="lblTotalCostContext" class="control-label col-sm-6">Price Before TAX: </label>
+                                                            <label id="lblTotalCostContext" class="control-label col-sm-6">ค่าใช้จ่ายก่อนหักภาษี </label>
                                                         
                                                         <div class="col-md-6">
-                                                            <label id="lblTotalCost" class="control-label">$0.00</label>
+                                                            <label id="lblTotalCost" class="control-label">0.00</label>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group-sm">
                                                       
-                                                            <label class="control-label col-sm-6">VAT: </label>
+                                                            <label class="control-label col-sm-6">ภาษี </label>
                                                        
                                                         <div class="col-md-6">
                                                             <label class="control-label">10%</label>
@@ -238,17 +238,17 @@
 
                                                     <div class="form-group-sm">
                                                      
-                                                            <label id="lblTotalWithTAXContext" class="control-label col-sm-6">Total Price: </label>
+                                                            <label id="lblTotalWithTAXContext" class="control-label col-sm-6">ราคารวม </label>
                                                        
                                                         <div class="col-md-6">
-                                                            <label id="lblTotalCostWithTAX" class="control-label">$0.00</label>
+                                                            <label id="lblTotalCostWithTAX" class="control-label"> 0.00</label>
                                                         </div>
                                                     </div>
 
                                                     <div class="tab-content">
                                                         <div class="col-md-12">
                                                             <br />
-                                                            <input class="btn-primary" type="submit" id="btnCalculatePrice" name="btnCalculatePrice" value="Calculate Price" />
+                                                            <input class="btn-primary" type="submit" id="btnCalculatePrice" name="btnCalculatePrice" value="คำนวณค่าใช้จ่าย" />
                                                         </div>
 
                                                     </div>
@@ -276,8 +276,8 @@
                                         <div class="panel-body">
                                             <div class="form-horizontal" role="form">
                                                 <div class="form-group">
-                                                    @Html.Label("ค้นหาสถานที่", new { @class = "col-md-3" })
-                                                    <div class="col-md-9 col-xs-5">
+                                                    @Html.Label("ค้นหาสถานที่", new { @class = "col-md-2" })
+                                                    <div class="col-md-10 col-xs-5">
                                                         @Html.TextBox("LocationSearch", null, new { @class = "autocomplete-with-hidden-location form-control", data_url = Url.Action("GetLocationSearching", "Services") })
                                                         @Html.Hidden("LocationId")
                                                         @*@Html.ValidationMessage("ServiceTypeId", "*")*@
@@ -331,16 +331,21 @@
 
             var url = '@Url.Action("MainFilterPhotoGrapService", "Services")';
             var selectedValue = $("#ServiceTypeId").data("kendoDropDownList").value();
-            var selectedStartDate = $("#EventStart").val();
-            var selectedEndDate = $("#EventEnd").val();
+            var selectedStartDate = $("#EventStartDate").val();
+            var selectedEndDate = $("#EventEndDate").val();
             var guestNum = $("#GuestNumber").data("kendoNumericTextBox").value();
-
+            var isselectedLocation = $("#IsLocationSelected").is(':checked');
+            var isovernight = $("#IsOvernightSelected").is(':checked');
+            var locationId = $("#LocationFormId").val();
 
             $.ajax({
                 url: url,
-                data: { id: null, serviceType: selectedValue, startDate: selectedStartDate, endDate: selectedEndDate, guestNumber: guestNum },
+                data: { id: null, serviceType: selectedValue, startDate: selectedStartDate, endDate: selectedEndDate, guestNumber: guestNum, locationId: locationId, isLocationSelected: isselectedLocation, isOvernight: isovernight },
                 type: "GET",
-                success: function (data) { $("#ServiceSelection").replaceWith(data); }
+                success: function (data) {
+                    $("#LocationFillUp").hide();
+                    $("#ServiceSelection").replaceWith(data);
+                }
             })
         });
 
@@ -378,6 +383,7 @@
 
         $("#LocationInformation").hide();
         $("#TravelOption").hide();
+        $("#LocationFillUp").hide();
     });
 
     function toggle_option_location(id) {

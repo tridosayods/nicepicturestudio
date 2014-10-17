@@ -136,4 +136,59 @@ namespace NicePictureStudio.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class EmployeePositionTemp
+    {
+        public string Position {get;set;}
+        public int Id {get;set;}
+    }
+
+    public class EmployeePositionDictionary
+    {
+        public Dictionary<int, string> EmployeePositions = new Dictionary<int, string>();
+
+        public IEnumerable<EmployeePositionTemp> generateList()
+        {
+            Dictionary<int,string> position = new Dictionary<int,string>();
+            position.Add(1,"SaleManager");
+            position.Add(2,"CameraMan");
+            position.Add(3,"PhotoGraph");
+            position.Add(4,"Sale");
+            position.Add(5,"Media");
+            position.Add(6,"Manager");
+
+            List<EmployeePositionTemp> empList = new List<EmployeePositionTemp>();
+            foreach (var item in position)
+            {
+                EmployeePositionTemp empPosition = new EmployeePositionTemp();
+                empPosition.Id = item.Key;
+                empPosition.Position = item.Value;
+            }
+
+            return empList as IEnumerable<EmployeePositionTemp>;
+        }
+
+        public IEnumerable<EmployeePositionTemp> generateThaiList()
+        {
+            Dictionary<int, string> position = new Dictionary<int, string>();
+            position.Add(1, "ผู้บริหารการขาย");
+            position.Add(2, "ช่างถ่ายภาพวีดีโอ");
+            position.Add(3, "PhotoGraph");
+            position.Add(4, "Sale");
+            position.Add(5, "Media");
+            position.Add(6, "Manager");
+
+            List<EmployeePositionTemp> empList = new List<EmployeePositionTemp>();
+            foreach (var item in position)
+            {
+                EmployeePositionTemp empPosition = new EmployeePositionTemp();
+                empPosition.Id = item.Key;
+                empPosition.Position = item.Value;
+            }
+
+            return empList as IEnumerable<EmployeePositionTemp>;
+        }
+
+       
+    } 
 }

@@ -69,5 +69,9 @@ namespace NicePictureStudio.App_Data
         public virtual DbSet<LocationStyle> LocationStyles { get; set; }
         public virtual DbSet<LocationType> LocationTypes { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<EmployeeInfo> EmployeeInfoes { get; set; }
+        public virtual DbSet<EmployeePosition> EmployeePositions { get; set; }
+        public virtual DbSet<OutputSize> OutputSizes { get; set; }
+        public virtual DbSet<OutputType> OutputTypes { get; set; }
     }
 }

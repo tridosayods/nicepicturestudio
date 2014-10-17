@@ -20,6 +20,8 @@ namespace NicePictureStudio.App_Data
             this.EmployeeLogins = new HashSet<EmployeeLogin>();
             this.EmployeeSchedules = new HashSet<EmployeeSchedule>();
             this.Roles = new HashSet<Role>();
+            this.EmployeeInfoes = new HashSet<EmployeeInfo>();
+            this.EmployeePositions = new HashSet<EmployeePosition>();
         }
     
         public string Id { get; set; }
@@ -51,5 +53,7 @@ namespace NicePictureStudio.App_Data
         public virtual ICollection<EmployeeLogin> EmployeeLogins { get; set; }
         public virtual ICollection<EmployeeSchedule> EmployeeSchedules { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<EmployeeInfo> EmployeeInfoes { get; set; }
+        public virtual ICollection<EmployeePosition> EmployeePositions { get; set; }
     }
 }

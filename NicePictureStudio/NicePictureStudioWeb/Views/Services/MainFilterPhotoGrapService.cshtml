@@ -72,16 +72,17 @@
                         <div class="form-horizontal">
                             <div class="form-group-sm">
                                 <div>จำนวนช่างภาพ</div>
-                                <div>@Html.Kendo().NumericTextBox().Name("PhotoGraphNumberInput").Min(Convert.ToDouble(ViewData["MinPHNum"])).Max(5).Format("D").Value(Convert.ToDouble(ViewData["CurPHNum"]))</div>
+                                <div>@Html.Kendo().NumericTextBox().Name("PhotoGraphNumberInput").Min(Convert.ToDouble(ViewData["MinPHNum"])).Max(5).Format("D").Value(Convert.ToDouble(ViewData["CurPHNum"])).HtmlAttributes(new { @style="width:80px"})</div>
                             </div>
+                            <br />
                             <div class="form-group-sm">
                                 <div>จำนวนช่างภาพวีดีโอ</div>
-                                <div>@Html.Kendo().NumericTextBox().Name("CameraManNumberInput").Min(Convert.ToDouble(ViewData["MinCMNum"])).Max(3).Format("D").Value(Convert.ToDouble(ViewData["CurCMNum"]))</div>
+                                <div>@Html.Kendo().NumericTextBox().Name("CameraManNumberInput").Min(Convert.ToDouble(ViewData["MinCMNum"])).Max(3).Format("D").Value(Convert.ToDouble(ViewData["CurCMNum"])).HtmlAttributes(new { @style = "width:80px" })</div>
                             </div>
-
+                            <br />
                             <div class="form-group-sm">
                                 @*@Html.Label("PhotographServices", htmlAttributes: new { @class = "control-label col-md-3" })*@
-                                <div>บริการช่างถ่ายภาพ</div>
+                                <div>ตัวเลือกบริการช่างถ่ายภาพ</div>
                                 <div class="list-group col-md-9">
                                     @*@Html.Kendo().DropDownList("Code", @ViewData["ServiceList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
                                     @Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["ServiceList"] as IEnumerable<SelectListItem>).HtmlAttributes(new { @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))

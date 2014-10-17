@@ -82,6 +82,12 @@ namespace NicePictureStudio.Utils
         public static readonly int LOCATION_STATUS_MOREINFO = 2;
         public static readonly int LOCATION_STATUS_CLOSED = 3;
 
+        public static readonly int EMPLOYEE_POSITION_SALE = 1;
+        public static readonly int EMPLOYEE_POSITION_PHOTOGRAPH = 2;
+        public static readonly int EMPLOYEE_POSITION_CAMERAMAN = 3;
+        public static readonly int EMPLOYEE_POSITION_MANAGER = 4;
+        public static readonly int EMPLOYEE_POSITION_ADMIN = 5;
+
     }
 
     public static class RazorExtensions

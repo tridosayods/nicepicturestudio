@@ -10,12 +10,16 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity.Validation;
+using NicePictureStudio.App_Data;
+using System.Data.Entity;
 
 namespace NicePictureStudio.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private NicePictureStudioDBEntities db = new NicePictureStudioDBEntities();
+        
         public AccountController()
         {
         }
@@ -156,6 +160,8 @@ namespace NicePictureStudio.Controllers
             var context = new ApplicationDbContext();
             var allusers = context.Users;
             model.SupervisorList = allusers.ToList();
+            ViewBag.Position = new SelectList(db.EmployeePositions, "Id", "Name");
+
             return View(model);
         }
 
@@ -164,7 +170,7 @@ namespace NicePictureStudio.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, string EmployeeTitle, string EmployeeSurname, string EmployeeNickname, int PositionList)
         {
             if (ModelState.IsValid)
             {
@@ -215,6 +221,19 @@ namespace NicePictureStudio.Controllers
                
                 if (result.Succeeded)
                 {
+                    EmployeePosition empPosition = db.EmployeePositions.Find(PositionList);
+                    EmployeeInfo empInfo = new EmployeeInfo();
+                    empInfo.Name = model.Name;
+                    empInfo.Title = EmployeeTitle;
+                    empInfo.Surname = EmployeeSurname;
+                    empInfo.Nickname = EmployeeNickname;
+                    Employee emp = db.Employees.Find(user.Id);
+                    emp.EmployeePositions.Add(empPosition);
+                    emp.EmployeeInfoes.Add(empInfo);
+
+                    db.Entry(emp).State = EntityState.Modified;
+                    db.SaveChanges();
+                    
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");

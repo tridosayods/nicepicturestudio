@@ -54,22 +54,24 @@
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
-                    <h4>PhotographService</h4>
+                    <h4>บริการช่างถ่ายภาพ</h4>
                     <hr />
                      @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     <div class="form-group">
-                     @Html.LabelFor(model => model.PhotographerNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                         @Html.EditorFor(model => model.PhotographerNumber, new { htmlAttributes = new { @class = "form-control", @readonly = true} })
+                     @Html.Label("จำนวนช่างภาพที่ต้องการ : ", htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                         @Html.EditorFor(model => model.PhotographerNumber, new { htmlAttributes = new { @class = "form-control", @readonly = true, @style="width:50px"} })
                          @Html.ValidationMessageFor(model => model.PhotographerNumber, "", new { @class = "text-danger" })
                         </div>
+                    </div>
+                    <div class="form-group">    
                         <!-- Space for adding PhotoGraph Selection-->
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title left">
                                     <a data-toggle="collapse" data-parent="#accordion" href="#collPhotoGraph">
-                                        Select PhotoGraphy
+                                        <span class="glyphicon glyphicon-arrow-down"></span> กรุณาเลือกช่างถ่ายภาพที่ต้องการ
                                     </a>
                                 </h4>
                             </div>
@@ -84,7 +86,8 @@
 
                                                     <img src="@Url.Content("~/Content/images/PhotoGraph/PhotGraph/1.jpg")" alt="..." class="img-thumbnail">
                                                     <div class="caption">
-                                                        <h5> PhotoGraph Name : @item.Name</h5>
+                                                        <h5> ชื่อ : @item.Name</h5>
+                                                        <h6> ความถนัด : @item.Specialability</h6>
                                                         @if (@item.IsSelect)
                                                         { <input type="checkbox" class="PhotoGraphCHK" id="EmployeeId" name="EmployeeId" value="@item.Id" checked="checked" onclick="PHCheckBoxCLick(this)"/>}
                                                         else
@@ -101,7 +104,8 @@
 
                                                 <img src="@Url.Content("~/Content/images/PhotoGraph/PhotGraph/1.jpg")" alt="..." class="img-thumbnail">
                                                 <div class="caption">
-                                                    <h5> ช่างภาพภาพ : @item.Name</h5>
+                                                    <h5> ชื่อ : @item.Name</h5>
+                                                    <h6> ความถนัด : @item.Specialability</h6>
                                                     @if (@item.IsSelect)
                                                     { <input type="checkbox" class="PhotoGraphCHK" id="OutsourcePHId" name="OutsourcePHId" value="@item.Id" checked="checked" onclick="PHCheckBoxCLick(this)" />}
                                                     else
@@ -122,17 +126,19 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.CameraManNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-4">
-                        @Html.EditorFor(model => model.CameraManNumber, new { htmlAttributes = new { @class = "form-control",@readonly=true } })
+                    @Html.Label("จำนวนช่างถ่ายภาพวีดีโอที่ต้องการ : ", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.CameraManNumber, new { htmlAttributes = new { @class = "form-control",@readonly=true ,@style="width:50px"} })
                         @Html.ValidationMessageFor(model => model.CameraManNumber, "", new { @class = "text-danger" })
                     </div>
+                    </div>
+                    <div class="form-group">
                     <!-- Space for adding PhotoGraph Selection-->
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title left">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collCameraMan">
-                                    Select Camera Man
+                                   <span class="glyphicon glyphicon-arrow-down"></span> กรุณาเลือกช่างถ่ายภาพวีดีโอที่ต้องการ
                                 </a>
                             </h4>
                         </div>
@@ -145,7 +151,8 @@
                                             <div class="thumbnail col-md-3">
                                                 <img src="@Url.Content("~/Content/images/PhotoGraph/CameraMan/CameraMan/1.jpg")" alt="..." class="img-thumbnail">
                                                 <div class="caption">
-                                                    <h5> PhotoGraph Name : @item.Name</h5>
+                                                    <h5> ชื่อ : @item.Name</h5>
+                                                    <h6> ความถนัด : @item.Specialability</h6>
                                                      @if (@item.IsSelect)
                                                      { <input type="checkbox" class="CameraCHK" id="CameraId" name="CameraId" value="@item.Id" checked="checked" onclick="CMCheckBoxCLick(this)" />}
                                                      else
@@ -163,7 +170,8 @@
 
                                                 <img src="@Url.Content("~/Content/images/PhotoGraph/CameraMan/CameraMan/1.jpg")" alt="..." class="img-thumbnail">
                                                 <div class="caption">
-                                                    <h5> ช่างถ่ายภาพ : @item.Name</h5>
+                                                    <h5> ชื่อ : @item.Name</h5>
+                                                    <h6> ความถนัด : @item.Specialability</h6>
                                                     @if (@item.IsSelect)
                                                     { <input type="checkbox" class="CameraCHK" id="OutsourceCMId" name="OutsourceCMId" value="@item.Id" checked="checked" onclick="CMCheckBoxCLick(this)" />}
                                                     else
@@ -185,18 +193,18 @@
                 </div>
 
                 <div class="form-group">
-                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.Label("รายละเอียด", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control" ,@rows="3",@readonly=true})
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
 
                 <div class="form-group">
-                        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.Label("ราคา", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control",@style="width:100px",@readonly =true } })
                         @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -204,12 +212,17 @@
                 @Html.HiddenFor(model=>model.Cost)
                 <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
                 <input type="hidden" id="Code" name="Code" value="@Model.Id" />
-
+                <hr />
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <button type="submit" value="Next" class="btn btn-default" ><span class="glyphicon glyphicon-step-forward">ถัดไป</span></button>
-                    </div>
-                </div>
+                    <ul class="pager">
+                        <li class="next">
+                            <div class="col-md-12 text-right">
+                                <button type="submit" value="Next" class="btn btn-default"><span class="glyphicon glyphicon-step-forward">ถัดไป</span></button>
+                            </div>
+                        </li>
+                    </ul>
+                   
+                 </div> 
             </div>
         }
     </div>

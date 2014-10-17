@@ -12,16 +12,17 @@ namespace NicePictureStudio.App_Data
     using System;
     using System.Collections.Generic;
     
-    public partial class OutputService
+    public partial class EmployeePosition
     {
+        public EmployeePosition()
+        {
+            this.Employees = new HashSet<Employee>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
-        public string OutputURL { get; set; }
-        public Nullable<decimal> Price { get; set; }
-        public Nullable<decimal> Cost { get; set; }
         public string Description { get; set; }
     
-        public virtual OutputSize OutputSize { get; set; }
-        public virtual OutputType OutputType { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

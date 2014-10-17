@@ -1153,7 +1153,8 @@ namespace NicePictureStudio
                       {
                           //db.ServiceForms.Add(serviceForm);
                           //db.SaveChangesAsync();
-                          serviceFactory.CreateServiceForm(serviceForm, statusNew, serviceType.Id);
+
+                          //serviceFactory.CreateServiceForm(serviceForm, statusNew, serviceType.Id);
                       }
                       //else { return PartialView(); }
                      // _services.CreateServiceForm(serviceForm, statusNew, serviceType.Id);
@@ -1833,7 +1834,7 @@ namespace NicePictureStudio
                   ServiceType _serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, serviceType, true) == 0).FirstOrDefault();
                   if (serviceType != null)
                   {
-                      serviceForm.Name = "Default";
+                      serviceForm.Name = _serviceType.ServiceTypeName;
                       serviceForm.EventStart = (DateTime)startDate;
                       serviceForm.EventEnd = (DateTime)endDate;
                       serviceForm.GuestsNumber = (int)guestNumber;
@@ -1851,7 +1852,8 @@ namespace NicePictureStudio
                      
                       if (serviceFactory != null)
                       {
-                          serviceFactory.CreateServiceForm(serviceForm, statusNew, _serviceType.Id);
+                         // Need locationId , islocationselected and isvoernight
+                          // serviceFactory.CreateServiceForm(serviceForm, statusNew, _serviceType.Id);
                       }
                   }
 
@@ -1973,7 +1975,7 @@ namespace NicePictureStudio
           //}
           #endregion
 
-          private void SaveServiceFormToLocal(string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber)
+          private void SaveServiceFormToLocal(string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber, int? locationId, bool isLocationSelected, bool isOvernight)
           {
               int statusNew = Constant.SERVICE_STATUS_NEW;
               ServiceForm serviceForm = new ServiceForm();
@@ -1982,16 +1984,18 @@ namespace NicePictureStudio
                   ServiceType _serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, serviceType, true) == 0).FirstOrDefault();
                   if (serviceType != null)
                   {
-                      serviceForm.Name = "Default";
+                      serviceForm.Name = _serviceType.ServiceTypeName;
                       serviceForm.EventStart = (DateTime)startDate;
                       serviceForm.EventEnd = (DateTime)endDate;
                       serviceForm.GuestsNumber = (int)guestNumber;
                       serviceForm.ServiceType = _serviceType;
+                      serviceForm.IsLocationSelected = isLocationSelected;
+                      serviceForm.IsOverNight = isOvernight;
                       //create string for mapping
                       ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
                       if (serviceFactory != null)
                       {
-                          serviceFactory.CreateServiceForm(serviceForm, statusNew, _serviceType.Id);
+                          serviceFactory.CreateServiceForm(serviceForm, statusNew, _serviceType.Id, locationId);
                       }
                   }
 
@@ -2035,19 +2039,26 @@ namespace NicePictureStudio
               return PartialView(serviceForm);
           }
 
-          public PartialViewResult MainFilterPhotoGrapService(int? id, string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber)
+        public PartialViewResult MainFilterPhotoGrapService(int? id, string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber, bool? isLocationSelected, bool? isOvernight, int? locationId)
           {
-              if (startDate != null && endDate != null && guestNumber != null)
-                  SaveServiceFormToLocal(serviceType, startDate, endDate, guestNumber);
+              if (startDate != null && endDate != null && guestNumber != null && isLocationSelected != null && isOvernight != null)
+                  SaveServiceFormToLocal(serviceType, startDate, endDate, guestNumber, locationId, (bool)isLocationSelected, (bool)isOvernight);
               // To be put Filter criteria
               int conditionNumber = 0;
+              bool hasData = false;
+              int photoGraphSelected = 0;
+              int cameraManSelected = 0;
               if(guestNumber !=null)
                   conditionNumber = (int)guestNumber;
               else
               {
                   ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
                   if (serviceFactory != null)
-                      conditionNumber = (int)serviceFactory.ServiceForm.GuestsNumber;
+                  {conditionNumber = (int)serviceFactory.ServiceForm.GuestsNumber;
+                        hasData = true;
+                        photoGraphSelected = serviceFactory.PhotoGraphService.PhotographerNumber;
+                        cameraManSelected = serviceFactory.PhotoGraphService.CameraManNumber;
+                  }
               }
               IEnumerable<PhotographService> photoGraphServices;
               int MinPhotographNumber = 0;
@@ -2100,11 +2111,23 @@ namespace NicePictureStudio
               //500-1000 : 3 C ,1M : 3C, 2M
               //1000-1500 : 4 C ,2M :3C ,2M , 3C, 1M ,3C ,0M
               PhotographService photoGraphService;
-              ViewData["SType"] = serviceType;
-              ViewData["MinPHNum"] = MinPhotographNumber;
-              ViewData["MinCMNum"] = MinCameraManNumber;
-              ViewData["CurPHNum"] = CurPhotographNumber;
-              ViewData["CurCMNum"] = CurCameraManNumber;
+              if (hasData)
+              {
+                  ViewData["SType"] = serviceType;
+                  ViewData["MinPHNum"] = MinPhotographNumber;
+                  ViewData["MinCMNum"] = MinCameraManNumber;
+                  ViewData["CurPHNum"] = photoGraphSelected;
+                  ViewData["CurCMNum"] = cameraManSelected;
+              }
+              else
+              {
+                  ViewData["SType"] = serviceType;
+                  ViewData["MinPHNum"] = MinPhotographNumber;
+                  ViewData["MinCMNum"] = MinCameraManNumber;
+                  ViewData["CurPHNum"] = CurPhotographNumber;
+                  ViewData["CurCMNum"] = CurCameraManNumber;
+              }
+            
               ViewData["ServiceList"] = new SelectList(db.PhotographServices, "Id", "Name");
               if (id != null)
               { photoGraphService = db.PhotographServices.Where(pg => pg.Id == id).FirstOrDefault(); }
@@ -2258,13 +2281,14 @@ namespace NicePictureStudio
                   _startDate = serviceFactory.ServiceForm.EventStart;
                   _endDate = serviceFactory.ServiceForm.EventEnd;
                   var photoGraphResult = db.Employees.GroupBy(emp => emp.Id)
-                                      .Where(emp => emp.Any(empList => empList.Position == PhotographType
+                                      .Where(emp => emp.Any(empList => empList.EmployeePositions.FirstOrDefault().Id == Constant.EMPLOYEE_POSITION_PHOTOGRAPH
                                           && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
                                               && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
                                           )).Select(emp => new PhotoGraph
                                           {
                                               Id = emp.FirstOrDefault().Id,
                                               Name = emp.FirstOrDefault().Name,
+                                              Specialability = emp.FirstOrDefault().Specialability,
                                               IsSelect = _selectedPhotoGraph.Contains(emp.FirstOrDefault().Id)
                                           }).ToList();
                   //ViewBag.PhotoGraphListDetails = new SelectList(photoGraphResult, "Id", "Name");
@@ -2272,13 +2296,14 @@ namespace NicePictureStudio
 
                   //Getting CameraMan
                   var cameraManResult = db.Employees.GroupBy(emp => emp.Id)
-                                          .Where(emp => emp.Any(empList => empList.Position == CameraManType
+                                          .Where(emp => emp.Any(empList => empList.EmployeePositions.FirstOrDefault().Id == Constant.EMPLOYEE_POSITION_CAMERAMAN
                                               && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
                                                   && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
                                               )).Select(emp => new CameraMan
                                               {
                                                   Id = emp.FirstOrDefault().Id,
                                                   Name = emp.FirstOrDefault().Name,
+                                                  Specialability =emp.FirstOrDefault().Specialability,
                                                   IsSelect = _selectedCameraMan.Contains(emp.FirstOrDefault().Id)
                                               }).ToList();
                   ViewBag.CameraManListDetails = cameraManResult;
@@ -2293,6 +2318,11 @@ namespace NicePictureStudio
               }
 
               //Outsource specific for 4 people
+              Dictionary<int, string> DicSpecialAbility = new Dictionary<int, string>();
+              DicSpecialAbility.Add(1, "ทันสมัย ยุคใหม่");
+              DicSpecialAbility.Add(2, "ย้อนยุค คลาสสิค");
+              DicSpecialAbility.Add(3, "การ์ตูน เด็ก น่ารัก");
+              DicSpecialAbility.Add(4, "พิธีกรรม จีน ไทย ตะวันตก");
               var OutPHResult = new List<PhotoGraph>();
               int cntPHSelected = _OrcPHCnt;
               for (var i = 1; i <= 4; i++)
@@ -2302,6 +2332,7 @@ namespace NicePictureStudio
                   {
                       Id = index.ToString(),
                       Name = "Outsource" + index,
+                      Specialability = DicSpecialAbility[i],
                       IsSelect = (cntPHSelected >= index) ? true : false
                   };
                   OutPHResult.Add(PHOrc);
@@ -2317,6 +2348,7 @@ namespace NicePictureStudio
                   {
                       Id = index.ToString(),
                       Name = "Outsource" + index,
+                      Specialability = "ทั่วไป",
                       IsSelect = (cntCMSelected >= index) ? true : false
                   };
                   OutCMResult.Add(CMOrc);
@@ -3306,7 +3338,19 @@ namespace NicePictureStudio
             ViewData["Code"] = outputService.Id;
             ViewData["SType"] = serviceType;
             ViewBag.IsEditTable = IsEditTable;
+            
             return PartialView();
+        }
+
+        public JsonResult OutputTypes_Read()
+        {
+            return Json(db.OutputTypes.Select(o => new { OutputTypeId = o.Id, OutputTypeName = o.Name }),JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult OutputSize_Read(int? outputTypeId)
+        {
+            var OutputSizeList = db.OutputServices.Where(oc=>oc.OutputType.Id == outputTypeId).GroupBy(ot => ot.OutputSize).Select(os => os.FirstOrDefault().OutputSize);
+            return Json(OutputSizeList.Select(o => new { OutputSizeID = o.Id, OutputSizeName = o.Name }),JsonRequestBehavior.AllowGet);
         }
         
         [HttpGet]

@@ -18,12 +18,37 @@
         </div>
     </div>
     <!--Update from NicePictureStudio-->
+
+    <div class="form-group">
+        <div>@Html.Label("คำนำหน้า", htmlAttributes: new { @class = "control-label col-md-2" })</div>
+        <div class="col-md-8">
+            @Html.Kendo().DropDownList().Name("EmployeeTitle").BindTo(new string[] { "นาย", "นางสาว", "นาง" }).HtmlAttributes(new { @Style = "width:100px", @id = "EmployeeTitle" }).SelectedIndex(0)
+            @Html.ValidationMessage("EmployeeTitle", "", new { @class = "text-danger" })
+        </div>
+    </div>
+
     <div class="form-group">
         @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.Label("นามสกุล", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("EmployeeSurname",null, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("ชื่อเล่น", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("EmployeeNickname",null, new { @class = "form-control" })
+        </div>
+    </div>
+
+
     @*<div class="form-group">
         @Html.LabelFor(m => m.ManagerId, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -37,11 +62,21 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Position, new { @class = "col-md-2 control-label" })
+        @Html.Label("ประเภท", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Position, new { @class = "form-control" })
+            @*@Html.TextBoxFor(m => m.Position, new { @class = "form-control" })*@
+            @Html.Kendo().DropDownList().Name("Position").BindTo(new string[] { "พนักงานประจำ", "พนักงานชั่วคราว" }).HtmlAttributes(new { @Style = "width:100px", @id = "Position" }).SelectedIndex(0)
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.Label("ตำแหน่ง", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @*@Html.TextBoxFor(m => m.Position, new { @class = "form-control" })*@
+            @Html.Kendo().DropDownList().Name("PositionList").BindTo(@ViewBag.Position as SelectList).HtmlAttributes(new { @id = "PositionList" }).SelectedIndex(0)
+        </div>
+    </div>
+    
     <div class="form-group">
         @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
