@@ -92,6 +92,8 @@
         <EntityTypeShape EntityType="NicePictureStudioDBModel.OutputType" Width="1.5" PointX="0.75" PointY="19.5" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_OutputService_OutputSize" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_OutputService_OutputType" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.OutSourcePriceRanx" Width="1.5" PointX="0.5" PointY="24.875" />
+        <AssociationConnector Association="NicePictureStudioDBModel.FK_OutSourcePriceRanges_OutsourceServiceType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

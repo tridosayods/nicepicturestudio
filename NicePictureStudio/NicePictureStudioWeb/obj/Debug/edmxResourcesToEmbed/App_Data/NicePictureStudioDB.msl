@@ -174,6 +174,7 @@
     <EntitySetMapping Name="OutputSchedules">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutputSchedule">
         <MappingFragment StoreEntitySet="OutputSchedule">
+          <ScalarProperty Name="OutputQuantity" ColumnName="OutputQuantity" />
           <ScalarProperty Name="OutputServiceId" ColumnName="OutputServiceId" />
           <ScalarProperty Name="ReviseCount" ColumnName="ReviseCount" />
           <ScalarProperty Name="ReviseDate" ColumnName="ReviseDate" />
@@ -838,6 +839,24 @@
       </EndProperty>
       <EndProperty Name="OutputType">
         <ScalarProperty Name="Id" ColumnName="OutputType" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="OutSourcePriceRanges">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.OutSourcePriceRanx">
+        <MappingFragment StoreEntitySet="OutSourcePriceRanges">
+          <ScalarProperty Name="MaxRange" ColumnName="MaxRange" />
+          <ScalarProperty Name="MinRange" ColumnName="MinRange" />
+          <ScalarProperty Name="RangeName" ColumnName="RangeName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_OutSourcePriceRanges_OutsourceServiceType" TypeName="NicePictureStudioDBModel.FK_OutSourcePriceRanges_OutsourceServiceType" StoreEntitySet="OutSourcePriceRanges">
+      <EndProperty Name="OutSourcePriceRanx">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="OutsourceServiceType">
+        <ScalarProperty Name="Id" ColumnName="OutsourceTypeId" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

@@ -8,7 +8,7 @@
 
         if (startDate) {
             startDate = new Date(startDate);
-            startDate.setDate(startDate.getDate() + 1);
+            startDate.setDate(startDate.getDate());
             endPicker.min(startDate);
         }
     }
@@ -19,10 +19,36 @@
 
         if (endDate) {
             endDate = new Date(endDate);
-            endDate.setDate(endDate.getDate() - 1);
+            endDate.setDate(endDate.getDate());
             startPicker.max(endDate);
         }
     }
+
+    function EnableServiceFormItem() {
+        $("#LocationName").attr("disabled", null);
+        $("#GuestNumber").data("kendoNumericTextBox").enable();
+        $("#IsLocationSelected").attr("disabled", null);
+        $("#IsOvernightSelected").attr("disabled", null);
+        $("#ServiceTypeId").data("kendoDropDownList").enable();
+        $("#EventStartDate").data("kendoDateTimePicker").enable();
+        $("#EventEndDate").data("kendoDateTimePicker").enable();
+        $("#StartCreateService").attr("disabled", null);
+        $("#ServiceSelection").hide();
+    }
+
+    function DisableServiceFormItem()
+    {
+        $("#LocationName").attr("disabled", "disabled");
+        $("#GuestNumber").data("kendoNumericTextBox").enable(false);
+        $("#IsLocationSelected").attr("disabled", "disabled");
+        $("#IsOvernightSelected").attr("disabled", "disabled");
+        $("#ServiceTypeId").data("kendoDropDownList").enable(false);
+        $("#EventStartDate").data("kendoDateTimePicker").enable(false);
+        $("#EventEndDate").data("kendoDateTimePicker").enable(false);
+        $("#StartCreateService").attr("disabled", "disabled");
+        $("#EditStartService").attr("disabled", null);
+    }
+
 </script>
 
 <div id="ServiceNavigation">
@@ -171,6 +197,7 @@
                                         <div class="form-group">
                                             <div style="align-content:center" class="col-sm-12 text-right">
                                                 <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>&nbsp;บันทึก และ ไปยังขั้นตอนถัดไป</button>
+                                                <button id="EditStartService" type="button" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>&nbsp;แก้ไข</button>
                                             </div>
                                            
                                         </div>
@@ -185,11 +212,11 @@
                                     <div id="divServicePriceSection">
                                         <div class="row">
                                             @using (@Ajax.BeginForm("CalculateServicesCostSummary", "Services", new AjaxOptions
-                                    {
-                                        HttpMethod = "POST",
-                                        InsertionMode = InsertionMode.Replace,
-                                        UpdateTargetId = "divServicePriceSection"
-                                    }))
+                                            {
+                                                HttpMethod = "POST",
+                                                InsertionMode = InsertionMode.Replace,
+                                                UpdateTargetId = "divServicePriceSection"
+                                            }))
                                             {
                                                 <div class="form-horizontal">
                                                     <div class="form-group-sm">
@@ -344,11 +371,17 @@
                 type: "GET",
                 success: function (data) {
                     $("#LocationFillUp").hide();
+                    DisableServiceFormItem();
                     $("#ServiceSelection").replaceWith(data);
                 }
             })
         });
 
+        $("#EditStartService").attr("disabled", "disabled");
+
+        $("#EditStartService").on("click", function () {
+            EnableServiceFormItem();
+        });
      
 
         $(function () {

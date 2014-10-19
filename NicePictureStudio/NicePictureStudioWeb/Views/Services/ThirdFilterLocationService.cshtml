@@ -12,6 +12,35 @@
             });
         });
 
+
+        $(function () {
+            $(".autocomplete-with-hidden-location-select").autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    var url = $(this.element).data("url");
+
+                    $.getJSON(url, { term: request.term }, function (data) {
+                        response(data);
+                    })
+                },
+                select: function (event, ui) {
+                    $(event.target).next("input[type=hidden]").val(ui.item.id);
+                    var url = '@Url.Action("CreateLocationServiceByModal", "Services")'
+                    $.ajax({
+                        url: url,
+                        data: { id: ui.item.id, serviceType: '@ViewData["SType"]' },
+                        type: "GET",
+                        success: function (data) { $("#divLocation").replaceWith(data); }
+                    })
+                },
+                change: function (event, ui) {
+                    if (!ui.item) {
+                        $(event.target).val("").next("input[type=hidden]").val("");
+                    }
+                }
+            });
+        });
+
     });
 
 </script>
@@ -25,23 +54,70 @@
                     <td class="col-md-5">
                         <div class="form-horizontal">
                             <div class="form-group-sm">
-                                <div>ค้นหาชื่อสภถานที่</div>
+                                <div>ค้นหาชื่อสถานที่</div>
                                 <div>
-                                    @Html.Kendo().AutoComplete().Name("HotelList").BindTo(new string[] {"Hilton","Sheraton","Shangarila","Orienten","Dusit","Centara Grand" }).HtmlAttributes(new { @style="width:250px"})
-                                   
+                                    @*@Html.Kendo().AutoComplete().Name("HotelList").BindTo(new string[] {"Hilton","Sheraton","Shangarila","Orienten","Dusit","Centara Grand" }).HtmlAttributes(new { @style="width:250px"})*@
+                                    @Html.TextBox("LocationSelectSearch", null, new { @class = "autocomplete-with-hidden-location-select form-control", data_url = Url.Action("Search_LocationServices", "Services") })
+                                    @Html.Hidden("LocationSelectId")
                                 </div>
                             </div>
+                            <hr/>
                             <div class="form-group-sm">
                                 <div>ประเภทของสถานที่</div>
                                     <div>
-                                        @Html.Kendo().DropDownList().Name("LocationCatalog").HtmlAttributes(new { @id = "dwnLocationCatalog" }).BindTo(
-                                                              new string[] { "โรงแรม", "สถานที่ต้องขออนุญาติ", "สถานที่ราชการ", "สตูดิโอ","ร้านอาหาร","โบสถ์","อื่นๆ" })
+                                        @*@Html.Kendo().DropDownList().Name("LocationCatalog").HtmlAttributes(new { @id = "dwnLocationCatalog" }).BindTo(
+                                                              new string[] { "โรงแรม", "สถานที่ต้องขออนุญาติ", "สถานที่ราชการ", "สตูดิโอ","ร้านอาหาร","โบสถ์","อื่นๆ" })*@
+                                        @(Html.Kendo().DropDownList()
+                                         .Name("LocationServiceType")
+                                      .HtmlAttributes(new { style = "width:180px" })
+                                      .OptionLabel("กรุณาเลือกประเภทของสถานที่...")
+                                      .DataTextField("LocationTypeName")
+                                      .DataValueField("LocationTypeId")
+                                      .DataSource(source =>
+                                      {
+                                          source.Read(read =>
+                                          {
+                                              read.Action("LocationType_Read", "Services");
+                                          });
+                                      })
+                                        )
                                   </div>
                               </div>
                                 <div class="form-group-sm">
                                     <div>รูปแบบงานพิธี</div>
-                                    <div>@Html.Kendo().DropDownList().Name("LocationType").HtmlAttributes(new { @id = "dwnLocationType" }).BindTo(
-                                            new string[] { "พิธีกงานกลางแจ้ง", "พิธีงานในร่ม", "พิธีงานให้ห้องโรงแรม" })
+                                    <div>
+                                        @*@Html.Kendo().DropDownList().Name("LocationType").HtmlAttributes(new { @id = "dwnLocationType" }).BindTo(
+                                            new string[] { "พิธีกงานกลางแจ้ง", "พิธีงานในร่ม", "พิธีงานให้ห้องโรงแรม" })*@
+
+                                        <script>
+                                            function filterLocationType() {
+                                                return {
+                                                    locationTypeId: $("#LocationServiceType").val()
+                                                };
+                                            }
+                                        </script>
+
+                                        @(Html.Kendo().DropDownList()
+                                          .Name("LocationServiceStyle")
+                                          .HtmlAttributes(new { style = "width:180px" })
+                                          .OptionLabel("กรุณาเลือกรูปแบบของสถานที่...")
+                                          .DataTextField("LocationStyleName")
+                                          .DataValueField("LocationStyleID")
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("LocationStyles_Read", "Services")
+                                                      .Data("filterLocationType");
+                                              })
+                                              .ServerFiltering(true);
+                                          })
+                                          .Enable(false)
+                                          .AutoBind(false)
+                                          .CascadeFrom("LocationServiceType")
+                                        )
+
+
                                     </div>
                                 </div>
   
@@ -50,7 +126,36 @@
                                 <div>สถานที่ที่ถูกเลือก</div>
                                 <div class="list-group col-md-10">
                                     @*@Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
-                                    @Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["LocationList"] as IEnumerable<SelectListItem>).HtmlAttributes(new {  @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))
+                                    @*@Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["LocationList"] as IEnumerable<SelectListItem>).HtmlAttributes(new {  @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))*@
+                                    <script>
+                                        function filterLocationTypeAndStyle() {
+                                            return {
+                                                locationTypeId: $("#LocationServiceType").val(), locationStyleId: $("#LocationServiceStyle").val()
+                                            };
+                                        }
+                                    </script>
+
+                                    @(Html.Kendo().DropDownList()
+                                          .Name("dwnServicePattern")
+                                          .HtmlAttributes(new { @style = "width:180px", @id = "dwnServicePattern" })
+                                          .OptionLabel("บริการเลือกสถานที่..")
+                                          .DataTextField("LocationServiceName")
+                                          .DataValueField("LocationServiceID")
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("LocationServices_Read", "Services")
+                                                      .Data("filterLocationTypeAndStyle");
+                                              })
+                                              .ServerFiltering(true);
+                                          })
+                                          .Enable(false)
+                                          .AutoBind(false)
+                                                  .CascadeFrom("LocationServiceStyle")
+                                    )
+
+
                                 </div>
                             </div>
                         </div>

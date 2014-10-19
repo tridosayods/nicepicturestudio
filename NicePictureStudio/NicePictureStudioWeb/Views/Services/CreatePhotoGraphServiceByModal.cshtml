@@ -13,7 +13,7 @@
 
     function CMCheckBoxCLick(event) {
         var cntCamera = $(".CameraCHK:checked").length;
-        alert(cntCamera);
+        //alert(cntCamera);
         if (cntCamera > $("#CameraManNumber").val())
         { event.checked = false; }
     }
@@ -27,9 +27,9 @@
         var selCM = $("#CameraManNumber").val();
         var selPH = $("#PhotographerNumber").val();
         if (cntCamera < selCM || cntPhotoGraph < selPH) {
-            alert("PH: " + selPH + " : =>" + cntPhotoGraph);
-            alert("CM : " + selCM + " :=>" + cntCamera);
-            alert("Please select Photographer or CameraMan following the number selected.");
+            //alert("PH: " + selPH + " : =>" + cntPhotoGraph);
+            //alert("CM : " + selCM + " :=>" + cntCamera);
+            alert("กรุณาเลือกช่างถ่ายภาพ หรือ ช่างวีดีโอ ให้ครบตามหมายเลขที่กำหนด");
             return false;
         }
         else

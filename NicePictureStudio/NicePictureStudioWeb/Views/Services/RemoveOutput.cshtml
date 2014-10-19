@@ -3,13 +3,13 @@
     {
         <div class="form-group">
             <table class="table table-striped">
-                <tr><th>Outsource Name</th><th>Description</th><th>OutputURL</th><th>Price</th><th>Action</th></tr>
+                <tr><th>ชื่อ</th><th>รายละเอียด</th><th>จำนวนชุด</th><th>ราคา</th><th></th></tr>
                 @foreach (NicePictureStudio.Models.OutputServiceViewModel item in ViewBag.ModifyOutput)
                 {
                     <tr>
                         <td>@item.Name</td>
                         <td>@item.Description</td>
-                        <td>@item.OutputURL</td>
+                        <td>@item.OutputQuantity</td>
                         <td>@item.Price</td>
                         <td>@Ajax.ActionLink("Remove", "RemoveOutput", new { Id = @item.Id, serviceType = @ViewBag.OutputServiceType, IsEditTable = @ViewBag.IsEditTable }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblOutput" })</td>
                     </tr>

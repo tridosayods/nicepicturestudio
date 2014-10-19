@@ -18,83 +18,84 @@
 
 <div id="MainSection">
     @using (Ajax.BeginForm("EditServiceWhenEdit", "Services", new AjaxOptions
-{
-    HttpMethod = "POST",
-    InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "MainSection"
-}))
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "MainSection"
+        }))
     {
+        
         @Html.AntiForgeryToken()
-
         <div class="form-horizontal">
-            <h4>Service</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.Id)
+            
+        <h4>Service</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.BookingName, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.BookingName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.BookingName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.GroomName, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.GroomName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.GroomName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.BrideName, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.BrideName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.BrideName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.SpecialRequest, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.SpecialRequest, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.SpecialRequest, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Payment, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Payment, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Payment, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.PayAmount, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.PayAmount, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.PayAmount, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.CRMFormId, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CRMFormId, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.CRMFormId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                    <input type="button" id="btnCancelService" value="Cancel" class="btn-default" />
-                </div>
+        <div class="form-group">
+            @Html.Label("หมายเลขการจอง", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.BookingName, new { @class = "autocomplete-with-hidden form-control-booking", data_url = Url.Action("GetListForBookingAutocomplete", "Services"), placeholder = "..กรุณากรอกหมายเลขการจอง..." })
+                @Html.Hidden("BookingId")
+                @Html.ValidationMessageFor(model => model.BookingName)
             </div>
         </div>
+
+        <div class="form-group">
+            @Html.Label("ชื่อเจ้าบ่าว*", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.GroomName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForGroomNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าบ่าว..." })
+                @Html.ValidationMessageFor(model => model.GroomName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("ชื่อเจ้าสาว*", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(model => model.BrideName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForBrideNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าสาว..." })
+                @*@Html.EditorFor(model => model.BrideName, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.BrideName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("คำขอพิเศษ", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @(Html.Kendo().MultiSelect()
+                                     .Name("BookingSpecialRequests")
+                               .BindTo(@ViewBag.SpecialOrder as MultiSelectList).HtmlAttributes(new { @Style = "width:200px", @id = "BookingSpecialRequests" }).Value(@ViewBag.SelectedSpecialOrder as MultiSelectList))
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("บริการให้คำแนะนำ", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @(Html.Kendo().MultiSelect()
+                                      .Name("ServiceSuggestions")
+                              .BindTo(@ViewBag.SuggestionService as MultiSelectList).HtmlAttributes(new { @Style = "width:200px", @id = "ServiceSuggestions" }).Value(@ViewBag.SelectedSuggestion as MultiSelectList)
+                )
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("หมายเหตุ", htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextAreaFor(model => model.SpecialRequest, new { @class = "form-control", @rows = "5" })
+                @Html.ValidationMessageFor(model => model.SpecialRequest, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+     
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <input type="submit" value="บันทึก" class="btn btn-default" />
+                <input type="button" id="btnCancelService" value="ยกเลิก" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
     }
 </div>
 

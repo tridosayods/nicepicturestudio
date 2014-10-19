@@ -142,13 +142,25 @@ namespace NicePictureStudio.Models
 
         public void CreatePhotoGraphService(PhotographService photoGraph, List<string> photoGraphList, List<string> cameraManList, int photoGraphServiceId, int cntPHoutsource, int cntCMoutsource)
         {
+            decimal? _price = 0;
+            decimal? _cost = 0;
+            decimal? totalPrice = photoGraph.Price;
+            decimal? totalCost = photoGraph.Cost;
             PhotoGraphService = new PhotoGraphServiceViewModel();
             PhotoGraphService.Id = photoGraph.Id;
             PhotoGraphService.Name = photoGraph.Name;
             PhotoGraphService.PhotographerNumber = photoGraph.PhotographerNumber;
-            PhotoGraphService.Price = photoGraph.Price;
+            if (photoGraph.PhotographerNumber != photoGraphList.Count)
+            { _price += ((photoGraph.PhotographerNumber - photoGraphList.Count) * 4500); }
+            if (photoGraph.CameraManNumber != cameraManList.Count)
+            { _price += ((photoGraph.CameraManNumber - cameraManList.Count) * 6000); }
+            PhotoGraphService.Price = totalPrice - _price;
             PhotoGraphService.CameraManNumber = photoGraph.CameraManNumber;
-            PhotoGraphService.Cost = photoGraph.Cost;
+            if (photoGraph.PhotographerNumber != photoGraphList.Count)
+            { _cost += ((photoGraph.PhotographerNumber - photoGraphList.Count) * 3000); }
+            if (photoGraph.CameraManNumber != cameraManList.Count)
+            { _cost += ((photoGraph.CameraManNumber - cameraManList.Count) * 4000); }
+            PhotoGraphService.Cost = totalCost - _cost;
             PhotoGraphService.Description = photoGraph.Description;
             PhotoGraphService.PhotoGraphServiceId = photoGraphServiceId;
             PhotoGraphService.PhotoGraphIdList = new List<string>(photoGraphList);
@@ -188,7 +200,7 @@ namespace NicePictureStudio.Models
             { ListLocationServices.Add(_locationService); }
         }
 
-        public void CreateOutSoruceServiceList(OutsourceService outsource, int oursourceId, int outsourceServiceId)
+        public void CreateOutSoruceServiceList(OutsourceService outsource, int oursourceId, int outsourceServiceId, bool IsSelectFromPhotograph = false, bool IsSelectFromCameraman = false)
         {
             OutsourceServiceViewModel _outsourceService = new OutsourceServiceViewModel();
             _outsourceService.Id = outsourceServiceId; //outsource.id
@@ -199,20 +211,24 @@ namespace NicePictureStudio.Models
             _outsourceService.Cost = outsource.Cost;
             _outsourceService.Description = outsource.Description;
             _outsourceService.OutsourceServiceId = outsourceServiceId;
+            _outsourceService.IsSelectedFromPhotograph = IsSelectFromPhotograph;
+            _outsourceService.IsSelectedFromCameraman = IsSelectFromCameraman;
             if (!ListOutsourceServices.Exists(element => element.Id == _outsourceService.Id))
             { ListOutsourceServices.Add(_outsourceService); }
         }
 
-        public void CreateOutputServiceList(OutputService output,int outputServiceId)
+        public void CreateOutputServiceList(OutputService output,int outputServiceId, int outputQuantity,DateTime HandOnDate)
         {
             OutputServiceViewModel _outputService = new OutputServiceViewModel();
             _outputService.Id = outputServiceId; //output.id
             _outputService.Name = output.Name;
             _outputService.OutputURL = output.OutputURL;
-            _outputService.Price = output.Price;
-            _outputService.Cost = output.Cost;
+            _outputService.Price = output.Price*outputQuantity;
+            _outputService.Cost = output.Cost*outputQuantity;
             _outputService.Description = output.Description;
             _outputService.OutputServiceId = outputServiceId;
+            _outputService.OutputQuantity = outputQuantity;
+            _outputService.HandOnDate = HandOnDate;
             if (!ListOutputServices.Exists(element=>element.Id == _outputService.Id))
             { ListOutputServices.Add(_outputService);}
            
@@ -429,6 +445,8 @@ namespace NicePictureStudio.Models
         public string Description { get; set; }
         public int OutsourceId { get; set; }
         public int OutsourceServiceId { get; set; }
+        public bool IsSelectedFromPhotograph { get; set; }
+        public bool IsSelectedFromCameraman { get; set; }
     }
 
     public class OutputServiceViewModel
@@ -440,6 +458,8 @@ namespace NicePictureStudio.Models
         public Nullable<decimal> Cost { get; set; }
         public string Description { get; set; }
         public int OutputServiceId { get; set; }
+        public int OutputQuantity { get; set; }
+        public DateTime HandOnDate { get; set; }
     }
 
     public class ServiceFromKeeper

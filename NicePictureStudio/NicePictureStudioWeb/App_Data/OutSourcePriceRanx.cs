@@ -12,18 +12,13 @@ namespace NicePictureStudio.App_Data
     using System;
     using System.Collections.Generic;
     
-    public partial class OutputSchedule
+    public partial class OutSourcePriceRanx
     {
         public int Id { get; set; }
-        public string PackageName { get; set; }
-        public int Status { get; set; }
-        public Nullable<System.DateTime> TargetDate { get; set; }
-        public System.DateTime HandOnDate { get; set; }
-        public Nullable<System.DateTime> ReviseDate { get; set; }
-        public Nullable<int> ReviseCount { get; set; }
-        public int OutputServiceId { get; set; }
-        public int OutputQuantity { get; set; }
+        public string RangeName { get; set; }
+        public int MinRange { get; set; }
+        public int MaxRange { get; set; }
     
-        public virtual ServiceForm ServiceForm { get; set; }
+        public virtual OutsourceServiceType OutsourceServiceType { get; set; }
     }
 }

@@ -384,6 +384,7 @@
     <Property Name="HandOnDate" Type="datetime" Nullable="false" />
     <Property Name="ReviseDate" Type="datetime" />
     <Property Name="ReviseCount" Type="int" />
+    <Property Name="OutputQuantity" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="OutputService">
     <Key>
@@ -442,6 +443,16 @@
     <Property Name="CloseTime" Type="time" Precision="7" Nullable="false" />
     <Property Name="Detail" Type="nvarchar(max)" Nullable="false" />
     <Property Name="status" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OutSourcePriceRanges">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RangeName" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="MinRange" Type="int" Nullable="false" />
+    <Property Name="MaxRange" Type="int" Nullable="false" />
+    <Property Name="OutsourceTypeId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="OutsourceSchedule">
     <Key>
@@ -1061,6 +1072,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_OutSourcePriceRanges_OutsourceServiceType">
+    <End Role="OutsourceServiceType" Type="Self.OutsourceServiceType" Multiplicity="1" />
+    <End Role="OutSourcePriceRanges" Type="Self.OutSourcePriceRanges" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OutsourceServiceType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OutSourcePriceRanges">
+        <PropertyRef Name="OutsourceTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_OutsourceService_OutsourceContact">
     <End Role="OutsourceContact" Type="Self.OutsourceContact" Multiplicity="1" />
     <End Role="OutsourceService" Type="Self.OutsourceService" Multiplicity="*" />
@@ -1250,6 +1273,7 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
     <EntitySet Name="OutputStatus" EntityType="Self.OutputStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OutputType" EntityType="Self.OutputType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OutsourceContact" EntityType="Self.OutsourceContact" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OutSourcePriceRanges" EntityType="Self.OutSourcePriceRanges" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OutsourceSchedule" EntityType="Self.OutsourceSchedule" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OutsourceService" EntityType="Self.OutsourceService" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OutsourceServiceTiming" EntityType="Self.OutsourceServiceTiming" Schema="dbo" store:Type="Tables" />
@@ -1414,6 +1438,10 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
     <AssociationSet Name="FK_OutsourceContact_OutsourceStatus" Association="Self.FK_OutsourceContact_OutsourceStatus">
       <End Role="OutsourceStatus" EntitySet="OutsourceStatus" />
       <End Role="OutsourceContact" EntitySet="OutsourceContact" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OutSourcePriceRanges_OutsourceServiceType" Association="Self.FK_OutSourcePriceRanges_OutsourceServiceType">
+      <End Role="OutsourceServiceType" EntitySet="OutsourceServiceType" />
+      <End Role="OutSourcePriceRanges" EntitySet="OutSourcePriceRanges" />
     </AssociationSet>
     <AssociationSet Name="FK_OutsourceService_OutsourceContact" Association="Self.FK_OutsourceService_OutsourceContact">
       <End Role="OutsourceContact" EntitySet="OutsourceContact" />

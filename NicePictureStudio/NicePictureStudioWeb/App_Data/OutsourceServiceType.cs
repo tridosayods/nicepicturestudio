@@ -17,6 +17,7 @@ namespace NicePictureStudio.App_Data
         public OutsourceServiceType()
         {
             this.OutsourceContacts = new HashSet<OutsourceContact>();
+            this.OutSourcePriceRanges = new HashSet<OutSourcePriceRanx>();
         }
     
         public int Id { get; set; }
@@ -24,5 +25,6 @@ namespace NicePictureStudio.App_Data
         public string Description { get; set; }
     
         public virtual ICollection<OutsourceContact> OutsourceContacts { get; set; }
+        public virtual ICollection<OutSourcePriceRanx> OutSourcePriceRanges { get; set; }
     }
 }

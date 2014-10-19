@@ -205,6 +205,11 @@
       <End Role="OutputType" EntitySet="OutputTypes" />
       <End Role="OutputService" EntitySet="OutputServices" />
     </AssociationSet>
+    <EntitySet Name="OutSourcePriceRanges" EntityType="NicePictureStudioDBModel.OutSourcePriceRanx" />
+    <AssociationSet Name="FK_OutSourcePriceRanges_OutsourceServiceType" Association="NicePictureStudioDBModel.FK_OutSourcePriceRanges_OutsourceServiceType">
+      <End Role="OutsourceServiceType" EntitySet="OutsourceServiceTypes" />
+      <End Role="OutSourcePriceRanx" EntitySet="OutSourcePriceRanges" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -396,6 +401,7 @@
     <Property Name="ReviseCount" Type="Int32" />
     <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.OutputServiceTiming" FromRole="OutputSchedule" ToRole="ServiceForm" />
     <Property Name="OutputServiceId" Type="Int32" Nullable="false" />
+    <Property Name="OutputQuantity" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="OutputService">
     <Key>
@@ -457,6 +463,7 @@
     <Property Name="TypeName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="OutsourceContacts" Relationship="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType" FromRole="OutsourceServiceType" ToRole="OutsourceContact" />
+    <NavigationProperty Name="OutSourcePriceRanges" Relationship="NicePictureStudioDBModel.FK_OutSourcePriceRanges_OutsourceServiceType" FromRole="OutsourceServiceType" ToRole="OutSourcePriceRanx" />
   </EntityType>
   <EntityType Name="OutsourceStatu">
     <Key>
@@ -982,5 +989,19 @@
   <Association Name="FK_OutputService_OutputType">
     <End Type="NicePictureStudioDBModel.OutputType" Role="OutputType" Multiplicity="1" />
     <End Type="NicePictureStudioDBModel.OutputService" Role="OutputService" Multiplicity="*" />
+  </Association>
+  <EntityType Name="OutSourcePriceRanx">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RangeName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="MinRange" Type="Int32" Nullable="false" />
+    <Property Name="MaxRange" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="OutsourceServiceType" Relationship="NicePictureStudioDBModel.FK_OutSourcePriceRanges_OutsourceServiceType" FromRole="OutSourcePriceRanx" ToRole="OutsourceServiceType" />
+  </EntityType>
+  <Association Name="FK_OutSourcePriceRanges_OutsourceServiceType">
+    <End Type="NicePictureStudioDBModel.OutsourceServiceType" Role="OutsourceServiceType" Multiplicity="1" />
+    <End Type="NicePictureStudioDBModel.OutSourcePriceRanx" Role="OutSourcePriceRanx" Multiplicity="*" />
   </Association>
 </Schema>

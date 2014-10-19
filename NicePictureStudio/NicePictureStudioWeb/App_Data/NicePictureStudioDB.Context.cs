@@ -73,5 +73,6 @@ namespace NicePictureStudio.App_Data
         public virtual DbSet<EmployeePosition> EmployeePositions { get; set; }
         public virtual DbSet<OutputSize> OutputSizes { get; set; }
         public virtual DbSet<OutputType> OutputTypes { get; set; }
+        public virtual DbSet<OutSourcePriceRanx> OutSourcePriceRanges { get; set; }
     }
 }
