@@ -695,14 +695,6 @@
         <ScalarProperty Name="Id" ColumnName="ServiceId" />
       </EndProperty>
     </AssociationSetMapping>
-    <EntitySetMapping Name="ServiceFormLocations">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceFormLocation">
-        <MappingFragment StoreEntitySet="ServiceFormLocation">
-          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-          <ScalarProperty Name="ServiceFormId" ColumnName="ServiceFormId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="LocationStyles">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationStyle">
         <MappingFragment StoreEntitySet="LocationStyles">
@@ -857,6 +849,14 @@
       </EndProperty>
       <EndProperty Name="OutsourceServiceType">
         <ScalarProperty Name="Id" ColumnName="OutsourceTypeId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ServiceFormLocation" TypeName="NicePictureStudioDBModel.ServiceFormLocation" StoreEntitySet="ServiceFormLocation">
+      <EndProperty Name="ServiceForm">
+        <ScalarProperty Name="Id" ColumnName="ServiceFormId" />
+      </EndProperty>
+      <EndProperty Name="Location">
+        <ScalarProperty Name="LocationId" ColumnName="LocationId" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

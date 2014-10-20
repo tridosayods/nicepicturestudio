@@ -188,6 +188,140 @@ namespace NicePictureStudio
             return Json(tasks.ToDataSourceResult(request));
         }
 
+        public ActionResult Service_PreWedding_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            var service_prewedding = db.ServiceForms.Where(sf => sf.ServiceType.Id == Constant.SERVICE_TYPE_PREWEDDING).Include(srv => srv.Service);
+            List<ServiceFormsGridViewModel> grid = new List<ServiceFormsGridViewModel>();
+            foreach (var task in service_prewedding)
+            {
+                string _location = "";
+                if (task.IsLocationSelected != null && task.Locations.FirstOrDefault() !=null)
+                {
+                    _location = GetLocationName(task.Locations.FirstOrDefault().LocationId);
+                }
+                else if (task.LocationSchedules.FirstOrDefault() != null)
+                {
+                    _location = GetLocationName(task.LocationSchedules.FirstOrDefault().LocationId);
+                }
+               
+
+                var serviceForms = new ServiceFormsGridViewModel()
+                {
+                    Id = task.Id,
+                    BookingNumber = task.Service.Bookings.FirstOrDefault() != null ? task.Service.Bookings.FirstOrDefault().BookingCode : "ไม่พบรหัสการจอง",
+                    CustomerName = task.Service.Customer.CustomerName,
+                    EventStart = task.EventStart,
+                    EventEnd = task.EventEnd,
+                    Place = _location,
+                    Status = task.ServiceStatu.StatusName
+
+                };
+                grid.Add(serviceForms);
+            }
+            //IQueryable<ServiceFormsGridViewModel> tasks = service_prewedding.Select(task => new ServiceFormsGridViewModel()
+            //    {
+            //        Id = task.Id,
+            //        BookingNumber = task.Service.Bookings.FirstOrDefault().BookingCode,
+            //        CustomerName = task.Service.Customer.CustomerName,
+            //        EventStart = task.EventStart,
+            //        EventEnd = task.EventEnd,
+            //        Place =  task.IsLocationSelected == true ? GetLocationName(task.Locations.FirstOrDefault().LocationId) : GetLocationName(task.LocationSchedules.FirstOrDefault().LocationId),
+            //        Status = task.ServiceStatu.StatusName
+            //    }).AsQueryable();
+            return Json(grid.AsQueryable().ToDataSourceResult(request));
+        }
+
+        private string GetLocationName(int? locationid)
+        { 
+            string _locationName = "";
+            if (locationid != null)
+            {_locationName =  db.Locations.Find(locationid).LocationName;}
+            else
+            {
+                _locationName = "ไม่พบสถานที่ในระบบ";
+            }
+            return _locationName;
+        }
+
+        public ActionResult Service_Engagement_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            var service_prewedding = db.ServiceForms.Where(sf => sf.ServiceType.Id == Constant.SERVICE_TYPE_ENGAGEMENT).Include(srv => srv.Service);
+            List<ServiceFormsGridViewModel> grid = new List<ServiceFormsGridViewModel>();
+            foreach (var task in service_prewedding)
+            {
+                string _location = "";
+                if (task.IsLocationSelected != null && task.Locations.FirstOrDefault() != null)
+                {
+                    _location = GetLocationName(task.Locations.FirstOrDefault().LocationId);
+                }
+                else if (task.LocationSchedules.FirstOrDefault() != null)
+                {
+                    _location = GetLocationName(task.LocationSchedules.FirstOrDefault().LocationId);
+                }
+
+                if(task.Service != null)
+                {
+                    if (task.Service.Bookings.Count > 0 && task.Service.Customer != null)
+                    {
+                        var serviceForms = new ServiceFormsGridViewModel()
+                            {
+                                Id = task.Id,
+                                BookingNumber = task.Service != null ? task.Service.Bookings.FirstOrDefault().BookingCode : "ไม่พบรหัสการจอง",
+                                CustomerName = task.Service.Customer != null ? task.Service.Customer.CustomerName : "ไม่พบลูกค้า",
+                                EventStart = task.EventStart,
+                                EventEnd = task.EventEnd,
+                                Place = _location,
+                                Status = task.ServiceStatu.StatusName
+
+                            };
+                        grid.Add(serviceForms);
+                    }
+                }
+                
+              
+            }
+            return Json(grid.AsQueryable().ToDataSourceResult(request));
+        }
+
+        public ActionResult Service_Wedding_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            var service_prewedding = db.ServiceForms.Where(sf => sf.ServiceType.Id == Constant.SERVICE_TYPE_WEDDING).Include(srv => srv.Service);
+            List<ServiceFormsGridViewModel> grid = new List<ServiceFormsGridViewModel>();
+            foreach (var task in service_prewedding)
+            {
+                string _location = "";
+                if (task.IsLocationSelected != null && task.Locations.FirstOrDefault() != null)
+                {
+                    _location = GetLocationName(task.Locations.FirstOrDefault().LocationId);
+                }
+                else if (task.LocationSchedules.FirstOrDefault() != null)
+                {
+                    _location = GetLocationName(task.LocationSchedules.FirstOrDefault().LocationId);
+                }
+
+
+                if (task.Service != null)
+                {
+                    if (task.Service.Bookings.Count > 0 && task.Service.Customer != null)
+                    {
+                        var serviceForms = new ServiceFormsGridViewModel()
+                        {
+                            Id = task.Id,
+                            BookingNumber = task.Service != null ? task.Service.Bookings.FirstOrDefault().BookingCode : "ไม่พบรหัสการจอง",
+                            CustomerName = task.Service.Customer != null ? task.Service.Customer.CustomerName : "ไม่พบลูกค้า",
+                            EventStart = task.EventStart,
+                            EventEnd = task.EventEnd,
+                            Place = _location,
+                            Status = task.ServiceStatu.StatusName
+
+                        };
+                        grid.Add(serviceForms);
+                    }
+                }
+            }
+            return Json(grid.AsQueryable().ToDataSourceResult(request));
+        }
+
         // GET: Services/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -2001,7 +2135,7 @@ namespace NicePictureStudio
               return PartialView();
           }
 
-          private void SaveServiceFormToLocalWhenEdit(string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber, bool isEditTable = false)
+          private void SaveServiceFormToLocalWhenEdit(string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber, int? locationId, bool isLocationSelected, bool isOvernight, bool isEditTable = false)
           {
               int statusNew = Constant.SERVICE_STATUS_NEW;
               ServiceForm serviceForm = new ServiceForm();
@@ -2313,7 +2447,7 @@ namespace NicePictureStudio
               return PartialView();
           }
 
-          public PartialViewResult MainFilterPhotoGrapServiceWhenEditNew(int? id, string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber)
+          public PartialViewResult MainFilterPhotoGrapServiceWhenEditNew(int? id, string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber, bool? isLocationSelected, bool? isOvernight, int? locationId)
           {
               var EditService = TempData["TargetServiceForm"] as ServiceFormFactory;
               bool isEditTable = false;
@@ -2330,8 +2464,8 @@ namespace NicePictureStudio
               else
               {
                   ViewBag.IsEditTable = false;
-                  if (startDate != null && endDate != null && guestNumber != null)
-                      SaveServiceFormToLocalWhenEdit(serviceType, startDate, endDate, guestNumber);
+                  if (startDate != null && endDate != null && guestNumber != null && isLocationSelected != null && isOvernight != null)
+                      SaveServiceFormToLocalWhenEdit(serviceType, startDate, endDate, guestNumber, locationId, (bool)isLocationSelected, (bool)isOvernight);
                   selectedPhotoServiceId = id;
               }
              
@@ -4345,6 +4479,7 @@ namespace NicePictureStudio
             TempData.Keep();
             ServiceStatu serviceStatus = db.ServiceStatus.Where(s => s.Id == 1).FirstOrDefault();
             Service service = await db.Services.FindAsync(_servicesTmp.Id);
+            Location location = await db.Locations.FindAsync(_serviceFactory.ServiceForm.LocationId);
             ServiceForm serviceForm = new ServiceForm
             {
                 Name = _serviceFactory.ServiceForm.Name,
@@ -4356,8 +4491,11 @@ namespace NicePictureStudio
                 ServiceCost = _serviceFactory.ServiceForm.ServiceCost,
                 ServicePrice = _serviceFactory.ServiceForm.ServicePrice,
                 ServiceNetPrice = _serviceFactory.ServiceForm.ServiceNetPrice,
-                Service = service
+                Service = service,
+                IsLocationSelected = _serviceFactory.ServiceForm.IsLocationSelected,
+                IsOverNight = _serviceFactory.ServiceForm.IsOvernightSelected,
             };
+            serviceForm.Locations.Add(location);
             try
             {
                 db.ServiceForms.Add(serviceForm);
@@ -5373,13 +5511,13 @@ namespace NicePictureStudio
 
 
         #region Special Location Section
-        public async Task<ActionResult> LocationServicesForm(int? id)
+        public ActionResult LocationServicesForm(int? LocId)
         {
-            if (id != null)
+            if (LocId != null)
             {
-                Location location = await db.Locations.FindAsync(id);
-                LocationType selectedLocationType = await db.LocationTypes.FindAsync(location.LocationType.Id);
-                LocationStyle selectedLocationStyle = await db.LocationStyles.FindAsync(location.LocationStyle.Id);
+                Location location = db.Locations.Find(LocId);
+                LocationType selectedLocationType =  db.LocationTypes.Find(location.LocationType.Id);
+                LocationStyle selectedLocationStyle =  db.LocationStyles.Find(location.LocationStyle.Id);
                 ViewBag.LocationTypes = new SelectList(db.LocationTypes, "Id", "TypeName", selectedLocationType);
                 ViewBag.LocationStyles = new SelectList(db.LocationStyles, "Id", "Name", selectedLocationStyle);
                 return PartialView(location);

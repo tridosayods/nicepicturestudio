@@ -1173,8 +1173,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has been omitted from the storage model. Column 'LocationId' of table 'NicePictureStudioDBModel.Store.ServiceFormLocation' is a foreign key participating in multiple relationships. A one-to-one Entity Model will not validate since data inconsistency is possible.
         <Association Name="FK_ServiceFormLocation_ServiceForm">
           <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
           <End Role="ServiceFormLocation" Type="Self.ServiceFormLocation" Multiplicity="*" />
@@ -1183,10 +1181,10 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ServiceFormLocation">
-              <PropertyRef Name="LocationId" />
+              <PropertyRef Name="ServiceFormId" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>-->
+        </Association>
         <Association Name="FK_ServiceMapping_ServiceForm">
           <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
           <End Role="ServiceMapping" Type="Self.ServiceMapping" Multiplicity="0..1" />
@@ -1476,6 +1474,10 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
             <End Role="Location" EntitySet="Location" />
             <End Role="ServiceFormLocation" EntitySet="ServiceFormLocation" />
           </AssociationSet>
+          <AssociationSet Name="FK_ServiceFormLocation_ServiceForm" Association="Self.FK_ServiceFormLocation_ServiceForm">
+            <End Role="ServiceForm" EntitySet="ServiceForm" />
+            <End Role="ServiceFormLocation" EntitySet="ServiceFormLocation" />
+          </AssociationSet>
           <AssociationSet Name="FK_ServiceMapping_ServiceForm" Association="Self.FK_ServiceMapping_ServiceForm">
             <End Role="ServiceForm" EntitySet="ServiceForm" />
             <End Role="ServiceMapping" EntitySet="ServiceMapping" />
@@ -1658,7 +1660,6 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
             <End Role="Service" EntitySet="Services" />
             <End Role="ServiceSuggestion" EntitySet="ServiceSuggestions" />
           </AssociationSet>
-          <EntitySet Name="ServiceFormLocations" EntityType="NicePictureStudioDBModel.ServiceFormLocation" />
           <EntitySet Name="LocationStyles" EntityType="NicePictureStudioDBModel.LocationStyle" />
           <EntitySet Name="LocationTypes" EntityType="NicePictureStudioDBModel.LocationType" />
           <EntitySet Name="Locations" EntityType="NicePictureStudioDBModel.Location" />
@@ -1669,10 +1670,6 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
           <AssociationSet Name="FK_LocationService_Location" Association="NicePictureStudioDBModel.FK_LocationService_Location">
             <End Role="Location" EntitySet="Locations" />
             <End Role="LocationService" EntitySet="LocationServices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ServiceFormLocation_Location" Association="NicePictureStudioDBModel.FK_ServiceFormLocation_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="ServiceFormLocation" EntitySet="ServiceFormLocations" />
           </AssociationSet>
           <AssociationSet Name="FK_Location_LocationStyles" Association="NicePictureStudioDBModel.FK_Location_LocationStyles">
             <End Role="LocationStyle" EntitySet="LocationStyles" />
@@ -1706,6 +1703,10 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
           <AssociationSet Name="FK_OutSourcePriceRanges_OutsourceServiceType" Association="NicePictureStudioDBModel.FK_OutSourcePriceRanges_OutsourceServiceType">
             <End Role="OutsourceServiceType" EntitySet="OutsourceServiceTypes" />
             <End Role="OutSourcePriceRanx" EntitySet="OutSourcePriceRanges" />
+          </AssociationSet>
+          <AssociationSet Name="ServiceFormLocation" Association="NicePictureStudioDBModel.ServiceFormLocation">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="ServiceForm" EntitySet="ServiceForms" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="C__MigrationHistory">
@@ -2032,6 +2033,7 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
           <Property Name="ServiceNetPrice" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="IsLocationSelected" Type="Boolean" />
           <Property Name="IsOverNight" Type="Boolean" />
+          <NavigationProperty Name="Locations" Relationship="NicePictureStudioDBModel.ServiceFormLocation" FromRole="ServiceForm" ToRole="Location" />
           </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -2356,15 +2358,6 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
           <End Type="NicePictureStudioDBModel.Service" Role="Service" Multiplicity="*" />
           <End Type="NicePictureStudioDBModel.ServiceSuggestion" Role="ServiceSuggestion" Multiplicity="*" />
         </Association>
-        <EntityType Name="ServiceFormLocation">
-          <Key>
-            <PropertyRef Name="ServiceFormId" />
-            <PropertyRef Name="LocationId" />
-          </Key>
-          <Property Name="ServiceFormId" Type="Int32" Nullable="false" />
-          <Property Name="LocationId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Location" Relationship="NicePictureStudioDBModel.FK_ServiceFormLocation_Location" FromRole="ServiceFormLocation" ToRole="Location" />
-        </EntityType>
         <EntityType Name="LocationStyle">
           <Key>
             <PropertyRef Name="Id" />
@@ -2401,9 +2394,9 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
           <Property Name="MapExplanation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="LocationStatu" Relationship="NicePictureStudioDBModel.FK_Location_LocationStatus" FromRole="Location" ToRole="LocationStatu" />
           <NavigationProperty Name="LocationServices" Relationship="NicePictureStudioDBModel.FK_LocationService_Location" FromRole="Location" ToRole="LocationService" />
-          <NavigationProperty Name="ServiceFormLocations" Relationship="NicePictureStudioDBModel.FK_ServiceFormLocation_Location" FromRole="Location" ToRole="ServiceFormLocation" />
           <NavigationProperty Name="LocationStyle" Relationship="NicePictureStudioDBModel.FK_Location_LocationStyles" FromRole="Location" ToRole="LocationStyle" />
           <NavigationProperty Name="LocationType" Relationship="NicePictureStudioDBModel.FK_Location_LocationType1" FromRole="Location" ToRole="LocationType" />
+          <NavigationProperty Name="ServiceForms" Relationship="NicePictureStudioDBModel.ServiceFormLocation" FromRole="Location" ToRole="ServiceForm" />
         </EntityType>
         <Association Name="FK_Location_LocationStatus">
           <End Type="NicePictureStudioDBModel.LocationStatu" Role="LocationStatu" Multiplicity="1" />
@@ -2412,18 +2405,6 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
         <Association Name="FK_LocationService_Location">
           <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="1" />
           <End Type="NicePictureStudioDBModel.LocationService" Role="LocationService" Multiplicity="*" />
-        </Association>
-        <Association Name="FK_ServiceFormLocation_Location">
-          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.ServiceFormLocation" Role="ServiceFormLocation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="LocationId" />
-            </Principal>
-            <Dependent Role="ServiceFormLocation">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         <Association Name="FK_Location_LocationStyles">
           <End Type="NicePictureStudioDBModel.LocationStyle" Role="LocationStyle" Multiplicity="1" />
@@ -2500,6 +2481,10 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
         <Association Name="FK_OutSourcePriceRanges_OutsourceServiceType">
           <End Type="NicePictureStudioDBModel.OutsourceServiceType" Role="OutsourceServiceType" Multiplicity="1" />
           <End Type="NicePictureStudioDBModel.OutSourcePriceRanx" Role="OutSourcePriceRanx" Multiplicity="*" />
+        </Association>
+        <Association Name="ServiceFormLocation">
+          <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="*" />
+          <End Type="NicePictureStudioDBModel.ServiceForm" Role="ServiceForm" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -3201,14 +3186,6 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
               <ScalarProperty Name="Id" ColumnName="ServiceId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="ServiceFormLocations">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.ServiceFormLocation">
-              <MappingFragment StoreEntitySet="ServiceFormLocation">
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="ServiceFormId" ColumnName="ServiceFormId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="LocationStyles">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.LocationStyle">
               <MappingFragment StoreEntitySet="LocationStyles">
@@ -3363,6 +3340,14 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
             </EndProperty>
             <EndProperty Name="OutsourceServiceType">
               <ScalarProperty Name="Id" ColumnName="OutsourceTypeId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ServiceFormLocation" TypeName="NicePictureStudioDBModel.ServiceFormLocation" StoreEntitySet="ServiceFormLocation">
+            <EndProperty Name="ServiceForm">
+              <ScalarProperty Name="Id" ColumnName="ServiceFormId" />
+            </EndProperty>
+            <EndProperty Name="Location">
+              <ScalarProperty Name="LocationId" ColumnName="LocationId" />
             </EndProperty>
           </AssociationSetMapping>
           </EntityContainerMapping>

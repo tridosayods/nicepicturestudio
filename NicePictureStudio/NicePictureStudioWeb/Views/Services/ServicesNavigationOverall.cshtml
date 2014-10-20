@@ -88,22 +88,24 @@
                                         <div class="form-group">
                                             @Html.Label("สิ้นสุด ", new { @class = "col-sm-3" })
                                             <div class="col-sm-9">
-                                                @Html.Kendo().DateTimePickerFor(model => model.EventEnd).Min(DateTime.Now).HtmlAttributes(new {
-                                               @id = "EventEndDate", @styles = "width:120px" }).Value(Model.EventEnd == DateTime.MinValue ? DateTime.Now : Model.EventEnd).Events(e => 
-                                                   e.Change("endChange"))
-                                                @*@Html.Kendo().DateTimePicker().Name("EventEndDate").Min(DateTime.Now).Events(e => e.Change("endChange"))*@
+                                                @Html.Kendo().DateTimePickerFor(model => model.EventEnd).Min(DateTime.Now).HtmlAttributes(new
+                                            {
+                                                @id = "EventEndDate",
+                                                @styles = "width:120px"
+                                            }).Value(Model.EventEnd == DateTime.MinValue ? DateTime.Now : Model.EventEnd).Events(e =>
+                                                             e.Change("endChange"))
+                                                @*@Html.Kendo().DateTimePicker().Name("EventEnd").Min(DateTime.Now)*@
                                                 @Html.ValidationMessageFor(model => model.EventEnd)
                                             </div>
                                             </div>
                                         <div class="form-group">
                                             @Html.Label("จำนวกแขกในงาน", new { @class = "col-sm-3" })
                                             <div class="col-sm-9">
-                                                @Html.Kendo().NumericTextBox().Name("GuestNumber").Min(1).HtmlAttributes(new { @id = "GuestNumber", @styles = "width:20px" }).Value(Model.GuestsNumber == null ? 100 : Model.GuestsNumber).Format("D")
+                                                @Html.Kendo().NumericTextBoxFor(model => model.GuestsNumber).Min(1).HtmlAttributes(new { @id = "GuestNumber" }).Value(Model.GuestsNumber == null ? 100 : Model.GuestsNumber)
                                                 @*@Html.Kendo().NumericTextBox().Name("GuestNumber").Min(1).Value(50)*@
                                                 @Html.ValidationMessageFor(model => model.GuestsNumber)
                                             </div>
-                                            </div>
-
+                                         </div>
                                        
                                         <!--Location Section-->
                                             <div class="panel panel-info">
@@ -333,10 +335,10 @@
                     @*</div>*@
     </div>
 <div id="HiddenNav">
-    @Html.Hidden("hdPage1",null, new { @id = "page1Id" });
-    @Html.Hidden("hdPage2", null, new {@id = "page2Id" });
-    @Html.Hidden("hdPage3", null, new { @id = "page3Id" });
-    @Html.Hidden("hdPage4", null, new { @id = "page4Id" });
+    @Html.Hidden("hdPage1",null, new { @id = "page1Id" })
+    @Html.Hidden("hdPage2", null, new {@id = "page2Id" })
+    @Html.Hidden("hdPage3", null, new { @id = "page3Id" })
+    @Html.Hidden("hdPage4", null, new { @id = "page4Id" })
 </div>
 
 <script type="text/javascript">
@@ -399,7 +401,7 @@
                     var url = '@Url.Action("LocationServicesForm","Services")'
                     $.ajax({
                         url: url,
-                        data: { id: ui.item.id },
+                        data: { LocId: ui.item.id },
                         type: "GET",
                         success: function (data) { $("#SelectedLocationSection").replaceWith(data); }
                     })

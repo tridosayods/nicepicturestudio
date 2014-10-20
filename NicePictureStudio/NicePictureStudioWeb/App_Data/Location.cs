@@ -17,7 +17,7 @@ namespace NicePictureStudio.App_Data
         public Location()
         {
             this.LocationServices = new HashSet<LocationService>();
-            this.ServiceFormLocations = new HashSet<ServiceFormLocation>();
+            this.ServiceForms = new HashSet<ServiceForm>();
         }
     
         public int LocationId { get; set; }
@@ -35,8 +35,8 @@ namespace NicePictureStudio.App_Data
     
         public virtual LocationStatu LocationStatu { get; set; }
         public virtual ICollection<LocationService> LocationServices { get; set; }
-        public virtual ICollection<ServiceFormLocation> ServiceFormLocations { get; set; }
         public virtual LocationStyle LocationStyle { get; set; }
         public virtual LocationType LocationType { get; set; }
+        public virtual ICollection<ServiceForm> ServiceForms { get; set; }
     }
 }

@@ -1,4 +1,57 @@
 ﻿@model NicePictureStudio.App_Data.ServiceForm
+
+<script>
+
+    function startChange() {
+        var endPicker = $("#EventEndDate").data("kendoDateTimePicker"),
+            startDate = this.value();
+
+        if (startDate) {
+            startDate = new Date(startDate);
+            startDate.setDate(startDate.getDate());
+            endPicker.min(startDate);
+        }
+    }
+
+    function endChange() {
+        var startPicker = $("#EventStartDate").data("kendoDateTimePicker"),
+            endDate = this.value();
+
+        if (endDate) {
+            endDate = new Date(endDate);
+            endDate.setDate(endDate.getDate());
+            startPicker.max(endDate);
+        }
+    }
+
+    function EnableServiceFormItem() {
+        $("#LocationName").attr("disabled", null);
+        $("#GuestNumber").data("kendoNumericTextBox").enable();
+        $("#IsLocationSelected").attr("disabled", null);
+        $("#IsOvernightSelected").attr("disabled", null);
+        $("#ServiceTypeId").data("kendoDropDownList").enable();
+        $("#EventStartDate").data("kendoDateTimePicker").enable();
+        $("#EventEndDate").data("kendoDateTimePicker").enable();
+        $("#StartCreateService").attr("disabled", null);
+        $("#ServiceSelection").hide();
+    }
+
+    function DisableServiceFormItem() {
+        $("#LocationName").attr("disabled", "disabled");
+        $("#GuestNumber").data("kendoNumericTextBox").enable(false);
+        $("#IsLocationSelected").attr("disabled", "disabled");
+        $("#IsOvernightSelected").attr("disabled", "disabled");
+        $("#ServiceTypeId").data("kendoDropDownList").enable(false);
+        $("#EventStartDate").data("kendoDateTimePicker").enable(false);
+        $("#EventEndDate").data("kendoDateTimePicker").enable(false);
+        $("#StartCreateService").attr("disabled", "disabled");
+        $("#EditStartService").attr("disabled", null);
+    }
+
+</script>
+
+
+
 <div id="ServiceNavigation">
     <div class="container">
         <table class="table table-responsive">

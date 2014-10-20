@@ -1168,20 +1168,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <!--Errors Found During Generation:
-warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has been omitted from the storage model. Column 'LocationId' of table 'NicePictureStudioDBModel.Store.ServiceFormLocation' is a foreign key participating in multiple relationships. A one-to-one Entity Model will not validate since data inconsistency is possible.
-        <Association Name="FK_ServiceFormLocation_ServiceForm">
-          <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
-          <End Role="ServiceFormLocation" Type="Self.ServiceFormLocation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ServiceForm">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ServiceFormLocation">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>-->
+  <Association Name="FK_ServiceFormLocation_ServiceForm">
+    <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
+    <End Role="ServiceFormLocation" Type="Self.ServiceFormLocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ServiceForm">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ServiceFormLocation">
+        <PropertyRef Name="ServiceFormId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_ServiceMapping_ServiceForm">
     <End Role="ServiceForm" Type="Self.ServiceForm" Multiplicity="1" />
     <End Role="ServiceMapping" Type="Self.ServiceMapping" Multiplicity="0..1" />
@@ -1469,6 +1467,10 @@ warning 6037: Foreign key constraint 'FK_ServiceFormLocation_ServiceForm' has be
     </AssociationSet>
     <AssociationSet Name="FK_ServiceFormLocation_Location" Association="Self.FK_ServiceFormLocation_Location">
       <End Role="Location" EntitySet="Location" />
+      <End Role="ServiceFormLocation" EntitySet="ServiceFormLocation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ServiceFormLocation_ServiceForm" Association="Self.FK_ServiceFormLocation_ServiceForm">
+      <End Role="ServiceForm" EntitySet="ServiceForm" />
       <End Role="ServiceFormLocation" EntitySet="ServiceFormLocation" />
     </AssociationSet>
     <AssociationSet Name="FK_ServiceMapping_ServiceForm" Association="Self.FK_ServiceMapping_ServiceForm">

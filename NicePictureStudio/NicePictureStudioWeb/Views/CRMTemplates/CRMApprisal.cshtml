@@ -19,9 +19,12 @@
             <th rowspan="2" class="col-md-2 col-lg-5 text-center" style="vertical-align:middle">
                 @Html.DisplayName("แบบประเมิน")
             </th>
-            <th colspan="5" align="center" class="text-center">@Html.DisplayName("คะแนนความพึงพอใจ")</th>
+            <th colspan="6" align="center" class="text-center">@Html.DisplayName("คะแนนความพึงพอใจ")</th>
         </tr>
         <tr>
+            <th class="col-md-2 col-lg-1 text-center" align="center">
+                @Html.DisplayName("ไม่มีความเห็น")
+            </th>
             <th class="col-md-2 col-lg-1 text-center" align="center">
                 @Html.DisplayName("ไม่พอใจมาก")
             </th>
@@ -66,7 +69,7 @@
                     </td>
                 </tr>
             }*@
-        @Html.EditorFor(x=>x.Questions)
+       @Html.EditorFor(x=>x.Questions)
         <tr>
             <td colspan="6"align="center" >
                 <h4>ข้อเสนอแนะเพิ่มเติม : </h4>

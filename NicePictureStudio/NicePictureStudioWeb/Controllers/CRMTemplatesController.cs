@@ -175,6 +175,7 @@ namespace NicePictureStudio
                         Question question = new Question();
                         question.QuestionText = item.Question;
                         question.ID = item.Id;
+                        question.Answers.Add(new Answer { ID = 0, AnswerText = "0" });
                         question.Answers.Add(new Answer { ID = 1, AnswerText = "1" });
                         question.Answers.Add(new Answer { ID = 2, AnswerText = "2" });
                         question.Answers.Add(new Answer { ID = 3, AnswerText = "3" });

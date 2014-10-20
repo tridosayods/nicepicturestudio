@@ -609,4 +609,16 @@ namespace NicePictureStudio.Models
         public string CustomerName { get; set; }
         public string ServiceStatus { get; set; }
     }
+
+    public class ServiceFormsGridViewModel
+    {
+        public int Id { get; set; }
+        public string BookingNumber { get; set; }
+        public string CustomerName { get; set; }
+        public string Status { get; set; }
+        public DateTime EventStart { get; set; }
+        public DateTime EventEnd { get; set; }
+        public string Place { get; set; }
+
+    }
 }

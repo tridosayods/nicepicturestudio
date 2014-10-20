@@ -21,6 +21,7 @@ namespace NicePictureStudio.App_Data
             this.OutputSchedules = new HashSet<OutputSchedule>();
             this.OutsourceSchedules = new HashSet<OutsourceSchedule>();
             this.EmployeeSchedules = new HashSet<EmployeeSchedule>();
+            this.Locations = new HashSet<Location>();
         }
     
         public int Id { get; set; }
@@ -42,5 +43,6 @@ namespace NicePictureStudio.App_Data
         public virtual ICollection<OutsourceSchedule> OutsourceSchedules { get; set; }
         public virtual Service Service { get; set; }
         public virtual ICollection<EmployeeSchedule> EmployeeSchedules { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
     }
 }

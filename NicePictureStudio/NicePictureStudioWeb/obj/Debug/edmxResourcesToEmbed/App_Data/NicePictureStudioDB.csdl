@@ -161,7 +161,6 @@
       <End Role="Service" EntitySet="Services" />
       <End Role="ServiceSuggestion" EntitySet="ServiceSuggestions" />
     </AssociationSet>
-    <EntitySet Name="ServiceFormLocations" EntityType="NicePictureStudioDBModel.ServiceFormLocation" />
     <EntitySet Name="LocationStyles" EntityType="NicePictureStudioDBModel.LocationStyle" />
     <EntitySet Name="LocationTypes" EntityType="NicePictureStudioDBModel.LocationType" />
     <EntitySet Name="Locations" EntityType="NicePictureStudioDBModel.Location" />
@@ -172,10 +171,6 @@
     <AssociationSet Name="FK_LocationService_Location" Association="NicePictureStudioDBModel.FK_LocationService_Location">
       <End Role="Location" EntitySet="Locations" />
       <End Role="LocationService" EntitySet="LocationServices" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ServiceFormLocation_Location" Association="NicePictureStudioDBModel.FK_ServiceFormLocation_Location">
-      <End Role="Location" EntitySet="Locations" />
-      <End Role="ServiceFormLocation" EntitySet="ServiceFormLocations" />
     </AssociationSet>
     <AssociationSet Name="FK_Location_LocationStyles" Association="NicePictureStudioDBModel.FK_Location_LocationStyles">
       <End Role="LocationStyle" EntitySet="LocationStyles" />
@@ -209,6 +204,10 @@
     <AssociationSet Name="FK_OutSourcePriceRanges_OutsourceServiceType" Association="NicePictureStudioDBModel.FK_OutSourcePriceRanges_OutsourceServiceType">
       <End Role="OutsourceServiceType" EntitySet="OutsourceServiceTypes" />
       <End Role="OutSourcePriceRanx" EntitySet="OutSourcePriceRanges" />
+    </AssociationSet>
+    <AssociationSet Name="ServiceFormLocation" Association="NicePictureStudioDBModel.ServiceFormLocation">
+      <End Role="Location" EntitySet="Locations" />
+      <End Role="ServiceForm" EntitySet="ServiceForms" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
@@ -535,6 +534,7 @@
     <Property Name="ServiceNetPrice" Type="Decimal" Precision="18" Scale="3" />
     <Property Name="IsLocationSelected" Type="Boolean" />
     <Property Name="IsOverNight" Type="Boolean" />
+    <NavigationProperty Name="Locations" Relationship="NicePictureStudioDBModel.ServiceFormLocation" FromRole="ServiceForm" ToRole="Location" />
   </EntityType>
   <EntityType Name="Service">
     <Key>
@@ -859,15 +859,6 @@
     <End Type="NicePictureStudioDBModel.Service" Role="Service" Multiplicity="*" />
     <End Type="NicePictureStudioDBModel.ServiceSuggestion" Role="ServiceSuggestion" Multiplicity="*" />
   </Association>
-  <EntityType Name="ServiceFormLocation">
-    <Key>
-      <PropertyRef Name="ServiceFormId" />
-      <PropertyRef Name="LocationId" />
-    </Key>
-    <Property Name="ServiceFormId" Type="Int32" Nullable="false" />
-    <Property Name="LocationId" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Location" Relationship="NicePictureStudioDBModel.FK_ServiceFormLocation_Location" FromRole="ServiceFormLocation" ToRole="Location" />
-  </EntityType>
   <EntityType Name="LocationStyle">
     <Key>
       <PropertyRef Name="Id" />
@@ -904,9 +895,9 @@
     <Property Name="MapExplanation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="LocationStatu" Relationship="NicePictureStudioDBModel.FK_Location_LocationStatus" FromRole="Location" ToRole="LocationStatu" />
     <NavigationProperty Name="LocationServices" Relationship="NicePictureStudioDBModel.FK_LocationService_Location" FromRole="Location" ToRole="LocationService" />
-    <NavigationProperty Name="ServiceFormLocations" Relationship="NicePictureStudioDBModel.FK_ServiceFormLocation_Location" FromRole="Location" ToRole="ServiceFormLocation" />
     <NavigationProperty Name="LocationStyle" Relationship="NicePictureStudioDBModel.FK_Location_LocationStyles" FromRole="Location" ToRole="LocationStyle" />
     <NavigationProperty Name="LocationType" Relationship="NicePictureStudioDBModel.FK_Location_LocationType1" FromRole="Location" ToRole="LocationType" />
+    <NavigationProperty Name="ServiceForms" Relationship="NicePictureStudioDBModel.ServiceFormLocation" FromRole="Location" ToRole="ServiceForm" />
   </EntityType>
   <Association Name="FK_Location_LocationStatus">
     <End Type="NicePictureStudioDBModel.LocationStatu" Role="LocationStatu" Multiplicity="1" />
@@ -915,18 +906,6 @@
   <Association Name="FK_LocationService_Location">
     <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="1" />
     <End Type="NicePictureStudioDBModel.LocationService" Role="LocationService" Multiplicity="*" />
-  </Association>
-  <Association Name="FK_ServiceFormLocation_Location">
-    <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="1" />
-    <End Type="NicePictureStudioDBModel.ServiceFormLocation" Role="ServiceFormLocation" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Location">
-        <PropertyRef Name="LocationId" />
-      </Principal>
-      <Dependent Role="ServiceFormLocation">
-        <PropertyRef Name="LocationId" />
-      </Dependent>
-    </ReferentialConstraint>
   </Association>
   <Association Name="FK_Location_LocationStyles">
     <End Type="NicePictureStudioDBModel.LocationStyle" Role="LocationStyle" Multiplicity="1" />
@@ -1003,5 +982,9 @@
   <Association Name="FK_OutSourcePriceRanges_OutsourceServiceType">
     <End Type="NicePictureStudioDBModel.OutsourceServiceType" Role="OutsourceServiceType" Multiplicity="1" />
     <End Type="NicePictureStudioDBModel.OutSourcePriceRanx" Role="OutSourcePriceRanx" Multiplicity="*" />
+  </Association>
+  <Association Name="ServiceFormLocation">
+    <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="*" />
+    <End Type="NicePictureStudioDBModel.ServiceForm" Role="ServiceForm" Multiplicity="*" />
   </Association>
 </Schema>

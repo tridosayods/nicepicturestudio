@@ -75,13 +75,11 @@
         <AssociationConnector Association="NicePictureStudioDBModel.BookingRequestRelation" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.ServiceSuggestion" Width="1.5" PointX="12" PointY="28.5" />
         <AssociationConnector Association="NicePictureStudioDBModel.ServiceSuggestMap" />
-        <EntityTypeShape EntityType="NicePictureStudioDBModel.ServiceFormLocation" Width="1.5" PointX="21.875" PointY="15.125" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.LocationStyle" Width="1.5" PointX="14.625" PointY="15.375" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.LocationType" Width="1.5" PointX="19.875" PointY="16.625" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.Location" Width="1.5" PointX="17.875" PointY="11.375" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Location_LocationStatus" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_LocationService_Location" />
-        <AssociationConnector Association="NicePictureStudioDBModel.FK_ServiceFormLocation_Location" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Location_LocationStyles" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_Location_LocationType1" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.EmployeeInfo" Width="1.5" PointX="0.5" PointY="10.375" />
@@ -94,6 +92,7 @@
         <AssociationConnector Association="NicePictureStudioDBModel.FK_OutputService_OutputType" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.OutSourcePriceRanx" Width="1.5" PointX="0.5" PointY="24.875" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_OutSourcePriceRanges_OutsourceServiceType" />
+        <AssociationConnector Association="NicePictureStudioDBModel.ServiceFormLocation" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -270,9 +270,6 @@
     <Compile Include="App_Data\OutSourcePriceRanx.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="App_Data\ServiceFormLocation.cs">
-      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="App_Data\ServiceSuggestion.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>

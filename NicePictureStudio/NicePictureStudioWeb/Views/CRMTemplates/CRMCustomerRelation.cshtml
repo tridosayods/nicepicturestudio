@@ -1,34 +1,62 @@
 ﻿@model IEnumerable<NicePictureStudio.Models.CustomerRelation>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "ลูกค้าสัมพันธ์";
 }
 
-<h2>Index</h2>
+<h2>ลูกค้าสัมพันธ์</h2>
+<h4>รายชื่อลูกค้าที่เคยใช้บริการ</h4>
 
+<div class="panel-default table-bordered">
+    <div class="panel-title"></div>
+    <div class="panel-heading">ตัวเลือกในการค้นหาข้อมูล</div>
+    <div class="panel-body">
+        <table class="table-responsive">
+            <tr>
+                <td>
+                    <div class="form-horizontal">
+                        <div class="form-group-sm">
+                            <div class="col-sm-3 col-xs-3 text-right">@Html.Label("ช่วงเวลาเริ่มต้น")</div>
+                            <div class="col-sm-3 col-xs-3">@(Html.Kendo().DatePicker().Name("StartDay").Value(DateTime.Today))</div>
+
+                            <div class="col-sm-3 col-xs-3 text-right"> @Html.Label("ช่วงเวลาสิ้นสุด") </div>
+                            <div class="col-sm-3 col-xs-3">@(Html.Kendo().DatePicker().Name("EndDay").Value(DateTime.Today.AddDays(7)))</div>
+
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>
+<hr />
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerName)
+            @Html.DisplayName("ชื่อลูกค้า")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerPhoneNumber)
+            @Html.DisplayName("หมายเลขโทรศัพท์")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerEmail)
+            @Html.DisplayName("อีเมล์")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AnniversaryDate)
+            @Html.DisplayName("วันครบรอบแต่งงาน")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReferenceName)
+            @Html.DisplayName("ชื่อผู้แนะนำ")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReferenceEmail)
+            @Html.DisplayName("หมายเลขโทรศัพท์ผู้แนะนำ")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReferencePhoneNumber)
+            @Html.DisplayName("อีเมล์ผู้แนะนำ")
         </th>
+        
         <th></th>
     </tr>
 
@@ -51,11 +79,12 @@
                 @Html.DisplayFor(modelItem => item.ReferenceName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ReferenceEmail)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.ReferencePhoneNumber)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReferenceEmail)
+            </td>
+            
             <td>
                 @Html.ActionLink("Details", "CRMCustomerRelationDetails", new { id = item.CustomerId })
             </td>

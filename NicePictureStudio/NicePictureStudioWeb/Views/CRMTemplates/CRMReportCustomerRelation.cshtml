@@ -1,8 +1,8 @@
 ﻿
 @using NicePictureStudioReporting
-@*<!DOCTYPE html>*@
+<!DOCTYPE html>
 
-@section styles
+@*@section styles
 {
     <link href= @Url.Content("~/Scripts/ReportViewer/styles/telerikReportViewer-8.1.14.804.css") rel="stylesheet" />
     <style>
@@ -33,7 +33,7 @@
         .Scale(1.0)
         .PersistSession(true)
         
-)
+)*@
 
 @*@(Html.Kendo().PivotGrid()
       .Name("pivotgrid")
@@ -51,7 +51,7 @@
                   .Catalog("Adventure Works DW 2008R2")
                   .Cube("Adventure Works"))
               .Read(read => read
-                  .Url(@"http://www.xjapbbx.com/olap/msmdpump.dll")
+                  .Url(@"http://bdqaaut-pf26/olap/msmdpump.dll")
                   .DataType("text")
                   .ContentType("text/xml")
                   .Type(HttpVerbs.Post)
@@ -59,3 +59,28 @@
           )
       )
 )*@
+
+@(Html.Kendo().PivotGrid()
+      .Name("pivotgrid")
+      .DataSource(dataSource => dataSource.
+          Xmla()
+          .Columns(columns =>
+          {
+              columns.Add("[Time].[Year]").Expand(true);
+              //columns.Add("[Geography].[City]");
+          })
+          .Rows(rows => rows.Add("[Promotion].[Profit]"))
+          .Measures(measures => measures.Values(new string[] { "[Measures].[Profit Percent]" }))
+          .Transport(transport => transport
+              .Connection(connection => connection
+                  .Catalog("NCStudioOLAP")
+                      .Cube("NC Studio DW"))
+              .Read(read => read
+                  .Url(@"http://bdqaaut-pf26/olap/msmdpump.dll")
+                  .DataType("text")
+                  .ContentType("text/xml")
+                  .Type(HttpVerbs.Get)
+              )
+          )
+      )
+)
