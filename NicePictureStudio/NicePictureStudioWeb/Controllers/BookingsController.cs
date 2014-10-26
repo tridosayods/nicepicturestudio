@@ -92,7 +92,13 @@ namespace NicePictureStudio
             ViewBag.PromotionId = new SelectList(validPromotion, "Id", "Name");
             ViewBag.ServiceId = new SelectList(db.Services, "Id", "BookingName");
             ViewBag.SpecialOrder = new MultiSelectList(db.BookingSpecialRequests, "Id", "Name");
-            int _latestBookingId = db.Bookings.Max(p => p.Id);
+            int _latestBookingId;
+            if (db.Bookings.Count() > 0)
+            {  _latestBookingId = db.Bookings.Max(p => p.Id); }
+            else
+            { 
+                _latestBookingId =0;
+            }
             ViewBag.BookingNumber = DateTime.Now.ToString("yyyy") + DateTime.Now.Month + DateTime.Now.Day+ _latestBookingId.ToString();
             //ViewBag.BookingNumber = Math.Abs(Convert.ToInt32(DateTime.Now.GetHashCode())).ToString().Substring(0,5);
             return View();

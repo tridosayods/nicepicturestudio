@@ -369,7 +369,7 @@ namespace NicePictureStudio
             if (string.Compare(term, string.Empty) != 0)
             {
                 // Booking staus = 1 means opened booking.
-                int _bookingOpened = 1;
+                int _bookingOpened = Constant.BOOKING_STATUS_CONFIRM;
                 Booking[] matching = string.IsNullOrWhiteSpace(term) ?
                     db.Bookings.ToArray() :
                     db.Bookings.Where(p => (p.BookingCode.ToUpper().StartsWith(term.ToUpper()) || p.Name.ToUpper().StartsWith(term.ToUpper())) && p.BookingStatu.Id == _bookingOpened).ToArray();
@@ -2285,12 +2285,31 @@ namespace NicePictureStudio
           //}
           #endregion
 
+        //Temporary Solution  
+        private int gettingServiceTypeId(string serviceType)
+          {
+              if (serviceType == PreWedding)
+              {
+                  return Constant.SERVICE_TYPE_PREWEDDING;
+              }
+              else if (serviceType == Engagement)
+              {
+                  return Constant.SERVICE_TYPE_ENGAGEMENT;
+              }
+              else if (serviceType == Wedding)
+              {
+                  return Constant.SERVICE_TYPE_WEDDING;
+              }
+              else { return 0; }
+          }
+
           private void SaveServiceFormToLocal(string serviceType, DateTime? startDate, DateTime? endDate, int? guestNumber, int? locationId, bool isLocationSelected, bool isOvernight)
           {
               int statusNew = Constant.SERVICE_STATUS_NEW;
               ServiceForm serviceForm = new ServiceForm();
               if (ModelState.IsValid)
               {
+                 
                   ServiceType _serviceType = db.ServiceTypes.Where(s => string.Compare(s.ServiceTypeName, serviceType, true) == 0).FirstOrDefault();
                   if (serviceType != null)
                   {

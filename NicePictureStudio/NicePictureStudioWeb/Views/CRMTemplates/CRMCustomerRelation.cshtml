@@ -4,7 +4,7 @@
     ViewBag.Title = "ลูกค้าสัมพันธ์";
 }
 
-<h2>ลูกค้าสัมพันธ์</h2>
+<h2>รายงานลูกค้าสัมพันธ์</h2>
 <h4>รายชื่อลูกค้าที่เคยใช้บริการ</h4>
 
 <div class="panel-default table-bordered">
@@ -17,10 +17,10 @@
                     <div class="form-horizontal">
                         <div class="form-group-sm">
                             <div class="col-sm-3 col-xs-3 text-right">@Html.Label("ช่วงเวลาเริ่มต้น")</div>
-                            <div class="col-sm-3 col-xs-3">@(Html.Kendo().DatePicker().Name("StartDay").Value(DateTime.Today))</div>
+                            <div class="col-sm-3 col-xs-3">@(Html.Kendo().DatePicker().Name("StartDay").Value(DateTime.Today).Format("dd/MM/yyyy"))</div>
 
                             <div class="col-sm-3 col-xs-3 text-right"> @Html.Label("ช่วงเวลาสิ้นสุด") </div>
-                            <div class="col-sm-3 col-xs-3">@(Html.Kendo().DatePicker().Name("EndDay").Value(DateTime.Today.AddDays(7)))</div>
+                            <div class="col-sm-3 col-xs-3">@(Html.Kendo().DatePicker().Name("EndDay").Value(DateTime.Today.AddDays(7)).Format("dd/MM/yyyy"))</div>
 
                         </div>
 
@@ -57,7 +57,7 @@
             @Html.DisplayName("อีเมล์ผู้แนะนำ")
         </th>
         
-        <th></th>
+        @*<th></th>*@
     </tr>
 
     @foreach (var item in Model)
@@ -73,7 +73,7 @@
                 @Html.DisplayFor(modelItem => item.CustomerEmail)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AnniversaryDate)
+                @Html.ValueFor(modelItem => item.AnniversaryDate,"{0:dd/MM/yyyy}")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ReferenceName)
@@ -85,9 +85,9 @@
                 @Html.DisplayFor(modelItem => item.ReferenceEmail)
             </td>
             
-            <td>
+            @*<td>
                 @Html.ActionLink("Details", "CRMCustomerRelationDetails", new { id = item.CustomerId })
-            </td>
+            </td>*@
         </tr>
     }
 </table>

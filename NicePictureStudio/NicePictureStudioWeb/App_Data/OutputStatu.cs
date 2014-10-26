@@ -14,8 +14,15 @@ namespace NicePictureStudio.App_Data
     
     public partial class OutputStatu
     {
+        public OutputStatu()
+        {
+            this.OutputSchedules = new HashSet<OutputSchedule>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+    
+        public virtual ICollection<OutputSchedule> OutputSchedules { get; set; }
     }
 }

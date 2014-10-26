@@ -624,6 +624,16 @@
     <Property Name="ServiceTypeName" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
   <Association Name="FK_Booking_BookingStatus">
     <End Role="BookingStatus" Type="Self.BookingStatus" Multiplicity="1" />
     <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
@@ -757,6 +767,18 @@
       </Principal>
       <Dependent Role="EmployeeLogin">
         <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_EmployeeStatus">
+    <End Role="EmployeeStatus" Type="Self.EmployeeStatus" Multiplicity="1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EmployeeStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="Status" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -997,6 +1019,18 @@
       </Principal>
       <Dependent Role="LocationServiceTiming">
         <PropertyRef Name="ServiceFormId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OutputSchedule_OutputStatus">
+    <End Role="OutputStatus" Type="Self.OutputStatus" Multiplicity="1" />
+    <End Role="OutputSchedule" Type="Self.OutputSchedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OutputStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OutputSchedule">
+        <PropertyRef Name="Status" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1289,6 +1323,7 @@
     <EntitySet Name="ServiceSuggestion" EntityType="Self.ServiceSuggestion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceSuggestMap" EntityType="Self.ServiceSuggestMap" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ServiceType" EntityType="Self.ServiceType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Booking_BookingStatus" Association="Self.FK_Booking_BookingStatus">
       <End Role="BookingStatus" EntitySet="BookingStatus" />
       <End Role="Booking" EntitySet="Booking" />
@@ -1332,6 +1367,10 @@
     <AssociationSet Name="FK_dbo_EmployeeLogin_dbo_Employee_UserId" Association="Self.FK_dbo_EmployeeLogin_dbo_Employee_UserId">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="EmployeeLogin" EntitySet="EmployeeLogin" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_EmployeeStatus" Association="Self.FK_Employee_EmployeeStatus">
+      <End Role="EmployeeStatus" EntitySet="EmployeeStatus" />
+      <End Role="Employee" EntitySet="Employee" />
     </AssociationSet>
     <AssociationSet Name="FK_EmployeePositionRelation_Employee" Association="Self.FK_EmployeePositionRelation_Employee">
       <End Role="Employee" EntitySet="Employee" />
@@ -1412,6 +1451,10 @@
     <AssociationSet Name="FK_LocationServiceTiming_ServiceForm" Association="Self.FK_LocationServiceTiming_ServiceForm">
       <End Role="ServiceForm" EntitySet="ServiceForm" />
       <End Role="LocationServiceTiming" EntitySet="LocationServiceTiming" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OutputSchedule_OutputStatus" Association="Self.FK_OutputSchedule_OutputStatus">
+      <End Role="OutputStatus" EntitySet="OutputStatus" />
+      <End Role="OutputSchedule" EntitySet="OutputSchedule" />
     </AssociationSet>
     <AssociationSet Name="FK_OutputService_OutputSize" Association="Self.FK_OutputService_OutputSize">
       <End Role="OutputSize" EntitySet="OutputSize" />

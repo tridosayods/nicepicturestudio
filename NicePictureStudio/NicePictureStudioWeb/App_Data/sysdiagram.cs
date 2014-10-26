@@ -12,17 +12,12 @@ namespace NicePictureStudio.App_Data
     using System;
     using System.Collections.Generic;
     
-    public partial class EmployeeStatu
+    public partial class sysdiagram
     {
-        public EmployeeStatu()
-        {
-            this.Employees = new HashSet<Employee>();
-        }
-    
-        public int Id { get; set; }
-        public string Status { get; set; }
-        public string Description { get; set; }
-    
-        public virtual ICollection<Employee> Employees { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

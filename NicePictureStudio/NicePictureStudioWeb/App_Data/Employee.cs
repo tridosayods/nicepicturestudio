@@ -55,5 +55,6 @@ namespace NicePictureStudio.App_Data
         public virtual ICollection<Role> Roles { get; set; }
         public virtual ICollection<EmployeeInfo> EmployeeInfoes { get; set; }
         public virtual ICollection<EmployeePosition> EmployeePositions { get; set; }
+        public virtual EmployeeStatu EmployeeStatu { get; set; }
     }
 }

@@ -25,5 +25,6 @@ namespace NicePictureStudio.App_Data
         public int OutputQuantity { get; set; }
     
         public virtual ServiceForm ServiceForm { get; set; }
+        public virtual OutputStatu OutputStatu { get; set; }
     }
 }

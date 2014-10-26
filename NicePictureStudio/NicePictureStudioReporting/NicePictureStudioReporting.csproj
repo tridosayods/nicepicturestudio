@@ -56,9 +56,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ReportManager.cs" />
+    <Compile Include="ServicePricing.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ServicePricing.Designer.cs">
+      <DependentUpon>ServicePricing.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -67,6 +75,9 @@
   <ItemGroup>
     <EmbeddedResource Include="CRMCustomerRelationReport.resx">
       <DependentUpon>CRMCustomerRelationReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServicePricing.resx">
+      <DependentUpon>ServicePricing.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

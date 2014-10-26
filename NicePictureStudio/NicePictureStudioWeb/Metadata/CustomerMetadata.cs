@@ -18,27 +18,30 @@ namespace NicePictureStudio.App_Data
         //[StringLength(11, ErrorMessage = "Booking Code is not over 11 digits")]
         //public object BookingCode { get; set; }
 
-        [Required]
+        [Required(ErrorMessage="กรุณากรอกชื่อลูกค้า")]
         public string CustomerName { get; set; }
-         [Required]
+         [Required(ErrorMessage="กรุณากรอกหมายเลขโทรศัพท์")]
          [Phone]
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
-         [Required]
+         [Required(ErrorMessage = "กรุณากรอกอีเมล")]
          [EmailAddress]
         public string Email { get; set; }
         public string PostcalCode { get; set; }
         [Required]
         public Nullable<System.DateTime> AnniversaryDate { get; set; }
         public string ReferencePerson { get; set; }
-        [EmailAddress]
+        [EmailAddress(ErrorMessage="รูปของการใส่ อีเมล ไม่ถูกต้อง [emailaddress@yourdomain.xx] ")]
         public string ReferenceEmail { get; set; }
         [Phone]
         public string ReferencePhoneNumber { get; set; }
         public string CustomerTitle { get; set; }
+         [Required(ErrorMessage = "กรุณากรอกนามสกุลลูกค้า")]
         public string CustomerSurname { get; set; }
         public string CoupleTitle { get; set; }
+         [Required(ErrorMessage = "กรุณากรอกชื่อลูกค้า")]
         public string CoupleName { get; set; }
+        [Required(ErrorMessage = "กรุณากรอกนามสกุลลูกค้า")]
         public string CoupleSurname { get; set; }
         public string CouplePhoneNumber { get; set; }
         public string BuildingBlock { get; set; }

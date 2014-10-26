@@ -5,3 +5,5 @@ D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioReporting\obj\Deb
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioReporting\obj\Debug\NicePictureStudioReporting.csproj.GenerateResource.Cache
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioReporting\obj\Debug\NicePictureStudioReporting.dll
 D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioReporting\obj\Debug\NicePictureStudioReporting.pdb
+D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioReporting\obj\Debug\NicePictureStudioReporting.ServicePricing.resources
+D:\GitHub\nicepicturestudio\NicePictureStudio\NicePictureStudioReporting\obj\Debug\NicePictureStudioReporting.csprojResolveAssemblyReference.cache

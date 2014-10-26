@@ -1,6 +1,6 @@
 ﻿
 @using NicePictureStudioReporting
-<!DOCTYPE html>
+@*<!DOCTYPE html>*@
 
 @*@section styles
 {
@@ -35,14 +35,19 @@
         
 )*@
 
-@*@(Html.Kendo().PivotGrid()
+@(Html.Kendo().PivotConfigurator()
+    .Name("configurator")
+    .Filterable(true)
+)
+
+@(Html.Kendo().PivotGrid()
       .Name("pivotgrid")
       .DataSource(dataSource => dataSource.
           Xmla()
           .Columns(columns =>
           {
-              columns.Add("[Date].[Calendar]").Expand(true);
-              columns.Add("[Geography].[City]");
+             columns.Add("[Date].[Calendar]").Expand(true);
+             columns.Add("[Geography].[City]");
           })
           .Rows(rows => rows.Add("[Product].[Product]"))
           .Measures(measures => measures.Values(new string[] { "[Measures].[Internet Sales Amount]" }))
@@ -51,16 +56,37 @@
                   .Catalog("Adventure Works DW 2008R2")
                   .Cube("Adventure Works"))
               .Read(read => read
-                  .Url(@"http://bdqaaut-pf26/olap/msmdpump.dll")
+                  //  .Url(@"http://demos.telerik.com/olap/msmdpump.dll")
+                      .Url(@"http://bdqaaut-pf26/OLAP/msmdpump.dll") 
                   .DataType("text")
                   .ContentType("text/xml")
                   .Type(HttpVerbs.Post)
               )
           )
       )
-)*@
+)
 
-@(Html.Kendo().PivotGrid()
+<style>
+    #pivotgrid {
+        display: inline-block;
+        vertical-align: top;
+        width: 70%;
+    }
+
+    #configurator {
+        display: inline-block;
+        vertical-align: top;
+    }
+</style>
+
+
+<script>
+    function onError(e) {
+        alert("error: " + kendo.stringify(e.errors[0]));
+    }
+</script>
+
+@*@(Html.Kendo().PivotGrid()
       .Name("pivotgrid")
       .DataSource(dataSource => dataSource.
           Xmla()
@@ -73,14 +99,14 @@
           .Measures(measures => measures.Values(new string[] { "[Measures].[Profit Percent]" }))
           .Transport(transport => transport
               .Connection(connection => connection
-                  .Catalog("NCStudioOLAP")
-                      .Cube("NC Studio DW"))
+                      .Catalog("SalesOLAP")
+                      .Cube("SalesAnalysisCube"))
               .Read(read => read
                   .Url(@"http://bdqaaut-pf26/olap/msmdpump.dll")
                   .DataType("text")
                   .ContentType("text/xml")
-                  .Type(HttpVerbs.Get)
+                  .Type(HttpVerbs.Post)
               )
           )
       )
-)
+)*@

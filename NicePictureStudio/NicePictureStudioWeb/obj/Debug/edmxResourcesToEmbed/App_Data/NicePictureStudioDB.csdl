@@ -209,6 +209,15 @@
       <End Role="Location" EntitySet="Locations" />
       <End Role="ServiceForm" EntitySet="ServiceForms" />
     </AssociationSet>
+    <EntitySet Name="sysdiagrams" EntityType="NicePictureStudioDBModel.sysdiagram" />
+    <AssociationSet Name="FK_OutputSchedule_OutputStatus" Association="NicePictureStudioDBModel.FK_OutputSchedule_OutputStatus">
+      <End Role="OutputStatu" EntitySet="OutputStatus" />
+      <End Role="OutputSchedule" EntitySet="OutputSchedules" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_EmployeeStatus" Association="NicePictureStudioDBModel.FK_Employee_EmployeeStatus">
+      <End Role="EmployeeStatu" EntitySet="EmployeeStatus" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -401,6 +410,7 @@
     <NavigationProperty Name="ServiceForm" Relationship="NicePictureStudioDBModel.OutputServiceTiming" FromRole="OutputSchedule" ToRole="ServiceForm" />
     <Property Name="OutputServiceId" Type="Int32" Nullable="false" />
     <Property Name="OutputQuantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="OutputStatu" Relationship="NicePictureStudioDBModel.FK_OutputSchedule_OutputStatus" FromRole="OutputSchedule" ToRole="OutputStatu" />
   </EntityType>
   <EntityType Name="OutputService">
     <Key>
@@ -532,9 +542,9 @@
     <Property Name="ServiceCost" Type="Decimal" Precision="18" Scale="3" />
     <Property Name="ServicePrice" Type="Decimal" Precision="18" Scale="3" />
     <Property Name="ServiceNetPrice" Type="Decimal" Precision="18" Scale="3" />
+    <NavigationProperty Name="Locations" Relationship="NicePictureStudioDBModel.ServiceFormLocation" FromRole="ServiceForm" ToRole="Location" />
     <Property Name="IsLocationSelected" Type="Boolean" />
     <Property Name="IsOverNight" Type="Boolean" />
-    <NavigationProperty Name="Locations" Relationship="NicePictureStudioDBModel.ServiceFormLocation" FromRole="ServiceForm" ToRole="Location" />
   </EntityType>
   <EntityType Name="Service">
     <Key>
@@ -648,6 +658,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Status" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Employees" Relationship="NicePictureStudioDBModel.FK_Employee_EmployeeStatus" FromRole="EmployeeStatu" ToRole="Employee" />
   </EntityType>
   <EntityType Name="EmployeeSchedule">
     <Key>
@@ -699,6 +710,7 @@
     <NavigationProperty Name="Roles" Relationship="NicePictureStudioDBModel.EmployeeRole" FromRole="Employee" ToRole="Role" />
     <NavigationProperty Name="EmployeeInfoes" Relationship="NicePictureStudioDBModel.EmployeeRelatedInfo" FromRole="Employee" ToRole="EmployeeInfo" />
     <NavigationProperty Name="EmployeePositions" Relationship="NicePictureStudioDBModel.EmployeePositionRelation" FromRole="Employee" ToRole="EmployeePosition" />
+    <NavigationProperty Name="EmployeeStatu" Relationship="NicePictureStudioDBModel.FK_Employee_EmployeeStatus" FromRole="Employee" ToRole="EmployeeStatu" />
   </EntityType>
   <Association Name="FK_dbo_EmployeeClaim_dbo_Employee_UserId">
     <End Type="NicePictureStudioDBModel.Employee" Role="Employee" Multiplicity="1">
@@ -735,6 +747,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="OutputSchedules" Relationship="NicePictureStudioDBModel.FK_OutputSchedule_OutputStatus" FromRole="OutputStatu" ToRole="OutputSchedule" />
   </EntityType>
   <EntityType Name="PromotionStatu">
     <Key>
@@ -986,5 +999,39 @@
   <Association Name="ServiceFormLocation">
     <End Type="NicePictureStudioDBModel.Location" Role="Location" Multiplicity="*" />
     <End Type="NicePictureStudioDBModel.ServiceForm" Role="ServiceForm" Multiplicity="*" />
+  </Association>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_OutputSchedule_OutputStatus">
+    <End Type="NicePictureStudioDBModel.OutputStatu" Role="OutputStatu" Multiplicity="1" />
+    <End Type="NicePictureStudioDBModel.OutputSchedule" Role="OutputSchedule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OutputStatu">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OutputSchedule">
+        <PropertyRef Name="Status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_EmployeeStatus">
+    <End Type="NicePictureStudioDBModel.EmployeeStatu" Role="EmployeeStatu" Multiplicity="1" />
+    <End Type="NicePictureStudioDBModel.Employee" Role="Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EmployeeStatu">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="Status" />
+      </Dependent>
+    </ReferentialConstraint>
   </Association>
 </Schema>
