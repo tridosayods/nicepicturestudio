@@ -1,20 +1,23 @@
 ﻿@model IEnumerable<NicePictureStudio.App_Data.CRMTemplate>
 
-<h2> Index</h2>
+<h2> คำถามในการประเมินความพึงพอใจ</h2>
 <hr />
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("สร้างใหม่", "Create")
     </p>
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Question)
+                @*@Html.DisplayNameFor(model => model.Question)*@
+                @Html.DisplayName("คำถาม")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CRMServiceCategory.Name)
+                @*@Html.DisplayNameFor(model => model.CRMServiceCategory.Name)*@
+                @Html.DisplayName("ลักษณะการบริการ")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CRMServiceType.Name)
+                @*@Html.DisplayNameFor(model => model.CRMServiceType.Name)*@
+                @Html.DisplayName("ประเภทการบริการ")
             </th>
             <th></th>
         </tr>
@@ -31,9 +34,9 @@
                 @Html.DisplayFor(modelItem => item.CRMServiceType.Name)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                @Html.ActionLink("แก้ไข", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("ดูรายละเอียด", "Details", new { id=item.Id }) |
+                @Html.ActionLink("ลบ", "Delete", new { id=item.Id })
             </td>
         </tr>
     }

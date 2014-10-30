@@ -4,10 +4,13 @@
         <div class="form-control">
             <div class="row">
                 <div class="col-lg-6 col-sm-8">
+                    ส่วนลดที่คำนวณได้
                     @Html.Kendo().TextBox().Name("PercentageExpected").Value(@Model.DiscountSummary)
                 </div>
                 <div class="col-lg-6 col-sm-8">
-                    @Html.Kendo().TextBox().Name("PercentageCalculate").Value(@Model.lowestDiscount)
+                    ส่วนลดสูงสุดที่สามารถลดราคาได้
+                    @*@Html.Kendo().TextBox().Name("PercentageCalculate").Value(@Model.lowestDiscount)*@
+                    @Html.Kendo().TextBox().Name("PercentageCalculate").Value("30.00 %")
                 </div>
             </div>
         </div>

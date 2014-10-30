@@ -431,8 +431,8 @@
 
                     
 
-
-                    @*@(Html.Kendo().Grid<NicePictureStudio.Models.ServiceGridViewModel>()
+<div><h3>การสร้างแบบประเมินคงามพึงพอใจลูกค้า</h3></div>
+                    @(Html.Kendo().Grid<NicePictureStudio.Models.ServiceGridViewModel>()
                         .Name("srvGrid")
                         .Columns(columns =>
                         {
@@ -450,7 +450,7 @@
                                  "# } #"
                                 );
                             //columns.Template(p=> @Html.ActionLink("Edit", "Edit","Bookings", new { id = p.Id }));
-                            columns.Bound(p => p.Id).Title("Action").ClientTemplate(@Html.ActionLink("Edit", "Edit", "Services", new { id = "#=Id#" }, null).ToHtmlString());
+                            columns.Bound(p => p.Id).Title("Action").ClientTemplate(@Html.ActionLink("สร้างแบบประเมิน", "Edit", "Services", new { id = "#=Id#" }, null).ToHtmlString());
                         })
                         .Pageable()
                         .Sortable()
@@ -463,4 +463,4 @@
                                     .ServerOperation(true)
                                     .Read(read => read.Action("Services_read", "Services"))
                          )
-                    )*@
+                    )

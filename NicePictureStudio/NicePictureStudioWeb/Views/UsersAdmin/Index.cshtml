@@ -1,18 +1,19 @@
 ﻿@model IEnumerable<NicePictureStudio.Models.ApplicationUser>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "การกำหนดสิทธิผู้ใช้ระบบ";
 }
 
-<h2>Index</h2>
+<h2>การกำหนดสิทธิผู้ใช้ระบบ</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("สร้างใหม่", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            @*@Html.DisplayNameFor(model => model.UserName)*@
+            @Html.Label("ชื่อผู้ใช้ระบบ")
         </th>
         <th>
 
@@ -26,9 +27,9 @@
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("แก้ไข", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("ดูรายละเอียด", "Details", new { id = item.Id }) |
+                @Html.ActionLink("ลบ", "Delete", new { id = item.Id })
             </td>
         </tr>
     }

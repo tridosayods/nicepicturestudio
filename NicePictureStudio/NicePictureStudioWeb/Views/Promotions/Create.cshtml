@@ -38,11 +38,11 @@
                 @Html.AntiForgeryToken()
 
                 <div class="form-horizontal">
-                    <h4>Promotion</h4>
+                    <h4>การแก้ไขรายการนำเสนอการขาย</h4>
                     <hr />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.Label("ชื่อรายการนำเสนอการขาย", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.Label("รายละเอียดรายการนำเสนอการขาย", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
@@ -58,7 +58,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.CreateDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.Label("วันเริ่มต้นรายการ", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.Kendo().DateTimePickerFor(model => model.CreateDate).Name("CreateDate")
                             @Html.ValidationMessageFor(model => model.CreateDate, "", new { @class = "text-danger" })
@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.ExpireDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.Label("วันสิ้นสุดรายการ", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                            @Html.Kendo().DateTimePickerFor(model => model.ExpireDate).Name("ExpireDate")
                             @Html.ValidationMessageFor(model => model.ExpireDate, "", new { @class = "text-danger" })
@@ -74,7 +74,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.PhotoGraphDiscount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.Label("ส่วนลดช่างถ่ายภาพ", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.PhotoGraphDiscount, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.PhotoGraphDiscount, "", new { @class = "text-danger" })
@@ -82,7 +82,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.EquipmentDiscount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.Label("ส่วนลดค่าอุปกรณ์ถ่ายภาพ", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.EquipmentDiscount, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.EquipmentDiscount, "", new { @class = "text-danger" })
@@ -90,7 +90,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.LocationDiscount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.Label("ส่วนลดค่าสถานที่ถ่ายภาพ", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.LocationDiscount, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.LocationDiscount, "", new { @class = "text-danger" })
@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.OutputDiscount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.Label("ส่วนลดค่าชิ้นงาน", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.OutputDiscount, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.OutputDiscount, "", new { @class = "text-danger" })
@@ -106,7 +106,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.OutsourceDiscount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.Label("ส่วนลดค่าบริการจัดจ้าง", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.OutsourceDiscount, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.OutsourceDiscount, "", new { @class = "text-danger" })
@@ -115,8 +115,8 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-default" />
-                            <button type="button" class="btn btn-default" id="btnCalculatePromotion">Calculate Promotion</button>
+                            <button type="submit" value="Create" class="btn btn-default" >แก้ไขรายการนำเสนอการขาย</button>
+                            <button type="button" class="btn btn-default" id="btnCalculatePromotion">คำนวณรายการส่วนลด</button>
                         </div>
                     </div>
                 </div>

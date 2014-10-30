@@ -99,7 +99,7 @@
                         );
                     //columns.Bound(p => p.PromotionName);
                     //columns.Template(p=> @Html.ActionLink("Edit", "Edit","Bookings", new { id = p.Id }));
-                    columns.Bound(p => p.Id).Title("").ClientTemplate(@Html.ActionLink("Edit", "Edit", "Bookings", new { id = "#=Id#" }, null).ToHtmlString());
+                    columns.Bound(p => p.Id).Title("").ClientTemplate(@Html.ActionLink("แก้ไข", "Edit", "Bookings", new { id = "#=Id#" }, null).ToHtmlString());
                 })
                 .Pageable()
                 .Sortable()

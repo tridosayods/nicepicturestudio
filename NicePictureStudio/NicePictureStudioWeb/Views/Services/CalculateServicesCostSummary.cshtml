@@ -15,7 +15,7 @@
                     <label id="lblEstimateContext" class="control-label col-sm-6">ค่าใช้จ่ายเบื้องต้น</label>
 
                     <div class="col-sm-6">
-                        <label id="lblEstimateCost" class="control-label"> 0.00</label>
+                        <label id="lblEstimateCost" class="control-label"> @Model.EstimatePrice</label>
                     </div>
                 </div>
                 <div class="form-group-sm">
@@ -23,7 +23,7 @@
                     <label id="lblPromotionContext" class="control-label col-sm-6">โปรโมชั่นที่เลือกไว้</label>
 
                     <div class="col-md-6">
-                        <label id="lblPromotionSelected" class="control-label"> - </label>
+                        <label id="lblPromotionSelected" class="control-label">@Model.PromotionName  </label>
                     </div>
                 </div>
 
@@ -32,7 +32,7 @@
                     <label id="lblPromotionDiscountContext" class="control-label col-sm-6">ส่วนลด </label>
 
                     <div class="col-md-6">
-                        <label id="lblPromotionDiscount" class="control-label"> 0.00% </label>
+                        <label id="lblPromotionDiscount" class="control-label"> @Model.PromotionDiscount </label>
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
                     <label id="lblTotalCostContext" class="control-label col-sm-6">ค่าใช้จ่ายก่อนหักภาษี </label>
 
                     <div class="col-md-6">
-                        <label id="lblTotalCost" class="control-label">0.00</label>
+                        <label id="lblTotalCost" class="control-label">@Model.TotalPriceBeforeTax</label>
                     </div>
                 </div>
 
@@ -59,7 +59,7 @@
                     <label id="lblTotalWithTAXContext" class="control-label col-sm-6">ราคารวม </label>
 
                     <div class="col-md-6">
-                        <label id="lblTotalCostWithTAX" class="control-label"> 0.00</label>
+                        <label id="lblTotalCostWithTAX" class="control-label">>@Model.TotalPrice</label>
                     </div>
                 </div>
 
