@@ -833,11 +833,11 @@ namespace NicePictureStudio
             PhotographService photoService = db.PhotographServices.Find(photoGraphServiceId);
             foreach (var emp in _empServiceList)
             {
-                if (emp.Employee.Position == PhotographType)
+                if (emp.Employee.EmployeePositions.FirstOrDefault().Id == Constant.EMPLOYEE_POSITION_PHOTOGRAPH)
                 {
                     photoGraphIds.Add(emp.Employee.Id);
                 }
-                else if (emp.Employee.Position == CameraManType)
+                else if (emp.Employee.EmployeePositions.FirstOrDefault().Id == Constant.EMPLOYEE_POSITION_CAMERAMAN)
                 {
                     camearManIds.Add(emp.Employee.Id);
                 }
@@ -876,7 +876,7 @@ namespace NicePictureStudio
                 OutputService outputService = db.OutputServices.Find(output.OutputServiceId);
                 {
                     OutputSchedule outputschedule = db.OutputSchedules.Where(o => o.OutputServiceId == outputService.Id).FirstOrDefault();
-                    _serviceFactory.CreateOutputServiceList(outputService, output.Id, outputschedule.OutputQuantity, outputschedule.HandOnDate);
+                    _serviceFactory.CreateOutputServiceList(outputService, output.OutputServiceId, outputschedule.OutputQuantity, outputschedule.HandOnDate);
                 }
             }
 
@@ -2835,6 +2835,8 @@ namespace NicePictureStudio
             List<string> _selectedCameraMan;
             int _OrcPHCnt = 0;
             int _OrcCMCnt = 0;
+            int _countPhotograph = 0;
+            int _countCameraMan = 0;
             if (serviceFactory.PhotoGraphService != null)
             {
                 _selectedPhotoGraph = new List<string>(serviceFactory.PhotoGraphService.PhotoGraphIdList);
@@ -2860,6 +2862,7 @@ namespace NicePictureStudio
                     {
                         Id = tempEmp.Id,
                         Name = tempEmp.Name,
+                        Specialability = tempEmp.Specialability,
                         IsSelect = true
                     };
                     existedPhotograph.Add(photograph);
@@ -2872,12 +2875,13 @@ namespace NicePictureStudio
                     {
                         Id = tempEmp.Id,
                         Name = tempEmp.Name,
+                        Specialability = tempEmp.Specialability,
                         IsSelect = true
                     };
                     existedCameraMan.Add(cameraman);
                 }
                 var photoGraphResult = db.Employees.GroupBy(emp => emp.Id)
-                                      .Where(emp => emp.Any(empList => empList.Position == PhotographType
+                                      .Where(emp => emp.Any(empList => empList.EmployeePositions.FirstOrDefault().Id == Constant.EMPLOYEE_POSITION_PHOTOGRAPH
                                           && empList.EmployeeSchedules.All(
                                                 empS =>
                                                  ((empS.StartTime < _startDate || empS.StartTime > _endDate)
@@ -2893,17 +2897,20 @@ namespace NicePictureStudio
                 //ViewBag.PhotoGraphListDetails = new SelectList(photoGraphResult, "Id", "Name");
                 if (existedPhotograph.Count > 0)
                 {
-                    ViewBag.PhotoGraphListDetails = existedPhotograph.Union(photoGraphResult).GroupBy(emp => emp.Id).Select(emp => emp.FirstOrDefault());
+                    var totalPhotoGraphs = existedPhotograph.Union(photoGraphResult).GroupBy(emp => emp.Id).Select(emp => emp.FirstOrDefault());
+                    ViewBag.PhotoGraphListDetails = totalPhotoGraphs;
+                    _countPhotograph = totalPhotoGraphs.Count();
                 }
                 else
                 {
                     ViewBag.PhotoGraphListDetails = photoGraphResult;
+                    _countPhotograph = photoGraphResult.Count;
                 }
 
 
                 //Getting CameraMan
                 var cameraManResult = db.Employees.GroupBy(emp => emp.Id)
-                                        .Where(emp => emp.Any(empList => empList.Position == CameraManType
+                                        .Where(emp => emp.Any(empList => empList.EmployeePositions.FirstOrDefault().Id == Constant.EMPLOYEE_POSITION_CAMERAMAN
                                             && empList.EmployeeSchedules.All(
                                                empS =>
                                                ((empS.StartTime < _startDate || empS.StartTime > _endDate)
@@ -2918,11 +2925,14 @@ namespace NicePictureStudio
                                             }).ToList();
                 if (existedCameraMan.Count > 0)
                 {
-                    ViewBag.CameraManListDetails = existedCameraMan.Union(cameraManResult).GroupBy(emp => emp.Id).Select(emp => emp.FirstOrDefault());
+                    var totalCameraMen = existedCameraMan.Union(cameraManResult).GroupBy(emp => emp.Id).Select(emp => emp.FirstOrDefault());
+                    ViewBag.CameraManListDetails = totalCameraMen;
+                    _countCameraMan = totalCameraMen.Count();
                 }
                 else
                 {
                     ViewBag.CameraManListDetails = cameraManResult;
+                    _countCameraMan = cameraManResult.Count;
                 }
 
             }
@@ -2931,7 +2941,7 @@ namespace NicePictureStudio
                 _startDate = serviceFactory.ServiceForm.EventStart;
                 _endDate = serviceFactory.ServiceForm.EventEnd;
                 var photoGraphResult = db.Employees.GroupBy(emp => emp.Id)
-                                    .Where(emp => emp.Any(empList => empList.Position == PhotographType
+                                    .Where(emp => emp.Any(empList => empList.EmployeePositions.FirstOrDefault().Id == Constant.EMPLOYEE_POSITION_PHOTOGRAPH
                                         && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
                                             && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
                                         )).Select(emp => new PhotoGraph
@@ -2942,10 +2952,10 @@ namespace NicePictureStudio
                                         }).ToList();
                 //ViewBag.PhotoGraphListDetails = new SelectList(photoGraphResult, "Id", "Name");
                 ViewBag.PhotoGraphListDetails = photoGraphResult;
-
+                _countPhotograph = photoGraphResult.Count;
                 //Getting CameraMan
                 var cameraManResult = db.Employees.GroupBy(emp => emp.Id)
-                                        .Where(emp => emp.Any(empList => empList.Position == CameraManType
+                                        .Where(emp => emp.Any(empList => empList.EmployeePositions.FirstOrDefault().Id == Constant.EMPLOYEE_POSITION_CAMERAMAN
                                             && empList.EmployeeSchedules.All(empS => (empS.StartTime < _startDate || empS.StartTime > _endDate)
                                                 && (empS.EndTime <= _startDate || empS.EndTime > _endDate))
                                             )).Select(emp => new CameraMan
@@ -2954,7 +2964,8 @@ namespace NicePictureStudio
                                                 Name = emp.FirstOrDefault().Name,
                                                 IsSelect = _selectedCameraMan.Contains(emp.FirstOrDefault().Id)
                                             }).ToList();
-                ViewBag.CameraManListDetails = cameraManResult; 
+                ViewBag.CameraManListDetails = cameraManResult;
+                _countCameraMan = cameraManResult.Count;
             }
             else
             {
@@ -2965,14 +2976,24 @@ namespace NicePictureStudio
 
             //Outsource specific for 4 people
             var OutPHResult = new List<PhotoGraph>();
+            Dictionary<int, string> DicSpecialAbility = new Dictionary<int, string>();
+            DicSpecialAbility.Add(1, "ทั่วไป");
+            DicSpecialAbility.Add(2, "ทั่วไป");
+            DicSpecialAbility.Add(3, "ทั่วไป");
+            DicSpecialAbility.Add(4, "ทั่วไป");
             int cntPHSelected = _OrcPHCnt;
-            for (var i = 1; i <= 4; i++)
+
+            int limitPhotoGraphOutsource = (_countPhotograph - photoGraphService.PhotographerNumber) >= 0 ? 0 : (photoGraphService.PhotographerNumber - _countPhotograph);
+            int limitCameraManOutsource = (_countCameraMan - photoGraphService.CameraManNumber) >= 0 ? 0 : (photoGraphService.CameraManNumber - _countCameraMan);
+
+            for (var i = 1; i <= limitPhotoGraphOutsource; i++)
             {
                 int index = i;
                 var PHOrc = new PhotoGraph
                 {
                     Id = index.ToString(),
                     Name = "Outsource" + index,
+                    Specialability = DicSpecialAbility[i],
                     IsSelect = (cntPHSelected >= index) ? true : false
                 };
                 OutPHResult.Add(PHOrc);
@@ -2981,14 +3002,14 @@ namespace NicePictureStudio
 
             var OutCMResult = new List<CameraMan>();
             int cntCMSelected = _OrcCMCnt;
-            for (var i = 1; i <= 4; i++)
+            for (var i = 5; i <= limitCameraManOutsource + 4; i++)
             {
                 int index = i;
                 var CMOrc = new CameraMan
                 {
                     Id = index.ToString(),
                     Name = "Outsource" + index,
-                    IsSelect = (cntCMSelected >= index) ? true : false
+                    IsSelect = (cntCMSelected+4 >= index) ? true : false
                 };
                 OutCMResult.Add(CMOrc);
             }
@@ -3883,6 +3904,7 @@ namespace NicePictureStudio
                 ViewData["TblEquipment"] = HTMLTableOutputWedding;
             }
             ViewData["ServiceType"] = serviceType;
+            ViewBag.MinTimeHandOn = serviceFactory.ServiceForm.EventEnd.AddDays(7);
             return PartialView(outputService);
         }
 
@@ -4430,7 +4452,7 @@ namespace NicePictureStudio
                   ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSectionWhenEdit(_serviceType, IsEditTable);
                    ServiceType serviceType = db.ServiceTypes.Where(s => s.Id == _serviceTypeIndex).FirstOrDefault();
                     await SaveServiceByCategoryWhenEditNew(_serviceFormFactory, serviceType,IsEditTable);
-                    _serviceId = db.ServiceForms.Where(srf => srf.Service.Id == _targetService.ServiceForm.Id).Select(srf => srf.Service.Id).FirstOrDefault();
+                    _serviceId = db.ServiceForms.Where(srf => srf.Id == _targetService.ServiceForm.Id).Select(srf => srf.Service.Id).FirstOrDefault();
             }
             else
             {
@@ -4636,7 +4658,7 @@ namespace NicePictureStudio
             if(_serviceFactory.ListOutputServices.Count > 0)
             {
                 //status new -> 1
-                int _statusNewOutput = 1;
+                int _statusNewOutput = Constant.OUTPUT_SERVICE_STATUS_NEW;
                 List<OutputServiceViewModel> lstOutputService = new List<OutputServiceViewModel>(_serviceFactory.ListOutputServices);
                 foreach (var output in lstOutputService)
                 {
@@ -4644,10 +4666,11 @@ namespace NicePictureStudio
                     {
                         ServiceForm = serviceForm,
                         OutputServiceId = output.OutputServiceId,
-                        TargetDate = serviceForm.EventEnd,
-                        HandOnDate = serviceForm.EventEnd.AddDays(14),
+                        TargetDate = output.HandOnDate.AddDays(-3),
+                        HandOnDate = output.HandOnDate,
                         PackageName = output.Name,
                         Status = _statusNewOutput,
+                        OutputQuantity = output.OutputQuantity
                     };
                     db.OutputSchedules.Add(outputSchedule);
                 }
@@ -4821,7 +4844,7 @@ namespace NicePictureStudio
                 if (_serviceFactory.ListOutputServices.Count > 0)
                 {
                     //status new -> 1
-                    int _statusNewOutput = 1;
+                    int _statusNewOutput = Constant.OUTPUT_SERVICE_STATUS_NEW;
                     List<OutputServiceViewModel> lstOutputService = new List<OutputServiceViewModel>(_serviceFactory.ListOutputServices);
                     foreach (var output in lstOutputService)
                     {
@@ -5047,7 +5070,7 @@ namespace NicePictureStudio
             if (_serviceFactory.ListOutputServices.Count > 0)
             {
                 //status new -> 1
-                int _statusNewOutput = 1;
+                int _statusNewOutput = Constant.OUTPUT_SERVICE_STATUS_NEW;
                 List<OutputServiceViewModel> lstOutputService = new List<OutputServiceViewModel>(_serviceFactory.ListOutputServices);
                 List<int> lstExisOutput= db.OutputSchedules.Where(outp => outp.ServiceForm.Id == serviceForm.Id).Select(outp => outp.Id).ToList();
                 foreach (var oldOutp in lstExisOutput)
