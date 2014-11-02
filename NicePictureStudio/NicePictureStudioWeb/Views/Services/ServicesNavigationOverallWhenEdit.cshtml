@@ -155,7 +155,7 @@
                             <div class="panel-heading">รายละเอียดค่าใช้จ่าย</div>
                             <div class="panel-body">
                                 <!-- Service Payment-->
-                                @{Html.RenderAction("CalculateServicesCostSummaryWhenEdit", "Services", new { serviceFormId = 0 });}
+                                @{Html.RenderAction("CalculateServicesCostSummaryWhenEdit", "Services", new { id = @Model.Id, isEditTable = true });}
                                
                                 
                             </div>

@@ -2154,6 +2154,8 @@ namespace NicePictureStudio
                       serviceForm.EventEnd = (DateTime)endDate;
                       serviceForm.GuestsNumber = (int)guestNumber;
                       serviceForm.ServiceType = _serviceType;
+                      serviceForm.IsLocationSelected = isLocationSelected;
+                      serviceForm.IsOverNight = isOvernight;
                       //create string for mapping
                       ServiceFormFactory serviceFactory = new ServiceFormFactory();
                       if (isEditTable)
@@ -2163,13 +2165,14 @@ namespace NicePictureStudio
                       else
                       {
                           serviceFactory = CreateServiceFormByInputSectionWhenEdit(serviceType);
+                          if (serviceFactory != null)
+                          {
+                              // Need locationId , islocationselected and isvoernight
+                              serviceFactory.CreateServiceForm(serviceForm, statusNew, _serviceType.Id,locationId);
+                          }
                       }
                      
-                      if (serviceFactory != null)
-                      {
-                         // Need locationId , islocationselected and isvoernight
-                          // serviceFactory.CreateServiceForm(serviceForm, statusNew, _serviceType.Id);
-                      }
+                     
                   }
 
               }
@@ -4251,9 +4254,9 @@ namespace NicePictureStudio
         }
 
         
-        public PartialViewResult CalculateServicesCostSummaryWhenEdit(int? id)
+        public PartialViewResult CalculateServicesCostSummaryWhenEdit(int? id,bool isEditTable = false)
         {
-            if (id == null)
+            if (id == null && !isEditTable)
             {
                 PromotionCalculator _promotionCalculatorTmp = TempData["PromotionEdit"] as PromotionCalculator;
                 TempData.Keep();
@@ -4634,23 +4637,51 @@ namespace NicePictureStudio
 
 
             //Equipment Section
-            if (_serviceFactory.ListEquipmentServices.Count > 0)
+            //Automatically Selected Equipment
+            //select equipment
+            int locationStyle = 0;
+            if (_serviceFactory.ListLocationServices.Count > 0 )
+            { 
+                //check type of localtion
+                var locationId = _serviceFactory.ListLocationServices.FirstOrDefault().LocationId;
+                locationStyle = db.Locations.Find(locationId).LocationStyle.Id;
+            }
+            else if (_serviceFactory.ServiceForm.LocationId > 0)
             {
-                List<EquipmentServiceViewModel> lstEqp = new List<EquipmentServiceViewModel>(_serviceFactory.ListEquipmentServices);
-                foreach (var eqp in lstEqp)
-                {
-                    EquipmentSchedule equipSchedule = new EquipmentSchedule
+                var locationId = _serviceFactory.ServiceForm.LocationId;
+                locationStyle = db.Locations.Find(locationId).LocationStyle.Id;
+            }
+
+            if (locationStyle > 0)
+            { 
+                 EquipmentSchedule equipSchedule = new EquipmentSchedule
                     {
                         ServiceForm = serviceForm,
-                        EquipmentId = eqp.EquipmentId,
+                        EquipmentId = 1,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
                         EndTime = _serviceFactory.ServiceForm.EventEnd,
-                        EquipmentServiceId = eqp.EquipmentServiceId,
+                        EquipmentServiceId = 1,
                         Status = statusScheduler
                     };
-                    db.EquipmentSchedules.Add(equipSchedule);
-                }
+                 db.EquipmentSchedules.Add(equipSchedule);
             }
+            //if (_serviceFactory.ListEquipmentServices.Count > 0)
+            //{
+            //    List<EquipmentServiceViewModel> lstEqp = new List<EquipmentServiceViewModel>(_serviceFactory.ListEquipmentServices);
+            //    foreach (var eqp in lstEqp)
+            //    {
+            //        EquipmentSchedule equipSchedule = new EquipmentSchedule
+            //        {
+            //            ServiceForm = serviceForm,
+            //            EquipmentId = eqp.EquipmentId,
+            //            StartTime = _serviceFactory.ServiceForm.EventStart,
+            //            EndTime = _serviceFactory.ServiceForm.EventEnd,
+            //            EquipmentServiceId = eqp.EquipmentServiceId,
+            //            Status = statusScheduler
+            //        };
+            //        db.EquipmentSchedules.Add(equipSchedule);
+            //    }
+            //}
 
             //Location Section
             if (_serviceFactory.ListLocationServices.Count > 0)

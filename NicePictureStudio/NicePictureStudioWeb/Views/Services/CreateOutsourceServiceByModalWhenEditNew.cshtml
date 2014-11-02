@@ -21,6 +21,7 @@
             $.ajax({
                 url: url,
                 type: "POST",
+                data : {id : null,isEditTable:'@ViewBag.IsEditTable' },
                 success: function (data) { $("#divServicePriceSection").replaceWith(data); }
             })
         });
