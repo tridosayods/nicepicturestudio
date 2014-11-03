@@ -108,17 +108,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="EquipmentServices">
-      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentService">
-        <MappingFragment StoreEntitySet="EquipmentService">
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Cost" ColumnName="Cost" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="EquipmentStatus">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentStatu">
         <MappingFragment StoreEntitySet="EquipmentStatus">
@@ -388,14 +377,6 @@
       </EndProperty>
       <EndProperty Name="EquipmentType">
         <ScalarProperty Name="Id" ColumnName="Type" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="FK_EquipmentService_Equipment" TypeName="NicePictureStudioDBModel.FK_EquipmentService_Equipment" StoreEntitySet="EquipmentService">
-      <EndProperty Name="EquipmentService">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <EndProperty Name="Equipment">
-        <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="FK_OutsourceContact_OutsourceServiceType" TypeName="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType" StoreEntitySet="OutsourceContact">
@@ -870,5 +851,40 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="EquipmentServices">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentService">
+        <MappingFragment StoreEntitySet="EquipmentService">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EquipmentSets">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentSet">
+        <MappingFragment StoreEntitySet="EquipmentSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_EquipmentSet_Equipment" TypeName="NicePictureStudioDBModel.FK_EquipmentSet_Equipment" StoreEntitySet="EquipmentSet">
+      <EndProperty Name="EquipmentSet">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="Equipment">
+        <ScalarProperty Name="EquipmentId" ColumnName="EqId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_EquipmentSet_EquipmentService" TypeName="NicePictureStudioDBModel.FK_EquipmentSet_EquipmentService" StoreEntitySet="EquipmentSet">
+      <EndProperty Name="EquipmentSet">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="EquipmentService">
+        <ScalarProperty Name="Id" ColumnName="EqServiceId" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

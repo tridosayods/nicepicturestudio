@@ -62,6 +62,48 @@
     <Compile Include="ServicePricing.Designer.cs">
       <DependentUpon>ServicePricing.cs</DependentUpon>
     </Compile>
+    <Compile Include="SubReportEquipmentServices.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SubReportEquipmentServices.Designer.cs">
+      <DependentUpon>SubReportEquipmentServices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubReportLocationServices.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SubReportLocationServices.Designer.cs">
+      <DependentUpon>SubReportLocationServices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubReportOutputServices.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SubReportOutputServices.Designer.cs">
+      <DependentUpon>SubReportOutputServices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubReportOutsourceServices.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SubReportOutsource.Designer.cs">
+      <DependentUpon>SubReportOutsourceServices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubReportPhotoGraphContact.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SubReportPhotoGraphContact.Designer.cs">
+      <DependentUpon>SubReportPhotoGraphContact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubReportPHServices.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SubReportPHServices.Designer.cs">
+      <DependentUpon>SubReportPHServices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubReportServiceFormsSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SubReportServiceFormsSummary.Designer.cs">
+      <DependentUpon>SubReportServiceFormsSummary.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -78,6 +120,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ServicePricing.resx">
       <DependentUpon>ServicePricing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubReportEquipmentServices.resx">
+      <DependentUpon>SubReportEquipmentServices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubReportLocationServices.resx">
+      <DependentUpon>SubReportLocationServices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubReportOutputServices.resx">
+      <DependentUpon>SubReportOutputServices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubReportOutsource.resx">
+      <DependentUpon>SubReportOutsourceServices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubReportPhotoGraphContact.resx">
+      <DependentUpon>SubReportPhotoGraphContact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubReportPHServices.resx">
+      <DependentUpon>SubReportPHServices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubReportServiceFormsSummary.resx">
+      <DependentUpon>SubReportServiceFormsSummary.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

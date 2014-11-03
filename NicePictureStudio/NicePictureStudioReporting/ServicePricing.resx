@@ -117,4 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="ServicesItem.ParameterValues" xml:space="preserve">
+    <value>{@ServiceId:1}</value>
+  </metadata>
+  <metadata name="ServiceForms.ParameterValues" xml:space="preserve">
+    <value>{@ServiceId:6}</value>
+  </metadata>
+  <data name="ServiceForms.SelectCommand" xml:space="preserve">
+    <value>SELECT        ServiceForm.Name, ServiceForm.ServiceType, ServiceForm.EventStart, ServiceForm.EventEnd, Services.Id, Services.GroomName, Services.BrideName
+FROM            ServiceForm INNER JOIN
+                         ServiceMapping ON ServiceForm.Id = ServiceMapping.ServiceFormId INNER JOIN
+                         Services ON ServiceMapping.ServiceId = Services.Id
+WHERE        (Services.Id = @ServiceId)</value>
+  </data>
+  <metadata name="ServiceDetails.ParameterValues" xml:space="preserve">
+    <value>{@ServiceFormId:1}</value>
+  </metadata>
+  <data name="ServiceDetails.SelectCommand" xml:space="preserve">
+    <value>SELECT        ServiceForm.Name, ServiceForm.ServiceType, Employee.Name AS Expr1, Employee.PhoneNumber, ServiceForm.EventStart, ServiceForm.EventEnd, 
+                         OutputSchedule.PackageName, OutputSchedule.TargetDate, OutputSchedule.HandOnDate
+FROM            ServiceForm INNER JOIN
+                         EmployeeServiceTiming ON ServiceForm.Id = EmployeeServiceTiming.ServiceFormId INNER JOIN
+                         EmployeeSchedule ON EmployeeServiceTiming.EmployeeScheduleId = EmployeeSchedule.Id INNER JOIN
+                         OutputServiceTiming ON ServiceForm.Id = OutputServiceTiming.ServiceFormId INNER JOIN
+                         OutputSchedule ON OutputServiceTiming.OutputScheduleId = OutputSchedule.Id INNER JOIN
+                         Employee ON EmployeeSchedule.EmployeeId = Employee.Id
+WHERE        (ServiceForm.Id = @ServiceFormId)</value>
+  </data>
+  <metadata name="$this.Zoom" type="System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>1.5</value>
+  </metadata>
 </root>

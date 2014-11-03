@@ -286,6 +286,14 @@
           <Property Name="EquipmentScheduleId" Type="int" Nullable="false" />
           <Property Name="ServiceFormId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="EquipmentSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EqId" Type="int" Nullable="false" />
+          <Property Name="EqServiceId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="EquipmentStatus">
           <Key>
             <PropertyRef Name="Id" />
@@ -919,18 +927,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EquipmentService_Equipment">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
-          <End Role="EquipmentService" Type="Self.EquipmentService" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Equipment">
-              <PropertyRef Name="EquipmentId" />
-            </Principal>
-            <Dependent Role="EquipmentService">
-              <PropertyRef Name="EquipmentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_EquipmentServiceTimeing_EquipmentSchedule">
           <End Role="EquipmentSchedule" Type="Self.EquipmentSchedule" Multiplicity="1" />
           <End Role="EquipmentServiceTiming" Type="Self.EquipmentServiceTiming" Multiplicity="0..1" />
@@ -952,6 +948,30 @@
             </Principal>
             <Dependent Role="EquipmentServiceTiming">
               <PropertyRef Name="ServiceFormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EquipmentSet_Equipment">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="EquipmentSet" Type="Self.EquipmentSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="EquipmentId" />
+            </Principal>
+            <Dependent Role="EquipmentSet">
+              <PropertyRef Name="EqId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EquipmentSet_EquipmentService">
+          <End Role="EquipmentService" Type="Self.EquipmentService" Multiplicity="1" />
+          <End Role="EquipmentSet" Type="Self.EquipmentSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentService">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EquipmentSet">
+              <PropertyRef Name="EqServiceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1294,6 +1314,7 @@
           <EntitySet Name="EquipmentSchedule" EntityType="Self.EquipmentSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentService" EntityType="Self.EquipmentService" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentServiceTiming" EntityType="Self.EquipmentServiceTiming" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipmentSet" EntityType="Self.EquipmentSet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentStatus" EntityType="Self.EquipmentStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentType" EntityType="Self.EquipmentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
@@ -1421,10 +1442,6 @@
             <End Role="EquipmentType" EntitySet="EquipmentType" />
             <End Role="Equipment" EntitySet="Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK_EquipmentService_Equipment" Association="Self.FK_EquipmentService_Equipment">
-            <End Role="Equipment" EntitySet="Equipment" />
-            <End Role="EquipmentService" EntitySet="EquipmentService" />
-          </AssociationSet>
           <AssociationSet Name="FK_EquipmentServiceTimeing_EquipmentSchedule" Association="Self.FK_EquipmentServiceTimeing_EquipmentSchedule">
             <End Role="EquipmentSchedule" EntitySet="EquipmentSchedule" />
             <End Role="EquipmentServiceTiming" EntitySet="EquipmentServiceTiming" />
@@ -1432,6 +1449,14 @@
           <AssociationSet Name="FK_EquipmentServiceTiming_ServiceForm" Association="Self.FK_EquipmentServiceTiming_ServiceForm">
             <End Role="ServiceForm" EntitySet="ServiceForm" />
             <End Role="EquipmentServiceTiming" EntitySet="EquipmentServiceTiming" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipmentSet_Equipment" Association="Self.FK_EquipmentSet_Equipment">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="EquipmentSet" EntitySet="EquipmentSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipmentSet_EquipmentService" Association="Self.FK_EquipmentSet_EquipmentService">
+            <End Role="EquipmentService" EntitySet="EquipmentService" />
+            <End Role="EquipmentSet" EntitySet="EquipmentSet" />
           </AssociationSet>
           <AssociationSet Name="FK_Location_LocationStatus" Association="Self.FK_Location_LocationStatus">
             <End Role="LocationStatus" EntitySet="LocationStatus" />
@@ -1551,7 +1576,6 @@
           <EntitySet Name="EmployeeLogins" EntityType="NicePictureStudioDBModel.EmployeeLogin" />
           <EntitySet Name="Equipments" EntityType="NicePictureStudioDBModel.Equipment" />
           <EntitySet Name="EquipmentSchedules" EntityType="NicePictureStudioDBModel.EquipmentSchedule" />
-          <EntitySet Name="EquipmentServices" EntityType="NicePictureStudioDBModel.EquipmentService" />
           <EntitySet Name="EquipmentStatus" EntityType="NicePictureStudioDBModel.EquipmentStatu" />
           <EntitySet Name="EquipmentTypes" EntityType="NicePictureStudioDBModel.EquipmentType" />
           <EntitySet Name="LocationSchedules" EntityType="NicePictureStudioDBModel.LocationSchedule" />
@@ -1594,10 +1618,6 @@
           <AssociationSet Name="FK_Equipment_EquipmentType" Association="NicePictureStudioDBModel.FK_Equipment_EquipmentType">
             <End Role="EquipmentType" EntitySet="EquipmentTypes" />
             <End Role="Equipment" EntitySet="Equipments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EquipmentService_Equipment" Association="NicePictureStudioDBModel.FK_EquipmentService_Equipment">
-            <End Role="Equipment" EntitySet="Equipments" />
-            <End Role="EquipmentService" EntitySet="EquipmentServices" />
           </AssociationSet>
           <AssociationSet Name="FK_OutsourceContact_OutsourceServiceType" Association="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType">
             <End Role="OutsourceServiceType" EntitySet="OutsourceServiceTypes" />
@@ -1760,6 +1780,16 @@
             <End Role="EmployeeStatu" EntitySet="EmployeeStatus" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
+          <EntitySet Name="EquipmentServices" EntityType="NicePictureStudioDBModel.EquipmentService" />
+          <EntitySet Name="EquipmentSets" EntityType="NicePictureStudioDBModel.EquipmentSet" />
+          <AssociationSet Name="FK_EquipmentSet_Equipment" Association="NicePictureStudioDBModel.FK_EquipmentSet_Equipment">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="EquipmentSet" EntitySet="EquipmentSets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipmentSet_EquipmentService" Association="NicePictureStudioDBModel.FK_EquipmentSet_EquipmentService">
+            <End Role="EquipmentService" EntitySet="EquipmentServices" />
+            <End Role="EquipmentSet" EntitySet="EquipmentSets" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
@@ -1859,8 +1889,8 @@
           <Property Name="EquipmentDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EquipmentStatu" Relationship="NicePictureStudioDBModel.FK_Equipment_EmployeeStatus" FromRole="Equipment" ToRole="EquipmentStatu" />
           <NavigationProperty Name="EquipmentType" Relationship="NicePictureStudioDBModel.FK_Equipment_EquipmentType" FromRole="Equipment" ToRole="EquipmentType" />
-          <NavigationProperty Name="EquipmentServices" Relationship="NicePictureStudioDBModel.FK_EquipmentService_Equipment" FromRole="Equipment" ToRole="EquipmentService" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EquipmentSets" Relationship="NicePictureStudioDBModel.FK_EquipmentSet_Equipment" FromRole="Equipment" ToRole="EquipmentSet" />
         </EntityType>
         <EntityType Name="EquipmentSchedule">
           <Key>
@@ -1874,17 +1904,6 @@
           <Property Name="EquipmentServiceId" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="Remain" Type="Int32" />
-        </EntityType>
-        <EntityType Name="EquipmentService">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="Cost" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Equipment" Relationship="NicePictureStudioDBModel.FK_EquipmentService_Equipment" FromRole="EquipmentService" ToRole="Equipment" />
         </EntityType>
         <EntityType Name="EquipmentStatu">
           <Key>
@@ -2148,10 +2167,6 @@
         <Association Name="FK_Equipment_EquipmentType">
           <End Type="NicePictureStudioDBModel.EquipmentType" Role="EquipmentType" Multiplicity="1" />
           <End Type="NicePictureStudioDBModel.Equipment" Role="Equipment" Multiplicity="*" />
-        </Association>
-        <Association Name="FK_EquipmentService_Equipment">
-          <End Type="NicePictureStudioDBModel.Equipment" Role="Equipment" Multiplicity="1" />
-          <End Type="NicePictureStudioDBModel.EquipmentService" Role="EquipmentService" Multiplicity="*" />
         </Association>
         <Association Name="FK_OutsourceContact_OutsourceServiceType">
           <End Type="NicePictureStudioDBModel.OutsourceServiceType" Role="OutsourceServiceType" Multiplicity="1" />
@@ -2576,6 +2591,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="EquipmentService">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EquipmentId" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Cost" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EquipmentSets" Relationship="NicePictureStudioDBModel.FK_EquipmentSet_EquipmentService" FromRole="EquipmentService" ToRole="EquipmentSet" />
+        </EntityType>
+        <EntityType Name="EquipmentSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Equipment" Relationship="NicePictureStudioDBModel.FK_EquipmentSet_Equipment" FromRole="EquipmentSet" ToRole="Equipment" />
+          <NavigationProperty Name="EquipmentService" Relationship="NicePictureStudioDBModel.FK_EquipmentSet_EquipmentService" FromRole="EquipmentSet" ToRole="EquipmentService" />
+        </EntityType>
+        <Association Name="FK_EquipmentSet_Equipment">
+          <End Type="NicePictureStudioDBModel.Equipment" Role="Equipment" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.EquipmentSet" Role="EquipmentSet" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_EquipmentSet_EquipmentService">
+          <End Type="NicePictureStudioDBModel.EquipmentService" Role="EquipmentService" Multiplicity="1" />
+          <End Type="NicePictureStudioDBModel.EquipmentSet" Role="EquipmentSet" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2685,17 +2728,6 @@
                 <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EquipmentServices">
-            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentService">
-              <MappingFragment StoreEntitySet="EquipmentService">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2969,14 +3001,6 @@
             </EndProperty>
             <EndProperty Name="EquipmentType">
               <ScalarProperty Name="Id" ColumnName="Type" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_EquipmentService_Equipment" TypeName="NicePictureStudioDBModel.FK_EquipmentService_Equipment" StoreEntitySet="EquipmentService">
-            <EndProperty Name="EquipmentService">
-              <ScalarProperty Name="Id" ColumnName="Id" />
-            </EndProperty>
-            <EndProperty Name="Equipment">
-              <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="FK_OutsourceContact_OutsourceServiceType" TypeName="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType" StoreEntitySet="OutsourceContact">
@@ -3451,6 +3475,41 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentServices">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentService">
+              <MappingFragment StoreEntitySet="EquipmentService">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="EquipmentId" ColumnName="EquipmentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentSets">
+            <EntityTypeMapping TypeName="NicePictureStudioDBModel.EquipmentSet">
+              <MappingFragment StoreEntitySet="EquipmentSet">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_EquipmentSet_Equipment" TypeName="NicePictureStudioDBModel.FK_EquipmentSet_Equipment" StoreEntitySet="EquipmentSet">
+            <EndProperty Name="EquipmentSet">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Equipment">
+              <ScalarProperty Name="EquipmentId" ColumnName="EqId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_EquipmentSet_EquipmentService" TypeName="NicePictureStudioDBModel.FK_EquipmentSet_EquipmentService" StoreEntitySet="EquipmentSet">
+            <EndProperty Name="EquipmentSet">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="EquipmentService">
+              <ScalarProperty Name="Id" ColumnName="EqServiceId" />
+            </EndProperty>
+          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

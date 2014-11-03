@@ -117,13 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CRMForms.SelectCommand" xml:space="preserve">
+    <value>SELECT        ServiceForm.Name, ServiceForm.ServiceType, Services.Id
+FROM            ServiceForm INNER JOIN
+                         ServiceMapping ON ServiceForm.Id = ServiceMapping.ServiceFormId INNER JOIN
+                         Services ON ServiceMapping.ServiceId = Services.Id
+WHERE        (Services.Id = @ServiceId)</value>
+  </data>
+  <metadata name="CRMCustomer.ParameterValues" xml:space="preserve">
+    <value>{@ServiceId:1}</value>
+  </metadata>
   <data name="CRMCustomer.SelectCommand" xml:space="preserve">
-    <value>SELECT        Customer.CustomerName, Customer.PhoneNumber, Customer.Address, Customer.ReferencePerson, Customer.ReferenceEmail, 
-                         Customer.ReferencePhoneNumber
-FROM            Customer INNER JOIN
-                         Services ON Customer.CustomerId = Services.CustomerId
-WHERE        (Customer.PhoneNumber IS NOT NULL) AND (Customer.ReferencePerson IS NOT NULL)
-ORDER BY Customer.CustomerName</value>
+    <value>SELECT        Services.BookingName, Services.SpecialRequest, Services.PayAmount, ServiceForm.ServiceType, ServiceForm.EventStart, ServiceForm.EventEnd, 
+                         Customer.CustomerTitle, Customer.CustomerName, Customer.CustomerSurname, Customer.CoupleTitle, Customer.CoupleName, Customer.CoupleSurname
+FROM            Services INNER JOIN
+                         ServiceForm ON Services.Id = ServiceForm.Id INNER JOIN
+                         Customer ON Services.CustomerId = Customer.CustomerId
+WHERE		Services.Id = @ServiceId</value>
   </data>
   <metadata name="$this.ShowSnapGrid" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

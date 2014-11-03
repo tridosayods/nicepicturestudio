@@ -9,7 +9,6 @@
     <EntitySet Name="EmployeeLogins" EntityType="NicePictureStudioDBModel.EmployeeLogin" />
     <EntitySet Name="Equipments" EntityType="NicePictureStudioDBModel.Equipment" />
     <EntitySet Name="EquipmentSchedules" EntityType="NicePictureStudioDBModel.EquipmentSchedule" />
-    <EntitySet Name="EquipmentServices" EntityType="NicePictureStudioDBModel.EquipmentService" />
     <EntitySet Name="EquipmentStatus" EntityType="NicePictureStudioDBModel.EquipmentStatu" />
     <EntitySet Name="EquipmentTypes" EntityType="NicePictureStudioDBModel.EquipmentType" />
     <EntitySet Name="LocationSchedules" EntityType="NicePictureStudioDBModel.LocationSchedule" />
@@ -52,10 +51,6 @@
     <AssociationSet Name="FK_Equipment_EquipmentType" Association="NicePictureStudioDBModel.FK_Equipment_EquipmentType">
       <End Role="EquipmentType" EntitySet="EquipmentTypes" />
       <End Role="Equipment" EntitySet="Equipments" />
-    </AssociationSet>
-    <AssociationSet Name="FK_EquipmentService_Equipment" Association="NicePictureStudioDBModel.FK_EquipmentService_Equipment">
-      <End Role="Equipment" EntitySet="Equipments" />
-      <End Role="EquipmentService" EntitySet="EquipmentServices" />
     </AssociationSet>
     <AssociationSet Name="FK_OutsourceContact_OutsourceServiceType" Association="NicePictureStudioDBModel.FK_OutsourceContact_OutsourceServiceType">
       <End Role="OutsourceServiceType" EntitySet="OutsourceServiceTypes" />
@@ -218,6 +213,16 @@
       <End Role="EmployeeStatu" EntitySet="EmployeeStatus" />
       <End Role="Employee" EntitySet="Employees" />
     </AssociationSet>
+    <EntitySet Name="EquipmentServices" EntityType="NicePictureStudioDBModel.EquipmentService" />
+    <EntitySet Name="EquipmentSets" EntityType="NicePictureStudioDBModel.EquipmentSet" />
+    <AssociationSet Name="FK_EquipmentSet_Equipment" Association="NicePictureStudioDBModel.FK_EquipmentSet_Equipment">
+      <End Role="Equipment" EntitySet="Equipments" />
+      <End Role="EquipmentSet" EntitySet="EquipmentSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EquipmentSet_EquipmentService" Association="NicePictureStudioDBModel.FK_EquipmentSet_EquipmentService">
+      <End Role="EquipmentService" EntitySet="EquipmentServices" />
+      <End Role="EquipmentSet" EntitySet="EquipmentSets" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -317,8 +322,8 @@
     <Property Name="EquipmentDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="EquipmentStatu" Relationship="NicePictureStudioDBModel.FK_Equipment_EmployeeStatus" FromRole="Equipment" ToRole="EquipmentStatu" />
     <NavigationProperty Name="EquipmentType" Relationship="NicePictureStudioDBModel.FK_Equipment_EquipmentType" FromRole="Equipment" ToRole="EquipmentType" />
-    <NavigationProperty Name="EquipmentServices" Relationship="NicePictureStudioDBModel.FK_EquipmentService_Equipment" FromRole="Equipment" ToRole="EquipmentService" />
     <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="EquipmentSets" Relationship="NicePictureStudioDBModel.FK_EquipmentSet_Equipment" FromRole="Equipment" ToRole="EquipmentSet" />
   </EntityType>
   <EntityType Name="EquipmentSchedule">
     <Key>
@@ -332,17 +337,6 @@
     <Property Name="EquipmentServiceId" Type="Int32" Nullable="false" />
     <Property Name="Status" Type="Int32" Nullable="false" />
     <Property Name="Remain" Type="Int32" />
-  </EntityType>
-  <EntityType Name="EquipmentService">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Price" Type="Decimal" Precision="18" Scale="3" />
-    <Property Name="Cost" Type="Decimal" Precision="18" Scale="3" />
-    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Equipment" Relationship="NicePictureStudioDBModel.FK_EquipmentService_Equipment" FromRole="EquipmentService" ToRole="Equipment" />
   </EntityType>
   <EntityType Name="EquipmentStatu">
     <Key>
@@ -606,10 +600,6 @@
   <Association Name="FK_Equipment_EquipmentType">
     <End Type="NicePictureStudioDBModel.EquipmentType" Role="EquipmentType" Multiplicity="1" />
     <End Type="NicePictureStudioDBModel.Equipment" Role="Equipment" Multiplicity="*" />
-  </Association>
-  <Association Name="FK_EquipmentService_Equipment">
-    <End Type="NicePictureStudioDBModel.Equipment" Role="Equipment" Multiplicity="1" />
-    <End Type="NicePictureStudioDBModel.EquipmentService" Role="EquipmentService" Multiplicity="*" />
   </Association>
   <Association Name="FK_OutsourceContact_OutsourceServiceType">
     <End Type="NicePictureStudioDBModel.OutsourceServiceType" Role="OutsourceServiceType" Multiplicity="1" />
@@ -1033,5 +1023,33 @@
         <PropertyRef Name="Status" />
       </Dependent>
     </ReferentialConstraint>
+  </Association>
+  <EntityType Name="EquipmentService">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="EquipmentId" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="Cost" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="EquipmentSets" Relationship="NicePictureStudioDBModel.FK_EquipmentSet_EquipmentService" FromRole="EquipmentService" ToRole="EquipmentSet" />
+  </EntityType>
+  <EntityType Name="EquipmentSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Equipment" Relationship="NicePictureStudioDBModel.FK_EquipmentSet_Equipment" FromRole="EquipmentSet" ToRole="Equipment" />
+    <NavigationProperty Name="EquipmentService" Relationship="NicePictureStudioDBModel.FK_EquipmentSet_EquipmentService" FromRole="EquipmentSet" ToRole="EquipmentService" />
+  </EntityType>
+  <Association Name="FK_EquipmentSet_Equipment">
+    <End Type="NicePictureStudioDBModel.Equipment" Role="Equipment" Multiplicity="1" />
+    <End Type="NicePictureStudioDBModel.EquipmentSet" Role="EquipmentSet" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_EquipmentSet_EquipmentService">
+    <End Type="NicePictureStudioDBModel.EquipmentService" Role="EquipmentService" Multiplicity="1" />
+    <End Type="NicePictureStudioDBModel.EquipmentSet" Role="EquipmentSet" Multiplicity="*" />
   </Association>
 </Schema>

@@ -14,12 +14,18 @@ namespace NicePictureStudio.App_Data
     
     public partial class EquipmentService
     {
+        public EquipmentService()
+        {
+            this.EquipmentSets = new HashSet<EquipmentSet>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
+        public int EquipmentId { get; set; }
         public Nullable<decimal> Price { get; set; }
         public Nullable<decimal> Cost { get; set; }
         public string Description { get; set; }
     
-        public virtual Equipment Equipment { get; set; }
+        public virtual ICollection<EquipmentSet> EquipmentSets { get; set; }
     }
 }

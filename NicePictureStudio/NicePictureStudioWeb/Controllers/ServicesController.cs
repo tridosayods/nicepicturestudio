@@ -787,7 +787,7 @@ namespace NicePictureStudio
             foreach (var equipment in _equipmentServiceList)
             {
                 EquipmentService equipmentService = await db.EquipmentServices.FindAsync(equipment.EquipmentServiceId);
-                _serviceFactory.CreateEquipmentServiceList(equipmentService, equipmentService.Equipment.EquipmentId, equipment.EquipmentServiceId);
+                _serviceFactory.CreateEquipmentServiceList(equipmentService, equipmentService.EquipmentId, equipment.EquipmentServiceId);
             }
 
             foreach (var location in _locationServiceList)
@@ -856,7 +856,7 @@ namespace NicePictureStudio
             foreach (var equipment in _equipmentServiceList)
             {
                 EquipmentService equipmentService = db.EquipmentServices.Find(equipment.EquipmentServiceId);
-                _serviceFactory.CreateEquipmentServiceList(equipmentService, equipmentService.Equipment.EquipmentId, equipment.EquipmentServiceId);
+                _serviceFactory.CreateEquipmentServiceList(equipmentService, equipmentService.EquipmentId, equipment.EquipmentServiceId);
             }
 
             foreach (var location in _locationServiceList)
@@ -4636,7 +4636,7 @@ namespace NicePictureStudio
             }
 
 
-            //Equipment Section
+            //Equipment Section*****************************************************************************
             //Automatically Selected Equipment
             //select equipment
             int locationStyle = 0;
@@ -4654,16 +4654,49 @@ namespace NicePictureStudio
 
             if (locationStyle > 0)
             { 
-                 EquipmentSchedule equipSchedule = new EquipmentSchedule
+                //Location Id = >  1 use set 1 [style <> 2],other wise set 2
+                if (locationStyle != Constant.LOCATION_STYLES_OUTDOORS)
+                {
+                    EquipmentSchedule equipSchedule = new EquipmentSchedule
                     {
                         ServiceForm = serviceForm,
-                        EquipmentId = 1,
+                        EquipmentId = Constant.EQUIPMENT_SET_1,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
                         EndTime = _serviceFactory.ServiceForm.EventEnd,
-                        EquipmentServiceId = 1,
+                        EquipmentServiceId = Constant.EQUIPMENT_SET_1,
                         Status = statusScheduler
                     };
-                 db.EquipmentSchedules.Add(equipSchedule);
+                    db.EquipmentSchedules.Add(equipSchedule);
+                }
+                else
+                {
+                    EquipmentSchedule equipSchedule = new EquipmentSchedule
+                    {
+                        ServiceForm = serviceForm,
+                        EquipmentId = Constant.EQUIPMENT_SET_2,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd,
+                        EquipmentServiceId = Constant.EQUIPMENT_SET_2,
+                        Status = statusScheduler
+                    };
+                    db.EquipmentSchedules.Add(equipSchedule);
+                }
+                //If user select video => include set 3
+
+                if (_serviceFactory.PhotoGraphService.CameraManNumber > 0)
+                {
+                    EquipmentSchedule equipSchedule = new EquipmentSchedule
+                    {
+                        ServiceForm = serviceForm,
+                        EquipmentId = Constant.EQUIPMENT_SET_3,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd,
+                        EquipmentServiceId = Constant.EQUIPMENT_SET_3,
+                        Status = statusScheduler
+                    };
+                    db.EquipmentSchedules.Add(equipSchedule);
+                }
+               
             }
             //if (_serviceFactory.ListEquipmentServices.Count > 0)
             //{
@@ -4851,23 +4884,85 @@ namespace NicePictureStudio
 
 
                 //Equipment Section
-                if (_serviceFactory.ListEquipmentServices.Count > 0)
+                //Equipment Section*****************************************************************************
+                //Automatically Selected Equipment
+                //select equipment
+                int locationStyle = 0;
+                if (_serviceFactory.ListLocationServices.Count > 0)
                 {
-                    List<EquipmentServiceViewModel> lstEqp = new List<EquipmentServiceViewModel>(_serviceFactory.ListEquipmentServices);
-                    foreach (var eqp in lstEqp)
+                    //check type of localtion
+                    var locationId = _serviceFactory.ListLocationServices.FirstOrDefault().LocationId;
+                    locationStyle = db.Locations.Find(locationId).LocationStyle.Id;
+                }
+                else if (_serviceFactory.ServiceForm.LocationId > 0)
+                {
+                    var locationId = _serviceFactory.ServiceForm.LocationId;
+                    locationStyle = db.Locations.Find(locationId).LocationStyle.Id;
+                }
+
+                if (locationStyle > 0)
+                {
+                    //Location Id = >  1 use set 1 [style <> 2],other wise set 2
+                    if (locationStyle != Constant.LOCATION_STYLES_OUTDOORS)
                     {
                         EquipmentSchedule equipSchedule = new EquipmentSchedule
                         {
                             ServiceForm = serviceForm,
-                            EquipmentId = eqp.EquipmentId,
+                            EquipmentId = Constant.EQUIPMENT_SET_1,
                             StartTime = _serviceFactory.ServiceForm.EventStart,
                             EndTime = _serviceFactory.ServiceForm.EventEnd,
-                            EquipmentServiceId = eqp.EquipmentServiceId,
+                            EquipmentServiceId = Constant.EQUIPMENT_SET_1,
                             Status = statusScheduler
                         };
                         db.EquipmentSchedules.Add(equipSchedule);
                     }
+                    else
+                    {
+                        EquipmentSchedule equipSchedule = new EquipmentSchedule
+                        {
+                            ServiceForm = serviceForm,
+                            EquipmentId = Constant.EQUIPMENT_SET_2,
+                            StartTime = _serviceFactory.ServiceForm.EventStart,
+                            EndTime = _serviceFactory.ServiceForm.EventEnd,
+                            EquipmentServiceId = Constant.EQUIPMENT_SET_2,
+                            Status = statusScheduler
+                        };
+                        db.EquipmentSchedules.Add(equipSchedule);
+                    }
+                    //If user select video => include set 3
+
+                    if (_serviceFactory.PhotoGraphService.CameraManNumber > 0)
+                    {
+                        EquipmentSchedule equipSchedule = new EquipmentSchedule
+                        {
+                            ServiceForm = serviceForm,
+                            EquipmentId = Constant.EQUIPMENT_SET_3,
+                            StartTime = _serviceFactory.ServiceForm.EventStart,
+                            EndTime = _serviceFactory.ServiceForm.EventEnd,
+                            EquipmentServiceId = Constant.EQUIPMENT_SET_3,
+                            Status = statusScheduler
+                        };
+                        db.EquipmentSchedules.Add(equipSchedule);
+                    }
+
                 }
+                //if (_serviceFactory.ListEquipmentServices.Count > 0)
+                //{
+                //    List<EquipmentServiceViewModel> lstEqp = new List<EquipmentServiceViewModel>(_serviceFactory.ListEquipmentServices);
+                //    foreach (var eqp in lstEqp)
+                //    {
+                //        EquipmentSchedule equipSchedule = new EquipmentSchedule
+                //        {
+                //            ServiceForm = serviceForm,
+                //            EquipmentId = eqp.EquipmentId,
+                //            StartTime = _serviceFactory.ServiceForm.EventStart,
+                //            EndTime = _serviceFactory.ServiceForm.EventEnd,
+                //            EquipmentServiceId = eqp.EquipmentServiceId,
+                //            Status = statusScheduler
+                //        };
+                //        db.EquipmentSchedules.Add(equipSchedule);
+                //    }
+                //}
 
                 //Location Section
                 if (_serviceFactory.ListLocationServices.Count > 0)
@@ -5059,40 +5154,110 @@ namespace NicePictureStudio
 
 
             //Equipment Section
-            if (_serviceFactory.ListEquipmentServices.Count > 0)
+            //Equipment Section*****************************************************************************
+            //Remove The exist
+            List<EquipmentServiceViewModel> lstEqp = new List<EquipmentServiceViewModel>(_serviceFactory.ListEquipmentServices);
+            List<int> lstExistEqp = db.EquipmentSchedules.Where(eqp => eqp.ServiceForm.Id == serviceForm.Id).Select(eqp => eqp.Id).ToList();
+            foreach (var oldEqp in lstExistEqp)
             {
-                List<EquipmentServiceViewModel> lstEqp = new List<EquipmentServiceViewModel>(_serviceFactory.ListEquipmentServices);
-                List<int> lstExistEqp = db.EquipmentSchedules.Where(eqp => eqp.ServiceForm.Id == serviceForm.Id).Select(eqp => eqp.Id).ToList();
-                foreach (var oldEqp in lstExistEqp)
-                {
-                    EquipmentSchedule _existEqp = db.EquipmentSchedules.Find(oldEqp);
-                    db.EquipmentSchedules.Remove(_existEqp);
-                }
+                EquipmentSchedule _existEqp = db.EquipmentSchedules.Find(oldEqp);
+                db.EquipmentSchedules.Remove(_existEqp);
+            }
+            //Automatically Selected Equipment
+            //select equipment
+            int locationStyle = 0;
+            if (_serviceFactory.ListLocationServices.Count > 0)
+            {
+                //check type of localtion
+                var locationId = _serviceFactory.ListLocationServices.FirstOrDefault().LocationId;
+                locationStyle = db.Locations.Find(locationId).LocationStyle.Id;
+            }
+            else if (_serviceFactory.ServiceForm.LocationId > 0)
+            {
+                var locationId = _serviceFactory.ServiceForm.LocationId;
+                locationStyle = db.Locations.Find(locationId).LocationStyle.Id;
+            }
 
-                foreach (var eqp in lstEqp)
+            if (locationStyle > 0)
+            {
+                //Location Id = >  1 use set 1 [style <> 2],other wise set 2
+                if (locationStyle != Constant.LOCATION_STYLES_OUTDOORS)
                 {
                     EquipmentSchedule equipSchedule = new EquipmentSchedule
                     {
                         ServiceForm = serviceForm,
-                        EquipmentId = eqp.EquipmentId,
+                        EquipmentId = Constant.EQUIPMENT_SET_1,
                         StartTime = _serviceFactory.ServiceForm.EventStart,
                         EndTime = _serviceFactory.ServiceForm.EventEnd,
-                        EquipmentServiceId = eqp.EquipmentServiceId,
+                        EquipmentServiceId = Constant.EQUIPMENT_SET_1,
                         Status = statusScheduler
                     };
                     db.EquipmentSchedules.Add(equipSchedule);
                 }
-            }
-            else
-            { 
-                //remove the exist 
-                List<int> lstExistEqp = db.EquipmentSchedules.Where(eqp => eqp.ServiceForm.Id == serviceForm.Id).Select(eqp => eqp.Id).ToList();
-                foreach (var oldEqp in lstExistEqp)
+                else
                 {
-                    EquipmentSchedule _existEqp = db.EquipmentSchedules.Find(oldEqp);
-                    db.EquipmentSchedules.Remove(_existEqp);
+                    EquipmentSchedule equipSchedule = new EquipmentSchedule
+                    {
+                        ServiceForm = serviceForm,
+                        EquipmentId = Constant.EQUIPMENT_SET_2,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd,
+                        EquipmentServiceId = Constant.EQUIPMENT_SET_2,
+                        Status = statusScheduler
+                    };
+                    db.EquipmentSchedules.Add(equipSchedule);
                 }
+                //If user select video => include set 3
+
+                if (_serviceFactory.PhotoGraphService.CameraManNumber > 0)
+                {
+                    EquipmentSchedule equipSchedule = new EquipmentSchedule
+                    {
+                        ServiceForm = serviceForm,
+                        EquipmentId = Constant.EQUIPMENT_SET_3,
+                        StartTime = _serviceFactory.ServiceForm.EventStart,
+                        EndTime = _serviceFactory.ServiceForm.EventEnd,
+                        EquipmentServiceId = Constant.EQUIPMENT_SET_3,
+                        Status = statusScheduler
+                    };
+                    db.EquipmentSchedules.Add(equipSchedule);
+                }
+
             }
+            //if (_serviceFactory.ListEquipmentServices.Count > 0)
+            //{
+            //    List<EquipmentServiceViewModel> lstEqp = new List<EquipmentServiceViewModel>(_serviceFactory.ListEquipmentServices);
+            //    List<int> lstExistEqp = db.EquipmentSchedules.Where(eqp => eqp.ServiceForm.Id == serviceForm.Id).Select(eqp => eqp.Id).ToList();
+            //    foreach (var oldEqp in lstExistEqp)
+            //    {
+            //        EquipmentSchedule _existEqp = db.EquipmentSchedules.Find(oldEqp);
+            //        db.EquipmentSchedules.Remove(_existEqp);
+            //    }
+
+            //    foreach (var eqp in lstEqp)
+            //    {
+            //        EquipmentSchedule equipSchedule = new EquipmentSchedule
+            //        {
+            //            ServiceForm = serviceForm,
+            //            EquipmentId = eqp.EquipmentId,
+            //            StartTime = _serviceFactory.ServiceForm.EventStart,
+            //            EndTime = _serviceFactory.ServiceForm.EventEnd,
+            //            EquipmentServiceId = eqp.EquipmentServiceId,
+            //            Status = statusScheduler
+            //        };
+            //        db.EquipmentSchedules.Add(equipSchedule);
+            //    }
+            //}
+            //else
+            //{ 
+            //    //remove the exist 
+            //    List<int> lstExistEqp = db.EquipmentSchedules.Where(eqp => eqp.ServiceForm.Id == serviceForm.Id).Select(eqp => eqp.Id).ToList();
+            //    foreach (var oldEqp in lstExistEqp)
+            //    {
+            //        EquipmentSchedule _existEqp = db.EquipmentSchedules.Find(oldEqp);
+            //        db.EquipmentSchedules.Remove(_existEqp);
+            //    }
+            //}
 
             //Location Section
             if (_serviceFactory.ListLocationServices.Count > 0)

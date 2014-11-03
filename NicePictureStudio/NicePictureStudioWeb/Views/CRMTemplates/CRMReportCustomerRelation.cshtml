@@ -1,8 +1,8 @@
 ﻿
 @using NicePictureStudioReporting
-@*<!DOCTYPE html>*@
+<!DOCTYPE html>
 
-@*@section styles
+@section styles
 {
     <link href= @Url.Content("~/Scripts/ReportViewer/styles/telerikReportViewer-8.1.14.804.css") rel="stylesheet" />
     <style>
@@ -23,19 +23,26 @@
     <script src=@Url.Content("~/Scripts/ReportViewer/js/telerikReportViewer-8.1.14.804.js")></script>
 }
 
+@{
+    var typeReportSource = new TypeReportSource() { TypeName = typeof(CRMCustomerRelationReport).AssemblyQualifiedName };
+    typeReportSource.Parameters.Add("ServiceId", 6);
+}
+
 @(Html.TelerikReporting().ReportViewer()
         .Id("reportViewer1")
         .ServiceUrl("/api/reports/")
         .TemplateUrl(@Url.Content("~/Scripts/ReportViewer/templates/telerikReportViewerTemplate-8.1.14.804.html"))
-        .ReportSource(new TypeReportSource() { TypeName = typeof(CRMCustomerRelationReport).AssemblyQualifiedName })
+        //.ReportSource(new TypeReportSource() { TypeName = typeof(CRMCustomerRelationReport).AssemblyQualifiedName})
+        .ReportSource(typeReportSource)
         .ViewMode(ViewModes.PRINT_PREVIEW)
         .ScaleMode(ScaleModes.SPECIFIC)
         .Scale(1.0)
         .PersistSession(true)
-        
-)*@
 
-@(Html.Kendo().PivotConfigurator()
+
+)
+
+@*@(Html.Kendo().PivotConfigurator()
     .Name("configurator")
     .Filterable(true)
 )
@@ -64,7 +71,7 @@
               )
           )
       )
-)
+)*@
 
 <style>
     #pivotgrid {

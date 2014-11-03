@@ -281,6 +281,14 @@
     <Property Name="EquipmentScheduleId" Type="int" Nullable="false" />
     <Property Name="ServiceFormId" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="EquipmentSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EqId" Type="int" Nullable="false" />
+    <Property Name="EqServiceId" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="EquipmentStatus">
     <Key>
       <PropertyRef Name="Id" />
@@ -914,18 +922,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_EquipmentService_Equipment">
-    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
-    <End Role="EquipmentService" Type="Self.EquipmentService" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Equipment">
-        <PropertyRef Name="EquipmentId" />
-      </Principal>
-      <Dependent Role="EquipmentService">
-        <PropertyRef Name="EquipmentId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_EquipmentServiceTimeing_EquipmentSchedule">
     <End Role="EquipmentSchedule" Type="Self.EquipmentSchedule" Multiplicity="1" />
     <End Role="EquipmentServiceTiming" Type="Self.EquipmentServiceTiming" Multiplicity="0..1" />
@@ -947,6 +943,30 @@
       </Principal>
       <Dependent Role="EquipmentServiceTiming">
         <PropertyRef Name="ServiceFormId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EquipmentSet_Equipment">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="EquipmentSet" Type="Self.EquipmentSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="EquipmentId" />
+      </Principal>
+      <Dependent Role="EquipmentSet">
+        <PropertyRef Name="EqId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EquipmentSet_EquipmentService">
+    <End Role="EquipmentService" Type="Self.EquipmentService" Multiplicity="1" />
+    <End Role="EquipmentSet" Type="Self.EquipmentSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EquipmentService">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EquipmentSet">
+        <PropertyRef Name="EqServiceId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1289,6 +1309,7 @@
     <EntitySet Name="EquipmentSchedule" EntityType="Self.EquipmentSchedule" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EquipmentService" EntityType="Self.EquipmentService" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EquipmentServiceTiming" EntityType="Self.EquipmentServiceTiming" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EquipmentSet" EntityType="Self.EquipmentSet" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EquipmentStatus" EntityType="Self.EquipmentStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EquipmentType" EntityType="Self.EquipmentType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
@@ -1416,10 +1437,6 @@
       <End Role="EquipmentType" EntitySet="EquipmentType" />
       <End Role="Equipment" EntitySet="Equipment" />
     </AssociationSet>
-    <AssociationSet Name="FK_EquipmentService_Equipment" Association="Self.FK_EquipmentService_Equipment">
-      <End Role="Equipment" EntitySet="Equipment" />
-      <End Role="EquipmentService" EntitySet="EquipmentService" />
-    </AssociationSet>
     <AssociationSet Name="FK_EquipmentServiceTimeing_EquipmentSchedule" Association="Self.FK_EquipmentServiceTimeing_EquipmentSchedule">
       <End Role="EquipmentSchedule" EntitySet="EquipmentSchedule" />
       <End Role="EquipmentServiceTiming" EntitySet="EquipmentServiceTiming" />
@@ -1427,6 +1444,14 @@
     <AssociationSet Name="FK_EquipmentServiceTiming_ServiceForm" Association="Self.FK_EquipmentServiceTiming_ServiceForm">
       <End Role="ServiceForm" EntitySet="ServiceForm" />
       <End Role="EquipmentServiceTiming" EntitySet="EquipmentServiceTiming" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EquipmentSet_Equipment" Association="Self.FK_EquipmentSet_Equipment">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="EquipmentSet" EntitySet="EquipmentSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EquipmentSet_EquipmentService" Association="Self.FK_EquipmentSet_EquipmentService">
+      <End Role="EquipmentService" EntitySet="EquipmentService" />
+      <End Role="EquipmentSet" EntitySet="EquipmentSet" />
     </AssociationSet>
     <AssociationSet Name="FK_Location_LocationStatus" Association="Self.FK_Location_LocationStatus">
       <End Role="LocationStatus" EntitySet="LocationStatus" />

@@ -16,7 +16,7 @@ namespace NicePictureStudio.App_Data
     {
         public Equipment()
         {
-            this.EquipmentServices = new HashSet<EquipmentService>();
+            this.EquipmentSets = new HashSet<EquipmentSet>();
         }
     
         public int EquipmentId { get; set; }
@@ -27,6 +27,6 @@ namespace NicePictureStudio.App_Data
     
         public virtual EquipmentStatu EquipmentStatu { get; set; }
         public virtual EquipmentType EquipmentType { get; set; }
-        public virtual ICollection<EquipmentService> EquipmentServices { get; set; }
+        public virtual ICollection<EquipmentSet> EquipmentSets { get; set; }
     }
 }

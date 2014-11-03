@@ -258,6 +258,9 @@
     <Compile Include="App_Data\EmployeePosition.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\EquipmentSet.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\LocationStyle.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>

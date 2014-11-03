@@ -57,9 +57,15 @@ namespace NicePictureStudio.Utils
         public static readonly int EQUIPMENT_TYPE_LIGHT = 4;
         public static readonly int EQUIPMENT_TYPE_COMPUTER = 5;
 
+        public static readonly int LOCATION_STYLES_OUTDOORS = 2;
+
         public static readonly int EQUIPMENT_STATUS_VACANT = 1;
         public static readonly int EQUIPMENT_STATUS_NOTVACANT = 2;
         public static readonly int EQUIPMENT_STATUS_MAINTAINENCE = 3;
+
+        public static readonly int EQUIPMENT_SET_1 = 3;
+        public static readonly int EQUIPMENT_SET_2 = 5;
+        public static readonly int EQUIPMENT_SET_3 = 6;
 
         public static readonly int EMPLOYEE_STAUS_PENDING_USER = 1;
         public static readonly int EMPLOYEE_STAUS_ACTIVE_USER = 2;

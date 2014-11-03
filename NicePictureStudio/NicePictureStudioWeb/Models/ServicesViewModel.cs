@@ -129,6 +129,7 @@ namespace NicePictureStudio.Models
             ServiceForm.ServiceCost = Convert.ToDecimal(serviceForm.ServiceCost);
             ServiceForm.ServicePrice = Convert.ToDecimal(serviceForm.ServicePrice);
             ServiceForm.ServiceNetPrice = Convert.ToDecimal(serviceForm.ServiceNetPrice);
+            ServiceForm.LocationId = serviceForm.Locations.Count <= 0 ? 0 : serviceForm.Locations.FirstOrDefault().LocationId;
         }
 
         public void UpdateServiceForm(ServiceForm serviceForm)

@@ -33,7 +33,6 @@ namespace NicePictureStudio.App_Data
         public virtual DbSet<EmployeeLogin> EmployeeLogins { get; set; }
         public virtual DbSet<Equipment> Equipments { get; set; }
         public virtual DbSet<EquipmentSchedule> EquipmentSchedules { get; set; }
-        public virtual DbSet<EquipmentService> EquipmentServices { get; set; }
         public virtual DbSet<EquipmentStatu> EquipmentStatus { get; set; }
         public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
         public virtual DbSet<LocationSchedule> LocationSchedules { get; set; }
@@ -74,5 +73,7 @@ namespace NicePictureStudio.App_Data
         public virtual DbSet<OutputType> OutputTypes { get; set; }
         public virtual DbSet<OutSourcePriceRanx> OutSourcePriceRanges { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<EquipmentService> EquipmentServices { get; set; }
+        public virtual DbSet<EquipmentSet> EquipmentSets { get; set; }
     }
 }
