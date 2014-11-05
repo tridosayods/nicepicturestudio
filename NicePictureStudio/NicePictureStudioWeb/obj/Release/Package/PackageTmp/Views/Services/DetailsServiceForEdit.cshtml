@@ -1,0 +1,72 @@
+﻿@model NicePictureStudio.App_Data.Service
+
+<div id="MainSection">
+    <h4>Service</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.Id)
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroomName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroomName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BrideName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BrideName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SpecialRequest)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SpecialRequest)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Payment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Payment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PayAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PayAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CRMFormId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CRMFormId)
+        </dd>
+
+    </dl>
+    <p>
+        @Ajax.ActionLink("Edit", "EditServiceWhenEdit", new { id = Model.Id },
+                    new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "MainSection" }) |
+    </p>
+
+</div>
+
+

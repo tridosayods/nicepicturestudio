@@ -1,0 +1,307 @@
+﻿@model NicePictureStudio.App_Data.OutputService
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#btnBackStepToPhotoGraph").on("click", function () {
+            event.preventDefault();
+            var url = '@Url.Action("MainFilterPhotoGrapService", "Services")';
+            $.ajax({
+                url: url,
+                data: { id: $("#page1Id").val(), serviceType: '@ViewData["ServiceType"]' },
+                type: "GET",
+                success: function (data) { $("#ServiceSelection").replaceWith(data); }
+            })
+        });
+    });
+
+    function ValidateSummary()
+    {
+        $("#page2Id").val($("#Code").val());
+    }
+
+</script>
+
+    <div id="divOutput">
+    <table class="table table-responsive">
+        <tr>
+            <td>
+                @using (Ajax.BeginForm("CreateOutputServiceTable", "Services", new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "tblOutput"
+                    }))
+                {
+                    <div class="form-horizontal">
+                        <h4>OutputService</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.Label("ชื่อ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" ,@readonly = true} })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                            @Html.Label("ลิ้งภาพตัวอย่าง", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.OutputURL, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.OutputURL, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+                        <div class="form-group">
+                            @Html.Label("ราคา", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control",@readonly = true } })
+                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                                @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+                        @Html.HiddenFor(model => model.Cost)
+
+                        <div class="form-group">
+                            @Html.Label("รายละเอียด", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" ,@rows = "4",@readonly = true} )
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("จำนวนชุด", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Kendo().NumericTextBox().Name("OutputQuantity").HtmlAttributes(new { @id = "OutputQuantity", @style="width:80px" }).Format("D").Value(1).Min(1)
+                                @Html.ValidationMessage("OutputQuantity", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("วันส่งมอบ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Kendo().DatePicker().Name("HandOnDate").HtmlAttributes(new { @required = true}).Min(@ViewBag.MinTimeHandOn)
+                                @Html.ValidationMessage("HandOnDate","", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
+                        <input type="hidden" id="Code" name="Code" value="@Model.Id" />
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="เลือกสินค้า" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </td>
+            <td>
+                <!-- Picture Slide for each group-->
+                <h4>&nbsp;</h4>
+                <br />
+                <div class="container container-fluid" style="width:350px;height:450px;">
+                    <div id="carousel-photo-generic" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-photo-generic" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-photo-generic" data-slide-to="1"></li>
+                        </ol>
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <img src="@Url.Content("~/Content/images/Output/Output/PhotoBook1.jpg")" alt="Happy Together Forever">
+                                <div class="carousel-caption">
+                                    รูปสวยโฟโต้
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="@Url.Content("~/Content/images/Output/Output/PhotoBook2.jpg")" alt="">
+                                <div class="carousel-caption">
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    
+
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#carousel-photo-generic" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-photo-generic" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                </div>
+               </div>
+                 <!---->
+            </td>
+        </tr>
+    </table>
+    <div id="tblOutput">
+        @if (@ViewBag.ListOutputServices != null)
+        {
+            <div class="form-group">
+                <table class="table table-striped">
+                    <tr><th>Outsource Name</th><th>Description</th><th>OutputURL</th><th>Price</th><th>Action</th></tr>
+                    @foreach (NicePictureStudio.Models.OutputServiceViewModel item in ViewBag.ListOutputServices)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
+                            <td>@item.OutputURL</td>
+                            <td>@item.Price</td>
+                            <td>@Ajax.ActionLink("Remove", "RemoveOutput", new { Id = @item.Id, serviceType = @ViewData["ServiceType"].ToString() }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblOutput" })</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+    </div>
+    @using (Ajax.BeginForm("ThirdFilterLocationService", "Services", new AjaxOptions
+        {
+            HttpMethod = "GET",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "ServiceSelection",
+            OnBegin = "ValidateSummary"
+        }))
+    {
+        @Html.AntiForgeryToken()
+         <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" /> 
+        <ul class="pager">
+         <li class="next">
+             <div class="col-md-6 text-left">
+                 <button type="button" id="btnBackStepToPhotoGraph" value="Back to Previous step"><span class="glyphicon glyphicon-step-backward"></span>ย้อนกลับไปหน้าแรก</button>
+             </div>
+        </li>
+            <li class="previous">
+               
+                <div class="col-md-6 text-right">
+                    <button type="submit" id="btnNextStepToLocation" value="Next"><span class="glyphicon glyphicon-step-forward"></span>ถัดไป</button>
+                </div>
+            </li>
+        </ul>
+       
+      
+    }
+</div>
+
+
+
+
+
+
+
+@*<div id="ServiceSelection">
+    <div id="divOutput">
+        @using (Ajax.BeginForm("CreateOutputServiceTable", "Services", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = ""
+    }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group col-lg-12">
+                @Html.Label("OutputServices : ลองภาษาไทย", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="list-group col-md-10">
+                    @Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = ViewData["ButtonIdForDWL"], @name = ViewData["ButtonIdForDWL"] })
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <h4>OutputService</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OutputURL, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OutputURL, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.OutputURL, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Hand-On Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Kendo().DateTimePicker().Name("HandOnDate")
+                        @Html.ValidationMessage("HandOnDate", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+        <div id="@ViewData["tblequipment"].ToString()">
+            @if (@ViewBag.ListOutputServices != null)
+            {
+                <div class="form-group">
+                    <table class="table table-striped">
+                        <tr><th>Outsource Name</th><th>Description</th><th>OutputURL</th><th>Price</th><th>Action</th></tr>
+                        @foreach (NicePictureStudio.Models.OutputServiceViewModel item in ViewBag.ListOutputServices)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Description</td>
+                                <td>@item.OutputURL</td>
+                                <td>@item.Price</td>
+                                <td>@Ajax.ActionLink("Remove", "RemoveOutput", new { Id = @item.Id, serviceType = @ViewData["ServiceType"].ToString() }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = @ViewData["tblequipment"].ToString() })</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>*@

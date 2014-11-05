@@ -94,6 +94,10 @@ namespace NicePictureStudio.Utils
         public static readonly int EMPLOYEE_POSITION_MANAGER = 4;
         public static readonly int EMPLOYEE_POSITION_ADMIN = 5;
 
+        public static readonly int CUBE_SERVICE_CATEGORY_PHOTOGRAPH = 1;
+        public static readonly int CUBE_SERVICE_CATEGORY_CAMERAMAN = 2;
+        public static readonly int CUBE_SERVICE_CATEGORY_MEDIA = 3;
+
     }
 
     public static class RazorExtensions

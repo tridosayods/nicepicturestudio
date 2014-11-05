@@ -2,7 +2,7 @@
 @using NicePictureStudioReporting
 <!DOCTYPE html>
 
-@section styles
+@*@section styles
 {
     <link href= @Url.Content("~/Scripts/ReportViewer/styles/telerikReportViewer-8.1.14.804.css") rel="stylesheet" />
     <style>
@@ -40,58 +40,9 @@
         .PersistSession(true)
 
 
-)
-
-@*@(Html.Kendo().PivotConfigurator()
-    .Name("configurator")
-    .Filterable(true)
-)
-
-@(Html.Kendo().PivotGrid()
-      .Name("pivotgrid")
-      .DataSource(dataSource => dataSource.
-          Xmla()
-          .Columns(columns =>
-          {
-             columns.Add("[Date].[Calendar]").Expand(true);
-             columns.Add("[Geography].[City]");
-          })
-          .Rows(rows => rows.Add("[Product].[Product]"))
-          .Measures(measures => measures.Values(new string[] { "[Measures].[Internet Sales Amount]" }))
-          .Transport(transport => transport
-              .Connection(connection => connection
-                  .Catalog("Adventure Works DW 2008R2")
-                  .Cube("Adventure Works"))
-              .Read(read => read
-                  //  .Url(@"http://demos.telerik.com/olap/msmdpump.dll")
-                      .Url(@"http://bdqaaut-pf26/OLAP/msmdpump.dll") 
-                  .DataType("text")
-                  .ContentType("text/xml")
-                  .Type(HttpVerbs.Post)
-              )
-          )
-      )
 )*@
 
-<style>
-    #pivotgrid {
-        display: inline-block;
-        vertical-align: top;
-        width: 70%;
-    }
 
-    #configurator {
-        display: inline-block;
-        vertical-align: top;
-    }
-</style>
-
-
-<script>
-    function onError(e) {
-        alert("error: " + kendo.stringify(e.errors[0]));
-    }
-</script>
 
 @*@(Html.Kendo().PivotGrid()
       .Name("pivotgrid")
@@ -99,21 +50,21 @@
           Xmla()
           .Columns(columns =>
           {
-              columns.Add("[Time].[Year]").Expand(true);
+              columns.Add("[Dimension Time].[Month]").Expand(true);
               //columns.Add("[Geography].[City]");
           })
-          .Rows(rows => rows.Add("[Promotion].[Profit]"))
-          .Measures(measures => measures.Values(new string[] { "[Measures].[Profit Percent]" }))
+          //.Rows(rows => rows.Add("[Promotion].[Profit]"))
+              .Measures(measures => measures.Values(new string[] { "[Measures].[Sale Amount]" }))
           .Transport(transport => transport
               .Connection(connection => connection
-                      .Catalog("SalesOLAP")
-                      .Cube("SalesAnalysisCube"))
+                               .Catalog("NCStudioOLAP")
+                       .Cube("NC Studio DW"))
               .Read(read => read
-                  .Url(@"http://bdqaaut-pf26/olap/msmdpump.dll")
+                  .Url(@"http://localhost/olap/msmdpump.dll")
                   .DataType("text")
                   .ContentType("text/xml")
                   .Type(HttpVerbs.Post)
               )
-          )
+              ).Events(e => e.Error("onError"))
       )
 )*@

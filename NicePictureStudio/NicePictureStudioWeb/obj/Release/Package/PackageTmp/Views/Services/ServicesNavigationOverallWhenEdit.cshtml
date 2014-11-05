@@ -1,0 +1,322 @@
+﻿@model NicePictureStudio.App_Data.ServiceForm
+
+<script>
+
+    function startChange() {
+        var endPicker = $("#EventEndDate").data("kendoDateTimePicker"),
+            startDate = this.value();
+
+        if (startDate) {
+            startDate = new Date(startDate);
+            startDate.setDate(startDate.getDate());
+            endPicker.min(startDate);
+        }
+    }
+
+    function endChange() {
+        var startPicker = $("#EventStartDate").data("kendoDateTimePicker"),
+            endDate = this.value();
+
+        if (endDate) {
+            endDate = new Date(endDate);
+            endDate.setDate(endDate.getDate());
+            startPicker.max(endDate);
+        }
+    }
+
+    function EnableServiceFormItem() {
+        $("#LocationName").attr("disabled", null);
+        $("#GuestNumber").data("kendoNumericTextBox").enable();
+        $("#IsLocationSelected").attr("disabled", null);
+        $("#IsOvernightSelected").attr("disabled", null);
+        $("#ServiceTypeId").data("kendoDropDownList").enable();
+        $("#EventStartDate").data("kendoDateTimePicker").enable();
+        $("#EventEndDate").data("kendoDateTimePicker").enable();
+        $("#StartCreateService").attr("disabled", null);
+        $("#ServiceSelection").hide();
+    }
+
+    function DisableServiceFormItem() {
+        $("#LocationName").attr("disabled", "disabled");
+        $("#GuestNumber").data("kendoNumericTextBox").enable(false);
+        $("#IsLocationSelected").attr("disabled", "disabled");
+        $("#IsOvernightSelected").attr("disabled", "disabled");
+        $("#ServiceTypeId").data("kendoDropDownList").enable(false);
+        $("#EventStartDate").data("kendoDateTimePicker").enable(false);
+        $("#EventEndDate").data("kendoDateTimePicker").enable(false);
+        $("#StartCreateService").attr("disabled", "disabled");
+        $("#EditStartService").attr("disabled", null);
+    }
+
+</script>
+
+<div id="ServiceNavigation">
+    <d class="container">
+        <table class="table table-responsive">
+            <tr>
+                <td class="col-md-4 col-lg-4">
+                    @*<div class="row">*@
+                    <div>
+                        @Html.AntiForgeryToken()
+                        <form class="panel panel-primary" id="FormSubmit">
+                            <div class="panel-heading">Services Details</div>
+                            <div class="panel-body">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        @Html.Label("ประเภทบริการ", new { @class = "col-sm-3" })
+                                        <div class="col-sm-9">
+                                            @Html.Kendo().DropDownList().Name("ServiceTypeId").BindTo(new string[] { "PreWedding", "Engagement", "Wedding" })
+                                            @Html.ValidationMessage("ServiceTypeId", "กรุณาเลือกประเภทการให้บริการ")
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("เริ่มต้น ", new { @class = "col-sm-3" })
+                                        <div class="col-sm-9">
+                                            @Html.Kendo().DateTimePickerFor(model => model.EventStart).Min(DateTime.Now).HtmlAttributes(new
+                                           {
+                                               @id = "EventStartDate",
+                                               @styles = "width:120px"
+                                           }).Value(Model.EventStart == DateTime.MinValue ? DateTime.Now : Model.EventStart).Events(e =>
+                                                    e.Change("startChange"))
+                                            @*@Html.Kendo().DateTimePicker().Name("EventStartDate").Min(DateTime.Now.AddDays(-1)).Events(e => e.Change("startChange")).Value(DateTime.Now)*@
+                                            @Html.ValidationMessageFor(model => model.EventStart)
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("เริ่มต้น ", new { @class = "col-sm-3" })
+                                        <div class="col-sm-9">
+                                            @Html.Kendo().DateTimePickerFor(model => model.EventEnd).Min(DateTime.Now).HtmlAttributes(new
+                                           {
+                                               @id = "EventEndDate",
+                                               @styles = "width:120px"
+                                           }).Value(Model.EventEnd == DateTime.MinValue ? DateTime.Now : Model.EventEnd).Events(e =>
+                                                             e.Change("endChange"))
+                                            @*@Html.Kendo().DateTimePicker().Name("EventEnd").Min(DateTime.Now)*@
+                                            @Html.ValidationMessageFor(model => model.EventEnd)
+                                        </div>
+                                        </div>
+                                    <div class="form-group">
+                                        @Html.Label("จำนวกแขกในงาน", new { @class = "col-sm-3" })
+                                        <div class="col-sm-9">
+                                            @Html.Kendo().NumericTextBoxFor(model => model.GuestsNumber).Min(1).HtmlAttributes(new { @id = "GuestNumber" }).Value(Model.GuestsNumber == null ? 100 : Model.GuestsNumber)
+                                            @*@Html.Kendo().NumericTextBox().Name("GuestNumber").Min(1).Value(50)*@
+                                            @Html.ValidationMessageFor(model => model.GuestsNumber)
+                                        </div>
+                                        </div>
+
+                                    <!--Location Section-->
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">ข้อมูลส่วนสถานที่ในการถ่ายภาพ</div>
+                                        <div class="panel-body">
+                                            <div class="form-group text-left center-block" style="vertical-align:central">
+                                                <div class="col-sm-1">
+                                                    @Html.CheckBox("IsLocationSelected",@Model.IsLocationSelected == true ? true : false, new { @class = "form-contorl chekbox checkbox-inline", @onclick = "toggle_option_location('LocationInformation')" })
+                                                </div>
+                                                <div class="col-sm-10"> @Html.Label("ลูกค้าติดต่อสถานที่ถ่ายภาพไว้แล้ว", new { @class = "" })</div>
+
+                                            </div>
+
+                                            <div id="LocationInformation">
+                                                <div class="form-group">
+                                                    <div class="col-sm-2">&nbsp;</div>
+                                                    <h5><a class="btn-link" onclick="toggle_option_location('LocationFillUp')"><span class="glyphicon glyphicon-arrow-down"></span>ดูรายละเอียด</a></h5>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group text-left center-block" style="vertical-align:central">
+                                                <div class="col-sm-1">
+                                                    @Html.CheckBox("IsOvernightSelected", @Model.IsOverNight == true ? true: false, new { @class = "form-contorl chekbox checkbox-inline", @onclick = "toggle_option_location('TravelOption')" })
+                                                </div>
+                                                <div class="col-sm-10"> @Html.Label("เลือกสถานที่ต่างจังหวัด", new { @class = "" })</div>
+
+                                            </div>
+
+                                            <div id="TravelOption">
+                                                <div>ในการเดินทางไปต่างจังหวัด ลูกค้าจะมีค่าใช้จ่ายเพิ่มเติมอีก 3,500 บาท ในส่วนของค่ายกกองต่อการเดินทางในแต่ละครั้ง</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Location Section-->
+
+                                    <div class="form-group">
+                                        <div style="align-content:center" class="col-sm-12 text-right">
+                                            <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>บีนทึก</button>
+                                            <button id="EditStartService" type="button" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>&nbsp;แก้ไข</button>
+                                        </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">รายละเอียดค่าใช้จ่าย</div>
+                            <div class="panel-body">
+                                <!-- Service Payment-->
+                                @{Html.RenderAction("CalculateServicesCostSummaryWhenEdit", "Services", new { id = @Model.Id, isEditTable = true });}
+                               
+                                
+                            </div>
+                        </div>
+                    </div> <!-- End row-->
+                </td>
+                <td class="col-md-8 col-lg-8">
+                    <div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading"></div>
+
+                            <!--Location Section -->
+
+                            <div id="LocationFillUp">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading"></div>
+                                    <div class="panel-body">
+                                        <div class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                @Html.Label("ค้นหาสถานที่", new { @class = "col-md-2" })
+                                                <div class="col-md-10 col-xs-5">
+                                                    @Html.TextBox("LocationSearch", null, new { @class = "autocomplete-with-hidden-location form-control", data_url = Url.Action("GetLocationSearching", "Services") })
+                                                    @Html.Hidden("LocationId")
+                                                    @*@Html.ValidationMessage("ServiceTypeId", "*")*@
+                                                </div>
+                                            </div>
+                                            <div id="SelectedLocationSection">
+                                                @if(Model.Locations.FirstOrDefault() != null)
+                                                { Html.RenderAction("LocationServicesForm", "Services", new { LocId = Model.Locations.FirstOrDefault().LocationId });}
+                                                else
+                                                { 
+                                                    Html.RenderAction("LocationServicesForm", "Services");
+                                                }                                                                                                                   
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Location Section -->   
+                            
+                            <div class="panel-body">
+                                @{Html.RenderAction("MainFilterPhotoGrapServiceWhenEditNew", "Services", new { id = @Model.Id, serviceType = @Model.ServiceType.ServiceTypeName });}
+                                @*<div id="ServiceSelection">
+
+                                </div>*@
+                            </div>
+                        </div>
+                    
+                </td>
+            </tr>
+        </table>
+        @*</div>*@
+        @*</div>*@
+    </div>
+    <div id="HiddenNav">
+        @Html.Hidden("hdPage1", null, new { @id = "page1Id" })
+        @Html.Hidden("hdPage2", null, new { @id = "page2Id" })
+        @Html.Hidden("hdPage3", null, new { @id = "page3Id" })
+        @Html.Hidden("hdPage4", null, new { @id = "page4Id" })
+    </div>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#EventStart").kendoDateTimePicker().attr("required", true);
+        $("#EventEnd").kendoDateTimePicker().attr("required", true);
+        $("#GuestNumber").kendoNumericTextBox().attr("required", true);
+        $("#GuestNumber").kendoNumericTextBox({
+            format: "d",
+            decimals: 0
+        });
+        $("#GuestNumber").data("kendoNumericTextBox").wrapper.width("100px");
+
+        $("#FormSubmit").on("submit", function () {
+            event.preventDefault();
+            var validatorStartEvent = $("#FormSubmit").kendoValidator().data("kendoValidator");
+            validatorStartEvent.validate();
+
+            var url = '@Url.Action("MainFilterPhotoGrapServiceWhenEditNew", "Services")';
+            var selectedValue = $("#ServiceTypeId").data("kendoDropDownList").value();
+            var selectedStartDate = $("#EventStart").val();
+            var selectedEndDate = $("#EventEnd").val();
+            var guestNum = $("#GuestNumber").data("kendoNumericTextBox").value();
+            var isselectedLocation = $("#IsLocationSelected").is(':checked');
+            var isovernight = $("#IsOvernightSelected").is(':checked');
+            var locationId = $("#LocationFormId").val();
+
+            $.ajax({
+                url: url,
+                data: { id: null, serviceType: selectedValue, startDate: selectedStartDate, endDate: selectedEndDate, guestNumber: guestNum, locationId: locationId, isLocationSelected: isselectedLocation, isOvernight: isovernight },
+                type: "GET",
+                success: function (data) {
+                    $("#LocationFillUp").hide();
+                    DisableServiceFormItem();
+                    $("#ServiceSelection").replaceWith(data);
+                }
+            })
+        });
+
+        $("#EditStartService").attr("disabled", "disabled");
+
+        $("#EditStartService").on("click", function () {
+            EnableServiceFormItem();
+        });
+
+        $(function () {
+            $(".autocomplete-with-hidden-location").autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    var url = $(this.element).data("url");
+
+                    $.getJSON(url, { term: request.term }, function (data) {
+                        response(data);
+                    })
+                },
+                select: function (event, ui) {
+                    $(event.target).next("input[type=hidden]").val(ui.item.id);
+                    var url = '@Url.Action("LocationServicesForm","Services")'
+                    $.ajax({
+                        url: url,
+                        data: { LocId: ui.item.id },
+                        type: "GET",
+                        success: function (data) { $("#SelectedLocationSection").replaceWith(data); }
+                    })
+                },
+                change: function (event, ui) {
+                    if (!ui.item) {
+                        $(event.target).val("").next("input[type=hidden]").val("");
+                    }
+                }
+            });
+        });
+
+
+
+        if ('@Model.IsLocationSelected') { $("#LocationInformation").show(); } else {  $("#LocationInformation").hide();}
+        $("#TravelOption").hide();
+        $("#LocationFillUp").hide();
+    });
+
+
+     function toggle_option_location(id) {
+            var e = document.getElementById(id);
+            if (e.style.display == 'block' || e.style.display == '') {
+                e.style.display = 'none';
+            }
+            else {
+                e.style.display = 'block';
+            }
+
+            if (id == "LocationInformation") {
+                var b = document.getElementById("StartCreateService");
+                if (b.disabled == true) {
+                    b.disabled = false;
+                }
+                else {
+                    b.disabled = true;
+                }
+            }
+        }
+
+    </script>
+
+

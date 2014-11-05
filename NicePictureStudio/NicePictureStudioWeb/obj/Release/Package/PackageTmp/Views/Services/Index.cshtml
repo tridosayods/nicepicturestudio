@@ -1,0 +1,466 @@
+﻿@model IEnumerable<NicePictureStudio.App_Data.Service>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$('#tblServices').dataTable();
+    });
+</script>
+
+<h2>รายการให้บริการของบริษัทรูปสวยโฟโต้ จำกัด</h2>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+@*<table class="table table-bordered table-striped table-hover" cellspacing="0" width="100%" id="tblServices">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookingName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GroomName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BrideName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SpecialRequest)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PayAmount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Customer.CustomerName)
+                </th>
+                <th>
+                   Status
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tfoot>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BookingName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GroomName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BrideName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SpecialRequest)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PayAmount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Customer.CustomerName)
+                </th>
+                <th>
+                    Status
+                </th>
+                <th></th>
+            </tr>
+        </tfoot>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.ServiceStatu.Id == 3)
+                {
+                   <text><tr class="success">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BookingName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GroomName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BrideName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SpecialRequest)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Payment)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PayAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ServiceStatu.StatusName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("CreateCRM", "GenerateCRMForm", new { id = item.Id })
+                        </td>
+                    </tr>
+                    </text>
+                }
+                else
+                {
+                    <text><tr>
+                        <td>
+                        @Html.DisplayFor(modelItem => item.BookingName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GroomName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BrideName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SpecialRequest)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Payment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PayAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ServiceStatu.StatusName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Cancel", "", new { id = item.Id })
+                    </td>
+                </tr>
+                    </text>
+                }
+
+            }
+        </tbody>
+    </table>*@
+
+<table class="table table-responsive">
+    <tr>
+        <td class="col-lg-6 col-md-6">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h4><label class="label label-primary">รายการให้บริการถ่ายรูปก่อนพิธีแต่งงาน</label></h4>
+                </div>
+                    <div class="panel-body">
+                        @(Html.Kendo().Grid<NicePictureStudio.Models.ServiceFormsGridViewModel>()
+                            .Name("ServiceFormsPreWeddingGrid")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(p => p.BookingNumber).Filterable(false).Width(130).Title("หมายเลขการจอง");
+                                columns.Bound(p => p.CustomerName).Width(120).Title("ชื่อลูกค้า");
+                                columns.Bound(p => p.EventStart).Format("{0:MM/dd/yyyy HH:mm:ss}").Width(100).Title("เริ่มพิธี");
+                                columns.Bound(p => p.EventEnd).Format("{0:MM/dd/yyyy HH:mm:ss}").Width(100).Title("ถึงเวลา");
+                                columns.Bound(p => p.Place).Title("สถานที่ในการถ่ายภาพ");
+                                //columns.Bound(p => p.Status).Title("สถานะ").ClientTemplate(
+                                //     "# if (ServiceStatus == 'Complete') { #" +
+                                //         "<strong>#: ServiceStatus #</strong>" +
+                                //     "# } else { #" +
+                                //           "#: ServiceStatus #" +
+                                //     "# } #"
+                                //    );
+                                //columns.Template(p=> @Html.ActionLink("Edit", "Edit","Bookings", new { id = p.Id }));
+                                //columns.Bound(p => p.Id).Title("").ClientTemplate(@Html.ActionLink("Edit", "Edit", "Services", new { id = "#=Id#" }, null).ToHtmlString());
+                            })
+                            .Pageable()
+                            .Sortable()
+                            .Scrollable()
+                                                        //.Filterable()
+                            .HtmlAttributes(new { style = "height:450px;width:650px" })
+                                  .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .PageSize(50)
+                                        .ServerOperation(true)
+                                            .Read(read => read.Action("Service_PreWedding_Read", "Services"))
+                             )
+                        )
+
+                    </div>
+                </div>
+            </td>
+            <td>
+               <div class="form-horizontal">
+                   <div class="form-group-lg">
+                       
+                       <div>
+                           @(Html.Kendo().Chart().Name("PreWeddingChart")
+                                .Title(title => title
+                                .Text("รายการให้บริการถ่ายภาพก่อนแต่งงาน")
+                                .Position(ChartTitlePosition.Bottom))
+                                .Legend(legend => legend
+                                .Visible(false)
+                                )
+                                .Series(series =>
+                                {
+                                    series.Pie(new dynamic[] {
+                                new {category="รอการให้บิรการ",value=1,color="#E32636"},
+                                new {category="เสร็จสิ้นการให้บริการ",value=2,color="#068c35"},
+                                new {category="ยกเลิกการให้บริการ",value=1,color="#FFBF00"}
+                                })
+                                    .Labels(labels => labels
+                                    .Template("#= category #: \n #= value#")
+                                    .Background("transparent")
+                                    .Visible(true)
+                                    )
+                                    .StartAngle(150);
+                                })
+                                .Tooltip(tooltip => tooltip
+                                .Visible(true)
+                                .Format("{0}"))
+                                .ChartArea(x => x.Width(500))
+                           )
+                       </div>
+                       <hr />
+                       <div class="form-group-sm col-sm-6">
+                           <div>@Html.Label("ช่วงเวลาเริ่มต้น")</div>
+                           <div>@Html.Kendo().DateTimePicker().Name("PreWeddingDatetimeStart").Min(DateTime.Now.AddYears(-1)).Value(DateTime.Now.AddDays(-7))</div>
+                       </div>
+                       <div class="form-group-sm col-sm-6">
+                           <div>@Html.Label("ช่วงเวลาสิ้นสุด")</div>
+                           <div>@Html.Kendo().DateTimePicker().Name("PreWeddingDatetimeEnd").Min(DateTime.Now.AddYears(-1)).Value(DateTime.Now)</div>
+                       </div>
+                      
+                      
+                   </div>
+               </div>
+              
+            </td>
+        </tr>
+        <tr>
+            <td class="col-lg-6 col-md-6">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h4> <label class="label label-primary">รายการให้บริการถ่ายรูปก่อนพิธีหมั้น</label></h4>
+                    </div>
+                    <div class="panel-body">
+                    @(Html.Kendo().Grid<NicePictureStudio.Models.ServiceFormsGridViewModel>()
+                            .Name("ServiceFormsEngagementGrid")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(p => p.BookingNumber).Filterable(false).Width(130).Title("หมายเลขการจอง");
+                                columns.Bound(p => p.CustomerName).Width(120).Title("ชื่อลูกค้า");
+                                columns.Bound(p => p.EventStart).Format("{0:MM/dd/yyyy HH:mm:ss}").Width(100).Title("เริ่มพิธี");
+                                columns.Bound(p => p.EventEnd).Format("{0:MM/dd/yyyy HH:mm:ss}").Width(100).Title("ถึงเวลา");
+                                columns.Bound(p => p.Place).Title("สถานที่ในการถ่ายภาพ");
+                                //columns.Bound(p => p.Status).Title("สถานะ").ClientTemplate(
+                                //     "# if (ServiceStatus == 'Complete') { #" +
+                                //         "<strong>#: ServiceStatus #</strong>" +
+                                //     "# } else { #" +
+                                //           "#: ServiceStatus #" +
+                                //     "# } #"
+                                //    );
+                                //columns.Template(p=> @Html.ActionLink("Edit", "Edit","Bookings", new { id = p.Id }));
+                                //columns.Bound(p => p.Id).Title("").ClientTemplate(@Html.ActionLink("Edit", "Edit", "Services", new { id = "#=Id#" }, null).ToHtmlString());
+                            })
+                            .Pageable()
+                            .Sortable()
+                            .Scrollable()
+                                                    //.Filterable()
+                            .HtmlAttributes(new { style = "height:450px;width:650px" })
+                                  .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .PageSize(50)
+                                        .ServerOperation(true)
+                                                .Read(read => read.Action("Service_Engagement_Read", "Services"))
+                             )
+                                            )
+                    </div>
+                    </div>
+                </td>
+            
+            <td>
+                <div class="form-horizontal">
+                    <div class="form-group-lg">
+
+                        <div>
+                            @(Html.Kendo().Chart().Name("EngagementChart")
+                                .Title(title => title
+                                .Text("รายการให้บริการถ่ายภาพพิธีหมั้น")
+                                .Position(ChartTitlePosition.Bottom))
+                                .Legend(legend => legend
+                                .Visible(false)
+                                )
+                                .Series(series =>
+                                {
+                                    series.Pie(new dynamic[] {
+                                new {category="สร้างใหม่",value=53.8,color="#9de219"},
+                                new {category="รอการให้บิรการ",value=16.1,color="#90cc38"},
+                                new {category="เสร็จสิ้นการให้บริการ",value=11.3,color="#068c35"},
+                                new {category="ยกเลิกการให้บริการ",value=9.6,color="#006634"}
+                                })
+                                    .Labels(labels => labels
+                                    .Template("#= category #: \n #= value#%")
+                                    .Background("transparent")
+                                    .Visible(true)
+                                    )
+                                    .StartAngle(150);
+                                })
+                                .Tooltip(tooltip => tooltip
+                                .Visible(true)
+                                .Format("{0}%")
+                                )
+                            )
+                        </div>
+                        <hr />
+                        <div class="form-group-sm col-sm-6">
+                            <div>@Html.Label("ช่วงเวลาเริ่มต้น")</div>
+                            <div>@Html.Kendo().DateTimePicker().Name("EngagementDatetimeStart").Min(DateTime.Now.AddYears(-1)).Value(DateTime.Now.AddDays(-7))</div>
+                        </div>
+                        <div class="form-group-sm col-sm-6">
+                            <div>@Html.Label("ช่วงเวลาสิ้นสุด")</div>
+                            <div>@Html.Kendo().DateTimePicker().Name("EngagementDatetimeEnd").Min(DateTime.Now.AddYears(-1)).Value(DateTime.Now)</div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+            <td class="col-lg-6 col-md-6">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h4> <label class="label label-primary">รายการให้บริการถ่ายรูปพิธีแต่งงาน</label></h4>
+                    </div>
+                    <div class="panel-body">
+                        @(Html.Kendo().Grid<NicePictureStudio.Models.ServiceFormsGridViewModel>()
+                            .Name("ServiceFormsWeddingGrid")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(p => p.BookingNumber).Filterable(false).Width(130).Title("หมายเลขการจอง");
+                                columns.Bound(p => p.CustomerName).Width(120).Title("ชื่อลูกค้า");
+                                columns.Bound(p => p.EventStart).Format("{0:MM/dd/yyyy HH:mm:ss}").Width(100).Title("เริ่มพิธี");
+                                columns.Bound(p => p.EventEnd).Format("{0:MM/dd/yyyy HH:mm:ss}").Width(100).Title("ถึงเวลา");
+                                columns.Bound(p => p.Place).Title("สถานที่ในการถ่ายภาพ");
+                                //columns.Bound(p => p.Status).Title("สถานะ").ClientTemplate(
+                                //     "# if (ServiceStatus == 'Complete') { #" +
+                                //         "<strong>#: ServiceStatus #</strong>" +
+                                //     "# } else { #" +
+                                //           "#: ServiceStatus #" +
+                                //     "# } #"
+                                //    );
+                                //columns.Template(p=> @Html.ActionLink("Edit", "Edit","Bookings", new { id = p.Id }));
+                                //columns.Bound(p => p.Id).Title("").ClientTemplate(@Html.ActionLink("Edit", "Edit", "Services", new { id = "#=Id#" }, null).ToHtmlString());
+                            })
+                            .Pageable()
+                            .Sortable()
+                            .Scrollable()
+                                                        //.Filterable()
+                            .HtmlAttributes(new { style = "height:450px;width:650px" })
+                                  .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .PageSize(50)
+                                        .ServerOperation(true)
+                                                .Read(read => read.Action("Service_Wedding_Read", "Services"))
+                             )
+                          )
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-horizontal">
+                    <div class="form-group-lg">
+
+                        <div>
+                            @(Html.Kendo().Chart().Name("WeddingChart")
+                                .Title(title => title
+                                .Text("รายการให้บริการถ่ายภาพพิธีแต่งงาน")
+                                .Position(ChartTitlePosition.Bottom))
+                                .Legend(legend => legend
+                                .Visible(false)
+                                )
+                                .Series(series =>
+                                {
+                                    series.Pie(new dynamic[] {
+                                new {category="สร้างใหม่",value=53.8,color="#9de219"},
+                                new {category="รอการให้บิรการ",value=16.1,color="#90cc38"},
+                                new {category="เสร็จสิ้นการให้บริการ",value=11.3,color="#068c35"},
+                                new {category="ยกเลิกการให้บริการ",value=9.6,color="#006634"}
+                                })
+                                    .Labels(labels => labels
+                                    .Template("#= category #: \n #= value#%")
+                                    .Background("transparent")
+                                    .Visible(true)
+                                    )
+                                    .StartAngle(150);
+                                })
+                                .Tooltip(tooltip => tooltip
+                                .Visible(true)
+                                .Format("{0}%")
+                                )
+                            )
+                        </div>
+                        <hr />
+                        <div class="form-group-sm col-sm-6">
+                            <div>@Html.Label("ช่วงเวลาเริ่มต้น")</div>
+                            <div>@Html.Kendo().DateTimePicker().Name("WeddingDatetimeStart").Min(DateTime.Now.AddYears(-1)).Value(DateTime.Now.AddDays(-7))</div>
+                        </div>
+                        <div class="form-group-sm col-sm-6">
+                            <div>@Html.Label("ช่วงเวลาสิ้นสุด")</div>
+                            <div>@Html.Kendo().DateTimePicker().Name("WeddingDatetimeEnd").Min(DateTime.Now.AddYears(-1)).Value(DateTime.Now)</div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+    </table>
+
+                   
+
+                    
+
+                    
+
+<div><h3>การสร้างแบบประเมินคงามพึงพอใจลูกค้า</h3></div>
+                    @(Html.Kendo().Grid<NicePictureStudio.Models.ServiceGridViewModel>()
+                        .Name("srvGrid")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(p => p.BookingName).Filterable(false).Width(100).Title("ชื่อคนจอง");
+                            columns.Bound(p => p.GroomName).Width(150);
+                            columns.Bound(p => p.BrideName).Format("{0:MM/dd/yyyy}").Width(140);
+                            columns.Bound(p => p.Payment);
+                            columns.Bound(p => p.PayAmount).Width(150);
+                            columns.Bound(p => p.CustomerName);
+                            columns.Bound(p => p.ServiceStatus).Title("Status").ClientTemplate(
+                                 "# if (ServiceStatus == 'Complete') { #" +
+                                     "<strong>#: ServiceStatus #</strong>" +
+                                 "# } else { #" +
+                                       "#: ServiceStatus #" +
+                                 "# } #"
+                                );
+                            //columns.Template(p=> @Html.ActionLink("Edit", "Edit","Bookings", new { id = p.Id }));
+                            columns.Bound(p => p.Id).Title("Action").ClientTemplate(@Html.ActionLink("สร้างแบบประเมิน", "Edit", "Services", new { id = "#=Id#" }, null).ToHtmlString());
+                        })
+                        .Pageable()
+                        .Sortable()
+                        .Scrollable()
+                        .Filterable()
+                        .HtmlAttributes(new { style = "height:730px;" })
+                              .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    .PageSize(50)
+                                    .ServerOperation(true)
+                                    .Read(read => read.Action("Services_read", "Services"))
+                         )
+                    )

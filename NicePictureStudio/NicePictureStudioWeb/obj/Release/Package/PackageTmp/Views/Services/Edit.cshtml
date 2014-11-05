@@ -1,0 +1,508 @@
+﻿@model NicePictureStudio.Models.ServicesViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#tblCustomerFromService").hide();
+        $("#PreWeddingFormSection").hide();
+        $("#delPreWedService").hide();
+        $(function () {
+            $(".autocomplete-with-hidden").autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    var url = $(this.element).data("url");
+
+                    $.getJSON(url, { term: request.term }, function (data) {
+                        response(data);
+                    })
+                },
+                select: function (event, ui) {
+                    $(event.target).next("input[type=hidden]").val(ui.item.id);
+                },
+                change: function (event, ui) {
+                    if (!ui.item) {
+                        $(event.target).val("").next("input[type=hidden]").val("");
+                    }
+                }
+            });
+        });
+
+        $(function () {
+            $(".autocomplete-with-hidden-booking").autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    var url = $(this.element).data("url");
+
+                    $.getJSON(url, { term: request.term }, function (data) {
+                        response(data);
+                    })
+                },
+                select: function (event, ui) {
+                    $(event.target).next("input[type=hidden]").val(ui.item.id);
+                    var orderUrl = '@Url.Action("GetSelectedSpecialRequest", "Services")'
+                    $.getJSON(orderUrl, { bookingId: ui.item.id }, function (data) {
+                        var multiselect = $("#BookingSpecialRequests").data("kendoMultiSelect")
+                        multiselect.dataSource.filter({});
+                        multiselect.value(data);
+                    })
+
+                },
+                change: function (event, ui) {
+                    if (!ui.item) {
+                        $(event.target).val("").next("input[type=hidden]").val("");
+                    }
+                }
+            });
+        });
+
+        $("#btnSaveEditAll").on("click", function () {
+            event.preventDefault();
+            var url = '@Url.Action("SaveAllDocumentWhenEdit", "Services")';
+            $.ajax({
+                url: url,
+                type: "POST",
+                success: function (data) { $("#SaveEditFormSection").replaceWith(data); }
+            })
+        });
+
+        //New Section of NavPattern Code
+        $("#NavigateFormGenerate").click(function () {
+            var url = $('#NavPattern').data('url');
+            $.get(url, null, function (data) {
+                $("#NavPatternBody").html(data);
+                $("#NavPattern").modal('show');
+            });
+        });
+
+
+        $("#BookingId").val('@ViewBag.BookingId');
+    });
+
+    @*function AddPreWeddingService() {
+        $("#delPreWedService").show();
+    }
+
+    function RemovePreWeddingService() {
+        $("#delPreWedService").hide();
+        $.ajax({
+            url: '@Url.Action("RemovePreWeddingService", "Services")',
+            type: "GET",
+            success: function (data) { $("#PreWeddingFormSection").replaceWith(data); }
+        });
+    }*@
+
+    function DisableNav(id)
+    {
+        $("#NavPattern").modal('hide');
+    }
+
+    function toggle_visibility(id) {
+        var e = document.getElementById(id);
+        if (e.style.display == 'block' || e.style.display == '') {
+            e.style.display = 'none';
+        }
+        else {
+            e.style.display = 'block';
+        }
+    }
+</script>
+
+
+
+<h2>แก้ไขในส่วนของ ข้อมูลลูกค้า</h2>
+<br />
+<h5>เพราะลูกค้าคือสิ่งสำคัญที่สุด เราจึงต้องสร้างผลงานที่ดีที่สุด</h5>
+<div id="ServiceFormMain">
+    <table class="table table-responsive">
+        <tr>
+            <td>
+                <div class="form-horizontal container-fluid">
+                    <div class="form-group">
+                        <a href="#" class="img-rounded">
+                            <img src="@Url.Content("~/Content/images/PhotoGraph/Cover/BookingCover5.jpg")" class="img-thumbnail" style="height:400px" />
+                        </a>
+                    </div>
+                </div>
+            <td>
+                <div class="form-horizontal container-fluid">
+                    <div class="form-group">
+                        <a href="#" class="img-rounded">
+                            <img src="@Url.Content("~/Content/images/PhotoGraph/Cover/BookingCover6.jpg")" class="img-thumbnail" style="height:400px" />
+                        </a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <!-- Create Customer Form Section-->
+    <table class="table table-responsive">
+        <tr>
+            <td>
+                <button id="togCreateCustomer" type="button" class="btn btn-default" onclick="toggle_visibility('tblCustomerFromService')"><span class="glyphicon glyphicon-plus-sign"></span>Create Customer Information</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="container" id="tblCustomerFromService">
+                    @Html.Partial("EditCustomerFromServiceWhenEdit", @Model.Customer)
+                </div>
+            </td>
+        </tr>
+
+    </table>
+    <!-- Service Main Section -->
+    <table class="table">
+        <tr>
+            <td class="col-md-6">
+                <div id="MainSection">
+                    @using (@Ajax.BeginForm("Edit", "Services", new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "MainSection"
+                }
+                ))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <h4>Service</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                @Html.Label("หมายเลขการจอง", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.BookingName, new { @class = "autocomplete-with-hidden form-control-booking", data_url = Url.Action("GetListForBookingAutocomplete", "Services"), placeholder = "..กรุณากรอกหมายเลขการจอง..." })
+                                    @Html.Hidden("BookingId")
+                                    @Html.ValidationMessageFor(model => model.BookingName)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("ชื่อเจ้าบ่าว*", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.GroomName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForGroomNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าบ่าว..." })
+                                    @Html.ValidationMessageFor(model => model.GroomName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("ชื่อเจ้าสาว*", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.BrideName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForBrideNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าสาว..." })
+                                    @*@Html.EditorFor(model => model.BrideName, new { htmlAttributes = new { @class = "form-control" } })*@
+                                    @Html.ValidationMessageFor(model => model.BrideName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("คำขอพิเศษ", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @(Html.Kendo().MultiSelect()
+                                     .Name("BookingSpecialRequests")
+                               .BindTo(@ViewBag.SpecialOrder as MultiSelectList).HtmlAttributes(new { @Style = "width:200px", @id = "BookingSpecialRequests" }).Value(@ViewBag.SelectedSpecialOrder as MultiSelectList))
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("บริการให้คำแนะนำ", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @(Html.Kendo().MultiSelect()
+                                      .Name("ServiceSuggestions")
+                              .BindTo(@ViewBag.SuggestionService as MultiSelectList).HtmlAttributes(new { @Style = "width:200px", @id = "ServiceSuggestions" }).Value(@ViewBag.SelectedSuggestion as MultiSelectList)
+                                    )
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("หมายเหตุ", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.TextAreaFor(model => model.SpecialRequest, new { @class = "form-control", @rows = "5" })
+                                    @Html.ValidationMessageFor(model => model.SpecialRequest, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                @Html.LabelFor(model => model.SpecialRequest, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.TextAreaFor(model => model.SpecialRequest, new { @class = "form-control", @rows = "5" })
+                                    @Html.ValidationMessageFor(model => model.SpecialRequest, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Payment, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.Payment, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Payment, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PayAmount, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.PayAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.PayAmount, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+
+                            <div class="form-group">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <input type="submit" value="บันทึก" class="btn btn-default" />
+                                    <input type="reset" value="ล้างข้อมูล" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </td>
+            <td>
+                <div class="form-horizontal container-fluid">
+                    <div class="form-group">
+                        <a href="#" class="img-rounded">
+                            <img src="@Url.Content("~/Content/images/PhotoGraph/Cover/BookingCover7.jpg")" class="img-thumbnail" />
+                        </a>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="SaveFormSection"><br /> </div>
+                        <div id="CreateReportSection"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="panel panel-default">
+                    <div class="panel panel-heading">สร้างรายการให้บริการ</div>
+                    <div class="panel-body">
+                        <button type="button" id="NavigateFormGenerate" class=" btn btn-default"><span class="glyphicon glyphicon-adjust">สร้างรายการให้บริการ</span></button>
+                        @*<button type="button" id="btnSaveEditAll" class="btn btn-primary"><span class="glyphicon glyphicon-star"></span>Save All</button>
+                         <button type="button" id="btnGenReport" class="btn btn-default disabled"><span class="glyphicon glyphicon-star"></span>Generate Report</button>
+                         <button type="reset" id="btnResetForm" class="btn btn-default disabled">Cancel</button>*@
+                    </div>
+                    <br/>
+                <div class="panel-body">
+                    <div id="Summary">
+                        <div class="col-md-8 col-lg-6">
+                            @{Html.RenderAction("TableServices", "Services", new { serviceId = @Model.Id });}
+                        </div>
+                        <div class="col-md-4 col-lg-6">
+                            <div id="divServicesTotalPriceSection">
+                                <div>Summary</div>
+                                <div class="container-fluid">
+                                    @using (@Ajax.BeginForm("CalculateServiceOverallWhenEdit", "Services", new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        InsertionMode = InsertionMode.Replace,
+                                        UpdateTargetId = "divServicesTotalPriceSection"
+                                    }))
+                                    {
+                                        <div class="form-horizontal">
+                                            <div class="form-group-sm">
+
+                                                <label id="lblEstimateContext" class="control-label col-sm-6">ค่าใช้จ่ายเบื้องต้น</label>
+
+                                                <div class="col-sm-6">
+                                                    <label id="lblEstimateCost" class="control-label"> 0.00</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group-sm">
+
+                                                <label id="lblPromotionContext" class="control-label col-sm-6">โปรโมชั่นที่เลือกไว้</label>
+
+                                                <div class="col-md-6">
+                                                    <label id="lblPromotionSelected" class="control-label"> - </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group-sm">
+
+                                                <label id="lblPromotionDiscountContext" class="control-label col-sm-6">ส่วนลด </label>
+
+                                                <div class="col-md-6">
+                                                    <label id="lblPromotionDiscount" class="control-label"> 0.00% </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group-sm">
+
+                                                <label id="lblTotalCostContext" class="control-label col-sm-6">ค่าใช้จ่ายก่อนหักภาษี </label>
+
+                                                <div class="col-md-6">
+                                                    <label id="lblTotalCost" class="control-label">0.00</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group-sm">
+
+                                                <label class="control-label col-sm-6">ภาษี </label>
+
+                                                <div class="col-md-6">
+                                                    <label class="control-label">10%</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group-sm">
+
+                                                <label id="lblTotalWithTAXContext" class="control-label col-sm-6">ราคารวม </label>
+
+                                                <div class="col-md-6">
+                                                    <label id="lblTotalCostWithTAX" class="control-label"> 0.00</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-content">
+                                                <div class="col-md-12">
+                                                    <br />
+                                                    <input class="btn-primary" type="submit" id="btnCalculateTotalPrice" name="btnCalculateTotalPrice" value="คำนวณค่าใช้จ่าย" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+<!-- Modal service pattern -->
+<div class="modal fade" id="NavPattern" tabindex="-1" role="dialog"
+     aria-labelledby="NavService" aria-hidden="true" data-url='@Url.Action("ServicesNavigationOverallWhenEditNew", "Services")' data-servicetype="">
+    <div class="modal-dialog modal-lg" style="width:90%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="NavModelPattern">
+                    Welcome to NicePictureStudio Services :)
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="NavPatternBody"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancelPattern" type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@*<table class="table table-bordered">
+    <tr>
+        <td><button id="togPreWedService" type="button" class="btn btn-default btn" onclick="toggle_visibility('PreWeddingFormSection')"><span class="glyphicon glyphicon-briefcase"></span>PreWedding Service</button></td>
+        <td><button id="delPreWedService" type="button" class="btn btn-warning right" onclick="RemovePreWeddingService()"><span class="glyphicon glyphicon-remove-sign"></span>RemovePreWeddingService</button></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div>
+                @if (@Model.ServiceFormPreWedding.ServiceForm == null)
+                {
+                    <div id="PreWeddingFormSection">
+                        @using (@Ajax.BeginForm("CreateServiceFormFromServiceWhenEdit", "Services", new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "PreWeddingFormSection" }))
+                        {
+                            <div id="bthPreWedding">
+                                <button type="submit" id="btnPreWedding" name="Command" value="PreWedding" onclick="AddPreWeddingService()"> Add PreWedding Service </button>
+                            </div>
+                        }
+
+                    </div>
+                }
+                else
+                {
+                    <div id="PreWeddingFormSection">
+                        @Html.Action("CreateServiceFormFromServiceWhenEdit", "Services", new { serviceForm = @Model.ServiceFormPreWedding.ServiceForm, Command = "PreWedding" })
+                    </div>
+                }
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table table-bordered">
+    <tr>
+        <td>
+            <button id="togEngagementService" type="button" class="btn btn-default" onclick="toggle_visibility('EngagementFormSection')"><span class=" glyphicon glyphicon-bullhorn"></span>Engagement Service</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div>
+                @if (@Model.ServiceFormEngagement.ServiceForm == null)
+                {
+                    <div id="EngagementFormSection">
+                        @using (@Ajax.BeginForm("CreateServiceFormFromServiceWhenEdit", "Services", new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "EngagementFormSection" }))
+                        {
+                            <div id="bthPreWedding">
+                                <button type="submit" id="btnEngagement" name="Command" value="Engagement"> Add Engagement Service </button>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div id="EngagementFormSection">
+                        @{Html.RenderAction("CreateServiceFormFromServiceWhenEdit", new { serviceForm = @Model.ServiceFormEngagement.ServiceForm, Command = "Engagement" });}
+                    </div>
+                }
+            </div>
+        </td>
+    </tr>
+</table>
+
+<table class="table table-bordered">
+    <tr>
+        <td>
+            <button id="togWeddingService" type="button" class="btn btn-default" onclick="toggle_visibility('WeddingFormSection')"><span class="glyphicon glyphicon-star"></span>Wedding Service</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div>
+                @if (@Model.ServiceFormWedding.ServiceForm == null)
+                {
+                    <div id="WeddingFormSection">
+                        @using (@Ajax.BeginForm("CreateServiceFormFromServiceWhenEdit", "Services", new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "WeddingFormSection"
+                }))
+                        {
+                            <div id="bthPreWedding">
+                                <button type="submit" id="btnPreWedding" name="Command" value="Wedding"> Add PreWedding Service </button>
+                            </div>
+                        }
+
+                    </div>
+                }
+                else
+                {
+                    <div id="WeddingFormSection">
+                        @Html.Action("CreateServiceFormFromServiceWhenEdit", "Services", new { serviceForm = @Model.ServiceFormWedding.ServiceForm, Command = "Wedding" })
+                    </div>
+                }
+            </div>
+        </td>
+    </tr>
+</table>*@

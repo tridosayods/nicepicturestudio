@@ -1,0 +1,120 @@
+﻿@model NicePictureStudio.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new account.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <!--Update from NicePictureStudio-->
+
+    <div class="form-group">
+        <div>@Html.Label("คำนำหน้า", htmlAttributes: new { @class = "control-label col-md-2" })</div>
+        <div class="col-md-8">
+            @Html.Kendo().DropDownList().Name("EmployeeTitle").BindTo(new string[] { "นาย", "นางสาว", "นาง" }).HtmlAttributes(new { @Style = "width:100px", @id = "EmployeeTitle" }).SelectedIndex(0)
+            @Html.ValidationMessage("EmployeeTitle", "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("นามสกุล", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("EmployeeSurname",null, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("ชื่อเล่น", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBox("EmployeeNickname",null, new { @class = "form-control" })
+        </div>
+    </div>
+
+
+    @*<div class="form-group">
+        @Html.LabelFor(m => m.ManagerId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ManagerId, new { @class = "form-control" })
+        </div>
+    </div>*@
+    <div class="form-group">
+            @Html.LabelFor(m => m.ManagerId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.ManagerId, Model.SupervisorList.Select(h => new SelectListItem { Text = h.Name, Value = h.Id }), "Please Select Supervisor", new { @class = "form-contorl" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("ประเภท", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @*@Html.TextBoxFor(m => m.Position, new { @class = "form-control" })*@
+            @Html.Kendo().DropDownList().Name("Position").BindTo(new string[] { "พนักงานประจำ", "พนักงานชั่วคราว" }).HtmlAttributes(new { @Style = "width:100px", @id = "Position" }).SelectedIndex(0)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("ตำแหน่ง", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @*@Html.TextBoxFor(m => m.Position, new { @class = "form-control" })*@
+            @Html.Kendo().DropDownList().Name("PositionList").BindTo(@ViewBag.Position as SelectList).HtmlAttributes(new { @id = "PositionList" }).SelectedIndex(0)
+        </div>
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.StartDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Specialability, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Specialability, new { @class = "form-control" })
+        </div>
+    </div>
+    <!--Update from NicePictureStudio-->
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

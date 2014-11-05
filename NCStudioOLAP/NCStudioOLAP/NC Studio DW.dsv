@@ -1,0 +1,206 @@
+﻿<DataSourceView xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="8e69c437-da60-45d1-8f14-fa8dd938d151" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <ID>NC Studio DW</ID>
+  <Name>NC Studio DW</Name>
+  <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+  <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+  <Annotations>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowFriendlyNames</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:CurrentLayout</Name>
+      <Value>_ALL_TABLES_</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:SchemaRestriction</Name>
+      <Value></Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:RetrieveRelationships</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:Layouts</Name>
+      <Value>
+        <Layouts xmlns="">
+          <Diagram>
+            <Name>_ALL_TABLES_</Name>
+            <DiagramLayout />
+            <ShowRelationshipNames>False</ShowRelationshipNames>
+            <UseDiagramDefaultLayout>True</UseDiagramDefaultLayout>
+            <DiagramViewPortLeft>0</DiagramViewPortLeft>
+            <DiagramViewPortTop>0</DiagramViewPortTop>
+            <DiagramBoundingLeft>0</DiagramBoundingLeft>
+            <DiagramBoundingTop>0</DiagramBoundingTop>
+            <DiagramZoom>100</DiagramZoom>
+          </Diagram>
+        </Layouts>
+      </Value>
+    </Annotation>
+  </Annotations>
+  <DataSourceID>NC Studio DW</DataSourceID>
+  <Schema>
+    <xs:schema id="NC_x0020_Studio_x0020_DW" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop">
+      <xs:element name="NC_x0020_Studio_x0020_DW" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:design-time-name="3fa0f520-8e31-4aa0-a92f-1b51479187b0">
+        <xs:complexType>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="dbo_PerformanceFacts" msprop:FriendlyName="PerformanceFacts" msprop:DbSchemaName="dbo" msprop:DbTableName="PerformanceFacts" msprop:design-time-name="daa59502-6aac-4702-b359-add9c00a7067" msprop:TableType="Table">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="TimeId" msprop:FriendlyName="TimeId" msprop:DbColumnName="TimeId" msprop:design-time-name="433df391-7fc1-4bce-a3d0-f5cab98b3522" type="xs:int" />
+                  <xs:element name="PromotionId" msprop:FriendlyName="PromotionId" msprop:DbColumnName="PromotionId" msprop:design-time-name="e95cf098-fad3-4af2-9f31-73433b35443f" type="xs:int" />
+                  <xs:element name="SatisfactionId" msprop:FriendlyName="SatisfactionId" msprop:DbColumnName="SatisfactionId" msprop:design-time-name="100b219e-9036-45d1-a010-8811304c07f1" type="xs:int" />
+                  <xs:element name="PhotoGrapherId" msprop:FriendlyName="PhotoGrapherId" msprop:DbColumnName="PhotoGrapherId" msprop:design-time-name="f3c1726b-caf9-42cf-8cfa-87cf78fda616" type="xs:int" />
+                  <xs:element name="ServiceTypeId" msprop:FriendlyName="ServiceTypeId" msprop:DbColumnName="ServiceTypeId" msprop:design-time-name="9850d50c-9164-4fbe-8cb9-78fc27522b4b" type="xs:int" />
+                  <xs:element name="ApprisalScore" msprop:FriendlyName="ApprisalScore" msprop:DbColumnName="ApprisalScore" msprop:design-time-name="8dc060b9-2bec-49f2-a3a5-2f8b9bfc8026" type="xs:int" minOccurs="0" />
+                  <xs:element name="ProfitPercent" msprop:FriendlyName="ProfitPercent" msprop:DbColumnName="ProfitPercent" msprop:design-time-name="1e962cdc-8785-4c7b-80c9-075f5d32d863" type="xs:int" minOccurs="0" />
+                  <xs:element name="SaleAmount" msprop:FriendlyName="SaleAmount" msprop:DbColumnName="SaleAmount" msprop:design-time-name="805e4629-1ab9-49ee-84b4-2b553773fe36" type="xs:int" minOccurs="0" />
+                  <xs:element name="CostAmount" msprop:FriendlyName="CostAmount" msprop:DbColumnName="CostAmount" msprop:design-time-name="984308f5-1f0e-4784-b485-fbaddaac7ea0" type="xs:int" minOccurs="0" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="dbo_DimensionSatisfaction" msprop:FriendlyName="DimensionSatisfaction" msprop:DbSchemaName="dbo" msprop:DbTableName="DimensionSatisfaction" msprop:design-time-name="81bcf914-53e7-4642-940a-6ab2a3bb1c23" msprop:TableType="Table">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="SatisfactionId" msprop:FriendlyName="SatisfactionId" msprop:DbColumnName="SatisfactionId" msprop:design-time-name="9bc97d1f-8322-48d6-a759-1dcfb3e4c74c" type="xs:int" />
+                  <xs:element name="BestScore" msprop:FriendlyName="BestScore" msprop:DbColumnName="BestScore" msprop:design-time-name="3e805504-401d-4213-974f-da8d50556d18" type="xs:int" minOccurs="0" />
+                  <xs:element name="WorseScore" msprop:FriendlyName="WorseScore" msprop:DbColumnName="WorseScore" msprop:design-time-name="c50a525e-ebe6-402b-9297-6c07b7fe2768" type="xs:int" minOccurs="0" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="dbo_DimensionPromotion" msprop:FriendlyName="DimensionPromotion" msprop:DbSchemaName="dbo" msprop:DbTableName="DimensionPromotion" msprop:design-time-name="1ca8399d-6fea-4267-b63c-ef08655812ad" msprop:TableType="Table">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="PromotionId" msprop:FriendlyName="PromotionId" msprop:DbColumnName="PromotionId" msprop:design-time-name="ff8119de-614c-40e3-a991-e4d17b83559c" type="xs:int" />
+                  <xs:element name="SalePerson" msprop:FriendlyName="SalePerson" msprop:DbColumnName="SalePerson" msprop:design-time-name="65dd558b-ce49-4dc4-b2e6-b2de3565c74b" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="50" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="PromotionType" msprop:FriendlyName="PromotionType" msprop:DbColumnName="PromotionType" msprop:design-time-name="376be7fa-21aa-46a6-b482-14f36a67393f" type="xs:int" minOccurs="0" />
+                  <xs:element name="Profit" msprop:FriendlyName="Profit" msprop:DbColumnName="Profit" msprop:design-time-name="9826694c-85a3-4e0e-a735-a83b47a2b615" type="xs:int" minOccurs="0" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="dbo_DimensionTime" msprop:FriendlyName="DimensionTime" msprop:DbSchemaName="dbo" msprop:DbTableName="DimensionTime" msprop:design-time-name="04c32538-dab1-47cd-b9d4-a3d5f8625759" msprop:TableType="Table">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="TimeId" msprop:FriendlyName="TimeId" msprop:DbColumnName="TimeId" msprop:design-time-name="162d49e9-83de-4d38-840b-062f0663f6e6" type="xs:int" />
+                  <xs:element name="Year" msprop:FriendlyName="Year" msprop:DbColumnName="Year" msprop:design-time-name="6ae84b94-cda1-437d-97dd-2f7b8a58dab8" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="4" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="Quarter" msprop:FriendlyName="Quarter" msprop:DbColumnName="Quarter" msprop:design-time-name="5a0291c7-424c-4626-869d-1ab255c350d4" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="1" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="Month" msprop:FriendlyName="Month" msprop:DbColumnName="Month" msprop:design-time-name="b7203894-199a-4b0f-909d-473b572ca1e3" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="2" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="dbo_DimensionServiceType" msprop:FriendlyName="DimensionServiceType" msprop:DbSchemaName="dbo" msprop:DbTableName="DimensionServiceType" msprop:design-time-name="f4e6abc6-5908-4be6-9dbf-3f3ff90d4b3a" msprop:TableType="Table">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="ServiceTypeId" msprop:FriendlyName="ServiceTypeId" msprop:DbColumnName="ServiceTypeId" msprop:design-time-name="80fd6348-67fe-40aa-8b64-b99f60a66c19" type="xs:int" />
+                  <xs:element name="ServiceType" msprop:FriendlyName="ServiceType" msprop:DbColumnName="ServiceType" msprop:design-time-name="13f7c6a2-fe9b-442b-8e72-e5dd42cdc66c" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="50" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="Cost" msprop:FriendlyName="Cost" msprop:DbColumnName="Cost" msprop:design-time-name="da694512-a5e7-41f8-bdfe-6f3e3cb089dd" type="xs:int" minOccurs="0" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="dbo_DimensionPhotoGrapher" msprop:FriendlyName="DimensionPhotoGrapher" msprop:DbSchemaName="dbo" msprop:DbTableName="DimensionPhotoGrapher" msprop:design-time-name="90f51b26-6e3b-4070-b1cf-049086794e4d" msprop:TableType="Table">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="PhotoGraphId" msprop:FriendlyName="PhotoGraphId" msprop:DbColumnName="PhotoGraphId" msprop:design-time-name="2919cb2b-029f-484a-8c53-322e4f66ebfa" type="xs:int" />
+                  <xs:element name="Name" msprop:FriendlyName="Name" msprop:DbColumnName="Name" msprop:design-time-name="3d60ac92-04ef-4158-9d6b-54f1639a216f" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="50" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="Skill" msprop:FriendlyName="Skill" msprop:DbColumnName="Skill" msprop:design-time-name="bf802069-050b-4803-95fa-6cc8c3c6635e" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="50" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+        <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//dbo_PerformanceFacts" />
+          <xs:field xpath="TimeId" />
+          <xs:field xpath="PromotionId" />
+          <xs:field xpath="SatisfactionId" />
+          <xs:field xpath="PhotoGrapherId" />
+          <xs:field xpath="ServiceTypeId" />
+        </xs:unique>
+        <xs:unique name="dbo_DimensionSatisfaction_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//dbo_DimensionSatisfaction" />
+          <xs:field xpath="SatisfactionId" />
+        </xs:unique>
+        <xs:unique name="dbo_DimensionPromotion_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//dbo_DimensionPromotion" />
+          <xs:field xpath="PromotionId" />
+        </xs:unique>
+        <xs:unique name="dbo_DimensionTime_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//dbo_DimensionTime" />
+          <xs:field xpath="TimeId" />
+        </xs:unique>
+        <xs:unique name="dbo_DimensionServiceType_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//dbo_DimensionServiceType" />
+          <xs:field xpath="ServiceTypeId" />
+        </xs:unique>
+        <xs:unique name="dbo_DimensionPhotoGrapher_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//dbo_DimensionPhotoGrapher" />
+          <xs:field xpath="PhotoGraphId" />
+        </xs:unique>
+        <xs:keyref name="FK_PerformanceFacts_DimensionSatisfaction" refer="dbo_DimensionSatisfaction_Constraint1">
+          <xs:selector xpath=".//dbo_PerformanceFacts" />
+          <xs:field xpath="SatisfactionId" />
+        </xs:keyref>
+        <xs:keyref name="FK_PerformanceFacts_DimensionPhotoGrapher" refer="dbo_DimensionPhotoGrapher_Constraint1">
+          <xs:selector xpath=".//dbo_PerformanceFacts" />
+          <xs:field xpath="PhotoGrapherId" />
+        </xs:keyref>
+        <xs:keyref name="FK_PerformanceFacts_DimensionServiceType" refer="dbo_DimensionServiceType_Constraint1">
+          <xs:selector xpath=".//dbo_PerformanceFacts" />
+          <xs:field xpath="ServiceTypeId" />
+        </xs:keyref>
+        <xs:keyref name="FK_PerformanceFacts_DimensionTime1" refer="dbo_DimensionTime_Constraint1">
+          <xs:selector xpath=".//dbo_PerformanceFacts" />
+          <xs:field xpath="TimeId" />
+        </xs:keyref>
+        <xs:keyref name="FK_PerformanceFacts_DimensionPromotion" refer="dbo_DimensionPromotion_Constraint1">
+          <xs:selector xpath=".//dbo_PerformanceFacts" />
+          <xs:field xpath="PromotionId" />
+        </xs:keyref>
+      </xs:element>
+    </xs:schema>
+    <diffgr:diffgram xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:diffgr="urn:schemas-microsoft-com:xml-diffgram-v1" />
+  </Schema>
+</DataSourceView>

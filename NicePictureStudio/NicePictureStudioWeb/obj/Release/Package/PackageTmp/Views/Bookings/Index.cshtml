@@ -1,0 +1,227 @@
+﻿@model IEnumerable<NicePictureStudio.App_Data.Booking>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2><span class="glyphicon glyphicon-book"></span>รายการจอง</h2>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<p class="bg-warning">&nbsp;</p>
+@*<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BookingCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AppointmentDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SpecialOrder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Details)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BookingStatu.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Promotion.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Service.BookingName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookingCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AppointmentDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpecialOrder)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Details)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookingStatu.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Promotion.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Service.BookingName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>*@
+<table class="table table-responsive table-striped">
+    <tr>
+        <td class="col-lg-6 col-md-6">
+            <div class="panel">
+                <div class="panel-heading">
+                    <label class="label label-danger">รายการจองที่ยังไม่ถูกยืนยัน</label>
+                </div>
+                <div class="panel-body">
+                    @(Html.Kendo().Grid<NicePictureStudio.Models.BookingViewsModel>()
+                .Name("bookGridDanger")
+                .Columns(columns =>
+                {
+                    columns.Bound(p => p.Name).Filterable(false).Width(120).Title("ชื่อผู้จอง");
+                    columns.Bound(p => p.BookingCode).Width(70).Title("รหัส");
+                    columns.Bound(p => p.AppointmentDate).Format("{0:MM/dd/yyyy}").Width(100).Title("วันนัดจอง");
+                    //columns.Bound(p => p.SpecialOrder);
+                    columns.Bound(p => p.BookingStatus).Title("สถานะการจอง").ClientTemplate(
+                         "# if (BookingStatus == 'รายการจองใหม่') { #" +
+                             "<strong>#: BookingStatus #</strong>" +
+                         "# } else { #" +
+                               "#: BookingStatus #" +
+                         "# } #"
+                        );
+                    //columns.Bound(p => p.PromotionName);
+                    //columns.Template(p=> @Html.ActionLink("Edit", "Edit","Bookings", new { id = p.Id }));
+                    columns.Bound(p => p.Id).Title("").ClientTemplate(@Html.ActionLink("แก้ไข", "Edit", "Bookings", new { id = "#=Id#" }, null).ToHtmlString());
+                })
+                .Pageable()
+                .Sortable()
+                .Scrollable()
+                .HtmlAttributes(new { style = "height:250px;" })
+                      .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .PageSize(20)
+                            .Read(read => read.Action("BookingsNotConfirm_read", "Bookings"))
+                 )
+                    )
+                </div>
+            </div>
+            <div class="form-horizontal container-fluid">
+                <div class="row">
+                    <a href="#" class="img-rounded">
+                        <img src="@Url.Content("~/Content/images/PhotoGraph/Cover/BookingCover2.jpg")" class="img-thumbnail" />
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <label class="label label-info">รายการจองทั้งหมด</label>
+                </div>
+                <div class="panel-body">
+                    @(Html.Kendo().Grid<NicePictureStudio.Models.BookingViewsModel>()
+                .Name("bookGrid")
+                .Columns(columns =>
+                {
+                    columns.Bound(p => p.Name).Filterable(false).Width(120).Title("ชื่อผู้จอง");
+                    columns.Bound(p => p.BookingCode).Width(70).Title("รหัส");
+                    columns.Bound(p => p.AppointmentDate).Format("{0:MM/dd/yyyy}").Width(100).Title("วันนัดจอง");
+                    //columns.Bound(p => p.SpecialOrder);
+                    columns.Bound(p => p.BookingStatus).Title("สถานะการจอง").ClientTemplate(
+                         "# if (BookingStatus == 'รายการจองใหม่') { #" +
+                             "<strong>#: BookingStatus #</strong>" +
+                         "# } else { #" +
+                               "#: BookingStatus #" +
+                         "# } #"
+                        );
+                    //columns.Bound(p => p.PromotionName);
+                    //columns.Template(p=> @Html.ActionLink("Edit", "Edit","Bookings", new { id = p.Id }));
+                    columns.Bound(p => p.Id).Title("").ClientTemplate(@Html.ActionLink("Edit", "Edit", "Bookings", new { id = "#=Id#" }, null).ToHtmlString());
+                })
+                .Pageable()
+                .Sortable()
+                .Scrollable()
+                .HtmlAttributes(new { style = "height:250px;" })
+                      .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .PageSize(20)
+                                .Read(read => read.Action("Bookings_read", "Bookings"))
+                 )
+                    )
+                </div>
+            </div>
+            
+            </td>
+        <td class="col-lg-6 col-md-6">
+            @*<button type="button" onclick="refresh()">Refersh Grid</button>*@
+            <div class="form-horizontal container-fluid">
+                <div class="row">
+                    <a href="#" class="img-rounded">
+                        <img src="@Url.Content("~/Content/images/PhotoGraph/Cover/BookingCover4.jpg")" class="img-thumbnail" />
+                    </a>
+                </div>
+            </div>
+            @(Html.Kendo().Scheduler<NicePictureStudio.Models.SchedulerViewModels>()
+                                     .Name("AppointmentScheduler")
+                                            .Date(DateTime.Today)
+                                            .StartTime(DateTime.Today)
+                                            .Height(630)
+                                            .Views(views =>
+                                            {
+                                                views.MonthView(montview => montview.Selected(true));
+                                                views.WeekView();
+                                            })
+                                                   .Editable(editable =>
+                                                    {
+                                                        editable.TemplateName("BookingTemplate");
+                                                        editable.Create(false);
+                                                        editable.Resize(false);
+                                                        editable.Destroy(false);
+                                                    })
+
+                                                .Resources(resource =>
+                                                {
+                                                    resource.Add(m => m.selectedStatus)
+                                                        .Title("Room")
+                                                        .DataTextField("Text")
+                                                        .DataValueField("Value")
+                                                        .DataColorField("Color")
+                                                        .BindTo(new[] {
+                                                            new { Text = "รายการจองใหม่", Value = 1, Color = "#CC0000" },
+                                                            new { Text = "เสร็จสิ้นการจอง", Value = 2, Color = "#3366CC" },
+                                                            new { Text = "ยกเลิกการจอง", Value = 3, Color = "#99CC93" }
+                                                        });
+
+                                                })
+                                                .DataSource(d => d
+                                                    .Model(m =>
+                                                    {
+                                                        m.Id(f => f.Id);
+                                                        m.Field(f => f.Title).DefaultValue("No title");
+
+                                                    })
+                                                    .Read("Appointments_Read", "Bookings")
+                                                    .Update("Appointments_Update","Bookings")
+                                                )
+            )
+        </td>
+    </tr>
+</table>
+<p class="bg-warning">&nbsp;</p>
+
+<script>
+
+    function refresh() {
+        var grid = $("#bookGrid").data("kendoGrid");
+        grid.dataSource.read();
+        var schedule = $("#AppointmentScheduler").data("kendoScheduler")
+        schedule.dataSource.read();
+    }
+</script>

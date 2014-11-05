@@ -17,8 +17,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -279,6 +279,21 @@
     <Compile Include="App_Data\sysdiagram.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\DimensionPhotoGrapher.cs">
+      <DependentUpon>NicePictureStudioDW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\DimensionPromotion.cs">
+      <DependentUpon>NicePictureStudioDW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\DimensionSatisfaction.cs">
+      <DependentUpon>NicePictureStudioDW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\DimensionServiceType.cs">
+      <DependentUpon>NicePictureStudioDW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\DimensionTime.cs">
+      <DependentUpon>NicePictureStudioDW.tt</DependentUpon>
+    </Compile>
     <Compile Include="Metadata\CustomerMetadata.cs" />
     <Compile Include="Metadata\EmployeeLoginMetadata.cs" />
     <Compile Include="App_Data\EmployeeSchedule.cs">
@@ -445,12 +460,31 @@
       <DependentUpon>NicePictureStudioDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\OutsourceContactsController.cs" />
+    <Compile Include="Models\MISReportingModel.cs" />
     <Compile Include="Models\PromotionViewModel.cs" />
     <Compile Include="Models\SchedulerViewModels.cs" />
     <Compile Include="Models\ServicesViewModel.cs" />
     <Compile Include="Controllers\OutsourceSchedulesController.cs" />
     <Compile Include="Controllers\OutputSchedulesController.cs" />
     <Compile Include="Controllers\PromotionsController.cs" />
+    <Compile Include="App_Data\NicePictureStudioDW.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NicePictureStudioDW.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\NicePictureStudioDW.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NicePictureStudioDW.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\NicePictureStudioDW.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NicePictureStudioDW.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\PerformanceFacts.cs">
+      <DependentUpon>NicePictureStudioDW.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Metadata\ServiceMetadata.cs" />
@@ -599,6 +633,24 @@
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="ClassDiagram1.cd" />
+    <EntityDeploy Include="App_Data\NicePictureStudioDW.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>NicePictureStudioDW.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="App_Data\NicePictureStudioDW.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NicePictureStudioDW.edmx</DependentUpon>
+      <LastGenOutput>NicePictureStudioDW.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_Data\NicePictureStudioDW.edmx.diagram">
+      <DependentUpon>NicePictureStudioDW.edmx</DependentUpon>
+    </Content>
+    <Content Include="App_Data\NicePictureStudioDW.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NicePictureStudioDW.edmx</DependentUpon>
+      <LastGenOutput>NicePictureStudioDW.cs</LastGenOutput>
+    </Content>
+    <None Include="Properties\PublishProfiles\NicePictureStudioWeb.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
@@ -842,6 +894,9 @@
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Services\LocationServicesForm.cshtml" />
     <Content Include="Views\MISReports\Index.cshtml" />
+    <Content Include="Views\MISReports\MISReport01_Profit_Promotion.cshtml" />
+    <Content Include="Views\MISReports\MISReport02_Appraisal_Max_Min_ServiceType.cshtml" />
+    <Content Include="Views\MISReports\MISReport03_Appraisal_Max_Min_Skill.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

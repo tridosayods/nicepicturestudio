@@ -1,0 +1,74 @@
+﻿@model NicePictureStudio.Models.PromotionCalculator
+
+<div id="divServicePriceSection">
+    <div class="container-fluid">
+        @using (@Ajax.BeginForm("CalculateServicesCostSummaryWhenEdit", "Services", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "divServicePriceSection"
+        }))
+        {
+            <div class="form-horizontal">
+                <div class="col-md-6 col-xs-4">
+                    <label id="lblEstimateContext" class="control-label">Total Estimate Cost : </label>
+                </div>
+                <div class="col-md-6 col-xs-4">
+                    <label id="lblEstimateCost" class="control-label"> @Model.EstimatePrice</label>
+                </div>
+            </div>
+            <div class="form-horizontal">
+                <div class="col-md-6">
+                    <label id="lblPromotionContext" class="control-label">Promotion Selected : </label>
+                </div>
+                <div class="col-md-6">
+                    <label id="lblPromotionSelected" class="control-label"> @Model.PromotionName </label>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="col-md-6">
+                    <label id="lblPromotionDiscountContext" class="control-label">Promotion Discount : </label>
+                </div>
+                <div class="col-md-6">
+                    <label id="lblPromotionDiscount" class="control-label"> @Model.PromotionDiscount </label>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="col-md-6">
+                    <label id="lblTotalCostContext" class="control-label">Total Price Before TAX: </label>
+                </div>
+                <div class="col-md-6">
+                    <label id="lblTotalCost" class="control-label">@Model.TotalPriceBeforeTax</label>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="col-md-6">
+                    <label class="control-label">VAT: </label>
+                </div>
+                <div class="col-md-6">
+                    <label class="control-label">10%</label>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="col-md-6">
+                    <label id="lblTotalWithTAXContext" class="control-label">Total Price: </label>
+                </div>
+                <div class="col-md-6">
+                    <label id="lblTotalCostWithTAX" class="control-label">@Model.TotalPrice</label>
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <div class="col-md-12 col-md-push-6">
+                    <br />
+                    <input class="btn-primary" type="submit" id="btnCalculatePrice" name="btnCalculatePrice" value="Calculate Price" />
+                </div>
+
+            </div>
+        }
+    </div>
+</div>

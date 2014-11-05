@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NCStudioDWModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="DimensionPhotoGrapher">
+    <Key>
+      <PropertyRef Name="PhotoGraphId" />
+    </Key>
+    <Property Name="PhotoGraphId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Skill" Type="nvarchar" MaxLength="50" />
+    <Property Name="SkillId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DimensionPromotion">
+    <Key>
+      <PropertyRef Name="PromotionId" />
+    </Key>
+    <Property Name="PromotionId" Type="int" Nullable="false" />
+    <Property Name="SalePerson" Type="nvarchar" MaxLength="50" />
+    <Property Name="PromotionType" Type="int" />
+    <Property Name="Profit" Type="int" />
+    <Property Name="PromotionTypeName" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="DimensionSatisfaction">
+    <Key>
+      <PropertyRef Name="SatisfactionId" />
+    </Key>
+    <Property Name="SatisfactionId" Type="int" Nullable="false" />
+    <Property Name="BestScore" Type="int" />
+    <Property Name="WorseScore" Type="int" />
+  </EntityType>
+  <EntityType Name="DimensionServiceType">
+    <Key>
+      <PropertyRef Name="ServiceTypeId" />
+    </Key>
+    <Property Name="ServiceTypeId" Type="int" Nullable="false" />
+    <Property Name="ServiceType" Type="nvarchar" MaxLength="50" />
+    <Property Name="Cost" Type="numeric" Precision="18" Scale="3" />
+  </EntityType>
+  <EntityType Name="DimensionTime">
+    <Key>
+      <PropertyRef Name="TimeId" />
+    </Key>
+    <Property Name="TimeId" Type="int" Nullable="false" />
+    <Property Name="Year" Type="char" MaxLength="4" />
+    <Property Name="Quarter" Type="char" MaxLength="1" />
+    <Property Name="Month" Type="varchar" MaxLength="2" />
+  </EntityType>
+  <EntityType Name="PerformanceFacts">
+    <Key>
+      <PropertyRef Name="TimeId" />
+      <PropertyRef Name="PromotionId" />
+      <PropertyRef Name="SatisfactionId" />
+      <PropertyRef Name="PhotoGrapherId" />
+      <PropertyRef Name="ServiceTypeId" />
+    </Key>
+    <Property Name="TimeId" Type="int" Nullable="false" />
+    <Property Name="PromotionId" Type="int" Nullable="false" />
+    <Property Name="SatisfactionId" Type="int" Nullable="false" />
+    <Property Name="PhotoGrapherId" Type="int" Nullable="false" />
+    <Property Name="ServiceTypeId" Type="int" Nullable="false" />
+    <Property Name="ApprisalScore" Type="int" />
+    <Property Name="ProfitPercent" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="SaleAmount" Type="int" />
+    <Property Name="CostAmount" Type="int" />
+  </EntityType>
+  <Association Name="FK_PerformanceFacts_DimensionPhotoGrapher">
+    <End Role="DimensionPhotoGrapher" Type="Self.DimensionPhotoGrapher" Multiplicity="1" />
+    <End Role="PerformanceFacts" Type="Self.PerformanceFacts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DimensionPhotoGrapher">
+        <PropertyRef Name="PhotoGraphId" />
+      </Principal>
+      <Dependent Role="PerformanceFacts">
+        <PropertyRef Name="PhotoGrapherId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceFacts_DimensionPromotion">
+    <End Role="DimensionPromotion" Type="Self.DimensionPromotion" Multiplicity="1" />
+    <End Role="PerformanceFacts" Type="Self.PerformanceFacts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DimensionPromotion">
+        <PropertyRef Name="PromotionId" />
+      </Principal>
+      <Dependent Role="PerformanceFacts">
+        <PropertyRef Name="PromotionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceFacts_DimensionSatisfaction">
+    <End Role="DimensionSatisfaction" Type="Self.DimensionSatisfaction" Multiplicity="1" />
+    <End Role="PerformanceFacts" Type="Self.PerformanceFacts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DimensionSatisfaction">
+        <PropertyRef Name="SatisfactionId" />
+      </Principal>
+      <Dependent Role="PerformanceFacts">
+        <PropertyRef Name="SatisfactionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceFacts_DimensionServiceType">
+    <End Role="DimensionServiceType" Type="Self.DimensionServiceType" Multiplicity="1" />
+    <End Role="PerformanceFacts" Type="Self.PerformanceFacts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DimensionServiceType">
+        <PropertyRef Name="ServiceTypeId" />
+      </Principal>
+      <Dependent Role="PerformanceFacts">
+        <PropertyRef Name="ServiceTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PerformanceFacts_DimensionTime1">
+    <End Role="DimensionTime" Type="Self.DimensionTime" Multiplicity="1" />
+    <End Role="PerformanceFacts" Type="Self.PerformanceFacts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DimensionTime">
+        <PropertyRef Name="TimeId" />
+      </Principal>
+      <Dependent Role="PerformanceFacts">
+        <PropertyRef Name="TimeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="NCStudioDWModelStoreContainer">
+    <EntitySet Name="DimensionPhotoGrapher" EntityType="Self.DimensionPhotoGrapher" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DimensionPromotion" EntityType="Self.DimensionPromotion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DimensionSatisfaction" EntityType="Self.DimensionSatisfaction" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DimensionServiceType" EntityType="Self.DimensionServiceType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DimensionTime" EntityType="Self.DimensionTime" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PerformanceFacts" EntityType="Self.PerformanceFacts" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_PerformanceFacts_DimensionPhotoGrapher" Association="Self.FK_PerformanceFacts_DimensionPhotoGrapher">
+      <End Role="DimensionPhotoGrapher" EntitySet="DimensionPhotoGrapher" />
+      <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceFacts_DimensionPromotion" Association="Self.FK_PerformanceFacts_DimensionPromotion">
+      <End Role="DimensionPromotion" EntitySet="DimensionPromotion" />
+      <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceFacts_DimensionSatisfaction" Association="Self.FK_PerformanceFacts_DimensionSatisfaction">
+      <End Role="DimensionSatisfaction" EntitySet="DimensionSatisfaction" />
+      <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceFacts_DimensionServiceType" Association="Self.FK_PerformanceFacts_DimensionServiceType">
+      <End Role="DimensionServiceType" EntitySet="DimensionServiceType" />
+      <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PerformanceFacts_DimensionTime1" Association="Self.FK_PerformanceFacts_DimensionTime1">
+      <End Role="DimensionTime" EntitySet="DimensionTime" />
+      <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

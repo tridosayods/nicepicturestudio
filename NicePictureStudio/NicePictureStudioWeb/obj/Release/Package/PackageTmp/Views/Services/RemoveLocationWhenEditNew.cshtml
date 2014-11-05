@@ -1,0 +1,29 @@
+﻿<div id="tblLocation">
+    @if (ViewBag.ModifyLocation != null)
+    {
+        <div class="form-group">
+            <table class="table table-striped">
+                <tr><th>ชื่อสถานที่</th><th>รายละเอียด</th><th>ค้างคืน</th><th>จำนวนวันค้างคืน</th><th>ราคา</th><th></th></tr>
+                @foreach (NicePictureStudio.Models.LocationServiceViewModel item in ViewBag.ModifyLocation)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        @if (@item.IsOverNight)
+                        {
+                            <td>Yes</td>
+                            <td>@item.OverNightPeriod</td>}
+                        else
+                        {
+                            <td>No</td>
+                            <td>-</td> }
+                        <td>@item.Price</td>
+                        <td>@Ajax.ActionLink("Remove", "RemoveLocationWhenEditNew", new { Id = @item.Id, serviceType = @ViewBag.LocationServiceType, IsEditTable = @ViewBag.IsEditTable }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblLocation" })</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</div>
+
+

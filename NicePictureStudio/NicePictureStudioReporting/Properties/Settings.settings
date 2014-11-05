@@ -5,10 +5,26 @@
     <Setting Name="NicePictureStudioDB" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Data Source=BDQAAUT-PF26;Initial Catalog=NicePictureStudioDB;User ID=sa;Password=Welcome123;MultipleActiveResultSets=True;Application Name=EntityFramework&lt;/ConnectionString&gt;
+  &lt;ConnectionString&gt;Data Source=localhost;Initial Catalog=NicePictureStudioDB;User ID=sa;Password=Welcome123;MultipleActiveResultSets=True;Application Name=EntityFramework&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Data Source=BDQAAUT-PF26;Initial Catalog=NicePictureStudioDB;User ID=sa;Password=Welcome123;MultipleActiveResultSets=True;Application Name=EntityFramework</Value>
+      <Value Profile="(Default)">Data Source=localhost;Initial Catalog=NicePictureStudioDB;User ID=sa;Password=Welcome123;MultipleActiveResultSets=True;Application Name=EntityFramework</Value>
+    </Setting>
+    <Setting Name="NCStudioOLAP" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=localhost;Initial Catalog=NCStudioOLAP&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;Microsoft.AnalysisServices.AdomdClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=localhost;Initial Catalog=NCStudioOLAP</Value>
+    </Setting>
+    <Setting Name="NCStudioDW" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=TURBOPX-PC;Initial Catalog=NCStudioDW;Persist Security Info=True;User ID=sa;Password=Welcome123&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=TURBOPX-PC;Initial Catalog=NCStudioDW;Persist Security Info=True;User ID=sa;Password=Welcome123</Value>
     </Setting>
   </Settings>
 </SettingsFile>

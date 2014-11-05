@@ -1,0 +1,189 @@
+﻿@model NicePictureStudio.Models.CRMModel
+
+<h2>สวัสดี คุณ @Model.CustomerName</h2>    
+<p>ขอความกรุณาตอบแบบประเมินการให้บริการ ของ บริษัท รูปสวยโฟโต้ จำกัด</p>
+
+@using (@Ajax.BeginForm("CRMApprisal", "CRMTemplates", new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    //InsertionMode = InsertionMode.Replace,
+                    //UpdateTargetId = "MainSection"
+                }
+                ))
+{
+    @Html.AntiForgeryToken()
+
+    <table class="table table-bordered table-striped" cellspacing="0" id="tblServices">
+    <thead>
+        <tr>
+            <th rowspan="2" class="col-md-2 col-lg-5 text-center" style="vertical-align:middle">
+                @Html.DisplayName("แบบประเมิน")
+            </th>
+            <th colspan="6" align="center" class="text-center">@Html.DisplayName("คะแนนความพึงพอใจ")</th>
+        </tr>
+        <tr>
+            <th class="col-md-2 col-lg-1 text-center" align="center">
+                @Html.DisplayName("ไม่มีความเห็น")
+            </th>
+            <th class="col-md-2 col-lg-1 text-center" align="center">
+                @Html.DisplayName("ไม่พอใจมาก")
+            </th>
+            <th class="col-md-2 col-lg-1 text-center" align="center">
+                @Html.DisplayName("ไม่พอใจ")
+            </th>
+            <th class="col-md-2 col-lg-1 text-center" align="center">
+                @Html.DisplayName("เฉยๆ")
+            </th>
+            <th class="col-md-2 col-lg-1 text-center" align="center">
+                @Html.DisplayName("พอใจ")
+            </th>
+            <th class="col-md-2 col-lg-1 text-center" align="center">
+             @Html.DisplayName("พอใจมาก")
+            </th>
+</tr>
+
+    </thead>
+    <tbody>
+            @*@foreach (NicePictureStudio.Models.Question item in @Model.Questions)
+            {
+                <tr>
+                    <td><div>@Html.HiddenFor()</div><div>@item.QuestionText</div></td>
+                    <td>
+                        <div class="btn-group" id="ABC">
+                            <label class="radio-inline">
+                                <input type="radio" name="@item.Id" id="@item.Id" value="option1"> 1
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="@item.Id" id="@item.Id" value="option2"> 2
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="@item.Id" id="@item.Id" value="option3"> 3
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="@item.Id" id="@item.Id" value="option4"> 4
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="@item.Id" id="@item.Id" value="option5"> 5
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+            }*@
+       @Html.EditorFor(x=>x.Questions)
+        <tr>
+            <td colspan="6"align="center" >
+                <h4>ข้อเสนอแนะเพิ่มเติม : </h4>
+                <div>
+                    @Html.TextArea("TxtArea", new { @rows=10,@cols=250,@style="max-width:500px" })
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6" align="center">
+                <input type="submit" class="btn btn-primary" value="Submit" />
+            </td>
+        </tr>
+    </tbody>
+    
+</table>
+}
+@*@using (Html.BeginForm()) 
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="form-horizontal">
+            <h4>Customer</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.PostcalCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PostcalCode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PostcalCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.AnniversaryDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AnniversaryDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AnniversaryDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.ReferencePerson, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ReferencePerson, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ReferencePerson, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.ReferenceEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ReferenceEmail, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ReferenceEmail, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                @Html.LabelFor(model => model.ReferencePhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ReferencePhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ReferencePhoneNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+

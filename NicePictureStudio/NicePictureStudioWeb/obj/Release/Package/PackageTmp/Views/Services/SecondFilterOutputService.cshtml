@@ -1,0 +1,139 @@
+﻿<script type="text/javascript">
+    $(document).ready(function () {
+        $("#dwnServicePattern").on("change", function (item) {
+            event.preventDefault();
+            var selectedItem = $("#dwnServicePattern").val();
+            alert(selectedItem);
+            $.ajax({
+                url: '@Url.Action("CreateOutputServiceByModal","Services")',
+                data: { id: selectedItem, serviceType: '@ViewData["SType"]' },
+                type: "GET",
+                success: function (data) { $("#divOutput").replaceWith(data); }
+            });
+        });
+    });
+
+</script>
+
+<div id="ServiceSelection">
+    <div class="panel panel-default">
+        <div class="panel-heading">ตัวเลือกต่างๆ</div>
+        <div class="panel-info">
+            <table class="table table-responsive"><tr>
+                <td>
+                    <div class="form-horizontal">
+                        <div class="form-group-sm">
+                            <div>รูปแบบรูปภาพ</div>
+                            <div>
+                                @*@Html.Kendo().DropDownList().Name("OutputType").HtmlAttributes(new { @class = "form-control", @id = "dwnOutputType" }).BindTo(
+                                                              new string[] { "กรอบรูป", "รูปภาพ", "โฟโต้บุค", "วีดีโอ" }
+                                        )*@
+                                @(Html.Kendo().DropDownList()
+                                      .Name("OutputType")
+                                      .HtmlAttributes(new { style = "width:180px" })
+                                      .OptionLabel("Select Outpu type...")
+                                              .DataTextField("OutputTypeName")
+                                              .DataValueField("OutputTypeId")
+                                      .DataSource(source =>
+                                      {
+                                          source.Read(read =>
+                                          {
+                                              read.Action("OutputTypes_Read", "Services");
+                                          });
+                                      })
+                                )
+                            </div>
+                        </div>
+                            <div class="form-group-sm">
+                                <div>ประเภทของผลงาน</div>
+                                <div>
+                                    @*@Html.Kendo().DropDownList().Name("OutputSize").HtmlAttributes(new { @class = "form-control", @id = "dwnOutputSize" }).BindTo(
+                                            new string[] { "6*9'", "10*15'", "20*30'", "10รูป", "30รูป", "50รูป", "ทั้งหมด", "ดีวีดี", "ทั้มไดร์ฟ", "พรีเซนเทชั่น" }
+                                    )*@
+                                    <script>
+                                            function filterOutputType() {
+                                                return {
+                                                    outputTypeId: $("#OutputType").val()
+                                                };
+                                            }
+                                    </script>
+
+                                    @(Html.Kendo().DropDownList()
+                                          .Name("OutputSize")
+                                          .HtmlAttributes(new { style = "width:180px" })
+                                          .OptionLabel("Select output size...")
+                                                  .DataTextField("OutputSizeName")
+                                                  .DataValueField("OutputSizeID")
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("OutputSize_Read", "Services")
+                                                      .Data("filterOutputType");
+                                              })
+                                              .ServerFiltering(true);
+                                          })
+                                          .Enable(false)
+                                          .AutoBind(false)
+                                                  .CascadeFrom("OutputType")
+                                                                )
+                                    
+                                </div>
+                            </div>
+                           
+                    <div class="form-group-sm">
+                        @*<div>@Html.Label("OutputServices", htmlAttributes: new { @class = "control-label col-md-2" })</div>*@
+                        <div>บริการรูปภาพ</div>
+                        <div class="list-group col-md-10">
+                            @*@Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
+                            @*@Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["OutputList"] as IEnumerable<SelectListItem>).HtmlAttributes(new { @class = "form-control", @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))*@
+                            <script>
+                                function filterOutputTypeAndSize() {
+                                    return {
+                                        outputTypeId: $("#OutputType").val(), outputSizeId: $("#OutputSize").val()
+                                    };
+                                }
+                            </script>
+
+                            @(Html.Kendo().DropDownList()
+                                          .Name("dwnServicePattern")
+                                          .HtmlAttributes(new { @style = "width:180px", @id = "dwnServicePattern" })
+                                          .OptionLabel("บริการรูปภาพ..")
+                                                  .DataTextField("OutputName")
+                                                  .DataValueField("OutputID")
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("OutputsList_Read", "Services")
+                                                      .Data("filterOutputTypeAndSize");
+                                              })
+                                              .ServerFiltering(true);
+                                          })
+                                          .Enable(false)
+                                          .AutoBind(false)
+                                          .CascadeFrom("OutputSize")
+                            )
+
+
+                        </div>
+                    </div>
+                </div>
+            </td>
+                <td>
+                    <div class="form-horizontal container-fluid">
+                        <div class="row">
+                            <a href="#" class="img-rounded">
+                                <img src="@Url.Content("~/Content/images/PhotoGraph/Cover/OutputCover1.jpg")" class="img-thumbnail" />
+                            </a>
+                        </div>
+                    </div>
+
+                </td>
+            </tr> </table>
+        </div>
+        <div class="panel-body">
+            @{Html.RenderAction("CreateOutputServiceByModal", "Services", new { id = @ViewData["Code"], ServiceType = @ViewData["SType"] });}
+        </div>
+    </div>
+</div>

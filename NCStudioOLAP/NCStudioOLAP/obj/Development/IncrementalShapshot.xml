@@ -1,0 +1,89 @@
+﻿<DeploymentSnapshot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0">
+  <Target>
+    <Database>NCStudioOLAP</Database>
+    <Server>localhost</Server>
+    <ConnectionString>DataSource=localhost;Timeout=0</ConnectionString>
+  </Target>
+  <Options>
+    <TransactionalDeployment>false</TransactionalDeployment>
+    <PartitionDeployment>DeployPartitions</PartitionDeployment>
+    <RoleDeployment>DeployRolesRetainMembers</RoleDeployment>
+    <ProcessingOption>Default</ProcessingOption>
+    <OutputScript></OutputScript>
+    <ImpactAnalysisFile></ImpactAnalysisFile>
+    <ConfigurationSettingsDeployment>Deploy</ConfigurationSettingsDeployment>
+    <OptimizationSettingsDeployment>Deploy</OptimizationSettingsDeployment>
+    <WriteBackTableCreation>UseExisting</WriteBackTableCreation>
+  </Options>
+  <Snapshot>
+    <ObjectSnapshots>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.RelationalDataSource</Type>
+        <TimeStamp>j6EO/hrb9ziwp7lf2bFoug==10/6/2014 10:20:27 AM11/3/2014 11:05:44 PM</TimeStamp>
+        <ID>
+          <String>NC Studio DW</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.DataSourceView</Type>
+        <TimeStamp>VFmcY2KNAIPailbR/kwUDQ==10/6/2014 10:20:44 AM11/3/2014 11:05:44 PM</TimeStamp>
+        <ID>
+          <String>NC Studio DW</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>NtzYXr6NgeJlpczZ2rRdsQ==10/6/2014 10:22:51 AM11/3/2014 11:05:44 PM</TimeStamp>
+        <ID>
+          <String>Dimension Promotion</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>aKNuC8YJe33Luv/v2GYE+A==10/6/2014 10:22:51 AM11/3/2014 11:05:44 PM</TimeStamp>
+        <ID>
+          <String>Dimension Time</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>ckMNJbclrvPNWEoVoxerDw==10/6/2014 10:22:51 AM11/3/2014 11:05:44 PM</TimeStamp>
+        <ID>
+          <String>Dimension Service Type</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>ollPFF+OhN+Z6saGOdLR3Q==10/6/2014 10:22:51 AM11/3/2014 11:05:44 PM</TimeStamp>
+        <ID>
+          <String>Dimension Photo Grapher</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>40gOjSLYW52+TmzVkYXXPQ==10/6/2014 10:22:51 AM11/3/2014 11:05:44 PM</TimeStamp>
+        <ID>
+          <String>Dimension Satisfaction</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Cube</Type>
+        <TimeStamp>UNqJa0iDk//P3Usqkxtong==10/20/2014 10:26:18 PM11/3/2014 11:05:44 PMkyHwUdx+Pn1KPy+n5WHzcg==10/6/2014 10:21:11 AM11/3/2014 11:05:44 PM</TimeStamp>
+        <ID>
+          <String>NC Studio DW</String>
+        </ID>
+      </ObjectSnapshot>
+    </ObjectSnapshots>
+    <DatabaseSnapshot>
+      <Type>Microsoft.AnalysisServices.Database</Type>
+      <TimeStamp>e1ccZ/yVhS68v9DTJtCOHA==10/6/2014 10:19:45 AM11/3/2014 11:05:44 PM</TimeStamp>
+      <ID>
+        <String>NCStudioOLAP</String>
+      </ID>
+    </DatabaseSnapshot>
+    <Granularity>Coarse</Granularity>
+  </Snapshot>
+  <AssemblyLocations />
+  <ProcessingComplete>true</ProcessingComplete>
+  <LastDeployed>2014-11-04T14:54:10.8Z</LastDeployed>
+</DeploymentSnapshot>

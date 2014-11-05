@@ -1,0 +1,403 @@
+﻿@model NicePictureStudio.App_Data.PhotographService
+
+<script type="text/javascript">
+    $(document).ready(function () {
+    });
+
+    function PHCheckBoxCLick(event)
+    {
+        var cntPhotoGraph = $(".PhotoGraphCHK:checked").length;
+        if (cntPhotoGraph > $("#PhotographerNumber").val())
+        { event.checked = false; }
+    }
+
+    function CMCheckBoxCLick(event) {
+        var cntCamera = $(".CameraCHK:checked").length;
+        //alert(cntCamera);
+        if (cntCamera > $("#CameraManNumber").val())
+        { event.checked = false; }
+    }
+
+    function ValidateSelectionNumber()
+    {
+        //alert("NO");
+        //return false;
+        var cntCamera = $(".CameraCHK:checked").length;
+        var cntPhotoGraph = $(".PhotoGraphCHK:checked").length;
+        var selCM = $("#CameraManNumber").val();
+        var selPH = $("#PhotographerNumber").val();
+        if (cntCamera < selCM || cntPhotoGraph < selPH) {
+            //alert("PH: " + selPH + " : =>" + cntPhotoGraph);
+            //alert("CM : " + selCM + " :=>" + cntCamera);
+            alert("กรุณาเลือกช่างถ่ายภาพ หรือ ช่างวีดีโอ ให้ครบตามหมายเลขที่กำหนด");
+            return false;
+        }
+        else
+        {
+            $("#page1Id").val($("#Code").val());
+            $(".CameraCHK").checked = false;
+            $(".PhotoGraphCHK").checked = false;
+        }
+    }
+
+</script>
+
+<div id="divPhotoGraph">
+    @using (@Ajax.BeginForm("CreatePhotoGraphServiceListWhenEditNew", "Services", new AjaxOptions
+             {
+                 InsertionMode = InsertionMode.ReplaceWith,
+                 UpdateTargetId = "ServiceSelection",
+                 OnBegin = "ValidateSelectionNumber"
+
+             }))
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>บริการช่างถ่ายภาพ</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.Label("จำนวนช่างภาพที่ต้องการ : ", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.PhotographerNumber, new { htmlAttributes = new { @class = "form-control", @readonly = true, @style = "width:50px" } })
+                @Html.ValidationMessageFor(model => model.PhotographerNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <!-- Space for adding PhotoGraph Selection-->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title left">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collPhotoGraph">
+                            <span class="glyphicon glyphicon-arrow-down"></span> กรุณาเลือกช่างถ่ายภาพที่ต้องการ
+                        </a>
+                    </h4>
+                </div>
+                <div id="collPhotoGraph" class="panel-collapse collapse in">
+                    <div class="panel-body">
+
+                        <div class="list-group">
+                            <div class="row">
+                                @foreach (var item in @ViewBag.PhotoGraphListDetails)
+                                {
+                                    <div class="thumbnail col-md-3">
+
+                                        <img src="@Url.Content("~/Content/images/PhotoGraph/PhotGraph/1.jpg")" alt="..." class="img-thumbnail">
+                                        <div class="caption">
+                                            <h5> ชื่อ : @item.Name</h5>
+                                            <h6> ความถนัด : @item.Specialability</h6>
+                                            @if (@item.IsSelect)
+                                            { <input type="checkbox" class="PhotoGraphCHK" id="EmployeeId" name="EmployeeId" value="@item.Id" checked="checked" onclick="PHCheckBoxCLick(this)" />}
+                                            else
+                                            {
+                                                <input type="checkbox" class="PhotoGraphCHK" id="EmployeeId" name="EmployeeId" value="@item.Id" onclick="PHCheckBoxCLick(this)" />
+                                            }
+                                            @Html.ValidationMessage("EmployeeId", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                }
+                                @foreach (var item in @ViewBag.PhotoGraphOursourceList)
+                                {
+                                    <div class="thumbnail col-md-3">
+
+                                        <img src="@Url.Content("~/Content/images/PhotoGraph/PhotGraph/1.jpg")" alt="..." class="img-thumbnail">
+                                        <div class="caption">
+                                            <h5> ชื่อ : @item.Name</h5>
+                                            <h6> ความถนัด : @item.Specialability</h6>
+                                            @if (@item.IsSelect)
+                                            { <input type="checkbox" class="PhotoGraphCHK" id="OutsourcePHId" name="OutsourcePHId" value="@item.Id" checked="checked" onclick="PHCheckBoxCLick(this)" />}
+                                            else
+                                            {
+                                                <input type="checkbox" class="PhotoGraphCHK" id="OutsourcePHId" name="OutsourcePHId" value="@item.Id" onclick="PHCheckBoxCLick(this)" />
+                                            }
+                                            @Html.ValidationMessage("EmployeeId", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("จำนวนช่างถ่ายภาพวีดีโอที่ต้องการ : ", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.CameraManNumber, new { htmlAttributes = new { @class = "form-control", @readonly = true, @style = "width:50px" } })
+                @Html.ValidationMessageFor(model => model.CameraManNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <!-- Space for adding PhotoGraph Selection-->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title left">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collCameraMan">
+                            <span class="glyphicon glyphicon-arrow-down"></span> กรุณาเลือกช่างถ่ายภาพวีดีโอที่ต้องการ
+                        </a>
+                    </h4>
+                </div>
+                <div id="collCameraMan" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <div class="row">
+                                @foreach (var item in @ViewBag.CameraManListDetails)
+                                {
+                                    <div class="thumbnail col-md-3">
+                                        <img src="@Url.Content("~/Content/images/PhotoGraph/CameraMan/CameraMan/1.jpg")" alt="..." class="img-thumbnail">
+                                        <div class="caption">
+                                            <h5> ชื่อ : @item.Name</h5>
+                                            <h6> ความถนัด : @item.Specialability</h6>
+                                            @if (@item.IsSelect)
+                                            { <input type="checkbox" class="CameraCHK" id="CameraId" name="CameraId" value="@item.Id" checked="checked" onclick="CMCheckBoxCLick(this)" />}
+                                            else
+                                            {
+                                                <input type="checkbox" class="CameraCHK" id="CameraId" name="CameraId" value="@item.Id" onclick="CMCheckBoxCLick(this)" />
+                                            }
+
+                                        </div>
+                                    </div>
+                                }
+
+                                @foreach (var item in @ViewBag.CameraManOursourceList)
+                                {
+                                    <div class="thumbnail col-md-3">
+
+                                        <img src="@Url.Content("~/Content/images/PhotoGraph/CameraMan/CameraMan/1.jpg")" alt="..." class="img-thumbnail">
+                                        <div class="caption">
+                                            <h5> ชื่อ : @item.Name</h5>
+                                            <h6> ความถนัด : @item.Specialability</h6>
+                                            @if (@item.IsSelect)
+                                            { <input type="checkbox" class="CameraCHK" id="OutsourceCMId" name="OutsourceCMId" value="@item.Id" checked="checked" onclick="CMCheckBoxCLick(this)" />}
+                                            else
+                                            {
+                                                <input type="checkbox" class="CameraCHK" id="OutsourceCMId" name="OutsourceCMId" value="@item.Id" onclick="CMCheckBoxCLick(this)" />
+                                            }
+                                            @Html.ValidationMessage("OutsourceCMId", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.Label("รายละเอียด", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "3", @readonly = true })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.Label("ราคา", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @style = "width:100px", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.Cost)
+        <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
+        <input type="hidden" id="Code" name="Code" value="@Model.Id" />
+        @Html.Hidden("IsEditTable", new { IsEditTable = @ViewBag.IsEditTable })
+        <hr />
+        <div class="form-group">
+            <ul class="pager">
+                <li class="next">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" value="Next" class="btn btn-default"><span class="glyphicon glyphicon-step-forward">ถัดไป</span></button>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+        @*<div class="form-horizontal">
+            <h4>PhotographService</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.Label("จำนวนช่างภาพที่ต้องการ : ", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.PhotographerNumber, new { htmlAttributes = new { @class = "form-control", @readonly = true, @style = "width:50px" } })
+                    @Html.ValidationMessageFor(model => model.PhotographerNumber, "", new { @class = "text-danger" })
+                </div>
+                <!-- Space for adding PhotoGraph Selection-->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title left">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collPhotoGraph">
+                                Select PhotoGraphy
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collPhotoGraph" class="panel-collapse collapse in">
+                        <div class="panel-body">
+
+                            <div class="list-group">
+                                <div class="row">
+                                    @foreach (var item in @ViewBag.PhotoGraphListDetails)
+                                    {
+                                        <div class="thumbnail col-md-3">
+
+                                            <img src="@Url.Content("~/Content/images/PhotoGraph/PhotGraph/1.jpg")" alt="..." class="img-thumbnail">
+                                            <div class="caption">
+                                                <h5> ชื่อ : @item.Name</h5>
+                                                <h6> ความถนัด : @item.Specialability</h6>
+                                                @if (@item.IsSelect)
+                                                { <input type="checkbox" class="PhotoGraphCHK" id="EmployeeId" name="EmployeeId" value="@item.Id" checked="checked" onclick="PHCheckBoxCLick(this)" />}
+                                                else
+                                                {
+                                                    <input type="checkbox" class="PhotoGraphCHK" id="EmployeeId" name="EmployeeId" value="@item.Id" onclick="PHCheckBoxCLick(this)" />
+                                                }
+                                                @Html.ValidationMessage("EmployeeId", "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    }
+                                    @foreach (var item in @ViewBag.PhotoGraphOursourceList)
+                                    {
+                                        <div class="thumbnail col-md-3">
+
+                                            <img src="@Url.Content("~/Content/images/PhotoGraph/PhotGraph/1.jpg")" alt="..." class="img-thumbnail">
+                                            <div class="caption">
+                                                <h5> ชื่อ : @item.Name</h5>
+                                                <h6> ความถนัด : @item.Specialability</h6>
+                                                @if (@item.IsSelect)
+                                                { <input type="checkbox" class="PhotoGraphCHK" id="OutsourcePHId" name="OutsourcePHId" value="@item.Id" checked="checked" onclick="PHCheckBoxCLick(this)" />}
+                                                else
+                                                {
+                                                    <input type="checkbox" class="PhotoGraphCHK" id="OutsourcePHId" name="OutsourcePHId" value="@item.Id" onclick="PHCheckBoxCLick(this)" />
+                                                }
+                                                @Html.ValidationMessage("EmployeeId", "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("จำนวนช่างถ่ายภาพวีดีโอที่ต้องการ : ", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.CameraManNumber, new { htmlAttributes = new { @class = "form-control", @readonly = true, @style = "width:50px" } })
+                    @Html.ValidationMessageFor(model => model.CameraManNumber, "", new { @class = "text-danger" })
+                </div>
+                <!-- Space for adding PhotoGraph Selection-->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title left">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collCameraMan">
+                                Select Camera Man
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collCameraMan" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <div class="row">
+                                    @foreach (var item in @ViewBag.CameraManListDetails)
+                                    {
+                                        <div class="thumbnail col-md-3">
+                                            <img src="@Url.Content("~/Content/images/PhotoGraph/CameraMan/CameraMan/1.jpg")" alt="..." class="img-thumbnail">
+                                            <div class="caption">
+                                                <h5> ชื่อ : @item.Name</h5>
+                                                <h6> ความถนัด : @item.Specialability</h6>
+                                                @if (@item.IsSelect)
+                                                { <input type="checkbox" class="CameraCHK" id="CameraId" name="CameraId" value="@item.Id" checked="checked" onclick="CMCheckBoxCLick(this)" />}
+                                                else
+                                                {
+                                                    <input type="checkbox" class="CameraCHK" id="CameraId" name="CameraId" value="@item.Id" onclick="CMCheckBoxCLick(this)" />
+                                                }
+
+                                            </div>
+                                        </div>
+                                    }
+
+                                    @foreach (var item in @ViewBag.CameraManOursourceList)
+                                    {
+                                        <div class="thumbnail col-md-3">
+
+                                            <img src="@Url.Content("~/Content/images/PhotoGraph/CameraMan/CameraMan/1.jpg")" alt="..." class="img-thumbnail">
+                                            <div class="caption">
+                                                <h5> ชื่อ : @item.Name</h5>
+                                                <h6> ความถนัด : @item.Specialability</h6>
+                                                @if (@item.IsSelect)
+                                                { <input type="checkbox" class="CameraCHK" id="OutsourceCMId" name="OutsourceCMId" value="@item.Id" checked="checked" onclick="CMCheckBoxCLick(this)" />}
+                                                else
+                                                {
+                                                    <input type="checkbox" class="CameraCHK" id="OutsourceCMId" name="OutsourceCMId" value="@item.Id" onclick="CMCheckBoxCLick(this)" />
+                                                }
+                                                @Html.ValidationMessage("OutsourceCMId", "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                @Html.Label("รายละเอียด", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "3", @readonly = true })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.Label("ราคา", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @style = "width:100px", @readonly = true } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @Html.HiddenFor(model => model.Cost)
+            <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
+            <input type="hidden" id="Code" name="Code" value="@Model.Id" />
+            @Html.Hidden("IsEditTable", new { IsEditTable = @ViewBag.IsEditTable})
+            <div class="form-group">
+                <ul class="pager">
+                    <li class="next">
+                        <div class="col-md-12 text-right">
+                            <input type="submit" value="Next" class="btn btn-default" />
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>*@
+    }
+</div>
+
+
+
+
+
+
+

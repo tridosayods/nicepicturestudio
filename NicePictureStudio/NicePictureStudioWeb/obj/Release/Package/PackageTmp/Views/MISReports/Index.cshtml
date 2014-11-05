@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "รายงานสารสนเทศ";
+}
+
+<h2>รายงานสรุปรายได้ประจำปี</h2>
+<h4>บริษัท รูปสวยโฟโต้ จำกัด</h4>
+<br />
+
+@*@section HeadContent {
+    <style>
+    #chart {
+        background: center no-repeat url('@Url.Content("~/Content/shared/world-map.png")');
+        height: 430px;
+    }
+    </style>
+}*@
+
+<div class="chart-wrapper">
+    @(Html.Kendo().Chart()
+        .Name("IncomeStatement")
+        .Title("รายงานสรุปรายรับประจำปี ของบริษัท รูปสวยโฟโต้จำกัด")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Top)
+        )
+        .ChartArea(chartArea => chartArea
+            .Background("transparent")
+        )
+        .Series(series =>
+        {
+            series.Column(new double[] { 2000000,3000000, 3050000 }).Name("รายได้");
+            series.Column(new double[] {1000000, 1500000, 1525000 }).Name("ส่วนของกำไร");
+        })
+        .CategoryAxis(axis => axis
+            .Name("series-axis")
+            .Line(line => line.Visible(false))
+        )
+        .CategoryAxis(axis => axis
+            .Name("label-axis")
+            .Categories("2012", "2013", "2014")
+        )
+        .ValueAxis(axis => axis
+            .Numeric()
+                .Labels(labels => labels.Format("{0:c} บาท"))
+
+                // Move the label-axis all the way down the value axis
+                .AxisCrossingValue(0, int.MinValue)
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0:c}")
+            .Template("#= series.name #: #= value #")
+        )
+    )
+</div>

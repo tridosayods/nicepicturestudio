@@ -1,0 +1,58 @@
+﻿@model NicePictureStudio.App_Data.Equipment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Equipment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EquipmentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquipmentName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModelName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModelName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EquipmentDetail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquipmentDetail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeStatu.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeStatu.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EquipmentType.TypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquipmentType.TypeName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EquipmentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,25 @@
+﻿<Cube xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="4d15923e-225b-4381-8654-2bda31b785f1" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <ID>NC Studio DW</ID>
+  <MeasureGroups>
+    <MeasureGroup>
+      <ID>Performance Facts</ID>
+      <Partitions>
+        <Partition dwd:design-time-name="18b4dc0a-c21b-4b93-98c0-a7b341e02a79">
+          <ID>Performance Facts</ID>
+          <Name>Performance Facts</Name>
+          <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+          <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+          <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
+          <State>Unprocessed</State>
+          <Source xsi:type="DsvTableBinding" dwd:design-time-name="91ecbf9d-9dc4-4b0f-8c54-9e12eb1133f1">
+            <DataSourceViewID>NC Studio DW</DataSourceViewID>
+            <TableID>dbo_PerformanceFacts</TableID>
+          </Source>
+          <StorageMode>Molap</StorageMode>
+          <CurrentStorageMode>Molap</CurrentStorageMode>
+          <ProcessingMode>Regular</ProcessingMode>
+        </Partition>
+      </Partitions>
+    </MeasureGroup>
+  </MeasureGroups>
+</Cube>

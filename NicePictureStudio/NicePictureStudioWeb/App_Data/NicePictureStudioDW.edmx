@@ -1,0 +1,415 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NCStudioDWModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DimensionPhotoGrapher">
+          <Key>
+            <PropertyRef Name="PhotoGraphId" />
+          </Key>
+          <Property Name="PhotoGraphId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Skill" Type="nvarchar" MaxLength="50" />
+          <Property Name="SkillId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DimensionPromotion">
+          <Key>
+            <PropertyRef Name="PromotionId" />
+          </Key>
+          <Property Name="PromotionId" Type="int" Nullable="false" />
+          <Property Name="SalePerson" Type="nvarchar" MaxLength="50" />
+          <Property Name="PromotionType" Type="int" />
+          <Property Name="Profit" Type="int" />
+          <Property Name="PromotionTypeName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="DimensionSatisfaction">
+          <Key>
+            <PropertyRef Name="SatisfactionId" />
+          </Key>
+          <Property Name="SatisfactionId" Type="int" Nullable="false" />
+          <Property Name="BestScore" Type="int" />
+          <Property Name="WorseScore" Type="int" />
+        </EntityType>
+        <EntityType Name="DimensionServiceType">
+          <Key>
+            <PropertyRef Name="ServiceTypeId" />
+          </Key>
+          <Property Name="ServiceTypeId" Type="int" Nullable="false" />
+          <Property Name="ServiceType" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cost" Type="numeric" Precision="18" Scale="3" />
+        </EntityType>
+        <EntityType Name="DimensionTime">
+          <Key>
+            <PropertyRef Name="TimeId" />
+          </Key>
+          <Property Name="TimeId" Type="int" Nullable="false" />
+          <Property Name="Year" Type="char" MaxLength="4" />
+          <Property Name="Quarter" Type="char" MaxLength="1" />
+          <Property Name="Month" Type="varchar" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="PerformanceFacts">
+          <Key>
+            <PropertyRef Name="TimeId" />
+            <PropertyRef Name="PromotionId" />
+            <PropertyRef Name="SatisfactionId" />
+            <PropertyRef Name="PhotoGrapherId" />
+            <PropertyRef Name="ServiceTypeId" />
+          </Key>
+          <Property Name="TimeId" Type="int" Nullable="false" />
+          <Property Name="PromotionId" Type="int" Nullable="false" />
+          <Property Name="SatisfactionId" Type="int" Nullable="false" />
+          <Property Name="PhotoGrapherId" Type="int" Nullable="false" />
+          <Property Name="ServiceTypeId" Type="int" Nullable="false" />
+          <Property Name="ApprisalScore" Type="int" />
+          <Property Name="ProfitPercent" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="SaleAmount" Type="int" />
+          <Property Name="CostAmount" Type="int" />
+        </EntityType>
+        <Association Name="FK_PerformanceFacts_DimensionPhotoGrapher">
+          <End Role="DimensionPhotoGrapher" Type="Self.DimensionPhotoGrapher" Multiplicity="1" />
+          <End Role="PerformanceFacts" Type="Self.PerformanceFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DimensionPhotoGrapher">
+              <PropertyRef Name="PhotoGraphId" />
+            </Principal>
+            <Dependent Role="PerformanceFacts">
+              <PropertyRef Name="PhotoGrapherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerformanceFacts_DimensionPromotion">
+          <End Role="DimensionPromotion" Type="Self.DimensionPromotion" Multiplicity="1" />
+          <End Role="PerformanceFacts" Type="Self.PerformanceFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DimensionPromotion">
+              <PropertyRef Name="PromotionId" />
+            </Principal>
+            <Dependent Role="PerformanceFacts">
+              <PropertyRef Name="PromotionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerformanceFacts_DimensionSatisfaction">
+          <End Role="DimensionSatisfaction" Type="Self.DimensionSatisfaction" Multiplicity="1" />
+          <End Role="PerformanceFacts" Type="Self.PerformanceFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DimensionSatisfaction">
+              <PropertyRef Name="SatisfactionId" />
+            </Principal>
+            <Dependent Role="PerformanceFacts">
+              <PropertyRef Name="SatisfactionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerformanceFacts_DimensionServiceType">
+          <End Role="DimensionServiceType" Type="Self.DimensionServiceType" Multiplicity="1" />
+          <End Role="PerformanceFacts" Type="Self.PerformanceFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DimensionServiceType">
+              <PropertyRef Name="ServiceTypeId" />
+            </Principal>
+            <Dependent Role="PerformanceFacts">
+              <PropertyRef Name="ServiceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerformanceFacts_DimensionTime1">
+          <End Role="DimensionTime" Type="Self.DimensionTime" Multiplicity="1" />
+          <End Role="PerformanceFacts" Type="Self.PerformanceFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DimensionTime">
+              <PropertyRef Name="TimeId" />
+            </Principal>
+            <Dependent Role="PerformanceFacts">
+              <PropertyRef Name="TimeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NCStudioDWModelStoreContainer">
+          <EntitySet Name="DimensionPhotoGrapher" EntityType="Self.DimensionPhotoGrapher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DimensionPromotion" EntityType="Self.DimensionPromotion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DimensionSatisfaction" EntityType="Self.DimensionSatisfaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DimensionServiceType" EntityType="Self.DimensionServiceType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DimensionTime" EntityType="Self.DimensionTime" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PerformanceFacts" EntityType="Self.PerformanceFacts" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PerformanceFacts_DimensionPhotoGrapher" Association="Self.FK_PerformanceFacts_DimensionPhotoGrapher">
+            <End Role="DimensionPhotoGrapher" EntitySet="DimensionPhotoGrapher" />
+            <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerformanceFacts_DimensionPromotion" Association="Self.FK_PerformanceFacts_DimensionPromotion">
+            <End Role="DimensionPromotion" EntitySet="DimensionPromotion" />
+            <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerformanceFacts_DimensionSatisfaction" Association="Self.FK_PerformanceFacts_DimensionSatisfaction">
+            <End Role="DimensionSatisfaction" EntitySet="DimensionSatisfaction" />
+            <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerformanceFacts_DimensionServiceType" Association="Self.FK_PerformanceFacts_DimensionServiceType">
+            <End Role="DimensionServiceType" EntitySet="DimensionServiceType" />
+            <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerformanceFacts_DimensionTime1" Association="Self.FK_PerformanceFacts_DimensionTime1">
+            <End Role="DimensionTime" EntitySet="DimensionTime" />
+            <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NCStudioDWModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DimensionPhotoGrapher">
+          <Key>
+            <PropertyRef Name="PhotoGraphId" />
+          </Key>
+          <Property Name="PhotoGraphId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Skill" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PerformanceFacts" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionPhotoGrapher" FromRole="DimensionPhotoGrapher" ToRole="PerformanceFacts" />
+          <Property Name="SkillId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DimensionPromotion">
+          <Key>
+            <PropertyRef Name="PromotionId" />
+          </Key>
+          <Property Name="PromotionId" Type="Int32" Nullable="false" />
+          <Property Name="SalePerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PromotionType" Type="Int32" />
+          <Property Name="Profit" Type="Int32" />
+          <NavigationProperty Name="PerformanceFacts" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionPromotion" FromRole="DimensionPromotion" ToRole="PerformanceFacts" />
+          <Property Name="PromotionTypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DimensionSatisfaction">
+          <Key>
+            <PropertyRef Name="SatisfactionId" />
+          </Key>
+          <Property Name="SatisfactionId" Type="Int32" Nullable="false" />
+          <Property Name="BestScore" Type="Int32" />
+          <Property Name="WorseScore" Type="Int32" />
+          <NavigationProperty Name="PerformanceFacts" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionSatisfaction" FromRole="DimensionSatisfaction" ToRole="PerformanceFacts" />
+        </EntityType>
+        <EntityType Name="DimensionTime">
+          <Key>
+            <PropertyRef Name="TimeId" />
+          </Key>
+          <Property Name="TimeId" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="Quarter" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Month" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PerformanceFacts" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionTime1" FromRole="DimensionTime" ToRole="PerformanceFacts" />
+        </EntityType>
+        <EntityContainer Name="NCStudioDWEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DimensionPhotoGrapher" EntityType="Self.DimensionPhotoGrapher" />
+          <EntitySet Name="DimensionPromotion" EntityType="Self.DimensionPromotion" />
+          <EntitySet Name="DimensionSatisfaction" EntityType="Self.DimensionSatisfaction" />
+          <EntitySet Name="DimensionTime" EntityType="Self.DimensionTime" />
+          <EntitySet Name="PerformanceFacts" EntityType="NCStudioDWModel.PerformanceFacts" />
+          <AssociationSet Name="FK_PerformanceFacts_DimensionPhotoGrapher" Association="NCStudioDWModel.FK_PerformanceFacts_DimensionPhotoGrapher">
+            <End Role="DimensionPhotoGrapher" EntitySet="DimensionPhotoGrapher" />
+            <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerformanceFacts_DimensionPromotion" Association="NCStudioDWModel.FK_PerformanceFacts_DimensionPromotion">
+            <End Role="DimensionPromotion" EntitySet="DimensionPromotion" />
+            <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerformanceFacts_DimensionSatisfaction" Association="NCStudioDWModel.FK_PerformanceFacts_DimensionSatisfaction">
+            <End Role="DimensionSatisfaction" EntitySet="DimensionSatisfaction" />
+            <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerformanceFacts_DimensionTime1" Association="NCStudioDWModel.FK_PerformanceFacts_DimensionTime1">
+            <End Role="DimensionTime" EntitySet="DimensionTime" />
+            <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+          </AssociationSet>
+          <EntitySet Name="DimensionServiceType" EntityType="NCStudioDWModel.DimensionServiceType" />
+          <AssociationSet Name="FK_PerformanceFacts_DimensionServiceType" Association="NCStudioDWModel.FK_PerformanceFacts_DimensionServiceType">
+            <End Role="DimensionServiceType" EntitySet="DimensionServiceType" />
+            <End Role="PerformanceFacts" EntitySet="PerformanceFacts" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="PerformanceFacts">
+          <Key>
+            <PropertyRef Name="TimeId" />
+            <PropertyRef Name="PromotionId" />
+            <PropertyRef Name="SatisfactionId" />
+            <PropertyRef Name="PhotoGrapherId" />
+            <PropertyRef Name="ServiceTypeId" />
+          </Key>
+          <Property Name="TimeId" Type="Int32" Nullable="false" />
+          <Property Name="PromotionId" Type="Int32" Nullable="false" />
+          <Property Name="SatisfactionId" Type="Int32" Nullable="false" />
+          <Property Name="PhotoGrapherId" Type="Int32" Nullable="false" />
+          <Property Name="ServiceTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ApprisalScore" Type="Int32" />
+          <Property Name="ProfitPercent" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="SaleAmount" Type="Int32" />
+          <Property Name="CostAmount" Type="Int32" />
+          <NavigationProperty Name="DimensionPhotoGrapher" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionPhotoGrapher" FromRole="PerformanceFacts" ToRole="DimensionPhotoGrapher" />
+          <NavigationProperty Name="DimensionPromotion" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionPromotion" FromRole="PerformanceFacts" ToRole="DimensionPromotion" />
+          <NavigationProperty Name="DimensionSatisfaction" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionSatisfaction" FromRole="PerformanceFacts" ToRole="DimensionSatisfaction" />
+          <NavigationProperty Name="DimensionTime" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionTime1" FromRole="PerformanceFacts" ToRole="DimensionTime" />
+          <NavigationProperty Name="DimensionServiceType" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionServiceType" FromRole="PerformanceFacts" ToRole="DimensionServiceType" />
+        </EntityType>
+        <Association Name="FK_PerformanceFacts_DimensionPhotoGrapher">
+          <End Type="NCStudioDWModel.DimensionPhotoGrapher" Role="DimensionPhotoGrapher" Multiplicity="1" />
+          <End Type="NCStudioDWModel.PerformanceFacts" Role="PerformanceFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DimensionPhotoGrapher">
+              <PropertyRef Name="PhotoGraphId" />
+            </Principal>
+            <Dependent Role="PerformanceFacts">
+              <PropertyRef Name="PhotoGrapherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerformanceFacts_DimensionPromotion">
+          <End Type="NCStudioDWModel.DimensionPromotion" Role="DimensionPromotion" Multiplicity="1" />
+          <End Type="NCStudioDWModel.PerformanceFacts" Role="PerformanceFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DimensionPromotion">
+              <PropertyRef Name="PromotionId" />
+            </Principal>
+            <Dependent Role="PerformanceFacts">
+              <PropertyRef Name="PromotionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerformanceFacts_DimensionSatisfaction">
+          <End Type="NCStudioDWModel.DimensionSatisfaction" Role="DimensionSatisfaction" Multiplicity="1" />
+          <End Type="NCStudioDWModel.PerformanceFacts" Role="PerformanceFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DimensionSatisfaction">
+              <PropertyRef Name="SatisfactionId" />
+            </Principal>
+            <Dependent Role="PerformanceFacts">
+              <PropertyRef Name="SatisfactionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerformanceFacts_DimensionTime1">
+          <End Type="NCStudioDWModel.DimensionTime" Role="DimensionTime" Multiplicity="1" />
+          <End Type="NCStudioDWModel.PerformanceFacts" Role="PerformanceFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DimensionTime">
+              <PropertyRef Name="TimeId" />
+            </Principal>
+            <Dependent Role="PerformanceFacts">
+              <PropertyRef Name="TimeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DimensionServiceType">
+          <Key>
+            <PropertyRef Name="ServiceTypeId" />
+          </Key>
+          <Property Name="ServiceTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ServiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cost" Type="Decimal" Precision="18" Scale="3" />
+          <NavigationProperty Name="PerformanceFacts" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionServiceType" FromRole="DimensionServiceType" ToRole="PerformanceFacts" />
+        </EntityType>
+        <Association Name="FK_PerformanceFacts_DimensionServiceType">
+          <End Type="NCStudioDWModel.DimensionServiceType" Role="DimensionServiceType" Multiplicity="1" />
+          <End Type="NCStudioDWModel.PerformanceFacts" Role="PerformanceFacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DimensionServiceType">
+              <PropertyRef Name="ServiceTypeId" />
+            </Principal>
+            <Dependent Role="PerformanceFacts">
+              <PropertyRef Name="ServiceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NCStudioDWModelStoreContainer" CdmEntityContainer="NCStudioDWEntities">
+          <EntitySetMapping Name="DimensionPhotoGrapher">
+            <EntityTypeMapping TypeName="NCStudioDWModel.DimensionPhotoGrapher">
+              <MappingFragment StoreEntitySet="DimensionPhotoGrapher">
+                <ScalarProperty Name="SkillId" ColumnName="SkillId" />
+                <ScalarProperty Name="PhotoGraphId" ColumnName="PhotoGraphId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Skill" ColumnName="Skill" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DimensionPromotion">
+            <EntityTypeMapping TypeName="NCStudioDWModel.DimensionPromotion">
+              <MappingFragment StoreEntitySet="DimensionPromotion">
+                <ScalarProperty Name="PromotionTypeName" ColumnName="PromotionTypeName" />
+                <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
+                <ScalarProperty Name="SalePerson" ColumnName="SalePerson" />
+                <ScalarProperty Name="PromotionType" ColumnName="PromotionType" />
+                <ScalarProperty Name="Profit" ColumnName="Profit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DimensionSatisfaction">
+            <EntityTypeMapping TypeName="NCStudioDWModel.DimensionSatisfaction">
+              <MappingFragment StoreEntitySet="DimensionSatisfaction">
+                <ScalarProperty Name="SatisfactionId" ColumnName="SatisfactionId" />
+                <ScalarProperty Name="BestScore" ColumnName="BestScore" />
+                <ScalarProperty Name="WorseScore" ColumnName="WorseScore" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DimensionTime">
+            <EntityTypeMapping TypeName="NCStudioDWModel.DimensionTime">
+              <MappingFragment StoreEntitySet="DimensionTime">
+                <ScalarProperty Name="TimeId" ColumnName="TimeId" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Quarter" ColumnName="Quarter" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PerformanceFacts">
+            <EntityTypeMapping TypeName="NCStudioDWModel.PerformanceFacts">
+              <MappingFragment StoreEntitySet="PerformanceFacts">
+                <ScalarProperty Name="CostAmount" ColumnName="CostAmount" />
+                <ScalarProperty Name="SaleAmount" ColumnName="SaleAmount" />
+                <ScalarProperty Name="ProfitPercent" ColumnName="ProfitPercent" />
+                <ScalarProperty Name="ApprisalScore" ColumnName="ApprisalScore" />
+                <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+                <ScalarProperty Name="PhotoGrapherId" ColumnName="PhotoGrapherId" />
+                <ScalarProperty Name="SatisfactionId" ColumnName="SatisfactionId" />
+                <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
+                <ScalarProperty Name="TimeId" ColumnName="TimeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DimensionServiceType">
+            <EntityTypeMapping TypeName="NCStudioDWModel.DimensionServiceType">
+              <MappingFragment StoreEntitySet="DimensionServiceType">
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
+                <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

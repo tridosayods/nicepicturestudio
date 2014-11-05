@@ -1,0 +1,20 @@
+﻿<div id="tblOutsource">
+    @if (@ViewBag.ListOutsourceServices != null)
+    {
+        <div class="form-group">
+            <table class="table table-striped">
+                <tr><th>ชื่อบริการ</th><th>รายละเอียด</th><th>PortFolio</th><th>ราคา</th><th></th></tr>
+                @foreach (NicePictureStudio.Models.OutsourceServiceViewModel item in ViewBag.ListOutsourceServices)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td>@item.PortFolioURL</td>
+                        <td>@item.Price</td>
+                        <td>@Ajax.ActionLink("Remove", "RemoveOutsourceWhenEditNew", new { Id = @item.Id, serviceType = @ViewBag.OutsourceServiceType,IsEditTable = @ViewBag.IsEditTable }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblOutsource" })</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</div>

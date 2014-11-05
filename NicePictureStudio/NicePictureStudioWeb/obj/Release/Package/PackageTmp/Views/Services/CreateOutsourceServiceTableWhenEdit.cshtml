@@ -1,0 +1,20 @@
+﻿<div id="@ViewData["tblequipment"].ToString()">
+    @if (@ViewBag.ListOutsourceServices != null)
+    {
+        <div class="form-group">
+            <table class="table table-striped">
+                <tr><th>Outsource Name</th><th>Description</th><th>PortFolio</th><th>Price</th><th>Action</th></tr>
+                @foreach (NicePictureStudio.Models.OutsourceServiceViewModel item in ViewBag.ListOutsourceServices)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td>@item.PortFolioURL</td>
+                        <td>@item.Price</td>
+                        <td>@Ajax.ActionLink("Remove", "RemoveOutsourceWhenEdit", new { Id = @item.Id, serviceType = @ViewBag.OutsourceServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = @ViewData["tblequipment"].ToString() })</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</div>

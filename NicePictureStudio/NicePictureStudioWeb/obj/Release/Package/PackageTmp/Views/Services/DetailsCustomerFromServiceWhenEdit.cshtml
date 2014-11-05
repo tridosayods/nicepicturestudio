@@ -1,0 +1,93 @@
+﻿@model NicePictureStudio.App_Data.Customer
+
+<div id="CustomerFromService">
+    <h4>Customer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnniversaryDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnniversaryDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostcalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostcalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReferencePerson)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReferencePerson)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReferenceEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReferenceEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReferencePhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReferencePhoneNumber)
+        </dd>
+
+    </dl>
+
+    <p>
+        @Ajax.ActionLink("Edit", "EditCustomerFromServiceWhenEdit", new { id = Model.CustomerId },
+            new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "CustomerFromService" }) |
+    </p>
+</div>

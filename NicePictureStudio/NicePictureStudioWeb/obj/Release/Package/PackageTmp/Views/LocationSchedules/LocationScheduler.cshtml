@@ -1,0 +1,95 @@
+﻿@(Html.Kendo().Scheduler<NicePictureStudio.Models.SchedulerViewModels>()
+    .Name("LocScheduler")
+    .Messages(msg =>
+    {
+        msg.Cancel("ยกเลิก");
+        msg.Save("ยืนยัน");
+        msg.Destroy("ลบรายการ");
+
+    })
+    .Date(DateTime.Today)
+    .StartTime(DateTime.Today)
+    .Height(600)
+    .Views(views =>
+    {
+        views.DayView();
+        views.WeekView();
+        views.MonthView(montview => montview.Selected(true));
+        views.AgendaView();
+    })
+        .Editable(editable =>
+        {
+            editable.TemplateName("LocationScheduleTemplate");
+            editable.Create(false);
+            editable.Resize(false);
+            editable.Destroy(false);
+        })
+        //.BindTo(Model)
+        //.Timezone("Etc/UTC")
+        .Resources(resource =>
+        {
+            resource.Add(m => m.selectedStatus)
+                .Title("Room")
+                .DataTextField("Text")
+                .DataValueField("Value")
+                .DataColorField("Color")
+                .BindTo(new[] {
+                    new { Text = "New", Value = 1, Color = "#6eb3fa" },
+                    new { Text = "Confirm", Value = 2, Color = "#f58a8a" },
+                    new { Text = "Cancel", Value = 3, Color = "#f58a8a" }
+                });
+            //resource.Add(m => m.Attendees)
+            //    .Title("Attendees")
+            //    .Multiple(true)
+            //    .DataTextField("Text")
+            //    .DataValueField("Value")
+            //    .DataColorField("Color")
+            //    .BindTo(new[] {
+            //        new { Text = "Alex", Value = 1, Color = "#f8a398" },
+            //        new { Text = "Bob", Value = 2, Color = "#51a0ed" },
+            //        new { Text = "Charlie", Value = 3, Color = "#56ca85" }
+            //    });
+        })
+        .DataSource(d => d
+            .Model(m =>
+            {
+                m.Id(f => f.Id);
+                m.Field(f => f.Title).DefaultValue("No title");
+                //m.RecurrenceId(f => f.RecurrenceID);
+            })
+            .Events(e => e.Error("error_handler"))
+            .Read("Locations_Read", "LocationSchedules")
+            //.Create("Meetings_Create", "Home")
+            //.Destroy("Employees_Destroy", "EmployeeSchedules")
+            .Update("Locations_Update", "LocationSchedules")
+
+        )
+)
+
+
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+
+            var scheduler = $("#LocScheduler").data("kendoScheduler");
+            scheduler.one("dataBinding", function (e) {
+                //prevent saving if server error is thrown
+                e.preventDefault();
+            })
+        }
+    }
+
+
+</script>
+
+

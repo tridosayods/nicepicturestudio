@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="NCStudioDWModelStoreContainer" CdmEntityContainer="NCStudioDWEntities">
+    <EntitySetMapping Name="DimensionPhotoGrapher">
+      <EntityTypeMapping TypeName="NCStudioDWModel.DimensionPhotoGrapher">
+        <MappingFragment StoreEntitySet="DimensionPhotoGrapher">
+          <ScalarProperty Name="SkillId" ColumnName="SkillId" />
+          <ScalarProperty Name="PhotoGraphId" ColumnName="PhotoGraphId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Skill" ColumnName="Skill" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DimensionPromotion">
+      <EntityTypeMapping TypeName="NCStudioDWModel.DimensionPromotion">
+        <MappingFragment StoreEntitySet="DimensionPromotion">
+          <ScalarProperty Name="PromotionTypeName" ColumnName="PromotionTypeName" />
+          <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
+          <ScalarProperty Name="SalePerson" ColumnName="SalePerson" />
+          <ScalarProperty Name="PromotionType" ColumnName="PromotionType" />
+          <ScalarProperty Name="Profit" ColumnName="Profit" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DimensionSatisfaction">
+      <EntityTypeMapping TypeName="NCStudioDWModel.DimensionSatisfaction">
+        <MappingFragment StoreEntitySet="DimensionSatisfaction">
+          <ScalarProperty Name="SatisfactionId" ColumnName="SatisfactionId" />
+          <ScalarProperty Name="BestScore" ColumnName="BestScore" />
+          <ScalarProperty Name="WorseScore" ColumnName="WorseScore" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DimensionTime">
+      <EntityTypeMapping TypeName="NCStudioDWModel.DimensionTime">
+        <MappingFragment StoreEntitySet="DimensionTime">
+          <ScalarProperty Name="TimeId" ColumnName="TimeId" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Quarter" ColumnName="Quarter" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PerformanceFacts">
+      <EntityTypeMapping TypeName="NCStudioDWModel.PerformanceFacts">
+        <MappingFragment StoreEntitySet="PerformanceFacts">
+          <ScalarProperty Name="CostAmount" ColumnName="CostAmount" />
+          <ScalarProperty Name="SaleAmount" ColumnName="SaleAmount" />
+          <ScalarProperty Name="ProfitPercent" ColumnName="ProfitPercent" />
+          <ScalarProperty Name="ApprisalScore" ColumnName="ApprisalScore" />
+          <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+          <ScalarProperty Name="PhotoGrapherId" ColumnName="PhotoGrapherId" />
+          <ScalarProperty Name="SatisfactionId" ColumnName="SatisfactionId" />
+          <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
+          <ScalarProperty Name="TimeId" ColumnName="TimeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DimensionServiceType">
+      <EntityTypeMapping TypeName="NCStudioDWModel.DimensionServiceType">
+        <MappingFragment StoreEntitySet="DimensionServiceType">
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
+          <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

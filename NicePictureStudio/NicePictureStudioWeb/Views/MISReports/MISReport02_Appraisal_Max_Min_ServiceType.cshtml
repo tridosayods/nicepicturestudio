@@ -1,0 +1,33 @@
+﻿@model IEnumerable<NicePictureStudio.Models.BarChartViewModel>
+<div class="chart-wrapper">
+    @(Html.Kendo().Chart(Model)
+            .Name("MISchart02")
+            .Title("รายงานวิเคราะห์ลาดับความพึงพอใจสูงสุด และต่าสุดตามประเภทของการให้บริการ")
+            .Legend(legend => legend
+                .Visible(false)
+            )
+            .ChartArea(chartArea => chartArea
+                .Background("transparent")
+            )
+            .Series(series =>
+            {
+                series.Column(
+                    model => model.Data_1
+                    ).Name("คะแนนความพึงพอใจเฉลี่ย");
+            })
+            .CategoryAxis(axis => axis
+                .Categories(model => model.Catalogs)
+                .MajorGridLines(lines => lines.Visible(false))
+            )
+            .ValueAxis(axis => axis
+                .Numeric()
+                .Max(5)
+                .Line(line => line.Visible(false))
+                .MajorGridLines(lines => lines.Visible(true))
+            )
+            .Tooltip(tooltip => tooltip
+                .Visible(true)
+                .Template("#= series.name #: #= value # %")
+            )
+    )
+</div>

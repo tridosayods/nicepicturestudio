@@ -1,0 +1,1138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NicePictureStudio.App_Data.NicePictureStudioDBEntities" Collapsed="true">
+    <Position X="2.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAUJEwQICKAoAAgICC5AIgEBGiAQAAgCVAACIIAAIoE=</HashCode>
+      <FileName>App_Data\NicePictureStudioDB.Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.Booking" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAABCBAFAEAAAAAAAAQABAgAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\Booking.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.BookingSpecialRequest" Collapsed="true">
+    <Position X="9.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\BookingSpecialRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.BookingStatu" Collapsed="true">
+    <Position X="11" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\BookingStatu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.C__MigrationHistory" Collapsed="true">
+    <Position X="16.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAACAAAAEAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>App_Data\C__MigrationHistory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.CRMForm" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>App_Data\CRMForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.CRMScrore" Collapsed="true">
+    <Position X="9.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAAAAgAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>App_Data\CRMScrore.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.CRMServiceCategory" Collapsed="true">
+    <Position X="11" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\CRMServiceCategory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.CRMServiceType" Collapsed="true">
+    <Position X="12.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\CRMServiceType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.CRMTemplate" Collapsed="true">
+    <Position X="14.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAKAQAAAAAAAAABAAAAAAAAAAAAAAAEAAAAAIAAAgA=</HashCode>
+      <FileName>App_Data\CRMTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.Customer" Collapsed="true">
+    <Position X="18" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gQAEAQABEDAAAAQAKAAAQAAAQAIDADACCQAAIiABAAQ=</HashCode>
+      <FileName>App_Data\Customer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.Employee" Collapsed="true">
+    <Position X="9.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASCAAAcACAAIEAoIAAIQAQBAgAAAAgKAQQgBFAAgQE=</HashCode>
+      <FileName>App_Data\Employee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EmployeeClaim" Collapsed="true">
+    <Position X="11" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAQAAAAAAACAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>App_Data\EmployeeClaim.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EmployeeInfo" Collapsed="true">
+    <Position X="12.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAAAEAAAAAAAAQADAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\EmployeeInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EmployeeLogin">
+    <Position X="14.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgACAAAEAAAABAAAAAAAAA=</HashCode>
+      <FileName>App_Data\EmployeeLogin.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EmployeePosition" Collapsed="true">
+    <Position X="19.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\EmployeePosition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EmployeeSchedule" Collapsed="true">
+    <Position X="5.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEAAAAAACAAAAAAAAAKAAgAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>App_Data\EmployeeSchedule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EmployeeStatu" Collapsed="true">
+    <Position X="11" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\EmployeeStatu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.Equipment" Collapsed="true">
+    <Position X="12.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABQAAAAAAABAgAgAAAAAIAAAAAAAAAAAgAgAAAA=</HashCode>
+      <FileName>App_Data\Equipment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EquipmentSchedule" Collapsed="true">
+    <Position X="14.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEAAAAAAAAAAAAAAAAICAgAAAAAACAAAAAAIA=</HashCode>
+      <FileName>App_Data\EquipmentSchedule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EquipmentService" Collapsed="true">
+    <Position X="21.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAgAAAAAAAAABQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\EquipmentService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EquipmentStatu" Collapsed="true">
+    <Position X="2.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>App_Data\EquipmentStatu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EquipmentType" Collapsed="true">
+    <Position X="4" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAIAAAAAAAAAAAAAAAAABAAAAAAAAAAAgA=</HashCode>
+      <FileName>App_Data\EquipmentType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.Location" Collapsed="true">
+    <Position X="2.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIACAAACAAAAQIIgIAQAAAIAAAAAAABAAAJAAAiIA=</HashCode>
+      <FileName>App_Data\Location.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.LocationSchedule" Collapsed="true">
+    <Position X="4" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAKAAAEAAAAAAAAAAAACAAAIAAgAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>App_Data\LocationSchedule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.LocationService" Collapsed="true">
+    <Position X="9.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAgAAAAAAIAABYAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\LocationService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.LocationStatu" Collapsed="true">
+    <Position X="12.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAIAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\LocationStatu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.LocationStyle" Collapsed="true">
+    <Position X="14.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAIAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\LocationStyle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.LocationType" Collapsed="true">
+    <Position X="16.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAIAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\LocationType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.OutputSchedule" Collapsed="true">
+    <Position X="4" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAgQEAABAAAAIAACABAAAAAAQAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>App_Data\OutputSchedule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.OutputService" Collapsed="true">
+    <Position X="9.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACQQAAAQAgAAAAAAIAABQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\OutputService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.OutputSize" Collapsed="true">
+    <Position X="12.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\OutputSize.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.OutputStatu" Collapsed="true">
+    <Position X="14.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\OutputStatu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.OutputType" Collapsed="true">
+    <Position X="16.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\OutputType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.OutsourceContact" Collapsed="true">
+    <Position X="18" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAgAAQAEAACAAAAICQAAAIAAACAA=</HashCode>
+      <FileName>App_Data\OutsourceContact.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.OutSourcePriceRanx" Collapsed="true">
+    <Position X="21.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAgAAAIAAAAAAAAAAEAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>App_Data\OutSourcePriceRanx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.OutsourceSchedule" Collapsed="true">
+    <Position X="0.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEAAAAAQAAQAAAAAAAIAAgAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>App_Data\OutsourceSchedule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.OutsourceService" Collapsed="true">
+    <Position X="4" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAgAAAAAAAAABQAIAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\OutsourceService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.OutsourceServiceType" Collapsed="true">
+    <Position X="5.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAgAAABAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\OutsourceServiceType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.OutsourceStatu" Collapsed="true">
+    <Position X="9.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAgAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\OutsourceStatu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.PhotographService" Collapsed="true">
+    <Position X="12.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAgAAAAAAAACBQAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\PhotographService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.Promotion" Collapsed="true">
+    <Position X="16.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAGAQAAAAAgAIAAAAAAAAQAAAAYgAAkAAABAAAAAAA=</HashCode>
+      <FileName>App_Data\Promotion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.PromotionStatu" Collapsed="true">
+    <Position X="2.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>App_Data\PromotionStatu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.Role" Collapsed="true">
+    <Position X="19.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAIAAAgAAAAAAAAAAQACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\Role.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.Service" Collapsed="true">
+    <Position X="9.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAAQIAgAAAAAIAAMAIAAAAEAAAAQAAEAAAAAIA=</HashCode>
+      <FileName>App_Data\Service.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.ServiceForm" Collapsed="true">
+    <Position X="11" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAKAgAAQAAIABAIAAIAAASAAIAAQAACBAAUAAAAABA=</HashCode>
+      <FileName>App_Data\ServiceForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.ServiceStatu" Collapsed="true">
+    <Position X="7.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>App_Data\ServiceStatu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.ServiceSuggestion" Collapsed="true">
+    <Position X="11" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Data\ServiceSuggestion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.ServiceType" Collapsed="true">
+    <Position X="14.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAAAACAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>App_Data\ServiceType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.BookingMetadata" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\BookingMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.CustomerMetadata" Collapsed="true">
+    <Position X="19.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAQABEDAAAAQAIAAAQAAAQAIDAAACCQAAIiABAAQ=</HashCode>
+      <FileName>Metadata\CustomerMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EmployeeLoginMetadata" Collapsed="true">
+    <Position X="16.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAEAAAABAAAAAAAAA=</HashCode>
+      <FileName>Metadata\EmployeeLoginMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EmployeeRole" Collapsed="true">
+    <Position X="2.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\EmployeeLoginMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EmployeeRoleMetadata" Collapsed="true">
+    <Position X="4" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\EmployeeLoginMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.IdentityUserRole" Collapsed="true">
+    <Position X="19.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\EmployeeLoginMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.IdentityUserRoleMetadata" Collapsed="true">
+    <Position X="21.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\EmployeeLoginMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.EmployeeMetadata" Collapsed="true">
+    <Position X="18" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\EmployeeLoginMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.ServiceMetadata" Collapsed="true">
+    <Position X="4" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\ServiceMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.ServiceFprm" Collapsed="true">
+    <Position X="21.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\ServiceMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.App_Data.ServiceFormMetadata" Collapsed="true">
+    <Position X="14.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\ServiceMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.BundleConfig" Collapsed="true">
+    <Position X="14.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\BundleConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.FilterConfig" Collapsed="true">
+    <Position X="11" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\FilterConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.RouteConfig" Collapsed="true">
+    <Position X="2.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\RouteConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Startup" Collapsed="true">
+    <Position X="19.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAgAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\Startup.Auth.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.WebApiConfig" Collapsed="true">
+    <Position X="5.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\WebApiConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.BookingsController" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAGARAACAAEAAAABAAAFAAEAKEAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\BookingsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.CRMTemplatesController" Collapsed="true">
+    <Position X="16.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAgAAACARAACAAAAAAAAAAAEAAEBCAAEAAACCAAg=</HashCode>
+      <FileName>Controllers\CRMTemplatesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.CustomersController" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACARAACAAAAAAAAAAAEAAEACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\CustomersController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.EmployeeSchedulesController" Collapsed="true">
+    <Position X="9.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAACAAACARAACIAEAAAAAAAAEAAEACAAEAAAAACAA=</HashCode>
+      <FileName>Controllers\EmployeeSchedulesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.EquipmentSchedulesController" Collapsed="true">
+    <Position X="18" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAACAxAACAAEAAAAAAAAVAAEACBAEAQAAAAAA=</HashCode>
+      <FileName>Controllers\EquipmentSchedulesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.EquipmentsController" Collapsed="true">
+    <Position X="19.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACARAACAAAAAAAAAAAEAAEACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\EquipmentsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.LocationSchedulesController" Collapsed="true">
+    <Position X="5.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAACACARAACAAEAAAAAgAAEAAEACAQEAAAAAAAA=</HashCode>
+      <FileName>Controllers\LocationSchedulesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.LocationsController" Collapsed="true">
+    <Position X="7.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACARAACAAAAAAAAAAAEAAEACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\LocationsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.OutputSchedulesController" Collapsed="true">
+    <Position X="7.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAACAZAACAgEAAAAAAAAEAAEgCAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\OutputSchedulesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.OutsourceContactsController" Collapsed="true">
+    <Position X="19.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACARAACAAAAAAAAAAAEAAEACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\OutsourceContactsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.OutsourceSchedulesController" Collapsed="true">
+    <Position X="2.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAgAAACARAACAAEAQAAAAAAGAAEACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\OutsourceSchedulesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.PromotionsController" Collapsed="true">
+    <Position X="0.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAgACARAACAAAAAAAAABAEAAEACAAFAAAAAAAA=</HashCode>
+      <FileName>Controllers\PromotionsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.ServiceFormsController" Collapsed="true">
+    <Position X="16.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAACARQACAgEQIAAAAAAEAAEACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\ServiceFormsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.ServicesController" Collapsed="true">
+    <Position X="5.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>Dr5n1NxVNrTd9y+bd5eJUCK+h/8Fa00fcnWDy7f+7/0=</HashCode>
+      <FileName>Controllers\ServicesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.MvcApplication" Collapsed="true">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Global.asax.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ApplicationUserStore" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ApplicationUserManager" Collapsed="true">
+    <Position X="21.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.EmailService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Models.SmsService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Models.ApplicationDbInitializer" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ApplicationSignInManager" Collapsed="true">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ExternalLoginConfirmationViewModel" Collapsed="true">
+    <Position X="5.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ExternalLoginListViewModel" Collapsed="true">
+    <Position X="7.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.SendCodeViewModel" Collapsed="true">
+    <Position X="7.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAIAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.VerifyCodeViewModel" Collapsed="true">
+    <Position X="2.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAEAAAAAAAgAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ForgotViewModel" Collapsed="true">
+    <Position X="14.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.LoginViewModel" Collapsed="true">
+    <Position X="18" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAgAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.RegisterViewModel" Collapsed="true">
+    <Position X="11" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAUACAAAAAoIAAIQAQBAAAAAAACAAAgBEAAoAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ResetPasswordViewModel" Collapsed="true">
+    <Position X="14.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAgAAAAAAAAAAACAAAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ForgotPasswordViewModel" Collapsed="true">
+    <Position X="12.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.EmployeePositionTemp" Collapsed="true">
+    <Position X="0.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.EmployeePositionDictionary" Collapsed="true">
+    <Position X="21.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAABAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.RoleViewModel" Collapsed="true">
+    <Position X="0.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AdminViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.EditUserViewModel" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAKAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AdminViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.BookingViewsModel" Collapsed="true">
+    <Position X="12.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAABAAABAAAAACAAAAQAAAgAACAAAAEAAAAABAA=</HashCode>
+      <FileName>Models\BookingViewsModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.Question" Collapsed="true">
+    <Position X="5.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAgAAAgAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Models\CRMModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.Answer" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\CRMModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.CRMModel" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAQAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Models\CRMModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.CustomerRelation" Collapsed="true">
+    <Position X="21.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAJAAAAAAAAAAAAAAAQAACABAAAAAAACABAAI=</HashCode>
+      <FileName>Models\CRMModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ApplicationUser" Collapsed="true">
+    <Position X="16.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAUCAAAAAAoIAAIQAQAAAAAAAACAAAgBEAAgAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ApplicationUserLogin" Collapsed="true">
+    <Position X="19.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ApplicationUserClaim" Collapsed="true">
+    <Position X="18" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ApplicationUserRole" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ApplicationRole" Collapsed="true">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ApplicationRoleStore" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ApplicationRoleManager" Collapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ApplicationDbContext" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.IndexViewModel" Collapsed="true">
+    <Position X="0.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAQAAAAAAAAAAAAAAQAAAEAEA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ManageLoginsViewModel" Collapsed="true">
+    <Position X="21.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.FactorViewModel" Collapsed="true">
+    <Position X="9.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.SetPasswordViewModel" Collapsed="true">
+    <Position X="16.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ChangePasswordViewModel" Collapsed="true">
+    <Position X="19.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAEAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.AddPhoneNumberViewModel" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.VerifyPhoneNumberViewModel" Collapsed="true">
+    <Position X="4" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ConfigureTwoFactorViewModel" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.PromotionCalcViewModel" Collapsed="true">
+    <Position X="19.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIABAAIAAAAAAAAAAAAAAAAAAAAAAACAAEAAAAA=</HashCode>
+      <FileName>Models\PromotionViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.PromotionResult" Collapsed="true">
+    <Position X="21.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAEAAAA=</HashCode>
+      <FileName>Models\PromotionViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.SchedulerViewModels" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIDAAAAACAgAGAAIAAAAAFAABAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Models\SchedulerViewModels.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Models.ServiceStatusViewModel" Collapsed="true">
+    <Position X="9.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\SchedulerViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.EmployeeSchedulerViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIDAAAAACAgAGAAIAAAAAFAABAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Models\SchedulerViewModels.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Models.EquipmentSchedulerViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAIDAAAAACAgAGAAIAAAAAFAABAAAAAAAAABgAAAAAA=</HashCode>
+      <FileName>Models\SchedulerViewModels.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Models.OutputSchedulerViewModels" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIDAgAAACAgAGAIIAAAAAFAABAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Models\SchedulerViewModels.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Models.ServicesViewModel" Collapsed="true">
+    <Position X="12.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAQABAAJgAAAYACMAoAAAAEABAAQAAEgAAABAA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ServiceFormFactory" Collapsed="true">
+    <Position X="12.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CgiAAgAAAACAAIAAAAAAAAAAAAAAAIAAAFgAQAIAAIA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.CustomerViewModel" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAEAQABEDAAAAQAKAAAQAAAQAIDADACCQAAIiABAAQ=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.PromotionViewModel" Collapsed="true">
+    <Position X="4" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAKQgCEAABAACAAAAAAAQAAAAIoAAkAAEAAAAAAAA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ServiceFormViewModel" Collapsed="true">
+    <Position X="19.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAKAAAEAAAAABAAAAAAAASAAIAAABAAAAAUAAAAABA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.PhotoGraphServiceViewModel" Collapsed="true">
+    <Position X="14.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAgEAAAAAAAOBQAAAgAQAAAAAAAAgAAgAA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.PhotoGraph" Collapsed="true">
+    <Position X="11" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAQAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.CameraMan" Collapsed="true">
+    <Position X="18" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAQAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.EquipmentServiceViewModel" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAgAAAAAAAAABQAIAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.LocationServiceViewModel" Collapsed="true">
+    <Position X="11" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAKAAAAAQAgAAAAAAAACBYAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.OutsourceServiceViewModel" Collapsed="true">
+    <Position X="7.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAgAQAAQAAAABQAYAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.OutputServiceViewModel" Collapsed="true">
+    <Position X="11" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACQAQAAQBgAAAAAAAABBQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ServiceFromKeeper" Collapsed="true">
+    <Position X="0.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.PromotionCalculator" Collapsed="true">
+    <Position X="18" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAIABAAAAAAAJAAACABAAAAAAAQAICQAFAAAgAAAA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ServiceGridViewModel" Collapsed="true">
+    <Position X="2.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAIAAMAIAQAAAAAAAQAAEAAAAAAA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Models.ServiceFormsGridViewModel" Collapsed="true">
+    <Position X="18" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEAAAAABAAAAAAAACAQAAAAAAAAEAAAAIAAAA=</HashCode>
+      <FileName>Models\ServicesViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Controllers.AccountController" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAChACAQAAAAAAFgEgAgBAABMKIAAAMRAAQgAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Controllers.HomeController" Collapsed="true">
+    <Position X="18" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEACAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Controllers.ManageController" Collapsed="true">
+    <Position X="19.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAhCCCQgBAgAAAAAABAAEAAAEAIMIAAEEEgAAkAAA=</HashCode>
+      <FileName>Controllers\ManageController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Controllers.RolesAdminController" Collapsed="true">
+    <Position X="21.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABACAACABAACAAAAAAAAgAAEAAEACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\RolesAdminController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Controllers.UsersAdminController" Collapsed="true">
+    <Position X="0.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABACAACABAACAAAAAAAAgAAEAAEACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\UserAdminController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ReportsController" Collapsed="true">
+    <Position X="12.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\ReportsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Migrations.EF6FirstMig" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAMAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAI=</HashCode>
+      <FileName>Migrations\201409131242439_EF6-FirstMig.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Migrations.SecondMig" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAMAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAI=</HashCode>
+      <FileName>Migrations\201409131317207_SecondMig.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Migrations.ThirdMig" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAMAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAI=</HashCode>
+      <FileName>Migrations\201409131431088_Third-Mig.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Migrations.ForthMig" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAMAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAI=</HashCode>
+      <FileName>Migrations\201409131504152_Forth-Mig.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Migrations.ChgIDfromEmp" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAMAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAI=</HashCode>
+      <FileName>Migrations\201409141516262_ChgIDfromEmp.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Migrations.reviewBackAllIdentity" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAMAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAI=</HashCode>
+      <FileName>Migrations\201409141642371_reviewBackAllIdentity.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Migrations.Restore" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAMAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAI=</HashCode>
+      <FileName>Migrations\201409141659193_Restore.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Migrations.R3" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAMAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAI=</HashCode>
+      <FileName>Migrations\201409141838496_R3.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NicePictureStudio.Migrations.Configuration" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Migrations\Configuration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Utils.Constant" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KCxkJFQQAIYIIwRUooMADKAERAAABAkBBlAgEBCgABI=</HashCode>
+      <FileName>Utils\Constant.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NicePictureStudio.Utils.RazorExtensions" Collapsed="true">
+    <Position X="9.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Utils\Constant.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

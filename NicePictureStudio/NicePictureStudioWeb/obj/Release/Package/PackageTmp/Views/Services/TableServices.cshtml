@@ -1,0 +1,39 @@
+﻿<div id="tblServiceFormSummary">
+
+    @if (@ViewBag.ServicesListSummary != null)
+    {
+        <table class="table table-bordered">
+            <tr>
+                <th>ประเภทการให้บริการ</th>
+                <th>เวลาเริ่มต้นให้บริการ</th>
+                <th>เวลาสิ้นสุดการให้บริการ</th>
+                <th>ราคา</th>
+                <th></th>
+            </tr>
+            @foreach (NicePictureStudio.App_Data.ServiceForm item in @ViewBag.ServicesListSummary)
+            {
+                <tr>
+                    <td>@item.ServiceType.ServiceTypeName</td>
+                    <td>@item.EventStart</td>
+                    <td>@item.EventEnd</td>
+                    <td>@item.ServicePrice</td>
+                    <td><button onclick="OpenServiceDialog(@item.Id)" type="button" value="Details"></button></td>
+                </tr>
+            }
+        </table>
+    }
+
+</div>
+
+<script type="text/javascript">
+    function OpenServiceDialog(id) {
+        alert(id);
+        var url = '@Url.Action("ServicesNavigationOverallWhenEdit", "Services")';
+        var data = { id : id };
+        $.get(url, data, function (data) {
+            $("#NavPatternBody").html(data);
+            $("#NavPattern").modal('show');
+        });
+    }
+</script>
+

@@ -1,0 +1,166 @@
+﻿@model NicePictureStudio.App_Data.OutsourceService
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#btnBackStepToLocation").on("click", function () {
+            event.preventDefault();
+            var url = '@Url.Action("ThirdFilterLocationService", "Services")';
+            $.ajax({
+                url: url,
+                data: { id: $("#page3Id").val(), serviceType: '@ViewData["ServiceType"]' },
+                type: "GET",
+                success: function (data) { $("#ServiceSelection").replaceWith(data); }
+            })
+        });
+
+        //Calculate Price btnCalculatorBeforeSave
+        $("#btnCalculatorBeforeSave").on("click", function () {
+            event.preventDefault();
+            var url = '@Url.Action("CalculateServicesCostSummary", "Services")';
+            $.ajax({
+                url: url,
+                type: "POST",
+                success: function (data) { $("#divServicePriceSection").replaceWith(data); }
+            })
+        });
+    });
+
+    function ValidateSummary() {
+        $("#page4Id").val($("#Code").val());
+    }
+
+
+
+</script>
+
+<div id="divOutsource">
+    <table class="table table-responsive">
+        <tr>
+            <td>
+                @using (Ajax.BeginForm("CreateOutsourceServiceTable", "Services", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "tblOutsource"
+    }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <h4>OutsourceService</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.Label("ชื่อ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("พอร์ท เวบไซท์", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.PortFolioURL, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PortFolioURL, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                                @Html.LabelFor(model => model.OutsourceId, "OutsourceId", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("OutsourceId", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.OutsourceId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+
+                        <div class="form-group">
+                            @Html.Label("ราคา", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                                @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+
+                        @*<div class="form-group">
+                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+                        @Html.HiddenFor(model => model.Cost);
+
+                        @Html.HiddenFor(model => model.OutsourceContact.OutsourceContactId, htmlAttributes: new { @id = "OutsourceId", @Name = "OutsourceId" })
+                        <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
+                        <input type="hidden" id="Code" name="Code" value="@Model.Id" />
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="เลือกรายการจัดจ้าง" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </td>
+            <td></td>
+        </tr>
+    </table>
+    <div id="tblOutsource">
+        @if (@ViewBag.ListOutsourceServices != null)
+        {
+            <div class="form-group">
+                <table class="table table-striped">
+                    <tr><th>Outsource Name</th><th>Description</th><th>PortFolio</th><th>Price</th><th>Action</th></tr>
+                    @foreach (NicePictureStudio.Models.OutsourceServiceViewModel item in ViewBag.ListOutsourceServices)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
+                            <td>@item.PortFolioURL</td>
+                            <td>@item.Price</td>
+                            <td>@Ajax.ActionLink("Remove", "RemoveOutsource", new { Id = @item.Id, serviceType = @ViewData["ServiceType"].ToString() }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblOutsource" })</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+    </div>
+    <br />
+    <hr />
+    @using (Ajax.BeginForm("SaveAllDocument", "Services", new AjaxOptions
+        {
+            HttpMethod = "Post",
+            UpdateTargetId = "tblServiceFormSummary",
+            InsertionMode = System.Web.Mvc.Ajax.InsertionMode.ReplaceWith,
+            OnSuccess = "DisableNav"
+        }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="ServiceType" name="ServiceType" value="@ViewData["ServiceType"]" />
+        <ul class="pager">
+            <li class="next">
+                <div class="col-md-6 text-left">
+                    <button type="button" id="btnBackStepToLocation" value="Back"><span class="glyphicon glyphicon-step-backward"></span>ย้อนกลับไปรายการก่อนหน้า</button>
+                    </div>
+            </li>
+            <li class="previous">
+
+                <div class="col-md-6 text-right">
+                    <button type="button" id="btnCalculatorBeforeSave" value="Calculate Price"><span class="glyphicon glyphicon-usd"></span>คำนวณค่าใช้จ่าย</button>
+                    <button type="submit" value="Finish"><span class="glyphicon glyphicon-floppy-saved"></span>เสร็จสิ้น</button>
+                    <div>
+            </li>
+        </ul>
+    }
+</div>
+

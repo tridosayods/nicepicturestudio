@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" >
+      @*<script type="text/javascript"src="https://maps.googleapis.com/maps/api/js?sensor =false"></script> 
+<script type="text/javascript">
+    function init() {
+        var mapDiv = document.getElementById('map-canvas');
+        var map = new google.maps.Map(mapDiv, {
+            center: new google.maps.LatLng(37.790234970864, -122.39031314844),
+            zoom: 8,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        var distanceWidget = new DistanceWidget(map);
+    }
+
+    function DistanceWidget(map) {
+        this.set('map', map);
+        this.set('position', map.getCenter());
+
+        var marker = new google.maps.Marker({
+            draggable: true,
+            title: 'Move me!'
+        });
+
+        // Bind the marker map property to the DistanceWidget map property
+        marker.bindTo('map', this);
+
+        // Bind the marker position property to the DistanceWidget position
+        // property
+        marker.bindTo('position', this);
+    }
+    DistanceWidget.prototype = new google.maps.MVCObject();
+
+    google.maps.event.addDomListener(window, 'load', init);
+
+    </script>*@
+
+
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/styles/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/kendo")
+
+    @RenderSection("styles", required: false)
+    @RenderSection("scripts", required: false)
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                @Html.ActionLink("รูปสวยโฟโต้", "Index", "Home", null, new { @class = "navbar-brand", @style = "vertical-align:middle" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">การให้บริการ <span class="caret"></span></a>
+                        <ul class="dropdown-menu navbar-inverse navbar-nav" role="menu">
+                            <li>@Html.ActionLink("จอง", "Create", "Bookings")</li>
+                            <li>@Html.ActionLink("สร้างรายการให้บริการ", "Create", "Services")</li>
+                            <li>@Html.ActionLink("เรียกดูรายงานการจอง", "Index", "Bookings")</li>
+                            <li>@Html.ActionLink("เรียกดูรายงานการให้บริการ", "Index", "Services")</li>
+                            <li>@Html.ActionLink("ตารางโปรโมชั่น", "Index", "Promotions")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">ตารางการถ่ายภาพ <span class="caret"></span></a>
+                        <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
+                            <li>@Html.ActionLink("ตารางงานการให้บริการ", "Index", "ServiceForms")</li>
+                            <li>@Html.ActionLink("ตารางงานของช่างภาพ", "Index", "EmployeeSchedules")</li>
+                            <li>@Html.ActionLink("ตารางอุปกรณ์", "Index", "EquipmentSchedules")</li>
+                            <li>@Html.ActionLink("ตารางสถานที่", "Index", "LocationSchedules")</li>
+                            <li>@Html.ActionLink("ตารางงานการจัดจ้าง", "Index", "OutsourceSchedules")</li>
+                            <li>@Html.ActionLink("ตารางงานส่งลูกค้า", "Index", "OutputSchedules")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">ลูกค้า <span class="caret"></span></a>
+                        <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
+
+                            <li>@Html.ActionLink("ตารางลูกค้าสัมพันธ์", "CRMCustomerRelation", "CRMTemplates")</li>
+                            <li>@Html.ActionLink("การสร้างแบบประเมิน", "Index", "CRMTemplates")</li>
+                            <li>@Html.ActionLink("ตัวอย่าง CRM", "CRMApprisal", "CRMTemplates", new { id = 3 }, null)</li>
+                            <li>@Html.ActionLink("ตารางรายละเอียดลูกค้า", "Index", "Customers")</li>
+                        </ul>
+                    </li>
+                    @*<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">โปรโมชั่น <span class="caret"></span></a>
+                        <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
+
+                            <li>@Html.ActionLink("ตารางโปรโมชั่น", "Index", "Promotions")</li>
+                        </ul>
+                    </li>*@
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">รายงาน <span class="caret"></span></a>
+                        <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
+                            <li>@Html.ActionLink("รายงาน", "CRMReportCustomerRelation", "CRMTemplates")</li>
+                        </ul>
+                    </li>
+                    @*<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">ติดต่อเรา <span class="caret"></span></a>
+                        <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
+                            <li>@Html.ActionLink("เกี่ยวกับเรา", "Index", "Home")</li>
+                        </ul>
+                    </li>*@
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">แอดมิน <span class="caret"></span></a>
+                            <ul class="dropdown-menu navbar-nav navbar-inverse" role="menu">
+                                <li>@Html.ActionLink("การจัดการตำแหน่ง", "Index", "RolesAdmin")</li>
+                                <li>@Html.ActionLink("การจัดการบุคคล", "Index", "UsersAdmin")</li>
+                                <li>@Html.ActionLink("การจัดการข้อมูลหลัก", "Contact", "Home")</li>
+                            </ul>
+                        </li>
+
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - รูปสวยโฟโต้ จำกัด</p>
+        </footer>
+    </div>
+
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @*@RenderSection("scripts", required: false)*@
+</body>
+</html>

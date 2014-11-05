@@ -1,0 +1,7 @@
+﻿@model Int32
+    <div data-container-for="RemainItem" class="k-edit-field RemainItem">
+        <div class="input-group">
+            @(Html.TextBox("RemainItem", @Model, new { @class = "k-textbox", data_bind = "value:RemainItem", @disabled = "true" }))
+            <span class="input-group-btn col-sm-pull-5"><button class="btn btn-default" onclick="getRemainValue()">refresh</button></span>
+        </div>
+    </div>

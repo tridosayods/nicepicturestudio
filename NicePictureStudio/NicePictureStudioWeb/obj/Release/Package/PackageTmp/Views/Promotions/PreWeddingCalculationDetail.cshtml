@@ -1,0 +1,120 @@
+﻿<div>
+    <div id="forecast">
+        @(Html.Kendo().TabStrip()
+          .Name("tabstrip")
+          .Items(tabstrip =>
+          {
+              tabstrip.Add().Text("การถ่ายภาพก่อนแต่งงาน")
+                  .Selected(true)
+                  .Content(@<text>
+                    <div>
+                        <h5>รายละเอียด ขั้นต่ำของรายการให้บริการ</h5>
+                        <ul class="panel-title">
+                            <li>
+                               ต้นทุน ช่างถ่ายภาพ 1 คน : 3,000 บาท
+                            </li>
+                            <li>
+                               ต้นทุน ช่างถ่ายภาพวีดีโอ 1 คน : 4,000 บาท
+                            </li>
+                            <li>
+                                ต้นทุน สถานที่ถ่ายภาพ : 1,000 บาท
+                            </li>
+                            <li>
+                                ต้นทุน อุปกรณ์ถ่ายภาพ : 1,500 บาท
+                            </li>
+                            <li>
+                                ต้นทุน จัดจ้าง Outsource : 2,000 บาท
+                            </li>
+                            <li>
+                                ต้นทุนมัลติมีเดยไฟล์ : 2,000 บาท
+                            </li>
+                        </ul>
+                    </div>
+                </text>);
+
+              tabstrip.Add().Text("การถ่ายภาพงานหมั้น")
+                  .Content(@<text>
+                   <div>
+                       <h5>รายละเอียด ขั้นต่ำของรายการให้บริการ</h5>
+                       <ul class="panel-title">
+                           <li>
+                               ต้นทุน ช่างถ่ายภาพ 1 คน : 3,000 บาท
+                           </li>
+                           <li>
+                               ต้นทุน ช่างถ่ายภาพวีดีโอ 1 คน : 4,000 บาท
+                           </li>
+                           <li>
+                               ต้นทุน สถานที่ถ่ายภาพ : 0 บาท
+                           </li>
+                           <li>
+                               ต้นทุน อุปกรณ์ถ่ายภาพ : 1,500 บาท
+                           </li>
+                           <li>
+                               ต้นทุนการ จัดจ้าง Outsource : 2,000 บาท
+                           </li>
+                           <li>
+                               ต้นทุนมัลติมีเดยไฟล์ : 2,000 บาท
+                           </li>
+                       </ul>
+                   </div>
+                </text>);
+
+              tabstrip.Add().Text("ถ่ายภาพงานเลี้ยงแต่งงาน")
+                  .Content(@<text>
+                   <div>
+                       <h5>รายละเอียด ขั้นต่ำของรายการให้บริการ</h5>
+                       <ul class="panel-title">
+                           <li>
+                               ต้นทุน ช่างถ่ายภาพ 2 คน : 6,000 บาท
+                           </li>
+                           <li>
+                               ต้นทุน ช่างถ่ายภาพวีดีโอ 1 คน : 4,000 บาท
+                           </li>
+                           <li>
+                               ต้นทุน สถานที่ถ่ายภาพ : 0 บาท
+                           </li>
+                           <li>
+                               ต้นทุน อุปกรณ์ถ่ายภาพ : 2,500 บาท
+                           </li>
+                           <li>
+                               ต้นทุนการ จัดจ้าง Outsource : 2,000 บาท
+                           </li>
+                           <li>
+                               ต้นทุนมัลติมีเดยไฟล์ : 2,000 บาท
+                           </li>
+                       </ul>
+                   </div>
+                </text>);
+
+          })
+        )
+    </div>
+
+    <br/>
+    <br />
+    <h3>ราคาการให้บริการเปรียบเทียบจากต้นทุน</h3>
+    <div>
+        <ul id="fieldlist">
+            <li>
+                <label for="photograph_service">Photograph Price</label>
+               @Html.Label(": ราคาทุน + (200% ของต้นทุน)]")
+            </li>
+            <li>
+                <label for="equipment_service">Equipment Cost</label>
+                @Html.Label(": ราคาทุน +(100% ของต้นทุน)")
+            </li>
+            <li>
+                <label for="location_service">Location Cost</label>
+                @Html.Label(": ราคาทุน +(100% ของต้นทุน)")
+            </li>
+            <li>
+                <label for="outsource_service">Outsource Cost</label>
+                @Html.Label(": ราคาทุน +(50% ของต้นทุน)")
+            </li>
+            <li>
+                <label for="output_service">Output Cost</label>
+                @Html.Label(": ราคาทุน +(300% ของต้นทุน)")
+            </li>
+        </ul>
+    </div>
+</div>

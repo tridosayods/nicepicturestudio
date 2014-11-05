@@ -1,0 +1,675 @@
+﻿@model NicePictureStudio.App_Data.Service
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Hide the "busy" Gif at load:
+        // $("#ServiceFromSection").show();
+        //$("#btnHidden").on("click", function (event) { event.preventDefault(); $("#PreWeddingFromSection").hide(); });
+        $("#tblCustomerFromService").show();
+        $("#PreWeddingFormSection").hide();
+        $("#delPreWedService").hide();
+        $(function () {
+            $(".autocomplete-with-hidden").autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    var url = $(this.element).data("url");
+
+                    $.getJSON(url, { term: request.term }, function (data) {
+                        response(data);
+                    })
+                },
+                select: function (event, ui) {
+                    $(event.target).next("input[type=hidden]").val(ui.item.id);
+                },
+                change: function (event, ui) {
+                    if (!ui.item) {
+                        $(event.target).val("").next("input[type=hidden]").val("");
+                    }
+                }
+            });
+        });
+
+        $(function () {
+            $(".autocomplete-with-hidden-booking").autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    var url = $(this.element).data("url");
+
+                    $.getJSON(url, { term: request.term }, function (data) {
+                        response(data);
+                    })
+                },
+                select: function (event, ui) {
+                    $(event.target).next("input[type=hidden]").val(ui.item.id);
+                    var orderUrl = '@Url.Action("GetSelectedSpecialRequest", "Services")'
+                    $.getJSON(orderUrl, { bookingId: ui.item.id }, function (data) {
+                        var multiselect = $("#BookingSpecialRequests").data("kendoMultiSelect")
+                        multiselect.dataSource.filter({});
+                        multiselect.value(data);
+                    })
+                   
+                },
+                change: function (event, ui) {
+                    if (!ui.item) {
+                        $(event.target).val("").next("input[type=hidden]").val("");
+                    }
+                }
+            });
+        });
+
+        $("#btnSaveAll").on("click", function () {
+            event.preventDefault();
+            var url = '@Url.Action("SaveAllDocument", "Services")';
+            $.ajax({
+                url: url,
+                type: "POST",
+                success: function (data) { $("#SaveFormSection").replaceWith(data); }
+            })
+        });
+        //New Section of NavPattern Code
+        $("#NavigateFormGenerate").click(function () {
+            var url = $('#NavPattern').data('url');
+            $.get(url,null, function (data) {
+                $("#NavPatternBody").html(data);
+                $("#NavPattern").modal('show');
+            });
+        });
+
+        $("#btnCalculate").bind("click", function () {
+            var url = '@Url.Action("CalculateServiceOverall", "Services")';
+            $.ajax({
+                url: url,
+                type: "POST",
+                success: function (data) { $("#divServicesTotalPriceSection").replaceWith(data); }
+            })
+        });
+
+    });
+
+
+    function DisableNav(id)
+    {
+        $("#NavPattern").modal('hide');
+        @*$.ajax({
+            url: '@Url.Action("TableServices", "Services")',
+            type: "GET",
+            success: function (data) { $("#PreWeddingFormSection").replaceWith(data); }
+        });*@
+    }
+
+    function AddPreWeddingService() {
+        $("#delPreWedService").show();
+    }
+
+    function RemovePreWeddingService() {
+        $("#delPreWedService").hide();
+    }
+    //function showServiceForm()
+    //{
+    //    $("#PreWeddingFromSection").show();
+    //}
+
+    function toggle_visibility(id) {
+        var e = document.getElementById(id);
+        if (e.style.display == 'block' || e.style.display == '') {
+            e.style.display = 'none';
+        }
+        else {
+            e.style.display = 'block';
+        }
+    }
+
+    @*$("#btnSubmitServiceForm").click(function () {
+        alert("Do somthing");
+        event.preventDefault();
+        $("#ServiceFromSection").show();
+        var url = '@Url.Action("ServiceForms")';
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json",
+            //success: function (data) { $("#ServiceFromSection").replaceWith(data); },
+            success: function(data) {alert("xxxxxxxxxxxxxx");},
+            fail: alert("Noooo....")
+        })
+    });*@
+</script>
+
+<h2><span class="glyphicon glyphicon-camera"></span>การสร้างรายการให้บริการถ่ายรูป</h2>
+<br />
+<h5>เพราะลูกค้าคือสิ่งสำคัญที่สุด เราจึงต้องสร้างผลงานที่ดีที่สุด</h5>
+<table class="table table-responsive"><tr>
+    <td>
+    <div class="form-horizontal container-fluid">
+        <div class="form-group">
+            <a href="#" class="img-rounded">
+                <img src="@Url.Content("~/Content/images/PhotoGraph/Cover/BookingCover5.jpg")" class="img-thumbnail" style="height:400px" />
+            </a>
+        </div>
+    </div>
+<td>
+    <div class="form-horizontal container-fluid">
+        <div class="form-group">
+            <a href="#" class="img-rounded">
+                <img src="@Url.Content("~/Content/images/PhotoGraph/Cover/BookingCover6.jpg")" class="img-thumbnail" style="height:400px" />
+            </a>
+        </div>
+    </div>
+    </td></tr></table>
+
+<div id="ServiceFormMain">
+    <!-- Create Customer Form Section-->
+    <table class="table table-responsive">
+        <tr>
+            <td>
+                <button id="togCreateCustomer" type="button" class="btn btn-default" onclick="toggle_visibility('tblCustomerFromService')"><span class="glyphicon glyphicon-plus-sign"></span> สร้างข้อมูลลูกค้า</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="container" id="tblCustomerFromService">
+                    @*<div class="form-group">
+                            @using (@Ajax.BeginForm("CreateCustomerFromService", "Services", new AjaxOptions
+                             {
+                                 HttpMethod = "GET",
+                                 InsertionMode = InsertionMode.Replace,
+                                 UpdateTargetId = "CustomerFromService"
+                             }))
+                            {
+                             <button id="btnAddCustomerForm" class="btn btn-primary col-md-push-1" type="submit"><span class="glyphicon glyphicon-camera"></span> NewCustomer</button>
+                            }
+                        </div>*@
+                    @*<div id="CustomerFromService"></div>*@
+                    @*@{Html.RenderPartial("CreateCustomerFromService");}*@
+                    @Html.Partial("CreateCustomerFromService")
+                </div>
+            </td>
+        </tr>
+
+    </table>
+    <!-- Service Main Section -->
+    <table class="table">
+        <tr>
+            <td class="col-md-6">
+                <div id="MainSection">
+                    @using (@Ajax.BeginForm("Create", "Services", new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "MainSection"
+                     }
+                     ))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <h4><span class="glyphicon glyphicon-camera"></span> Service</h4>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            @*<div class="form-group">
+                        @Html.Label("Booking No:", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-8">
+                            @Html.DropDownList("BookingId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Bookings, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                            <div class="form-group">
+                                @Html.Label("หมายเลขการจอง", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.BookingName, new { @class = "autocomplete-with-hidden-booking form-control", data_url = Url.Action("GetListForBookingAutocomplete", "Services"), placeholder = "..กรุณากรอกหมายเลขการจอง..." })
+                                    @Html.Hidden("BookingId")
+                                    @Html.ValidationMessageFor(model => model.BookingName)
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                        @Html.LabelFor(model => model.BookingName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.BookingName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.BookingName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                            <div class="form-group">
+                                @Html.Label("ชื่อเจ้าบ่าว*", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.GroomName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForGroomNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าบ่าว..." })
+                                    @*@Html.EditorFor(model => model.GroomName, new { htmlAttributes = new { @class = "form-control" } })*@
+                                    @Html.ValidationMessageFor(model => model.GroomName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("ชื่อเจ้าสาว*", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.BrideName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForBrideNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าสาว..." })
+                                    @*@Html.EditorFor(model => model.BrideName, new { htmlAttributes = new { @class = "form-control" } })*@
+                                    @Html.ValidationMessageFor(model => model.BrideName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                @Html.Label("คำขอพิเศษ", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @(Html.Kendo().MultiSelect()
+                                     .Name("BookingSpecialRequests")
+                                       .BindTo(@ViewBag.SpecialOrder as MultiSelectList).HtmlAttributes(new { @Style = "width:200px", @id = "BookingSpecialRequests" }))
+                                                
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                @Html.Label("บริการให้คำแนะนำ", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                 @(Html.Kendo().MultiSelect()
+                                      .Name("SpecialRequests")
+                                      .BindTo(new List<string>() {
+                                          "ต้องการผู้ช่วยออกแบบงาน",
+                                          "ต้องการความรู้ในพิธีแต่งงาน",
+                                          "ต้องการความรู้ในพิธีแต่งงาน",
+                                          "ต้องการคำแนะนำงานพิธีไทย",
+                                          "ต้องการคำแนะนำพิธีจีน"
+                                      }).HtmlAttributes(new { @Style = "width:200px" })
+                                )
+                                </div>
+                            </div>*@
+
+                            <div class="form-group">
+                                @Html.Label("บริการให้คำแนะนำ", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @(Html.Kendo().MultiSelect()
+                                      .Name("ServiceSuggestions")
+                                      .BindTo(@ViewBag.SuggestionService as MultiSelectList).HtmlAttributes(new { @Style = "width:200px", @id = "ServiceSuggestions" })
+                                    )
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("หมายเหตุ", htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.TextAreaFor(model => model.SpecialRequest, new { @class = "form-control", @rows = "5" })
+                                    @Html.ValidationMessageFor(model => model.SpecialRequest, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                @Html.LabelFor(model => model.Payment, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.Payment, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Payment, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PayAmount, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.PayAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.PayAmount, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+
+                            @*<div class="form-group">
+                        @Html.LabelFor(model => model.CustomerId, "CustomerId", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                            @*<div class="form-group">
+                        @Html.LabelFor(model => model.CRMFormId, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CRMFormId, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CRMFormId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                            <div class="form-group">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <input type="submit" value="ยืนยัน" class="btn btn-default" />
+                                    <input type="reset" value="ล้างข้อมูล" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </td>
+            <td>
+                          
+                <div class="form-horizontal container-fluid">
+                    <div class="form-group">
+                        <a href="#" class="img-rounded">
+                            <img src="@Url.Content("~/Content/images/PhotoGraph/Cover/BookingCover7.jpg")" class="img-thumbnail"  />
+                        </a>
+                    </div>
+                </div>
+                @*<div id="divServicePriceSection_Old">
+                    <div class="container-fluid">
+                        @using (@Ajax.BeginForm("CalculateServicesCostSummary", "Services", new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "divServicePriceSection"
+                        }))
+                        {
+                            <div class="form-horizontal">
+                                <div class="col-md-6 col-xs-4">
+                                    <label id="lblEstimateContext" class="control-label">Total Estimate Cost : </label>
+                                </div>
+                                <div class="col-md-6 col-xs-4">
+                                    <label id="lblEstimateCost" class="control-label"> $0.00</label>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="col-md-6">
+                                    <label id="lblPromotionContext" class="control-label">Promotion Selected : </label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label id="lblPromotionSelected" class="control-label"> - </label>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal">
+                                <div class="col-md-6">
+                                    <label id="lblPromotionDiscountContext" class="control-label">Promotion Discount : </label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label id="lblPromotionDiscount" class="control-label"> 0% </label>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal">
+                                <div class="col-md-6">
+                                    <label id="lblTotalCostContext" class="control-label">Total Price Before TAX: </label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label id="lblTotalCost" class="control-label">$0.00</label>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal">
+                                <div class="col-md-6">
+                                    <label class="control-label">VAT: </label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="control-label">10%</label>
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal">
+                                <div class="col-md-6">
+                                    <label id="lblTotalWithTAXContext" class="control-label">Total Price: </label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label id="lblTotalCostWithTAX" class="control-label">$0.00</label>
+                                </div>
+                            </div>
+
+                            <div class="tab-content">
+                                <div class="col-md-12 col-md-push-6">
+                                    <br />
+                                    <input class="btn-primary" type="submit" id="btnCalculatePrice" name="btnCalculatePrice" value="Calculate Price" />
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                </div>*@
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="SaveFormSection"><br /> </div>
+                        <div id="CreateReportSection"></div>
+                    </div>
+                </div>
+                
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="panel panel-default">
+                    <div class="panel panel-heading">สร้างรายการให้บริการ</div>
+                        <div class="panel-body">
+                            <button type="button" id="NavigateFormGenerate" class="btn btn-primary"><span class="glyphicon glyphicon-adjust">สร้างรายการให้บริการ</span></button>
+                            <button class="btn btn-primary" type="button" id="btnCalculate" name="btnCalculate" value="Calculate Total Price"><span class="glyphicon glyphicon-usd"></span> คำนวณค่าใช้จ่ายในการให้บริการ</button>
+                            <button type="button" id="btnGenReport" class="btn btn-default disabled"><span class="glyphicon glyphicon-star"></span>สร้างรายงานการให้บริการ</button>
+                        </div>
+                    <br />
+                    <div class="panel-body">
+                        <div id="Summary">
+                            <div class="col-md-8 col-lg-6">
+                                <div id="tblServiceFormSummary">
+
+                                    @if (@ViewBag.ServicesListSummary != null)
+                                    {
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th>Service Type</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                            </tr>
+                                            @foreach (var item in @ViewBag.ServicesListSummary)
+                                            {
+                                                <tr>
+                                                    <td>@item.Id</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-6">
+                                <div id="divServicesTotalPriceSection">
+                                    @*<div>Summary</div>*@
+                                    @*<div class="container-fluid">
+                                        @using (@Ajax.BeginForm("CalculateServiceOverall", "Services", new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    InsertionMode = InsertionMode.Replace,
+                                    UpdateTargetId = "divServicesTotalPriceSection"
+                                }))
+                                        {
+                                            <div class="form-horizontal">
+                                                <div class="col-md-6 col-xs-4">
+                                                    <label id="lblEstimateContext" class="control-label">Total Estimate Cost : </label>
+                                                </div>
+                                                <div class="col-md-6 col-xs-4">
+                                                    <label id="lblEstimateCost" class="control-label"> $0.00</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-horizontal">
+                                                <div class="col-md-6">
+                                                    <label id="lblPromotionContext" class="control-label">Promotion Selected : </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label id="lblPromotionSelected" class="control-label"> - </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-horizontal">
+                                                <div class="col-md-6">
+                                                    <label id="lblPromotionDiscountContext" class="control-label">Promotion Discount : </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label id="lblPromotionDiscount" class="control-label"> 0% </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-horizontal">
+                                                <div class="col-md-6">
+                                                    <label id="lblTotalCostContext" class="control-label">Total Price Before TAX: </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label id="lblTotalCost" class="control-label">$0.00</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-horizontal">
+                                                <div class="col-md-6">
+                                                    <label class="control-label">VAT: </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="control-label">10%</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-horizontal">
+                                                <div class="col-md-6">
+                                                    <label id="lblTotalWithTAXContext" class="control-label">Total Price: </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label id="lblTotalCostWithTAX" class="control-label">$0.00</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-content">
+                                                <div class="col-md-12 col-md-push-6">
+                                                    <br />
+                                                    <input class="btn-primary" type="submit" id="btnCalculateTotalPrice" name="btnCalculateTotalPrice" value="Calculate Total Price" />
+                                                </div>
+
+                                            </div>
+                                        }
+                                    </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+            </td>
+            @*<td>
+               
+                <button type="button" id="btnSaveAll" class="btn btn-primary"><span class="glyphicon glyphicon-star"></span>Save All</button>
+                <button type="button" id="btnGenReport" class="btn btn-default disabled"><span class="glyphicon glyphicon-star"></span>Generate Report</button>
+                <button type="reset" id="btnResetForm" class="btn btn-default disabled">Cancel</button>
+            </td>*@
+        </tr>
+    </table>
+</div>
+
+   
+
+<!-- Create Service Form Section-->
+
+@*<div class="form-horizontal">
+    <div class="form-control">
+        @using (@Ajax.BeginForm("GetServiceFormById", "Services", new AjaxOptions
+            {
+                HttpMethod = "GET",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "PreWeddingFromSection",
+                OnSuccess = "showServiceForm()"
+            }))
+        {
+            <!-- Temporary use hidden value -->
+            <input type="text" hidden="hidden" value="1" id="serviceFormId" name="serviceFormId" />
+            <button id="btnSubmitServiceForm" class="col-md-2" type="submit">Click!!!!</button>
+        }
+        <button id="btnHidden" class="col-md-2" type="button">Hide</button>
+    </div>
+</div>*@
+
+@*<table class="table table-bordered">
+    <tr>
+        <td><button id="togPreWedService" type="button" class="btn btn-default btn" onclick="toggle_visibility('PreWeddingFormSection')"><span class="glyphicon glyphicon-briefcase"></span>PreWedding Service</button></td>
+        <td><button id="delPreWedService" type="button" class="btn btn-warning right" onclick="RemovePreWeddingService()"><span class="glyphicon glyphicon-remove-sign"></span>RemovePreWeddingService</button></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div id="PreWeddingFormSection">
+                @using (@Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "PreWeddingFormSection" }))
+                {
+                    <div id="bthPreWedding">
+                        <button type="submit" id="btnPreWedding" name="Command" value="PreWedding" onclick="AddPreWeddingService()"> Add PreWedding Service </button>
+                    </div>
+                }
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+<table class="table table-bordered">
+    <tr>
+        <td>
+            <button id="togEngagementService" type="button" class="btn btn-default" onclick="toggle_visibility('EngagementFormSection')"><span class=" glyphicon glyphicon-bullhorn"></span>Engagement Service</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="EngagementFormSection">
+                @using (@Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions
+            {
+                HttpMethod = "GET",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "EngagementFormSection"
+            }))
+                {
+                    <div id="bthPreWedding">
+                        <button type="submit" id="btnPreWedding" name="Command" value="Engagement"> Add PreWedding Service </button>
+                    </div>
+                }
+            </div>
+        </td>
+    </tr>
+</table>
+
+<table class="table table-bordered">
+    <tr>
+        <td>
+            <button id="togWeddingService" type="button" class="btn btn-default" onclick="toggle_visibility('WeddingFormSection')"><span class="glyphicon glyphicon-star"></span>Wedding Service</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="WeddingFormSection">
+                @using (@Ajax.BeginForm("CreateServiceFormFromService", "Services", new AjaxOptions
+            {
+                HttpMethod = "GET",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "WeddingFormSection"
+            }))
+                {
+                    <div id="bthPreWedding">
+                        <button type="submit" id="btnPreWedding" name="Command" value="Wedding"> Add PreWedding Service </button>
+                    </div>
+                }
+            </div>
+        </td>
+    </tr>
+</table>*@
+
+<!-- Modal service pattern -->
+<div class="modal fade" id="NavPattern" tabindex="-1" role="dialog"
+     aria-labelledby="NavService" aria-hidden="true" data-url='@Url.Action("ServicesNavigationOverall", "Services")' data-servicetype="">
+    <div class="modal-dialog modal-lg" style="width:90%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="NavModelPattern">
+                   Welcome to NicePictureStudio Services :)
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="NavPatternBody"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancelPattern" type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -127,7 +127,7 @@ namespace NicePictureStudioReporting
             // 
             // subLocationReport
             // 
-            this.subLocationReport.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(0.299999862909317D), Telerik.Reporting.Drawing.Unit.Inch(1.5002366304397583D));
+            this.subLocationReport.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(0.299999862909317D), Telerik.Reporting.Drawing.Unit.Inch(1.8003154993057251D));
             this.subLocationReport.Name = "subLocationReport";
             instanceReportSource4.Parameters.Add(new Telerik.Reporting.Parameter("ServiceFormId", "=Fields.Id"));
             instanceReportSource4.ReportDocument = this.subReportLocationServices1;
@@ -136,7 +136,7 @@ namespace NicePictureStudioReporting
             // 
             // subOutsourceReport
             // 
-            this.subOutsourceReport.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(0.299999862909317D), Telerik.Reporting.Drawing.Unit.Inch(1.8003154993057251D));
+            this.subOutsourceReport.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(0.299999862909317D), Telerik.Reporting.Drawing.Unit.Inch(1.5002366304397583D));
             this.subOutsourceReport.Name = "subOutsourceReport";
             instanceReportSource5.Parameters.Add(new Telerik.Reporting.Parameter("ServiceFormId", "=Fields.Id"));
             instanceReportSource5.ReportDocument = this.subReportOutsource1;
@@ -145,7 +145,7 @@ namespace NicePictureStudioReporting
             // 
             // shape1
             // 
-            this.shape1.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(0.29999995231628418D), Telerik.Reporting.Drawing.Unit.Inch(2.2000000476837158D));
+            this.shape1.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(0.29999995231628418D), Telerik.Reporting.Drawing.Unit.Inch(2.1003944873809814D));
             this.shape1.Name = "shape1";
             this.shape1.ShapeType = new Telerik.Reporting.Drawing.Shapes.LineShape(Telerik.Reporting.Drawing.Shapes.LineDirection.EW);
             this.shape1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(5.2999997138977051D), Telerik.Reporting.Drawing.Unit.Inch(0.299999862909317D));

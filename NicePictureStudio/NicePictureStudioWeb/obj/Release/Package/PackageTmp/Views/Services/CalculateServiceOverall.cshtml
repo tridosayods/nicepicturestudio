@@ -1,0 +1,84 @@
+﻿@model NicePictureStudio.Models.PromotionCalculator
+
+<div id="divServicesTotalPriceSection">
+    <div class="container-fluid">
+        @using (@Ajax.BeginForm("CalculateServiceOverall", "Services", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "divServicesTotalPriceSection"
+        }))
+        {
+            <div class="form-horizontal">
+                <div class="form-group-sm">
+
+                    <label id="lblEstimateContext" class="control-label col-sm-6">ค่าใช้จ่ายเบื้องต้น</label>
+
+                    <div class="col-sm-6">
+                        <label id="lblEstimateCost" class="control-label"> 0.00</label>
+                    </div>
+                </div>
+                <div class="form-group-sm">
+
+                    <label id="lblPromotionContext" class="control-label col-sm-6">โปรโมชั่นที่เลือกไว้</label>
+
+                    <div class="col-md-6">
+                        <label id="lblPromotionSelected" class="control-label"> - </label>
+                    </div>
+                </div>
+
+                <div class="form-group-sm">
+
+                    <label id="lblPromotionDiscountContext" class="control-label col-sm-6">ส่วนลด </label>
+
+                    <div class="col-md-6">
+                        <label id="lblPromotionDiscount" class="control-label"> 0.00% </label>
+                    </div>
+                </div>
+
+                <div class="form-group-sm">
+
+                    <label id="lblTotalCostContext" class="control-label col-sm-6">ค่าใช้จ่ายก่อนหักภาษี </label>
+
+                    <div class="col-md-6">
+                        <label id="lblTotalCost" class="control-label">0.00</label>
+                    </div>
+                </div>
+
+                <div class="form-group-sm">
+
+                    <label class="control-label col-sm-6">ภาษี </label>
+
+                    <div class="col-md-6">
+                        <label class="control-label">10%</label>
+                    </div>
+                </div>
+
+                <div class="form-group-sm">
+
+                    <label id="lblTotalWithTAXContext" class="control-label col-sm-6">ราคารวม </label>
+
+                    <div class="col-md-6">
+                        <label id="lblTotalCostWithTAX" class="control-label"> 0.00</label>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    <div class="col-md-12">
+                        <br />
+                        <input class="btn-primary" type="submit" id="btnCalculateTotalPrice" name="btnCalculateTotalPrice" value="คำนวณค่าใช้จ่าย" />
+                    </div>
+
+                </div>
+            </div>
+
+            @*<div class="tab-content">
+                <div class="col-md-12 col-md-push-6">
+                    <br />
+                    <input class="btn-primary" type="submit" id="btnCalculateTotalPrice" name="btnCalculateTotalPrice" value="Calculate Total Price" />
+                </div>
+
+            </div>*@
+        }
+    </div>
+</div>

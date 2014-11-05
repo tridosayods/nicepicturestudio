@@ -1,0 +1,38 @@
+﻿@model NicePictureStudio.App_Data.CRMTemplate
+
+<h2>Details</h2>
+<hr />
+    <div>
+        <h4>CRMTemplate</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Question)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Question)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CRMServiceCategory.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CRMServiceCategory.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CRMServiceType.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CRMServiceType.Name)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>

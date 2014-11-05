@@ -26,11 +26,32 @@ namespace NicePictureStudioReporting.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=BDQAAUT-PF26;Initial Catalog=NicePictureStudioDB;User ID=sa;Password=" +
-            "Welcome123;MultipleActiveResultSets=True;Application Name=EntityFramework")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=NicePictureStudioDB;User ID=sa;Password=Wel" +
+            "come123;MultipleActiveResultSets=True;Application Name=EntityFramework")]
         public string NicePictureStudioDB {
             get {
                 return ((string)(this["NicePictureStudioDB"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=NCStudioOLAP")]
+        public string NCStudioOLAP {
+            get {
+                return ((string)(this["NCStudioOLAP"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=TURBOPX-PC;Initial Catalog=NCStudioDW;Persist Security Info=True;User" +
+            " ID=sa;Password=Welcome123")]
+        public string NCStudioDW {
+            get {
+                return ((string)(this["NCStudioDW"]));
             }
         }
     }

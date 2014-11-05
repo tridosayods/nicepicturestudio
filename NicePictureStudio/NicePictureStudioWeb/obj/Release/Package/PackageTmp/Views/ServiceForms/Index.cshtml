@@ -1,0 +1,112 @@
+﻿@model IEnumerable<NicePictureStudio.App_Data.ServiceForm>
+
+@{
+    ViewBag.Title = "ตารางงานทั้งหมด";
+}
+
+<h2>ตารางงานส่งลูกค้าของ บริษัท รูปสวยโฟโต้จำกัด</h2>
+
+    @*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+    <div class="panel-default table-bordered">
+        <div class="panel-title"></div>
+        <div class="panel-heading">ตัวเลือกในการค้นหาข้อมูล</div>
+        <div class="panel-body">
+            <table class="table-responsive">
+                <tr>
+                    <td>
+                        <div class="form-horizontal">
+                            <div class="form-group-sm">
+                                <div class="col-sm-2 col-xs-3 text-right">@Html.Label("รายชื่อพนักงาน")</div>
+                                <div class="col-sm-2 col-xs-3">@(Html.Kendo().DropDownList().Name("PhotographerName").BindTo(new string[] { "ดูทั้งหมด", "ช่างถ่ายภาพ1", "ช่างถ่ายภาพ2", "ช่างถ่ายภาพวีดีโอ1", "ช่างมัลติมีเดีย1" }))</div>
+
+                                <div class="col-sm-2 col-xs-3 text-right"> @Html.Label("ประเภทของการให้บริการ") </div>
+                                <div class="col-sm-2 col-xs-3">@(Html.Kendo().DropDownList().Name("ServiceTypeName").BindTo(new string[] { "ทั้งหมด", "ถ่ายภาพก่อนแต่งงาน", "ถ่ายภาพพิธีหมั้น", "ถ่ายภาพแต่งงาน" }))</div>
+
+                                <div class="col-sm-2 col-xs-3 text-right">@Html.Label("สถานะการให้บริการ")</div>
+                                <div class="col-sm-2 col-xs-3">@(Html.Kendo().DropDownList().Name("ServiceStatus").BindTo(new string[] { "ดูทั้งหมด", "รอให้บริการ", "เสร็จสิ้นการให้บริการ", "ยกเลิก" }))</div>
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <hr />
+                        <div class="form-horizontal">
+                            <div class="form-group-sm">
+                                <div class ="col-sm-1 col-xs-1 text-right"> @Html.CheckBox("chkUnservies", false, new { @class = "form-contorl" })</div>
+                                <div class="col-sm-11 col-xs-5 text-left">@Html.Label("เลือกรายการที่ยังไม่ได้รับการยืนยันจากพนักงาน")</div>
+                            </div>
+                            <div class="form-group-sm">
+                                <div class="col-sm-1 col-xs-1 text-right"> @Html.CheckBox("chkUnservies", false, new { @class = "form-contorl" })</div>
+                                <div class="col-sm-5 col-xs-11 text-left">@Html.Label("เลือกรายการที่ยังไม่เสร็จสิ้นก่อนถึงกำหนดงาน 3 วันล่วงหน้า")</div>
+                            </div>
+                        </div>
+                            
+                    </td>
+                </tr>
+            </table>
+           
+           
+        </div>
+    </div>
+    <hr />
+    <div id="ServiceFormsScheduler">
+        @{Html.RenderAction("ServiceFormScheduler");}
+    </div>
+    @*<table class="table" data-sort-order="desc">
+        <thead>
+            <tr>
+                <th data-sortable="true">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventStart)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventEnd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GuestsNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ServiceCost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ServicePrice)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GuestsNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServicePrice)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>*@
+

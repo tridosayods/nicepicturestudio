@@ -1,0 +1,16 @@
+﻿@model NicePictureStudio.Models.Question
+<tr>
+    <td>
+        @Html.HiddenFor(x => x.ID)
+        <h5> @Model.QuestionText </h5>
+    </td>
+    @foreach (var a in Model.Answers)
+    {
+        <td>
+            <label>
+                @Html.RadioButtonFor(b => b.SelectedAnswer, a.ID)  @a.AnswerText
+            </label>
+        </td>
+    }
+</tr>
+

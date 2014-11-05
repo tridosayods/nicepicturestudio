@@ -1,0 +1,29 @@
+<AnalysisServicesUserConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0">
+  <Configurations>
+    <Configuration>
+      <Name>Development</Name>
+      <Options>
+        <UserIDs>
+          <ConfigurationSetting>
+            <Id>NC Studio DW</Id>
+            <Name>NC Studio DW</Name>
+            <Value xsi:type="xsd:string">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA9zaoaQZMy0S6h/xU5xKAFQAAAAAaAAAATgBDACAAUwB0AHUAZABpAG8AIABEAFcAAAAQZgAAAAEAACAAAABarynjlRidgOaiUNymPrzX7WwlXYbQWghu1yD6tmnqgAAAAAAOgAAAAAIAACAAAAAJHONFJjpbJjDfq3Hh/4XLcSlDPhJsH6iGCA348w9C4xAAAAAnHWnw/Q56Vh5jfnoPzpYYQAAAAPJr2hpwmG+IaxpSUDBKcqaAiV+F+BwsJB4pg+wVVSgNSzbClQmZoUpdcgdJ1CH+wB3xIYB4PrUq/wORPh/vx8g=</Value>
+          </ConfigurationSetting>
+        </UserIDs>
+        <UserPasswords>
+          <ConfigurationSetting>
+            <Id>NC Studio DW</Id>
+            <Name>NC Studio DW</Name>
+            <Value xsi:type="xsd:string">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA9zaoaQZMy0S6h/xU5xKAFQAAAAAaAAAATgBDACAAUwB0AHUAZABpAG8AIABEAFcAAAAQZgAAAAEAACAAAAD5XPfA/zStZs/OZ7hgcVN28apdu/cNYITCO9urUMu27AAAAAAOgAAAAAIAACAAAADJATZEP0fuqSPAMoi/katezFfUQNiuLZset1khMHz5ISAAAACz69mRaq3ekrOOYQYP5KxZEts0mOKFJ4LiqJprRI1n0UAAAABPy3KQ77wv0e+yimEbVC0v6Vnnb16pQY3BYiSlxBeidk51fhWu0ZWpPYodGRF+TU3GD6EZBDFQ1lI99kRL5Fsi</Value>
+          </ConfigurationSetting>
+        </UserPasswords>
+        <TargetServer>localhost</TargetServer>
+        <TargetDatabase>NCStudioOLAP</TargetDatabase>
+        <StartObject>
+          <ObjectId></ObjectId>
+          <ObjectType>Current</ObjectType>
+        </StartObject>
+      </Options>
+    </Configuration>
+  </Configurations>
+</AnalysisServicesUserConfiguration>
