@@ -59,6 +59,7 @@
     <EntitySetMapping Name="DimensionServiceType">
       <EntityTypeMapping TypeName="NCStudioDWModel.DimensionServiceType">
         <MappingFragment StoreEntitySet="DimensionServiceType">
+          <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
           <ScalarProperty Name="Cost" ColumnName="Cost" />
           <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
           <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />

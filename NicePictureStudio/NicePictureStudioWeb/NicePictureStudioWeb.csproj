@@ -897,6 +897,11 @@
     <Content Include="Views\MISReports\MISReport01_Profit_Promotion.cshtml" />
     <Content Include="Views\MISReports\MISReport02_Appraisal_Max_Min_ServiceType.cshtml" />
     <Content Include="Views\MISReports\MISReport03_Appraisal_Max_Min_Skill.cshtml" />
+    <Content Include="Views\MISReports\MISReport04_Profit_Year.cshtml" />
+    <Content Include="Views\MISReports\MISReport05_Profit_Trend.cshtml" />
+    <Content Include="Views\MISReports\MISReport07_Appraisal_ServiceType.cshtml" />
+    <Content Include="Views\MISReports\MISReport06_Apprisal_Skill.cshtml" />
+    <Content Include="Views\MISReports\MISReport08_Profit_ServiceType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

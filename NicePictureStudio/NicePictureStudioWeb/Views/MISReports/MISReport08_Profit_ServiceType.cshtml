@@ -1,18 +1,17 @@
 ﻿@model IEnumerable<NicePictureStudio.Models.BarChartViewModel>
 <div class="chart-wrapper">
     @(Html.Kendo().Chart(Model)
-            .Name("MISchart02")
-            .Title("รายงานวิเคราะห์ลาดับความพึงพอใจสูงสุด และต่าสุดตามประเภทของการให้บริการ")
+            .Name("MISchart08")
+            .Title("รายงานวิเคราะห์กาไรขั้นต้นเปรียบเทียบกับรายได้ตามแต่ละรูปแบบของการให้บริการ")
             .Legend(legend => legend
                 .Visible(false)
             )
-            //.SeriesDefaults(seriesDefaults => seriesDefaults.Column().Stack(true))
             .ChartArea(chartArea => chartArea
                 .Background("transparent")
             )
             .Series(series =>
             {
-                
+
                 series.Column(
                     model => model.Data_Group1_1
                     ).Name("คะแนนความพึงพอใจเต่ำสุด");
@@ -26,7 +25,7 @@
             )
             .ValueAxis(axis => axis
                 .Numeric()
-                .Max(5)
+                .Max(400000)
                 .Line(line => line.Visible(false))
                 .MajorGridLines(lines => lines.Visible(true))
             )
@@ -36,3 +35,5 @@
             )
     )
 </div>
+
+

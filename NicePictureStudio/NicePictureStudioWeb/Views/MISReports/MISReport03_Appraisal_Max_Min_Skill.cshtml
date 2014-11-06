@@ -4,23 +4,30 @@
             .Name("MISchart03")
             .Title("รายงานวิเคราะห์ความพึงพอใจ สุงสุดและต่าสุดตามประเภทของผู้ให้บริการ")
             .Legend(legend => legend
-                .Visible(false)
+                .Visible(true)
             )
             .ChartArea(chartArea => chartArea
                 .Background("transparent")
             )
+            //.SeriesDefaults(seriesDefaults => seriesDefaults.Column().Stack(ChartStackType.Stack100))
             .Series(series =>
             {
                 series.Column(
-                    model => model.Data_1
-                    ).Name("คะแนนความพึงพอใจสูงสุด");
+                    model => model.Data_1)
+                    //.Name("คะแนนความพึงพอใจสูงสุดช่างถ่ายภาพ").Stack("ช่างถ่ายภาพ");
+                    .Name("คะแนนความพึงพอใจสูงสุดช่างถ่ายภาพ");
                 series.Column(
-                    model => model.Data_2).Name("คะแนนความพึงพอใจต้ำสุด");
+                    model => model.Data_2)
+                    //.Name("คะแนนความพึงพอใจต้ำสุดช่างถ่ายภาพ").Stack("ช่างถ่ายภาพ");
+                    .Name("คะแนนความพึงพอใจต้ำสุดช่างถ่ายภาพ");
                 series.Column(
-                    model => model.Data_Group1_1
-                    ).Name("คะแนนความพึงพอใจสูงสุด");
+                    model => model.Data_Group1_1)
+                    //.Name("คะแนนความพึงพอใจสูงสุดช่างถ่ายวีดีโอ").Stack("ช่างถ่ายวีดีโอ");
+                    .Name("คะแนนความพึงพอใจสูงสุดช่างถ่ายวีดีโอ");
                 series.Column(
-                    model => model.Data_Group1_2).Name("คะแนนความพึงพอใจต้ำสุด");
+                    model => model.Data_Group1_2)
+                    //.Name("คะแนนความพึงพอใจต้ำสุดช่างถ่ายวีดีโอ").Stack("ช่างถ่ายวีดีโอ");
+                    .Name("คะแนนความพึงพอใจต้ำสุดช่างถ่ายวีดีโอ");
             })
             .CategoryAxis(axis => axis
                 .Categories(model => model.Catalogs)

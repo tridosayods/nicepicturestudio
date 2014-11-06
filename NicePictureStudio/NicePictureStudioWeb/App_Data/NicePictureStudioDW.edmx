@@ -39,6 +39,7 @@
           <Property Name="ServiceTypeId" Type="int" Nullable="false" />
           <Property Name="ServiceType" Type="nvarchar" MaxLength="50" />
           <Property Name="Cost" Type="numeric" Precision="18" Scale="3" />
+          <Property Name="ServiceId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DimensionTime">
           <Key>
@@ -306,6 +307,7 @@
           <Property Name="ServiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Cost" Type="Decimal" Precision="18" Scale="3" />
           <NavigationProperty Name="PerformanceFacts" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionServiceType" FromRole="DimensionServiceType" ToRole="PerformanceFacts" />
+          <Property Name="ServiceId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_PerformanceFacts_DimensionServiceType">
           <End Type="NCStudioDWModel.DimensionServiceType" Role="DimensionServiceType" Multiplicity="1" />
@@ -383,6 +385,7 @@
           <EntitySetMapping Name="DimensionServiceType">
             <EntityTypeMapping TypeName="NCStudioDWModel.DimensionServiceType">
               <MappingFragment StoreEntitySet="DimensionServiceType">
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
                 <ScalarProperty Name="Cost" ColumnName="Cost" />
                 <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
                 <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />

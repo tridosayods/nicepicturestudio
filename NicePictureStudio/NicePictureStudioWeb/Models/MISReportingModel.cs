@@ -51,4 +51,20 @@ namespace NicePictureStudio.Models
         //Catalogs
         public string Catalogs { get; set; }
     }
+
+    public class LineChartViewModel
+    {
+        //Data Group
+        public decimal Data_1 { get; set; }
+        public decimal Data_2 { get; set; }
+
+        public decimal Data_Group1_1 { get; set; }
+        public decimal Data_Group1_2 { get; set; }
+
+        public decimal Data_Group2_1 { get; set; }
+        public decimal Data_Group2_2 { get; set; }
+
+        //Catalogs
+        public string Catalogs { get; set; }
+    }
 }

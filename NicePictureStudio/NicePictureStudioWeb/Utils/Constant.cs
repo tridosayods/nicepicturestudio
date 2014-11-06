@@ -98,6 +98,10 @@ namespace NicePictureStudio.Utils
         public static readonly int CUBE_SERVICE_CATEGORY_CAMERAMAN = 2;
         public static readonly int CUBE_SERVICE_CATEGORY_MEDIA = 3;
 
+        public static readonly int CUBE_SERVICE_TYPE_PREWEDDING = 1;
+        public static readonly int CUBE_SERVICE_TYPE_ENGAGEMENT = 2;
+        public static readonly int CUBE_SERVICE_TYPE_WEDDING = 3;
+
     }
 
     public static class RazorExtensions

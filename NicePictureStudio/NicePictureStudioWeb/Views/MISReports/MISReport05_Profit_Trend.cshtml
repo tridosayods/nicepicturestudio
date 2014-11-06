@@ -1,0 +1,35 @@
+﻿@model IEnumerable<NicePictureStudio.Models.LineChartViewModel>
+<div class="chart-wrapper">
+    @(Html.Kendo().Chart(Model)
+        .Name("MISChart05")
+        .Title("รายงานวิเคราะห์การเติบโตของกำไรตามแต่ละช่วงเวลา")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Bottom)
+        )
+        .ChartArea(chartArea => chartArea
+            .Background("transparent")
+        )
+        .SeriesDefaults(seriesDefaults =>
+            seriesDefaults.Line().Style(ChartLineStyle.Smooth)
+        )
+        .Series(series =>
+        {
+            series.Line(
+                model => model.Data_1
+                ).Name("กำไร");
+        })
+        .CategoryAxis(axis => axis
+            .Categories(model => model.Catalogs)
+            .MajorGridLines(lines => lines.Visible(false))
+        )
+        .ValueAxis(axis => axis
+            .Numeric().Labels(labels => labels.Format("{0} บาท"))
+            .Line(line => line.Visible(false))
+            .AxisCrossingValue(-10)
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0} บาท")
+        )
+    )
+</div>

@@ -147,6 +147,7 @@
     <Property Name="ServiceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Cost" Type="Decimal" Precision="18" Scale="3" />
     <NavigationProperty Name="PerformanceFacts" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionServiceType" FromRole="DimensionServiceType" ToRole="PerformanceFacts" />
+    <Property Name="ServiceId" Type="Int32" Nullable="false" />
   </EntityType>
   <Association Name="FK_PerformanceFacts_DimensionServiceType">
     <End Type="NCStudioDWModel.DimensionServiceType" Role="DimensionServiceType" Multiplicity="1" />

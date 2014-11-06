@@ -34,6 +34,7 @@
     <Property Name="ServiceTypeId" Type="int" Nullable="false" />
     <Property Name="ServiceType" Type="nvarchar" MaxLength="50" />
     <Property Name="Cost" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="ServiceId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="DimensionTime">
     <Key>

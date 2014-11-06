@@ -1,0 +1,42 @@
+﻿@model IEnumerable<NicePictureStudio.Models.LineChartViewModel>
+<div class="chart-wrapper">
+    @(Html.Kendo().Chart(Model)
+        .Name("MISChart06")
+        .Title("รายงานวิเคราะห์แนวโน้มของความพึงพอใจของลูกค้า ตามประเภทของผู้ให้บริการ")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Bottom)
+        )
+        .ChartArea(chartArea => chartArea
+            .Background("transparent")
+        )
+        .SeriesDefaults(seriesDefaults =>
+            seriesDefaults.Line().Style(ChartLineStyle.Smooth)
+        )
+        .Series(series =>
+        {
+            series.Line(
+                model => model.Data_1
+                ).Name("ช่างถ่ายภาพ");
+            series.Line(
+                model => model.Data_Group1_1
+                ).Name("ช่างถ่ายวีดีโอ");
+            series.Line(
+                model => model.Data_Group2_1
+                ).Name("ช่างมัลติมีเดีย");
+        })
+        .CategoryAxis(axis => axis
+            .Categories(model => model.Catalogs)
+            .MajorGridLines(lines => lines.Visible(false))
+        )
+        .ValueAxis(axis => axis
+            .Numeric().Labels(labels => labels.Format("{0}"))
+            .Line(line => line.Visible(false))
+            .AxisCrossingValue(-10)
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0}")
+        )
+    )
+</div>
+

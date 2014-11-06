@@ -22,6 +22,7 @@ namespace NicePictureStudio.App_Data
         public int ServiceTypeId { get; set; }
         public string ServiceType { get; set; }
         public Nullable<decimal> Cost { get; set; }
+        public int ServiceId { get; set; }
     
         public virtual ICollection<PerformanceFacts> PerformanceFacts { get; set; }
     }
