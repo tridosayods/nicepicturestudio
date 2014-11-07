@@ -18,6 +18,7 @@
     <Property Name="PromotionType" Type="int" />
     <Property Name="Profit" Type="int" />
     <Property Name="PromotionTypeName" Type="nvarchar(max)" />
+    <Property Name="SaleId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="DimensionSatisfaction">
     <Key>
@@ -62,6 +63,8 @@
     <Property Name="ProfitPercent" Type="decimal" Precision="18" Scale="3" />
     <Property Name="SaleAmount" Type="int" />
     <Property Name="CostAmount" Type="int" />
+    <Property Name="CostOutSourceAmount" Type="int" />
+    <Property Name="IsCancel" Type="bit" />
   </EntityType>
   <Association Name="FK_PerformanceFacts_DimensionPhotoGrapher">
     <End Role="DimensionPhotoGrapher" Type="Self.DimensionPhotoGrapher" Multiplicity="1" />

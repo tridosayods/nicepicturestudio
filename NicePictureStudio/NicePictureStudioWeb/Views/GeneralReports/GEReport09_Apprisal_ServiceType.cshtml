@@ -1,0 +1,55 @@
+﻿@model IEnumerable<NicePictureStudio.Models.BarChartViewModel>
+<div class="chart-wrapper">
+    @(Html.Kendo().Chart(Model)
+        .Name("GEReport09")
+        .Title("รายงานความพึงพอใจในการให้บริการเปรียบเทียบตามรายได้จากการให้บริการ")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Top)
+        )
+        .ChartArea(chartArea => chartArea
+            .Background("transparent")
+        )
+        .SeriesDefaults(seriesDefaults =>
+        seriesDefaults.Column().Stack(true)
+        )
+        .Series(series =>
+        {
+            series.Column(
+                   model => model.Data_1
+                   ).Name("ไม่่พึงพอใจมากในการให้บริการ");
+            series.Column(
+                    model => model.Data_2
+                    ).Name("ไม่่พึงพอใจในการให้บริการ");
+            series.Column(
+                    model => model.Data_Group1_1
+                    ).Name("เฉยๆกับการให้บริการ");
+            series.Column(
+                    model => model.Data_Group1_2
+                    ).Name("พอใจกับการให้บริการ");
+            series.Column(
+                    model => model.Data_Group2_1
+                    ).Name("พอใจมากกับการให้บริการ");
+
+        })
+        .CategoryAxis(axis => axis
+            .Name("series-axis")
+            .Line(line => line.Visible(false))
+        )
+        .CategoryAxis(axis => axis
+            .Name("label-axis")
+            .Categories(model => model.Catalogs)
+        )
+        .ValueAxis(axis => axis
+            .Numeric()
+                .Labels(labels => labels.Format("{0:###,###} บาท"))
+
+                // Move the label-axis all the way down the value axis
+                .AxisCrossingValue(0, int.MinValue)
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0:###,###}")
+            .Template("#= series.name #: #= kendo.toString(value,'\\#\\#,\\# บาท') #")
+        )
+    )
+</div>

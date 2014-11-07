@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<NicePictureStudio.Models.LineChartViewModel>
 <div class="chart-wrapper">
     @(Html.Kendo().Chart(Model)
-        .Name("MISChart05")
-        .Title("รายงานวิเคราะห์การเติบโตของกำไรตามแต่ละช่วงเวลา")
+        .Name("GEReport05")
+        .Title("รายงานสรุปรายได้เปรียบเทียบกับรายการนาเสนอการขายของบริษัทในแต่ละปี")
         .Legend(legend => legend
             .Position(ChartLegendPosition.Bottom)
         )
@@ -16,22 +16,29 @@
         {
             series.Line(
                 model => model.Data_1
-                ).Name("กำไร");
+                ).Name("Promotion 1");
+            series.Line(
+                model => model.Data_Group1_1
+                ).Name("Promotion 2");
+            series.Line(
+                model => model.Data_Group2_1
+                ).Name("Promotion 3");
         })
         .CategoryAxis(axis => axis
             .Categories(model => model.Catalogs)
             .MajorGridLines(lines => lines.Visible(false))
             .Labels(labels => labels.Rotation(-90))
-            .Crosshair(c=>c.Visible(true))
+            .Crosshair(c => c.Visible(true))
         )
         .ValueAxis(axis => axis
-            .Numeric().Labels(labels => labels.Format("{0} บาท"))
+            .Numeric().Labels(labels => labels.Format("{0}"))
             .Line(line => line.Visible(false))
             .AxisCrossingValue(-10)
         )
         .Tooltip(tooltip => tooltip
             .Visible(true)
-            .Format("{0} บาท")
+            .Format("{0}")
         )
     )
 </div>
+

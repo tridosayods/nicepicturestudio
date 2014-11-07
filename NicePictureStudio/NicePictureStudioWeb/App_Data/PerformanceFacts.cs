@@ -23,6 +23,8 @@ namespace NicePictureStudio.App_Data
         public Nullable<decimal> ProfitPercent { get; set; }
         public Nullable<int> SaleAmount { get; set; }
         public Nullable<int> CostAmount { get; set; }
+        public Nullable<int> CostOutSourceAmount { get; set; }
+        public Nullable<bool> IsCancel { get; set; }
     
         public virtual DimensionPhotoGrapher DimensionPhotoGrapher { get; set; }
         public virtual DimensionPromotion DimensionPromotion { get; set; }

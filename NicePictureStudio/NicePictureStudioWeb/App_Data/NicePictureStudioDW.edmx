@@ -23,6 +23,7 @@
           <Property Name="PromotionType" Type="int" />
           <Property Name="Profit" Type="int" />
           <Property Name="PromotionTypeName" Type="nvarchar(max)" />
+          <Property Name="SaleId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DimensionSatisfaction">
           <Key>
@@ -67,6 +68,8 @@
           <Property Name="ProfitPercent" Type="decimal" Precision="18" Scale="3" />
           <Property Name="SaleAmount" Type="int" />
           <Property Name="CostAmount" Type="int" />
+          <Property Name="CostOutSourceAmount" Type="int" />
+          <Property Name="IsCancel" Type="bit" />
         </EntityType>
         <Association Name="FK_PerformanceFacts_DimensionPhotoGrapher">
           <End Role="DimensionPhotoGrapher" Type="Self.DimensionPhotoGrapher" Multiplicity="1" />
@@ -180,6 +183,7 @@
           <Property Name="Profit" Type="Int32" />
           <NavigationProperty Name="PerformanceFacts" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionPromotion" FromRole="DimensionPromotion" ToRole="PerformanceFacts" />
           <Property Name="PromotionTypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SaleId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DimensionSatisfaction">
           <Key>
@@ -250,6 +254,8 @@
           <NavigationProperty Name="DimensionSatisfaction" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionSatisfaction" FromRole="PerformanceFacts" ToRole="DimensionSatisfaction" />
           <NavigationProperty Name="DimensionTime" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionTime1" FromRole="PerformanceFacts" ToRole="DimensionTime" />
           <NavigationProperty Name="DimensionServiceType" Relationship="NCStudioDWModel.FK_PerformanceFacts_DimensionServiceType" FromRole="PerformanceFacts" ToRole="DimensionServiceType" />
+          <Property Name="CostOutSourceAmount" Type="Int32" />
+          <Property Name="IsCancel" Type="Boolean" />
         </EntityType>
         <Association Name="FK_PerformanceFacts_DimensionPhotoGrapher">
           <End Type="NCStudioDWModel.DimensionPhotoGrapher" Role="DimensionPhotoGrapher" Multiplicity="1" />
@@ -340,6 +346,7 @@
           <EntitySetMapping Name="DimensionPromotion">
             <EntityTypeMapping TypeName="NCStudioDWModel.DimensionPromotion">
               <MappingFragment StoreEntitySet="DimensionPromotion">
+                <ScalarProperty Name="SaleId" ColumnName="SaleId" />
                 <ScalarProperty Name="PromotionTypeName" ColumnName="PromotionTypeName" />
                 <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
                 <ScalarProperty Name="SalePerson" ColumnName="SalePerson" />
@@ -370,6 +377,8 @@
           <EntitySetMapping Name="PerformanceFacts">
             <EntityTypeMapping TypeName="NCStudioDWModel.PerformanceFacts">
               <MappingFragment StoreEntitySet="PerformanceFacts">
+                <ScalarProperty Name="IsCancel" ColumnName="IsCancel" />
+                <ScalarProperty Name="CostOutSourceAmount" ColumnName="CostOutSourceAmount" />
                 <ScalarProperty Name="CostAmount" ColumnName="CostAmount" />
                 <ScalarProperty Name="SaleAmount" ColumnName="SaleAmount" />
                 <ScalarProperty Name="ProfitPercent" ColumnName="ProfitPercent" />

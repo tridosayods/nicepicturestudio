@@ -102,6 +102,10 @@ namespace NicePictureStudio.Utils
         public static readonly int CUBE_SERVICE_TYPE_ENGAGEMENT = 2;
         public static readonly int CUBE_SERVICE_TYPE_WEDDING = 3;
 
+        public static readonly int CUBE_PROMOTION_TYPE_1 = 1;
+        public static readonly int CUBE_PROMOTION_TYPE_2 = 2;
+        public static readonly int CUBE_PROMOTION_TYPE_3 = 3;
+
     }
 
     public static class RazorExtensions

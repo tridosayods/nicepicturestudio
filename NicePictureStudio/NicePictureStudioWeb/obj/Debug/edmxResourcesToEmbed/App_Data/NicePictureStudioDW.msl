@@ -14,6 +14,7 @@
     <EntitySetMapping Name="DimensionPromotion">
       <EntityTypeMapping TypeName="NCStudioDWModel.DimensionPromotion">
         <MappingFragment StoreEntitySet="DimensionPromotion">
+          <ScalarProperty Name="SaleId" ColumnName="SaleId" />
           <ScalarProperty Name="PromotionTypeName" ColumnName="PromotionTypeName" />
           <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
           <ScalarProperty Name="SalePerson" ColumnName="SalePerson" />
@@ -44,6 +45,8 @@
     <EntitySetMapping Name="PerformanceFacts">
       <EntityTypeMapping TypeName="NCStudioDWModel.PerformanceFacts">
         <MappingFragment StoreEntitySet="PerformanceFacts">
+          <ScalarProperty Name="IsCancel" ColumnName="IsCancel" />
+          <ScalarProperty Name="CostOutSourceAmount" ColumnName="CostOutSourceAmount" />
           <ScalarProperty Name="CostAmount" ColumnName="CostAmount" />
           <ScalarProperty Name="SaleAmount" ColumnName="SaleAmount" />
           <ScalarProperty Name="ProfitPercent" ColumnName="ProfitPercent" />

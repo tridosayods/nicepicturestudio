@@ -2,7 +2,7 @@
 <div class="chart-wrapper">
     @(Html.Kendo().Chart(Model)
             .Name("MISchart04")
-                    .Title("รายงานวิเคราะห์ลาดับของผลกาไรในแต่ละช่วงเวลา")
+                    .Title("รายงานวิเคราะห์ลำดับของผลกาไรในแต่ละช่วงเวลา")
             .Legend(legend => legend
                 .Visible(false)
             )
@@ -22,7 +22,7 @@
             )
             .ValueAxis(axis => axis
                 .Numeric()
-                .Max(500000)
+                .Max(2000000)
                 .Line(line => line.Visible(false))
                 .MajorGridLines(lines => lines.Visible(true))
             )

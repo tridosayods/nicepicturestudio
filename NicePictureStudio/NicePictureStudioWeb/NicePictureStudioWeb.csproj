@@ -294,6 +294,7 @@
     <Compile Include="App_Data\DimensionTime.cs">
       <DependentUpon>NicePictureStudioDW.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\GeneralReportsController.cs" />
     <Compile Include="Metadata\CustomerMetadata.cs" />
     <Compile Include="Metadata\EmployeeLoginMetadata.cs" />
     <Compile Include="App_Data\EmployeeSchedule.cs">
@@ -436,7 +437,7 @@
       <DependentUpon>201409141838496_R3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="MISReportsController.cs" />
+    <Compile Include="Controllers\MISReportsController.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Metadata\BookingMetadata.cs" />
@@ -902,6 +903,29 @@
     <Content Include="Views\MISReports\MISReport07_Appraisal_ServiceType.cshtml" />
     <Content Include="Views\MISReports\MISReport06_Apprisal_Skill.cshtml" />
     <Content Include="Views\MISReports\MISReport08_Profit_ServiceType.cshtml" />
+    <Content Include="Views\MISReports\MISReport09_Income_SalePerson_Trend.cshtml" />
+    <Content Include="Views\MISReports\MISReport10_Cost_ServiceType_Trend.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport01_Income_Cost.cshtml" />
+    <Content Include="Views\GeneralReports\Index.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport02_Income_Quarter.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport03_Imcome_Promotion.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport04_Profit_Percent_Time.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport05_Promotion_Time.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport06_Profit_ServiceType.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport07_Cost_Income.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport08_Sale_Income.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport09_Apprisal_ServiceType.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport10_Apprisal_Photographer.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport11_Apprisal_Overall.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport12_Apprisal_Promotion.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport13_Apprisal_Year.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport14_Cancel_ServiceType.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport15_Cost_Overall.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport16_Cost_Time.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport17_Cost_Promotion.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport18_Cost_Profit.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport19_Cost_Promotion_Summary.cshtml" />
+    <Content Include="Views\GeneralReports\GEReport20_Cost_Outsource.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

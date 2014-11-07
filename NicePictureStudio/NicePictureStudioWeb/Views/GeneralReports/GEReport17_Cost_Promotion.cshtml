@@ -1,0 +1,48 @@
+﻿@model IEnumerable<NicePictureStudio.Models.BarChartViewModel>
+<div class="chart-wrapper">
+    @(Html.Kendo().Chart(Model)
+        .Name("GEReport17")
+        .Title("รายงานสรุปค่าใช้จ่ายเปรียบเทียบกับรายการนาเสนอการขายประจาปี")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Top)
+        )
+        .ChartArea(chartArea => chartArea
+            .Background("transparent")
+            .Height(800)
+        )
+        .Series(series =>
+        {
+            series.Bar(
+                    model => model.Data_1
+                    ).Name("โปรโมชั่น แบบที่ 1");
+            series.Bar(
+                    model => model.Data_Group1_1
+                    ).Name("โปรโมชั่น แบบที่ 2");
+            series.Bar(
+                   model => model.Data_Group2_1
+                   ).Name("โปรโมชั่น แบบที่3");
+        })
+        .CategoryAxis(axis => axis
+            .Name("series-axis")
+            .Line(line => line.Visible(false))
+        )
+        .CategoryAxis(axis => axis
+            .Name("label-axis")
+            .Categories(model => model.Catalogs)
+        )
+        .ValueAxis(axis => axis
+            .Numeric()
+                .Labels(labels => labels.Format("{0:###,###} บาท"))
+
+                // Move the label-axis all the way down the value axis
+                .AxisCrossingValue(0, int.MinValue)
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0:###,###}")
+            .Template("#= series.name #: #= kendo.toString(value,'\\#\\#,\\# บาท') #")
+        )
+    )
+</div>
+
+

@@ -27,6 +27,7 @@
         .CategoryAxis(axis => axis
             .Categories(model => model.Catalogs)
             .MajorGridLines(lines => lines.Visible(false))
+            .Crosshair(c => c.Visible(true))
         )
         .ValueAxis(axis => axis
             .Numeric().Labels(labels => labels.Format("{0}"))
@@ -35,6 +36,7 @@
         )
         .Tooltip(tooltip => tooltip
             .Visible(true)
+            .Shared(true)
             .Format("{0}")
         )
     )

@@ -1,0 +1,209 @@
+﻿@model IEnumerable<NicePictureStudio.Models.BarChartViewModel>
+
+<div class="form-horizontal container">
+    <div class="col-md-4">
+        <div class="chart-wrapper">
+            @(Html.Kendo().Chart(Model)
+                .Name("GEReport11_1")
+                .Title(title => title
+                .Text("รายการให้บริการที่พบว่าลูกค้าไม่่พึงพอใจมากในการให้บริการ")
+                .Position(ChartTitlePosition.Bottom))
+                .Legend(legend => legend
+                .Visible(false)
+                )
+                .SeriesColors(new string[] { "#42a7ff", "#666666", "#999999", "#cccccc" })
+                .Series(series =>
+                {
+                    series.Pie(model => model.Data_1, model => model.Catalogs)
+                    .Labels(labels => labels
+                    .Template("#= category #: \n #= value#")
+                    .Background("transparent")
+                    .Visible(true)
+                    )
+                    .StartAngle(150);
+                })
+                .Tooltip(tooltip => tooltip
+                .Visible(true)
+                .Format("{0}"))
+                .ChartArea(x => x.Width(500))
+            )
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="chart-wrapper">
+            @(Html.Kendo().Chart(Model)
+                .Name("GEReport11_2")
+                .Title(title => title
+                .Text("รายการให้บริการที่พบว่าลูกค้าไม่่พึงพอใจในการให้บริการ")
+                .Position(ChartTitlePosition.Bottom))
+                .Legend(legend => legend
+                .Visible(false)
+                )
+                .SeriesColors(new string[] { "#42a7ff", "#666666", "#999999", "#cccccc" })
+                .Series(series =>
+                {
+                    series.Pie(model => model.Data_2, model => model.Catalogs)
+                    .Labels(labels => labels
+                    .Template("#= category #: \n #= value#")
+                    .Background("transparent")
+                    .Visible(true)
+                    )
+                    .StartAngle(150);
+                })
+                .Tooltip(tooltip => tooltip
+                .Visible(true)
+                .Format("{0}"))
+                .ChartArea(x => x.Width(500))
+            )
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="chart-wrapper">
+            @(Html.Kendo().Chart(Model)
+                .Name("GEReport11_3")
+                .Title(title => title
+                .Text("รายการให้บริการที่พบว่าลูกค้าเฉยๆในการให้บริการ")
+                .Position(ChartTitlePosition.Bottom))
+                .Legend(legend => legend
+                .Visible(false)
+                )
+                .SeriesColors(new string[] { "#42a7ff", "#666666", "#999999", "#cccccc" })
+                .Series(series =>
+                {
+                    series.Pie(model => model.Data_Group1_1, model => model.Catalogs)
+                    .Labels(labels => labels
+                    .Template("#= category #: \n #= value#")
+                    .Background("transparent")
+                    .Visible(true)
+                    )
+                    .StartAngle(150);
+                })
+                .Tooltip(tooltip => tooltip
+                .Visible(true)
+                .Format("{0}"))
+                .ChartArea(x => x.Width(500))
+            )
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="chart-wrapper">
+            @(Html.Kendo().Chart(Model)
+                .Name("GEReport11_4")
+                .Title(title => title
+                .Text("รายการให้บริการที่พบว่าลูกค้าพอใจในการให้บริการ")
+                .Position(ChartTitlePosition.Bottom))
+                .Legend(legend => legend
+                .Visible(false)
+                )
+                .SeriesColors(new string[] { "#42a7ff", "#666666", "#999999", "#cccccc" })
+                .Series(series =>
+                {
+                    series.Pie(model => model.Data_Group1_2, model => model.Catalogs)
+                    .Labels(labels => labels
+                    .Template("#= category #: \n #= value#")
+                    .Background("transparent")
+                    .Visible(true)
+                    )
+                    .StartAngle(150);
+                })
+                .Tooltip(tooltip => tooltip
+                .Visible(true)
+                .Format("{0}"))
+                .ChartArea(x => x.Width(500))
+            )
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="chart-wrapper">
+            @(Html.Kendo().Chart(Model)
+                .Name("GEReport11_5")
+                .Title(title => title
+                .Text("รายการให้บริการที่พบว่าลูกค้าพอใจมากในการให้บริการ")
+                .Position(ChartTitlePosition.Bottom))
+                .Legend(legend => legend
+                .Visible(false)
+                )
+                .SeriesColors(new string[] { "#42a7ff", "#666666", "#999999", "#cccccc" })
+                .Series(series =>
+                {
+                    series.Pie(model => model.Data_Group2_1, model => model.Catalogs)
+                    .Labels(labels => labels
+                    .Template("#= category #: \n #= value#")
+                    .Background("transparent")
+                    .Visible(true)
+                    )
+                    .StartAngle(150);
+                })
+                .Tooltip(tooltip => tooltip
+                .Visible(true)
+                .Format("{0}"))
+                .ChartArea(x => x.Width(500))
+            )
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="chart-wrapper">
+    @(Html.Kendo().Chart(Model)
+        .Name("GEReport11")
+        .Title("รายงานความพึงพอใจโดยรวมต่อการให้บริการตามลาดับมากไปน้อย")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Top)
+        )
+        .ChartArea(chartArea => chartArea
+            .Background("transparent")
+        )
+        .SeriesDefaults(seriesDefaults =>
+        seriesDefaults.Column().Stack(true)
+        )
+        .Series(series =>
+        {
+            series.Column(
+                    model => model.Data_1
+                    ).Name("ไม่่พึงพอใจมากในการให้บริการ");
+            series.Column(
+                    model => model.Data_2
+                    ).Name("ไม่่พึงพอใจในการให้บริการ");
+            series.Column(
+                    model => model.Data_Group1_1
+                    ).Name("เฉยๆกับการให้บริการ");
+            series.Column(
+                    model => model.Data_Group1_2
+                    ).Name("พอใจกับการให้บริการ");
+            series.Column(
+                    model => model.Data_Group2_1
+                    ).Name("พอใจมากกับการให้บริการ");
+
+        })
+        .CategoryAxis(axis => axis
+            .Name("series-axis")
+            .Line(line => line.Visible(false))
+        )
+        .CategoryAxis(axis => axis
+            .Name("label-axis")
+            .Categories(model => model.Catalogs)
+            .Labels(labels => labels.Rotation(30))
+        )
+        .ValueAxis(axis => axis
+            .Numeric()
+                .Labels(labels => labels.Format("{0:###,###} รายการ"))
+
+                // Move the label-axis all the way down the value axis
+                .AxisCrossingValue(0, int.MinValue)
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0:###,###}")
+            .Template("#= series.name #: #= kendo.toString(value,'\\#\\#,\\# รายการ') #")
+        )
+    )
+</div>
