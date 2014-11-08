@@ -1,4 +1,5 @@
-﻿@(Html.Kendo().Scheduler<NicePictureStudio.Models.SchedulerViewModels>()
+﻿<div id="ServiceFormsScheduler">
+    @(Html.Kendo().Scheduler<NicePictureStudio.Models.SchedulerViewModels>()
     .Name("EmpScheduler")
     .Messages(msg =>
     {
@@ -24,8 +25,8 @@
             editable.Resize(false);
             editable.Destroy(false);
         })
-        //.BindTo(Model)
-        //.Timezone("Etc/UTC")
+            //.BindTo(Model)
+            //.Timezone("Etc/UTC")
         .Resources(resource =>
         {
             resource.Add(m => m.selectedStatus)
@@ -34,9 +35,10 @@
                 .DataValueField("Value")
                 .DataColorField("Color")
                 .BindTo(new[] {
-                    new { Text = "New", Value = 1, Color = "#6eb3fa" },
-                    new { Text = "Confirm", Value = 2, Color = "#f58a8a" },
-                    new { Text = "Cancel", Value = 3, Color = "#f58a8a" }
+                    new { Text = "รายการใหม่", Value = 1, Color = "\\#FFBF00" },
+                            new { Text = "ยืนยัน", Value = 2, Color = "\\#6eb3fa" },
+                            new { Text = "เสร็จสิ้นการให้บริการ", Value = 3, Color = "\\#01DF01" },
+                            new { Text = "ยกเลิก", Value = 4, Color = "\\#A4A4A4" }
                 });
             //resource.Add(m => m.Attendees)
             //    .Title("Attendees")
@@ -58,37 +60,45 @@
                 //m.RecurrenceId(f => f.RecurrenceID);
             })
             .Events(e => e.Error("error_handler"))
-            .Read("Employees_Read", "EmployeeSchedules")
+            .Read("Employees_Read", "EmployeeSchedules", new
+            {
+                phothgraphId = @ViewBag.PhotographerId,
+                serviceTypeId = @ViewBag.ServiceTypeId,
+                statusId = @ViewBag.Status,
+                isConfirm = ViewBag.IsConfirm,
+                isNotFinish = @ViewBag.IsNotFinish
+            })
             //.Create("Meetings_Create", "Home")
             //.Destroy("Employees_Destroy", "EmployeeSchedules")
             .Update("Employees_Update", "EmployeeSchedules")
 
         )
-)
+    )
 
 
 
-<script type="text/javascript">
-    function error_handler(e) {
-        if (e.errors) {
-            var message = "Errors:\n";
-            $.each(e.errors, function (key, value) {
-                if ('errors' in value) {
-                    $.each(value.errors, function () {
-                        message += this + "\n";
-                    });
-                }
-            });
-            alert(message);
+    <script type="text/javascript">
+        function error_handler(e) {
+            if (e.errors) {
+                var message = "Errors:\n";
+                $.each(e.errors, function (key, value) {
+                    if ('errors' in value) {
+                        $.each(value.errors, function () {
+                            message += this + "\n";
+                        });
+                    }
+                });
+                alert(message);
 
-            var scheduler = $("#EmpScheduler").data("kendoScheduler");
-            scheduler.one("dataBinding", function (e) {
-                //prevent saving if server error is thrown
-                e.preventDefault();
-            })
+                var scheduler = $("#EmpScheduler").data("kendoScheduler");
+                scheduler.one("dataBinding", function (e) {
+                    //prevent saving if server error is thrown
+                    e.preventDefault();
+                })
+            }
         }
-    }
 
 
-</script>
+    </script>
 
+</div>

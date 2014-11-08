@@ -11,6 +11,7 @@ using NicePictureStudio.App_Data;
 using Kendo.Mvc.UI;
 using NicePictureStudio.Models;
 using Kendo.Mvc.Extensions;
+using NicePictureStudio.Utils;
 
 namespace NicePictureStudio
 {
@@ -22,6 +23,20 @@ namespace NicePictureStudio
         [OutputCache(Duration = 0)]
         public async Task<ActionResult> Index()
         {
+            //Employee Management
+
+            //Service Management
+            var _equipmentTypeList = db.EquipmentServices.ToList();
+            EquipmentService defaultEquipmentType = new EquipmentService { Id = Constant.DEFAULT, Name = "เลือกทั้งหมด" };
+            _equipmentTypeList.Insert(0, defaultEquipmentType);
+
+            //Status Management
+            var _statusList = db.ServiceStatus.ToList();
+            ServiceStatu defaultStatus = new ServiceStatu { Id = Constant.DEFAULT, StatusName = "เลือกทั้งหมด" };
+            _statusList.Insert(0, defaultStatus);
+
+            ViewBag.ServiceTypeList = new SelectList(_equipmentTypeList, "Id", "Name");
+            ViewBag.StatusList = new SelectList(_statusList, "Id", "StatusName");
             return View(await db.EquipmentSchedules.ToListAsync());
         }
 
@@ -129,8 +144,13 @@ namespace NicePictureStudio
             base.Dispose(disposing);
         }
 
-        public PartialViewResult EquipmentScheduler()
+        public PartialViewResult EquipmentScheduler(string photographId, int? serviceTypeId, int? statusId, bool? isConfirm, bool? isNotFinish)
         {
+            ViewBag.PhotographerId = photographId == string.Empty ? Constant.UNDEFINED : photographId;
+            ViewBag.ServiceTypeId = serviceTypeId == null ? Constant.DEFAULT : serviceTypeId;
+            ViewBag.Status = statusId == null ? Constant.DEFAULT : statusId;
+            ViewBag.IsConfirm = isConfirm == null ? false : isConfirm;
+            ViewBag.IsNotFinish = isNotFinish == null ? false : isNotFinish;
             return PartialView();
         }
 
@@ -145,9 +165,9 @@ namespace NicePictureStudio
             return PartialView(remainNumber);
         }
 
-        public virtual JsonResult Equipments_Read([DataSourceRequest] DataSourceRequest request)
+        public virtual JsonResult Equipments_Read([DataSourceRequest] DataSourceRequest request, string phothgraphId, int serviceTypeId,int? statusId, bool? isConfirm, bool? isNotFinish)
         {
-            IQueryable<EquipmentSchedulerViewModel> tasks = CreateEquipmentSchedules().Select(task => new EquipmentSchedulerViewModel()
+            IQueryable<EquipmentSchedulerViewModel> tasks = CreateEquipmentSchedules(phothgraphId, serviceTypeId, statusId, isConfirm, isNotFinish).Select(task => new EquipmentSchedulerViewModel()
             {
                 Id = task.Id,
                 Title = task.Title,
@@ -161,10 +181,11 @@ namespace NicePictureStudio
                 RecurrenceException = task.RecurrenceException,
                 selectedStatus = task.selectedStatus,
                 RemainItem = task.RemainItem,
-                Quantity = task.Quantity
+                Quantity = task.Quantity,
+                EquipmentSetIndex = task.EquipmentSetIndex
             }
             ).AsQueryable();
-            return Json(tasks.ToDataSourceResult(request));
+            return Json(tasks.ToDataSourceResult(request),JsonRequestBehavior.AllowGet);
         }
 
         
@@ -281,41 +302,209 @@ namespace NicePictureStudio
             return _eqpItem;
         }
 
-        private List<EquipmentSchedulerViewModel> CreateEquipmentSchedules()
+        public JsonResult EquipmentSets_Read([DataSourceRequest] DataSourceRequest request,int serviceId)
         {
-            int EquipmentStatusVacant = 1;
-            List<EquipmentSchedulerViewModel> _listSchecule = new List<EquipmentSchedulerViewModel>();
-            var allEquipments = (from equipmentSchedule in db.EquipmentSchedules
-                                 join eqp in db.Equipments on equipmentSchedule.EquipmentId equals eqp.EquipmentId
-                                 where (eqp.EquipmentStatu.Id == EquipmentStatusVacant)
-                                 select new {eqpSchedule = equipmentSchedule, eqpItem = eqp}).ToList();
-           
+            var eqpIndex = serviceId;
+            var listEquipment = (from equipment in db.Equipments
+                                 join eqset in db.EquipmentSets on equipment.EquipmentId equals eqset.Equipment.EquipmentId
+                                 where (eqset.EquipmentService.Id == eqpIndex)
+                                 select (equipment)).ToList();
 
-            foreach (var item in allEquipments)
+            IQueryable<Equipment> tasks = listEquipment.Select(task => new Equipment()
+            {
+               EquipmentId = task.EquipmentId,
+               EquipmentDetail = task.EquipmentDetail,
+               EquipmentName = task.EquipmentName, 
+               Quantity =task.Quantity,
+               ModelName = task.ModelName
+            }
+            ).AsQueryable();
+            return Json(tasks.ToDataSourceResult(request),JsonRequestBehavior.AllowGet);
+        }
+
+        private List<EquipmentSchedulerViewModel> CreateEquipmentSchedules(string photographId, int? serviceTypeId, int? statusId, bool? isConfirm, bool? isNotFinish)
+        {
+            int EquipmentStatusVacant = Constant.EQUIPMENT_STATUS_VACANT;
+            List<EquipmentSchedulerViewModel> _listSchecule = new List<EquipmentSchedulerViewModel>();
+            //var allEquipments = (from equipmentSchedule in db.EquipmentSchedules
+            //                     join eqp in db.Equipments on equipmentSchedule.EquipmentId equals eqp.EquipmentId
+            //                     where (eqp.EquipmentStatu.Id == EquipmentStatusVacant)
+            //                     select new { eqpSchedule = equipmentSchedule, eqpItem = eqp }).ToList();
+            var allEquipments = (from equipmentSchedule in db.EquipmentSchedules
+                                 join eqp in db.EquipmentServices on equipmentSchedule.EquipmentServiceId equals eqp.Id
+                                // where (eqp.EquipmentStatu.Id == EquipmentStatusVacant)
+                                 select new { eqpSchedule = equipmentSchedule, eqpService = eqp }).ToList();
+
+            //Add condition for filtering
+            var filterServiceForms = allEquipments;
+          
+            if (serviceTypeId > 0 && statusId != null)
+            {
+                filterServiceForms = filterServiceForms.Where(s => s.eqpSchedule.EquipmentServiceId == serviceTypeId).ToList();
+            }
+
+            if (statusId > 0 && statusId != null)
+            {
+                filterServiceForms = filterServiceForms.Where(s => s.eqpSchedule.Status == statusId).ToList();
+            }
+
+            if (isConfirm != null)
+            {
+                if (isConfirm == true && statusId < Constant.SERVICE_STATUS_NEW)
+                { filterServiceForms = filterServiceForms.Where(s => s.eqpSchedule.Status <= Constant.SERVICE_STATUS_CONFIRM).ToList(); }
+            }
+
+            if (isNotFinish != null)
+            {
+                if (isNotFinish == true && statusId < Constant.SERVICE_STATUS_NEW)
+                {
+                    var currentDate = DateTime.Now;
+                    filterServiceForms = filterServiceForms.Where(s => (s.eqpSchedule.StartTime - currentDate).TotalDays > 3 && s.eqpSchedule.Status <= Constant.SERVICE_STATUS_CONFIRM).ToList();
+                }
+            }
+            //Add condition for filtering
+
+            foreach (var item in filterServiceForms)
             {
                 if (item.eqpSchedule.ServiceForm != null)
                 {
-                    var entity = db.EquipmentSchedules.FirstOrDefault(m => m.Id == item.eqpSchedule.Id);
-                    var matchEntityAtTheSameTime = (from schedule in db.EquipmentSchedules
-                                                    where (schedule.StartTime >= entity.StartTime && schedule.StartTime <= entity.EndTime) && (schedule.EquipmentId == entity.EquipmentId)
-                                                    select (schedule)).ToList();
+                    //var entity = db.EquipmentSchedules.FirstOrDefault(m => m.Id == item.eqpSchedule.Id);
+                    //var matchEntityAtTheSameTime = (from schedule in db.EquipmentSchedules
+                    //                                where (schedule.StartTime >= entity.StartTime && schedule.StartTime <= entity.EndTime) && (schedule.EquipmentId == entity.EquipmentId)
+                    //                                select (schedule)).ToList();
+                    //seek item list from Equipment Set at EquipmentId from Employee schedule
+                    var eqpIndex = item.eqpSchedule.EquipmentId;
+                    //var listEquipment = (from equipment in db.Equipments
+                    //                     join eqset in db.EquipmentSets on equipment.EquipmentId equals eqset.Equipment.EquipmentId
+                    //                     where (eqset.EquipmentService.Id == eqpIndex)
+                    //                     select (equipment)).ToList();
 
                     EquipmentSchedulerViewModel _scheduler = new EquipmentSchedulerViewModel
                     {
                         Id = item.eqpSchedule.Id,
-                        Title = item.eqpItem.EquipmentName,
-                        Description = item.eqpItem.EquipmentDetail,
+                        Title = item.eqpService.Name,
+                        Description = item.eqpService.Description,
                         Start = item.eqpSchedule.StartTime,
                         End = item.eqpSchedule.EndTime,
                         selectedStatus = item.eqpSchedule.Status,
-                        Quantity = item.eqpItem.Quantity,
-                        RemainItem = item.eqpItem.Quantity - matchEntityAtTheSameTime.Count
+                        EquipmentSetIndex = eqpIndex
+                        //Quantity = item.eqpService.Quantity,
+                        //RemainItem = item.eqpItem.Quantity - matchEntityAtTheSameTime.Count
                     };
                    
                     _listSchecule.Add(_scheduler);
                 }
             }
             return _listSchecule;
+        }
+
+        public ActionResult DetailsEquipment(int? equipmentId,int? empscheduleId)
+        {
+            ViewBag.EquipmentSetId = equipmentId;
+            
+            //Generate Service Details
+            //Getting Information from Service
+            //ServiceFormId => schedule for equipment
+            if(empscheduleId != null)
+            {
+                //find ServiceForm Id from emp schedule id
+                var serviceFormId = db.ServiceForms.Where(sv => sv.EquipmentSchedules.Any(eqps => eqps.Id == empscheduleId)).Select(s => s.Id).FirstOrDefault();
+                var services = db.Services.Where(s => s.ServiceForms.Any(srv => srv.Id == serviceFormId)).FirstOrDefault();
+                var photoSchedules = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.EmployeeSchedules).FirstOrDefault();
+                var booking = services.Bookings.FirstOrDefault();
+                List<EmployeeDetails> empPhotoGraph = new List<EmployeeDetails>();
+                foreach (var emp in photoSchedules)
+                {
+                    var index = emp.Employee.Id;
+                    var employee = db.Employees.Find(index);
+                    var empDetail = new EmployeeDetails
+                    {
+                        Name = employee.EmployeeInfoes.FirstOrDefault().Title +" " +
+                                employee.EmployeeInfoes.FirstOrDefault().Name + employee.EmployeeInfoes.FirstOrDefault().Surname+ "("+
+                                employee.EmployeeInfoes.FirstOrDefault().Nickname +")",
+                        Position = employee.EmployeePositions.FirstOrDefault().Name
+                    };
+                    empPhotoGraph.Add(empDetail);
+                }
+
+                //Location
+                var locationName =  "";
+                var locationDetails = "";
+                var Map = "";
+                var location = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.Locations).FirstOrDefault();
+                if (location !=null)
+                {
+                    if (location.Count > 0)
+                    {
+                        locationName = location.FirstOrDefault().LocationName;
+                        locationDetails = location.FirstOrDefault().MapExplanation;
+                        Map = location.FirstOrDefault().MapURL;
+                    }
+                    else 
+                    {
+                        var servicelocation = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.LocationSchedules).FirstOrDefault();
+                        var _location = db.Locations.Find(servicelocation.FirstOrDefault().LocationId);
+                        locationName = _location.LocationName;
+                        locationDetails = _location.MapExplanation;
+                        Map = _location.MapURL;
+                    }
+
+                }
+                else
+                {
+                    var servicelocation = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.LocationSchedules).FirstOrDefault();
+                    var _location = db.Locations.Find(servicelocation.FirstOrDefault().LocationId);
+                    locationName = _location.LocationName;
+                    locationDetails = _location.MapExplanation;
+                    Map = _location.MapURL;
+                }
+
+                //Customer
+                var bookingSpecialRequest = "";
+                foreach (var item in booking.BookingSpecialRequests)
+                {
+                    if (bookingSpecialRequest == "")
+                    {
+                        bookingSpecialRequest += item.Name;
+                    }
+                    else
+                    {
+                        bookingSpecialRequest += ", " + item.Name;
+                    }
+                }
+
+                var suggestion = "";
+                foreach (var item in services.ServiceSuggestions)
+                {
+                     if (suggestion =="")
+                    {
+                        suggestion += item.Name;
+                    }
+                    else
+                    {
+                         suggestion += ", " + item.Name;
+                    }
+                }
+
+                var TableReport = new TableReportModel 
+                { 
+                    MainPhotoGraph = empPhotoGraph.FirstOrDefault().Name,
+                    Position = empPhotoGraph.FirstOrDefault().Position,
+                    Bride = services.BrideName,
+                    Groom = services.GroomName,
+                    SpecialRequest = services.SpecialRequest,
+                    Suggestion = suggestion,
+                    Location = locationName,
+                    LocationDetails = locationDetails,
+                    Map = Map,
+                    BookingCode = booking.BookingCode,
+                    BookingRequest = bookingSpecialRequest
+                };
+
+                return PartialView(TableReport);
+            }
+            
+            return PartialView();
         }
     }
 }

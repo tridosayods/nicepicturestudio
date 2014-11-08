@@ -486,6 +486,7 @@
     <Compile Include="App_Data\PerformanceFacts.cs">
       <DependentUpon>NicePictureStudioDW.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TableReportModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Metadata\ServiceMetadata.cs" />
@@ -926,6 +927,7 @@
     <Content Include="Views\GeneralReports\GEReport18_Cost_Profit.cshtml" />
     <Content Include="Views\GeneralReports\GEReport19_Cost_Promotion_Summary.cshtml" />
     <Content Include="Views\GeneralReports\GEReport20_Cost_Outsource.cshtml" />
+    <Content Include="Views\EquipmentSchedules\DetailsEquipment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

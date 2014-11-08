@@ -1,4 +1,5 @@
 ﻿using Kendo.Mvc.UI;
+using NicePictureStudio.App_Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +72,7 @@ namespace NicePictureStudio.Models
         public int selectedStatus { get; set; }
         public int RemainItem { get; set; }
         public int Quantity { get; set; }
+        public int EquipmentSetIndex { get; set; }
         //public IEnumerable<SelectList> Status { get; set; }
         [HiddenInput]
         public bool IsAllDay { get; set; }

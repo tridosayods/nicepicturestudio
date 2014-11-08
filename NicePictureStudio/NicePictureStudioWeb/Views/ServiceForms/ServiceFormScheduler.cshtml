@@ -1,10 +1,12 @@
-﻿@(Html.Kendo().Scheduler<NicePictureStudio.Models.SchedulerViewModels>()
+﻿<div id="ServiceFormsScheduler">
+    @(Html.Kendo().Scheduler<NicePictureStudio.Models.SchedulerViewModels>()
     .Name("scheduler")
-    .Messages(msg => {
+    .Messages(msg =>
+    {
         msg.Cancel("ยกเลิก");
         msg.Save("ยืนยัน");
         msg.Destroy("ลบรายการ");
-          
+
     })
     .Date(DateTime.Today)
     .StartTime(DateTime.Today)
@@ -31,8 +33,10 @@
                 .DataValueField("Value")
                 .DataColorField("Color")
                 .BindTo(new[] {
-                    new { Text = "Meeting Room 101", Value = 1, Color = "#6eb3fa" },
-                    new { Text = "Meeting Room 201", Value = 2, Color = "#f58a8a" }
+                    new { Text = "รายการใหม่", Value = 1, Color = "\\#FFBF00" },
+                            new { Text = "ยืนยัน", Value = 2, Color = "\\#6eb3fa" },
+                            new { Text = "เสร็จสิ้นการให้บริการ", Value = 3, Color = "\\#01DF01" },
+                            new { Text = "ยกเลิก", Value = 4, Color = "\\#A4A4A4" }
                 });
             //resource.Add(m => m.Attendees)
             //    .Title("Attendees")
@@ -54,7 +58,11 @@
                 //m.RecurrenceId(f => f.RecurrenceID);
             })
             .Events(e => e.Error("error_handler"))
-            .Read("Services_Read", "ServiceForms")
+                            .Read("Services_Read", "ServiceForms", new { phothgraphId = @ViewBag.PhotographerId, serviceTypeId = @ViewBag.ServiceTypeId,
+                                                                         statusId = @ViewBag.Status,
+                                                                         isConfirm = ViewBag.IsConfirm,
+                                                                         isNotFinish = @ViewBag.IsNotFinish
+                            })
             //.Create("Meetings_Create", "Home")
             .Destroy("Meetings_Destroy", "Home")
             .Update("Services_Update", "ServiceForms")
@@ -62,9 +70,7 @@
         )
     )
 
-
-
-<script type="text/javascript">
+    <script type="text/javascript">
     function error_handler(e) {
         if (e.errors) {
             var message = "Errors:\n";
@@ -85,5 +91,10 @@
         }
     }
 
+    </script>
 
-</script>
+
+
+ </div>
+
+

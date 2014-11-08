@@ -43,8 +43,23 @@
         });
     }
 
-</script>
+    
 
+</script>
+@*@(Html.Kendo().Window()
+    .Name("window")
+    .Title("Rams's Ten Principles of Good Design")
+        .HtmlAttributes(new { @class = "xxxx" })
+    .Content(@<Text><div class="yyyy"></div></Text>)
+    .Iframe(false)
+    .Draggable()
+    .AutoFocus(true)
+    .Actions(actions=>actions.Refresh().Close())
+
+)*@
+
+
+    @Html.HiddenFor(model => model.EquipmentSetIndex, new { @class="EquipmentIndex"})
     @Html.HiddenFor(model => model.Id, new { @class = "IdRemain" });
 
     <div class="k-edit-label">
@@ -121,121 +136,122 @@
                     .ValuePrimitive(true)
                     .Template("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
                     .BindTo(new[] {
-                            new { Text = "New", Value = 1, Color = "\\#6eb3fa" },
-                            new { Text = "Confirm", Value = 2, Color = "\\#f58a8a" },
-                            new { Text = "Complete", Value = 3, Color = "\\#8DB600" }
+                            new { Text = "รายการใหม่", Value = 1, Color = "\\#FFBF00" },
+                            new { Text = "ยืนยัน", Value = 2, Color = "\\#6eb3fa" },
+                            new { Text = "เสร็จสิ้นการให้บริการ", Value = 3, Color = "\\#01DF01" },
+                            new { Text = "ยกเลิก", Value = 4, Color = "\\#A4A4A4" }
                         }).ToClientTemplate()
         )
     </div>
 
-    <div class="k-edit-label">
+@*<div data-container-for="RemainItem" class="k-edit-field RemainItem">
+        @(Html.TextBoxFor(model => model.RemainItem, new { @class = "k-textbox", data_bind = "value:RemainItem", @disabled = "true" }))
+    </div>*@    
+@*<div class="k-edit-label">
         @(Html.LabelFor(model => model.RemainItem))
     </div>
-    @*<div data-container-for="RemainItem" class="k-edit-field RemainItem">
-        @(Html.TextBoxFor(model => model.RemainItem, new { @class = "k-textbox", data_bind = "value:RemainItem", @disabled = "true" }))
-    </div>*@
     <div data-container-for="RemainItem" class="k-edit-field RemainItem">
             @(Html.TextBox("RemainItem", @Model, new { @class = "k-textbox", data_bind = "value:RemainItem", @disabled = "true" }))
-    </div>
+    </div>*@
 
 
-    <div class="k-edit-label">
-        @(Html.LabelFor(model => model.Description))
-    </div>
-    <div data-container-for="description" class="k-edit-field">
-        @(Html.TextAreaFor(model => model.Description, new { @class = "k-textbox", data_bind = "value:description" }))
-    </div>
-    <div class="k-edit-label">@Html.Label("Details")</div>
-    <div class="k-edit-field container">
-        <button type="button" class="ui-button btn-default"><span class="glyphicon glyphicon-book"></span>Show Details</button>
-    </div>
-    @*<script>
-            $(".k-timezone-toggle").on("click", function () {
-                var isVisible = $(this).is(":checked");
-                var container = $(this).closest(".k-popup-edit-form");
+        <div class="k-edit-label">
+            @(Html.LabelFor(model => model.Description))
+        </div>
+        <div data-container-for="description" class="k-edit-field">
+            @(Html.TextAreaFor(model => model.Description, new { @class = "k-textbox", data_bind = "value:description" }))
+        </div>
+        <div class="k-edit-label">@Html.Label("Details")</div>
+        <div class="k-edit-field container">
+            <button type="button" class="ui-button btn-default" id="btnDetail" onclick="modelOpen()"><span class="glyphicon glyphicon-book"></span>Show Details</button>
+        </div>
 
-                var endTimezoneRow = container.find("label[for='EndTimezone']").parent().add(container.find("div[data-container-for='endTimezone']"));
-                endTimezoneRow.toggle(isVisible);
+        @*<script>
+                $(".k-timezone-toggle").on("click", function () {
+                    var isVisible = $(this).is(":checked");
+                    var container = $(this).closest(".k-popup-edit-form");
 
-                if (!isVisible) {
-                    var uid = container.attr("data-uid");
-                    var scheduler = $("\#scheduler").data("kendoScheduler");
-                    var model = scheduler.dataSource.getByUid(uid);
-                    model.set("endTimezone", null);
+                    var endTimezoneRow = container.find("label[for='EndTimezone']").parent().add(container.find("div[data-container-for='endTimezone']"));
+                    endTimezoneRow.toggle(isVisible);
+
+                    if (!isVisible) {
+                        var uid = container.attr("data-uid");
+                        var scheduler = $("\#scheduler").data("kendoScheduler");
+                        var model = scheduler.dataSource.getByUid(uid);
+                        model.set("endTimezone", null);
+                    }
+                });
+
+                var endTimezone = '${data.endTimezone}';
+
+                if (!endTimezone || endTimezone == "null") {
+                    $(".k-timezone-toggle").trigger('click');
                 }
-            });
+            </script>
 
-            var endTimezone = '${data.endTimezone}';
+            <div class="k-edit-label">
+                @(Html.LabelFor(model => model.StartTimezone))
+            </div>
+            <div data-container-for="startTimezone" class="k-edit-field">
+                @(Html.Kendo().TimezoneEditorFor(model => model.StartTimezone)
+                    .HtmlAttributes(new { data_bind = "value:startTimezone" }))
+            </div>
 
-            if (!endTimezone || endTimezone == "null") {
-                $(".k-timezone-toggle").trigger('click');
-            }
-        </script>
+            <div class="k-edit-label">
+                @(Html.LabelFor(model => model.EndTimezone))
+            </div>
+            <div data-container-for="endTimezone" class="k-edit-field">
+                @(Html.Kendo().TimezoneEditorFor(model => model.EndTimezone)
+                    .HtmlAttributes(new { data_bind = "value:endTimezone" }))
+            </div>
 
-        <div class="k-edit-label">
-            @(Html.LabelFor(model => model.StartTimezone))
-        </div>
-        <div data-container-for="startTimezone" class="k-edit-field">
-            @(Html.Kendo().TimezoneEditorFor(model => model.StartTimezone)
-                .HtmlAttributes(new { data_bind = "value:startTimezone" }))
-        </div>
-
-        <div class="k-edit-label">
-            @(Html.LabelFor(model => model.EndTimezone))
-        </div>
-        <div data-container-for="endTimezone" class="k-edit-field">
-            @(Html.Kendo().TimezoneEditorFor(model => model.EndTimezone)
-                .HtmlAttributes(new { data_bind = "value:endTimezone" }))
-        </div>
-
-        <div class="k-edit-label">
-            @(Html.LabelFor(model => model.RecurrenceRule))
-        </div>
-        <div data-container-for="recurrenceRule" class="k-edit-field">
-            @(Html.Kendo().RecurrenceEditorFor(model => model.RecurrenceRule)
-                .HtmlAttributes(new { data_bind = "value:recurrenceRule" }))
-        </div>
+            <div class="k-edit-label">
+                @(Html.LabelFor(model => model.RecurrenceRule))
+            </div>
+            <div data-container-for="recurrenceRule" class="k-edit-field">
+                @(Html.Kendo().RecurrenceEditorFor(model => model.RecurrenceRule)
+                    .HtmlAttributes(new { data_bind = "value:recurrenceRule" }))
+            </div>
 
 
 
-        <div class="k-edit-label">
-            @(Html.LabelFor(model => model.RoomID))
-        </div>
-        <div data-container-for="RoomID" class="k-edit-field">
-            @(Html.Kendo().DropDownListFor(model => model.RoomID)
-                .HtmlAttributes(new { data_bind = "value:RoomID", style = "width: 200px" })
-                .DataTextField("Text")
-                .DataValueField("Value")
-                .OptionLabel("None")
-                .ValuePrimitive(true)
-                .Template("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
-                .BindTo(new[] {
-                        new { Text = "Meeting Room 101", Value = 1, Color = "\\#6eb3fa" },
-                        new { Text = "Meeting Room 201", Value = 2, Color = "\\#f58a8a" }
-                    }).ToClientTemplate()
-            )
-        </div>
+            <div class="k-edit-label">
+                @(Html.LabelFor(model => model.RoomID))
+            </div>
+            <div data-container-for="RoomID" class="k-edit-field">
+                @(Html.Kendo().DropDownListFor(model => model.RoomID)
+                    .HtmlAttributes(new { data_bind = "value:RoomID", style = "width: 200px" })
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .OptionLabel("None")
+                    .ValuePrimitive(true)
+                    .Template("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
+                    .BindTo(new[] {
+                            new { Text = "Meeting Room 101", Value = 1, Color = "\\#6eb3fa" },
+                            new { Text = "Meeting Room 201", Value = 2, Color = "\\#f58a8a" }
+                        }).ToClientTemplate()
+                )
+            </div>
 
-        <div class="k-edit-label">
-            @(Html.LabelFor(model => model.Attendees))
-        </div>
-        <div data-container-for="Attendees" class="k-edit-field">
-            @(Html.Kendo().MultiSelectFor(model => model.Attendees)
-                .HtmlAttributes(new { data_bind = "value:Attendees" })
-                .DataTextField("Text")
-                .DataValueField("Value")
-                .ValuePrimitive(true)
-                .TagTemplate("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
-                .ItemTemplate("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
-                .BindTo(new[] {
-                        new { Text = "Alex", Value = 1, Color = "\\#f8a398" },
-                        new { Text = "Bob", Value = 2, Color = "\\#51a0ed" },
-                        new { Text = "Charlie", Value = 3, Color = "\\#56ca85" }
-                    })
-            )
-        </div>*@
-    @{
+            <div class="k-edit-label">
+                @(Html.LabelFor(model => model.Attendees))
+            </div>
+            <div data-container-for="Attendees" class="k-edit-field">
+                @(Html.Kendo().MultiSelectFor(model => model.Attendees)
+                    .HtmlAttributes(new { data_bind = "value:Attendees" })
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .ValuePrimitive(true)
+                    .TagTemplate("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
+                    .ItemTemplate("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
+                    .BindTo(new[] {
+                            new { Text = "Alex", Value = 1, Color = "\\#f8a398" },
+                            new { Text = "Bob", Value = 2, Color = "\\#51a0ed" },
+                            new { Text = "Charlie", Value = 3, Color = "\\#56ca85" }
+                        })
+                )
+            </div>*@
+        @{
         ViewContext.FormContext = null;
-    }
-
+        }
 
