@@ -273,5 +273,158 @@ namespace NicePictureStudio
             }
             return _listSchecule;
         }
+
+        public ActionResult DetailsEmployee(int? EmployeeScheduleId)
+        {
+            //ViewBag.EquipmentSetId = equipmentId;
+
+            //Generate Service Details
+            //Getting Information from Service
+            //ServiceFormId => schedule for equipment
+            if (EmployeeScheduleId != null)
+            {
+                //find ServiceForm Id from emp schedule id
+                var serviceFormId = db.ServiceForms.Where(sv => sv.EmployeeSchedules.Any(eqps => eqps.Id == EmployeeScheduleId)).Select(s => s.Id).FirstOrDefault();
+                var services = db.Services.Where(s => s.ServiceForms.Any(srv => srv.Id == serviceFormId)).FirstOrDefault();
+                var photoSchedules = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.EmployeeSchedules).FirstOrDefault();
+                var booking = services.Bookings.FirstOrDefault();
+                List<EmployeeDetails> empPhotoGraph = new List<EmployeeDetails>();
+                foreach (var emp in photoSchedules)
+                {
+                    var index = emp.Employee.Id;
+                    var employee = db.Employees.Find(index);
+                    var empDetail = new EmployeeDetails
+                    {
+                        Name = employee.EmployeeInfoes.FirstOrDefault().Title + " " +
+                                employee.EmployeeInfoes.FirstOrDefault().Name + employee.EmployeeInfoes.FirstOrDefault().Surname + "(" +
+                                employee.EmployeeInfoes.FirstOrDefault().Nickname + ")",
+                        Position = employee.EmployeePositions.FirstOrDefault().Name,
+                        Email = employee.Email,
+                        PhoneNumber = employee.PhoneNumber,
+                        Specialibity = employee.Specialability
+                    };
+                    empPhotoGraph.Add(empDetail);
+                }
+
+                //Location
+                var locationName = "";
+                var locationDetails = "";
+                var Map = "";
+                var locationNumber = "";
+                var location = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.Locations).FirstOrDefault();
+                try
+                {
+                    if (location != null)
+                    {
+                        if (location.Count > 0)
+                        {
+                            locationName = location.FirstOrDefault().LocationName;
+                            locationDetails = location.FirstOrDefault().MapExplanation;
+                            Map = location.FirstOrDefault().MapURL;
+                        }
+                        else
+                        {
+                            var servicelocation = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.LocationSchedules).FirstOrDefault();
+                            if (servicelocation.Count > 0)
+                            {
+                                var _location = db.Locations.Find(servicelocation.FirstOrDefault().LocationId);
+                                locationName = _location.LocationName;
+                                locationDetails = _location.MapExplanation;
+                                Map = _location.MapURL;
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                        var servicelocation = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.LocationSchedules).FirstOrDefault();
+                        if (servicelocation.Count > 0)
+                        {
+                            var _location = db.Locations.Find(servicelocation.FirstOrDefault().LocationId);
+                            locationName = _location.LocationName;
+                            locationDetails = _location.MapExplanation;
+                            Map = _location.MapURL;
+                        }
+                    }
+                }
+                catch { }
+
+                //Customer
+                var bookingSpecialRequest = "";
+                if (booking != null)
+                {
+                    foreach (var item in booking.BookingSpecialRequests)
+                    {
+                        if (bookingSpecialRequest == "")
+                        {
+                            bookingSpecialRequest += item.Name;
+                        }
+                        else
+                        {
+                            bookingSpecialRequest += ", " + item.Name;
+                        }
+                    }
+                }
+
+                var suggestion = "";
+                foreach (var item in services.ServiceSuggestions)
+                {
+                    if (suggestion == "")
+                    {
+                        suggestion += item.Name;
+                    }
+                    else
+                    {
+                        suggestion += ", " + item.Name;
+                    }
+                }
+
+                var TableReport = new TableReportModel
+                {
+                    OutsourceId = EmployeeScheduleId,
+                    MainPhotoGraph = empPhotoGraph.Count > 0 ? empPhotoGraph.FirstOrDefault().Name : "",
+                    Position = empPhotoGraph.Count > 0 ? empPhotoGraph.FirstOrDefault().Position : "",
+                    PhotoGraphPhoneNumber = empPhotoGraph.Count > 0 ? empPhotoGraph.FirstOrDefault().PhoneNumber : "",
+                    Bride = services.BrideName,
+                    Groom = services.GroomName,
+                    SpecialRequest = services.SpecialRequest != null ? services.SpecialRequest : "",
+                    Suggestion = suggestion,
+                    Location = locationName,
+                    LocationDetails = locationDetails != null ? locationDetails : "",
+                    Map = Map,
+                    LocatioNumber = locationNumber,
+                    BookingCode = booking != null ? booking.BookingCode : Constant.UNDEFINED,
+                    BookingRequest = bookingSpecialRequest,
+                    listEmployee = empPhotoGraph
+                };
+
+                return PartialView(TableReport);
+            }
+
+            return PartialView();
+        }
+
+        public PartialViewResult DescriptionEmployee(int? employeeScheduleId, List<EmployeeDetails> lstEmp)
+        {
+            //Select Outsource ID
+            ViewBag.PhotoGrapherList = new List<EmployeeDetails>(lstEmp);
+            if (employeeScheduleId != null)
+            {
+                var serviceForm = db.EmployeeSchedules.Find(employeeScheduleId).ServiceForm;
+                var photoServiceId = db.EmployeeSchedules.Find(employeeScheduleId).EmployeeServiceId;
+                var photoGraphService = db.PhotographServices.Find(photoServiceId);
+                PhotographInfo photoItem = new PhotographInfo 
+                { 
+                    Numphotographer = photoGraphService.PhotographerNumber,
+                    NumCameraman = photoGraphService.CameraManNumber,
+                    GuestsNumber = serviceForm.GuestsNumber,
+                    Description = photoGraphService.Name
+                };
+                return PartialView(photoItem);
+            }
+
+            return PartialView();
+        }
     }
 }

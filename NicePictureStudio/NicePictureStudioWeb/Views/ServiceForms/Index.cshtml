@@ -22,7 +22,29 @@
                 $("#lblIsNotFinish").css("color", "");
             }
         });
-    });
+
+        $("#ClearResult").on("click", function () {
+            $("#isConfirm").attr("disabled", null);
+            $("#isNotFinish").attr("disabled", null);
+            $("#lblIsConfirm").css("color", "");
+            $("#lblIsNotFinish").css("color", "");
+        });
+
+    }); 
+
+    function modelOpen() {
+        var serviceIndex = $(".IdServiceForm").val();
+        $.ajax({
+            url: '@Url.Action("DetailsServiceForm", "ServiceForms")',
+            data: { ServiceFormScheduleId: serviceIndex },
+            type: "POST",
+            success: function (data) {
+                $(".nccontainer").html(data);
+                $(".ncmodal").modal('toggle');
+
+            }
+        });
+    }
 </script>
 
 <h2>ตารางงานรายการให้บริการ บริษัท รูปสวยโฟโต้จำกัด</h2>
@@ -88,7 +110,7 @@
                             <tr>
                                 <td>
                                     <button type="submit" value="GenerateFileter" class="btn-primary btn-md">เริ่มต้นค้นหา</button>
-                                    <button type="reset" value="GenerateFileter" class="btn-default btn-md">ล้างข้อมูลการค้นหา</button>
+                                    <button type="reset" id="ClearResult" value="GenerateFileter" class="btn-default btn-md">ล้างข้อมูลการค้นหา</button>
                                 </td>
                             </tr>
                         </table>
@@ -99,6 +121,34 @@
     <div id="ServiceFormsScheduler">
         @{Html.RenderAction("ServiceFormScheduler");}
     </div>
+
+
+<div class="modal fade ncmodal" id="NavPattern" tabindex="-10" role="dialog"
+     aria-labelledby="NavService" aria-hidden="true" data-url='' data-servicetype="" style="position:fixed;z-index:10004">
+    <div class="modal-dialog modal-lg" style="width:90%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="NavModelPattern">
+                    Welcome to NicePictureStudio Services :)
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="NavPatternBody" class="nccontainer"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancelPattern" type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
     @*<table class="table" data-sort-order="desc">
         <thead>
             <tr>

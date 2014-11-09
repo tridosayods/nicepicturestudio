@@ -1,10 +1,9 @@
 ﻿@model NicePictureStudio.Models.TableReportModel
-
 @{
-    ViewBag.Title = "รายละเอียดตารางอุปกรณ์";
+    ViewBag.Title = "รายละเอียดช่างถ่ายภาพ";
 }
 
-<h2>รายละเอียดสำหรัการจัดเตรียมอุปกรณ์</h2>
+<h2>รายละเอียดช่างถ่ายภาพ</h2>
 <br />
 
 <div class="panel panel-info">
@@ -112,41 +111,25 @@
                                     </div>
                                 </div>
                                 <div class="form-group-sm">
-                                    <div class="col-sm-12 text-left">
-                                        @Html.Label("เบอร์โทรศัพท์ :")
-                                        @Html.DisplayFor(model => model.LocatioNumber)
+                                        <div class="col-sm-12 text-left">
+                                            @Html.Label("เบอร์โทรศัพท์ :")
+                                            @Html.DisplayFor(model => model.LocatioNumber)
+                                        </div>
                                     </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </td>
             </tr>
         </table>
-        
-    </div>
-    <div class="panel-heading">รายละเอียดอุปกรณ์</div>
-    <div class="panel-body">
-        @(Html.Kendo().Grid<NicePictureStudio.App_Data.Equipment>()
-            .Name("EquipmentDetails")
-            .Columns(columns =>
-            {
-                columns.Bound(p => p.EquipmentName).Filterable(false).Width(100);
-                columns.Bound(p => p.EquipmentDetail).Width(100);
-                columns.Bound(p => p.Quantity).Format("{0:MM/dd/yyyy}").Width(140);
-            })
-            .Pageable()
-            .Sortable()
-            .Scrollable()
-            .Filterable()
-            .HtmlAttributes(new { style = "height:430px;" })
-            .DataSource(dataSource => dataSource
-                .Ajax()
-                .PageSize(20)
-                .Read(read => read.Action("EquipmentSets_Read", "EquipmentSchedules", new { serviceId = @ViewBag.EquipmentSetId }))
-             )
-        )
 
     </div>
+    <div class="panel-heading">รายละเอียดการจัดจ้าง</div>
+    <div class="panel-body">
+        @{Html.RenderAction("DescriptionEmployee", "EmployeeSchedules", new { employeeScheduleId = @Model.OutsourceId, lstEmp = @Model.listEmployee });}
+    </div>
 </div>
+
+
+
 

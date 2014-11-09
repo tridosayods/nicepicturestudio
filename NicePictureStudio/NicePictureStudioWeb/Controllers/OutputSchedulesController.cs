@@ -11,6 +11,7 @@ using NicePictureStudio.App_Data;
 using Kendo.Mvc.UI;
 using NicePictureStudio.Models;
 using Kendo.Mvc.Extensions;
+using NicePictureStudio.Utils;
 
 namespace NicePictureStudio
 {
@@ -21,6 +22,20 @@ namespace NicePictureStudio
         // GET: OutputSchedules
         public async Task<ActionResult> Index()
         {
+            //Employee Management
+
+            //Service Management
+            var _OutputTypeList = db.OutputTypes.ToList();
+            OutputType defaultOutputType = new OutputType { Id = Constant.DEFAULT, Name = "เลือกทั้งหมด" };
+            _OutputTypeList.Insert(0, defaultOutputType);
+
+            //Status Management
+            var _statusList = db.ServiceStatus.ToList();
+            ServiceStatu defaultStatus = new ServiceStatu { Id = Constant.DEFAULT, StatusName = "เลือกทั้งหมด" };
+            _statusList.Insert(0, defaultStatus);
+
+            ViewBag.ServiceTypeList = new SelectList(_OutputTypeList, "Id", "Name");
+            ViewBag.StatusList = new SelectList(_statusList, "Id", "StatusName");
             return View(await db.OutputSchedules.ToListAsync());
         }
 
@@ -128,14 +143,19 @@ namespace NicePictureStudio
             base.Dispose(disposing);
         }
 
-        public PartialViewResult OutputScheduler()
+        public PartialViewResult OutputScheduler(string photographId, int? serviceTypeId, int? statusId, bool? isConfirm, bool? isNotFinish)
         {
+            ViewBag.PhotographerId = photographId == string.Empty ? Constant.UNDEFINED : photographId;
+            ViewBag.ServiceTypeId = serviceTypeId == null ? Constant.DEFAULT : serviceTypeId;
+            ViewBag.Status = statusId == null ? Constant.DEFAULT : statusId;
+            ViewBag.IsConfirm = isConfirm == null ? false : isConfirm;
+            ViewBag.IsNotFinish = isNotFinish == null ? false : isNotFinish;
             return PartialView();
         }
 
-        public virtual JsonResult Outputs_Read([DataSourceRequest] DataSourceRequest request)
+        public virtual JsonResult Outputs_Read([DataSourceRequest] DataSourceRequest request, string phothgraphId, int serviceTypeId, int? statusId, bool? isConfirm, bool? isNotFinish)
         {
-            IQueryable<OutputSchedulerViewModels> tasks = CreateOutputSchedules().Select(task => new OutputSchedulerViewModels()
+            IQueryable<OutputSchedulerViewModels> tasks = CreateOutputSchedules(phothgraphId, serviceTypeId, statusId, isConfirm, isNotFinish).Select(task => new OutputSchedulerViewModels()
             {
                 Id = task.Id,
                 Title = task.Title,
@@ -155,13 +175,44 @@ namespace NicePictureStudio
             return Json(tasks.ToDataSourceResult(request));
         }
 
-        private List<OutputSchedulerViewModels> CreateOutputSchedules()
+        private List<OutputSchedulerViewModels> CreateOutputSchedules(string photographId, int? serviceTypeId, int? statusId, bool? isConfirm, bool? isNotFinish)
         {
             List<OutputSchedulerViewModels> _listSchecule = new List<OutputSchedulerViewModels>();
-            var allLocation = (from outputSchedule in db.OutputSchedules
+            var alloutputs = (from outputSchedule in db.OutputSchedules
                                join output in db.OutputServices on outputSchedule.OutputServiceId equals output.Id
                                select new { outputSchedule = outputSchedule, output = output }).ToList();
-            foreach (var item in allLocation)
+
+            //Add condition for filtering
+            var filterServiceForms = alloutputs;
+
+            if (serviceTypeId > 0 && statusId != null)
+            {
+                List<int> IdServiceType = db.OutputServices.Where(ots => ots.OutputType.Id == serviceTypeId).Select(s => s.Id).ToList();
+                filterServiceForms = filterServiceForms.Where(s => IdServiceType.Contains(s.outputSchedule.OutputServiceId)).ToList();
+            }
+
+            if (statusId > 0 && statusId != null)
+            {
+                filterServiceForms = filterServiceForms.Where(s => s.outputSchedule.Status == statusId).ToList();
+            }
+
+            if (isConfirm != null)
+            {
+                if (isConfirm == true && statusId < Constant.SERVICE_STATUS_NEW)
+                { filterServiceForms = filterServiceForms.Where(s => s.outputSchedule.Status <= Constant.SERVICE_STATUS_CONFIRM).ToList(); }
+            }
+
+            if (isNotFinish != null)
+            {
+                if (isNotFinish == true && statusId < Constant.SERVICE_STATUS_NEW)
+                {
+                    var currentDate = DateTime.Now;
+                    filterServiceForms = filterServiceForms.Where(s => (s.outputSchedule.HandOnDate - currentDate).TotalDays > 3 && s.outputSchedule.Status <= Constant.SERVICE_STATUS_CONFIRM).ToList();
+                }
+            }
+            //Add condition for filtering
+
+            foreach (var item in filterServiceForms)
             {
                 if (item.outputSchedule.ServiceForm != null)
                 {
@@ -221,6 +272,165 @@ namespace NicePictureStudio
             }
 
             return true;
+        }
+
+        public ActionResult DetailsOutput(int? OutputScheduleId)
+        {
+            //ViewBag.EquipmentSetId = equipmentId;
+
+            //Generate Service Details
+            //Getting Information from Service
+            //ServiceFormId => schedule for equipment
+            if (OutputScheduleId != null)
+            {
+                //find ServiceForm Id from emp schedule id
+                var serviceFormId = db.ServiceForms.Where(sv => sv.OutputSchedules.Any(eqps => eqps.Id == OutputScheduleId)).Select(s => s.Id).FirstOrDefault();
+                var services = db.Services.Where(s => s.ServiceForms.Any(srv => srv.Id == serviceFormId)).FirstOrDefault();
+                var photoSchedules = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.EmployeeSchedules).FirstOrDefault();
+                var booking = services.Bookings.FirstOrDefault();
+                List<EmployeeDetails> empPhotoGraph = new List<EmployeeDetails>();
+                foreach (var emp in photoSchedules)
+                {
+                    var index = emp.Employee.Id;
+                    var employee = db.Employees.Find(index);
+                    var empDetail = new EmployeeDetails
+                    {
+                        Name = employee.EmployeeInfoes.FirstOrDefault().Title + " " +
+                                employee.EmployeeInfoes.FirstOrDefault().Name + employee.EmployeeInfoes.FirstOrDefault().Surname + "(" +
+                                employee.EmployeeInfoes.FirstOrDefault().Nickname + ")",
+                        Position = employee.EmployeePositions.FirstOrDefault().Name,
+                        Email = employee.Email,
+                        PhoneNumber = employee.PhoneNumber,
+                        Specialibity = employee.Specialability
+                    };
+                    empPhotoGraph.Add(empDetail);
+                }
+
+                //Location
+                var locationName = "";
+                var locationDetails = "";
+                var Map = "";
+                var locationNumber = "";
+                var location = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.Locations).FirstOrDefault();
+                try
+                {
+                    if (location != null)
+                    {
+                        if (location.Count > 0)
+                        {
+                            locationName = location.FirstOrDefault().LocationName;
+                            locationDetails = location.FirstOrDefault().MapExplanation;
+                            Map = location.FirstOrDefault().MapURL;
+                            locationNumber = location.FirstOrDefault().PhoneNumber;
+                        }
+                        else
+                        {
+                            var servicelocation = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.LocationSchedules).FirstOrDefault();
+                            if (servicelocation.Count > 0)
+                            {
+                                var _location = db.Locations.Find(servicelocation.FirstOrDefault().LocationId);
+                                locationName = _location.LocationName;
+                                locationDetails = _location.MapExplanation;
+                                Map = _location.MapURL;
+                                locationNumber = _location.PhoneNumber;
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                        var servicelocation = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.LocationSchedules).FirstOrDefault();
+                        if (servicelocation.Count > 0)
+                        {
+                            var _location = db.Locations.Find(servicelocation.FirstOrDefault().LocationId);
+                            locationName = _location.LocationName;
+                            locationDetails = _location.MapExplanation;
+                            Map = _location.MapURL;
+                            locationNumber = _location.PhoneNumber;
+                        }
+
+                    }
+                }
+                catch { }
+
+                //Customer
+                var bookingSpecialRequest = "";
+                if (booking != null)
+                {
+                    foreach (var item in booking.BookingSpecialRequests)
+                    {
+                        if (bookingSpecialRequest == "")
+                        {
+                            bookingSpecialRequest += item.Name;
+                        }
+                        else
+                        {
+                            bookingSpecialRequest += ", " + item.Name;
+                        }
+                    }
+                }
+
+                var suggestion = "";
+                foreach (var item in services.ServiceSuggestions)
+                {
+                    if (suggestion == "")
+                    {
+                        suggestion += item.Name;
+                    }
+                    else
+                    {
+                        suggestion += ", " + item.Name;
+                    }
+                }
+
+                var TableReport = new TableReportModel
+                {
+                    OutsourceId = OutputScheduleId,
+                    MainPhotoGraph = empPhotoGraph.Count > 0 ? empPhotoGraph.FirstOrDefault().Name : "",
+                    Position = empPhotoGraph.Count > 0 ? empPhotoGraph.FirstOrDefault().Position : "",
+                    PhotoGraphPhoneNumber = empPhotoGraph.Count > 0 ? empPhotoGraph.FirstOrDefault().PhoneNumber : "",
+                    Bride = services.BrideName,
+                    Groom = services.GroomName,
+                    SpecialRequest = services.SpecialRequest != null ? services.SpecialRequest : "",
+                    Suggestion = suggestion,
+                    Location = locationName,
+                    LocationDetails = locationDetails != null ? locationDetails : "",
+                    Map = Map,
+                    LocatioNumber = locationNumber,
+                    BookingCode = booking !=null ? booking.BookingCode : Constant.UNDEFINED,
+                    BookingRequest = bookingSpecialRequest
+                };
+
+                return PartialView(TableReport);
+            }
+
+            return PartialView();
+        }
+
+        public PartialViewResult DescriptionOutput(int? outputScheduleId)
+        {
+            //Select Outsource ID
+            if (outputScheduleId != null)
+            {
+                int outId = (int)outputScheduleId;
+                var outputSchedule = db.OutputSchedules.Find(outId);
+                var outputId = db.OutputSchedules.Where(os => os.Id == outId).FirstOrDefault().OutputServiceId;
+                var output = db.OutputServices.Find(outputId);
+                OutputInformation outputInfo = new OutputInformation
+                {
+                    Id = output.Id,
+                    OutputName = output.Name,
+                    Description = output.Description,
+                    OutputSize = output.OutputSize.Name,
+                    OutputType = output.OutputType.Name,
+                    OutputURL = output.OutputURL,
+                    Quantity = outputSchedule.OutputQuantity
+                };
+                return PartialView(outputInfo);
+            }
+
+            return PartialView();
         }
     }
 }

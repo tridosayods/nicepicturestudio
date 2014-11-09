@@ -1,7 +1,150 @@
 ﻿@model IEnumerable<NicePictureStudio.App_Data.OutsourceSchedule>
 
+@{
+    ViewBag.Title = "ตารางานการจัดจ้าง";
+}
+<script type="text/javascript">
 
-    <p>
+    $(document).ready(function () {
+        $("#statusId").on("change", function () {
+            if ($("#statusId").val() >1)
+            {
+                $("#isConfirm").attr("disabled", "disabled");
+                $("#isNotFinish").attr("disabled", "disabled");
+                $("#lblIsConfirm").css("color", "#d2cdcd");
+                $("#lblIsNotFinish").css("color", "#d2cdcd");
+            }
+            else if ($("#statusId").val() <= 1)
+            {
+                $("#isConfirm").attr("disabled", null);
+                $("#isNotFinish").attr("disabled", null);
+                $("#lblIsConfirm").css("color", "");
+                $("#lblIsNotFinish").css("color", "");
+            }
+        });
+
+        $("#ClearResult").on("click", function () {
+            $("#isConfirm").attr("disabled", null);
+            $("#isNotFinish").attr("disabled", null);
+            $("#lblIsConfirm").css("color", "");
+            $("#lblIsNotFinish").css("color", "");
+        });
+    });
+
+    function modelOpen() {
+        var serviceIndex = $(".IdORCSchedule").val();
+        $.ajax({
+            url: '@Url.Action("DetailsOutsource", "OutsourceSchedules")',
+            data: { OutSourceScheduleId: serviceIndex },
+            type: "POST",
+            success: function (data) {
+                $(".nccontainer").html(data);
+                $(".ncmodal").modal('toggle');
+
+            }
+        });
+    }
+</script>
+
+<h2>ตารางการจัดจ้าง บริษัท รูปสวยโฟโต้จำกัด</h2>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<div class="panel-default table-bordered">
+    <div class="panel-title"></div>
+    <div class="panel-heading">ตัวเลือกในการค้นหาข้อมูล</div>
+    <div class="panel-body">
+        @using (Ajax.BeginForm("OutsourceScheduler", "OutsourceSchedules", new AjaxOptions
+                        {
+                            HttpMethod = "GET",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "ServiceFormsScheduler"
+                        }))
+        {
+            <table class="table-responsive table">
+                <tr>
+                    <td>
+                        <div class="form-horizontal">
+                            <div class="form-group-sm">
+
+                                <div class="col-sm-2 col-xs-3 text-right">@Html.Label("ประเภทของบริการ") </div>
+
+                                <div class="col-sm-2 col-xs-3">@(Html.Kendo().DropDownList().Name("serviceTypeId").BindTo(@ViewBag.ServiceTypeList as SelectList).HtmlAttributes(new { @style = "width:160px" }))</div>
+
+
+                                <div class="col-sm-2 col-xs-3 text-right">@Html.Label("สถานะ")</div>
+
+                                <div class="col-sm-2 col-xs-3">@(Html.Kendo().DropDownList().Name("statusId").BindTo(@ViewBag.StatusList as SelectList).HtmlAttributes(new { @class = "statusId", @style = "width:150px" }))</div>
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <hr />
+                        <div class="form-horizontal">
+                            <div class="panel-default table-bordered">
+                                <div class="panel-heading">ตัวเลือกสำหรับรายการที่ยังไม่เสร็จสิ้นการให้บริการ</div>
+                                <div class="panel-body">
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-1 col-xs-1 text-right"> @Html.CheckBox("isConfirm", false, new { @class = "form-contorl", @id = "isConfirm" })</div>
+                                        <div class="col-sm-11 col-xs-5 text-left">@Html.Label("เลือกรายการที่ยังไม่ได้รับการยืนยันจากพนักงาน", new { @id = "lblIsConfirm" })</div>
+                                    </div>
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-1 col-xs-1 text-right"> @Html.CheckBox("isNotFinish", false, new { @class = "form-contorl", @id = "isNotFinish" })</div>
+                                        <div class="col-sm-5 col-xs-11 text-left">@Html.Label("เลือกรายการที่ยังไม่เสร็จสิ้นก่อนถึงกำหนดงาน 3 วันล่วงหน้า", new { @id = "lblIsNotFinish" })</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit" value="GenerateFileter" class="btn-primary btn-md">เริ่มต้นค้นหา</button>
+                        <button type="reset" id="ClearResult" value="GenerateFileter" class="btn-default btn-md">ล้างข้อมูลการค้นหา</button>
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+</div>
+<hr />
+<div id="ServiceFormsScheduler">
+    @{Html.RenderAction("OutsourceScheduler");}
+</div>
+
+<div class="modal fade ncmodal" id="NavPattern" tabindex="-10" role="dialog"
+     aria-labelledby="NavService" aria-hidden="true" data-url='' data-servicetype="" style="position:fixed;z-index:10004">
+    <div class="modal-dialog modal-lg" style="width:90%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="NavModelPattern">
+                    Welcome to NicePictureStudio Services :)
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="NavPatternBody" class="nccontainer"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancelPattern" type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+    @*<p>
         @Html.ActionLink("Create New", "Create")
     </p>
     @{Html.RenderAction("OutsourceScheduler", "OutsourceSchedules");}
@@ -50,5 +193,5 @@
         </tr>
     }
     
-    </table>
+    </table>*@
 

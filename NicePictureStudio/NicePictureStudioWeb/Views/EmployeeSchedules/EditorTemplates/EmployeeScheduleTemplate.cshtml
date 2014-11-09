@@ -26,7 +26,7 @@
     }
 }
 
-
+@Html.HiddenFor(model => model.Id, new { @class = "IdEMPSchedule" });
 
 <div class="k-edit-label">
     @(Html.LabelFor(model => model.Title))
@@ -118,7 +118,7 @@
 </div>
 <div class="k-edit-label">@Html.Label("Details")</div>
 <div class="k-edit-field container">
-    <button type="button" class="ui-button btn-default"><span class="glyphicon glyphicon-book"></span>Show Details</button>
+    <button type="button" class="ui-button btn-default" onclick="modelOpen()"><span class="glyphicon glyphicon-book"></span>Show Details</button>
 </div>
         @*<script>
                 $(".k-timezone-toggle").on("click", function () {

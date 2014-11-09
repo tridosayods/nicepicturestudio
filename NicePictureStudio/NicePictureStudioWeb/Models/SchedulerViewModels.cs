@@ -16,7 +16,18 @@ namespace NicePictureStudio.Models
         public DateTime End { get; set; }
         public string Description { get; set; }
         public int selectedStatus { get; set; }
-        //public IEnumerable<SelectList> Status { get; set; }
+
+        public string PhotoGraphStatus { get; set; }
+        public int PhotoGraphStatusId { get; set; }
+        public string EquipmentStatus { get; set; }
+        public int EquipmentStatusId { get; set; }
+        public string LocationStatus { get; set; }
+        public int LocationStatusId { get; set; }
+        public string OutsourceStatus { get; set; }
+        public int OutsourceStatusId { get; set; }
+        public string OutputStatus { get; set; }
+        public int OutputStatusId { get; set; }
+       
         [HiddenInput]
         public bool IsAllDay { get; set; }
         [HiddenInput]

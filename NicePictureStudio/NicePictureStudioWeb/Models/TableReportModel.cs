@@ -9,9 +9,11 @@ namespace NicePictureStudio.Models
 {
     public class TableReportModel
     {
+        public int? OutsourceId { get; set; }
         public List<EmployeeDetails> listEmployee { get; set; }
         public string MainPhotoGraph { get; set; }
         public string Position { get; set; }
+        public string PhotoGraphPhoneNumber { get; set; }
 
         //Equipment - Output Section
         public DateTime RequiredDate { get; set; }
@@ -27,6 +29,7 @@ namespace NicePictureStudio.Models
         public string Location { get; set; }
         public string LocationDetails { get; set; }
         public string Map { get; set; }
+        public string LocatioNumber { get; set; }
 
         //booking
         public string BookingCode { get; set; }
@@ -38,5 +41,51 @@ namespace NicePictureStudio.Models
     {
         public string Name { get; set; }
         public string Position { get; set; }
+        public string NickName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Specialibity { get; set; }
+        public string Email { get; set; }
     }
+
+    public class OutsourceInformation
+    {
+        public int? Id { get; set; }
+        public string Name { get; set; }
+        public string OutsourceTypeName { get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; }
+        public int NumericNumber { get; set; }
+        public TimeSpan OpenTime { get; set; }
+        public TimeSpan CloseTime { get; set; }
+        public string Detail { get; set; }
+    }
+
+    public class OutputInformation
+    {
+        public int? Id { get; set; }
+        public string OutputName { get; set; }
+        public string OutputURL { get; set; }
+        public string Description { get; set; }
+        public string OutputType { get; set; }
+        public string OutputSize { get; set; }
+        public int Quantity { get; set; }
+    }
+
+   public class PhotographInfo
+   {
+        public int Numphotographer {get;set;}
+        public int NumCameraman {get;set;}
+        public int? GuestsNumber {get;set;}
+        public string Description { get; set; }
+   }
+
+   public class ServiceFormWithAllRelatedServicesInfo
+   {
+       public string Name { get; set; }
+       public string ServiceTypeName { get; set; }
+       public DateTime EventStart { get; set; }
+       public DateTime EventEnd { get; set; }
+       public string Status { get; set; }
+   }
+
 }

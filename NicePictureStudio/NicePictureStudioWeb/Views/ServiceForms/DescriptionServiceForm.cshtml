@@ -1,0 +1,44 @@
+﻿@model NicePictureStudio.Models.PhotographInfo
+<div class="panel-default">
+    <div class="panel-heading">รายละเอียดรายการให้บริการ</div>
+    <div class="panel-body">
+            @(Html.Kendo().Grid((IEnumerable<NicePictureStudio.Models.ServiceFormWithAllRelatedServicesInfo>)ViewBag.ServiceFormItems)
+            .Name("PhotoGraphDetails")
+            .Columns(columns =>
+            {
+                columns.Bound(p => p.ServiceTypeName).Filterable(false).Width(100);
+                columns.Bound(p => p.Name).Width(100);
+                columns.Bound(p => p.EventStart).Width(140);
+                columns.Bound(p => p.EventEnd).Width(140);
+                columns.Bound(p => p.Status).Width(140);
+            })
+            .Pageable()
+            .Sortable()
+            .Scrollable()
+            .Filterable()
+            )
+    </div>
+</div>
+@*<div class="panel panel-default">
+    <div class="panel-heading">ตารางช่างถ่ายภาพทั้งหมด</div>
+    <div class="panel-body">
+
+        @(Html.Kendo().Grid((IEnumerable<NicePictureStudio.Models.EmployeeDetails>)ViewBag.PhotoGrapherList)
+            .Name("PhotoGraphDetails")
+            .Columns(columns =>
+            {
+                columns.Bound(p => p.Name).Filterable(false).Width(100);
+                columns.Bound(p => p.Position).Width(100);
+                columns.Bound(p => p.Specialibity).Width(140);
+                columns.Bound(p => p.PhoneNumber).Width(140);
+            })
+            .Pageable()
+            .Sortable()
+            .Scrollable()
+            .Filterable()
+                //.HtmlAttributes(new { style = "height:200px;" })
+        )
+    </div>
+</div>*@
+
+

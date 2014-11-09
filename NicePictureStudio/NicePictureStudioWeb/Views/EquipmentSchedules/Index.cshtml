@@ -23,6 +23,13 @@
                 $("#lblIsNotFinish").css("color", "");
             }
         });
+
+        $("#ClearResult").on("click", function () {
+            $("#isConfirm").attr("disabled", null);
+            $("#isNotFinish").attr("disabled", null);
+            $("#lblIsConfirm").css("color", "");
+            $("#lblIsNotFinish").css("color", "");
+        });
     });
 
     function modelOpen() {
@@ -101,7 +108,7 @@
                 <tr>
                     <td>
                         <button type="submit" value="GenerateFileter" class="btn-primary btn-md">เริ่มต้นค้นหา</button>
-                        <button type="reset" value="GenerateFileter" class="btn-default btn-md">ล้างข้อมูลการค้นหา</button>
+                        <button type="reset" id="ClearResult" value="GenerateFileter" class="btn-default btn-md">ล้างข้อมูลการค้นหา</button>
                     </td>
                 </tr>
             </table>
@@ -138,7 +145,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-</div>
+
 
     @*<p>
         @Html.ActionLink("Create New", "Create")

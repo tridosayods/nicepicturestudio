@@ -1,10 +1,10 @@
 ﻿@model NicePictureStudio.Models.TableReportModel
 
 @{
-    ViewBag.Title = "รายละเอียดตารางอุปกรณ์";
+    ViewBag.Title = "รายละเอียดตารางสถานที่ถ่ายภาพ";
 }
 
-<h2>รายละเอียดสำหรัการจัดเตรียมอุปกรณ์</h2>
+<h2>รายละเอียดสถานที่ถ่ายภาพ</h2>
 <br />
 
 <div class="panel panel-info">
@@ -123,30 +123,29 @@
                 </td>
             </tr>
         </table>
-        
-    </div>
-    <div class="panel-heading">รายละเอียดอุปกรณ์</div>
-    <div class="panel-body">
-        @(Html.Kendo().Grid<NicePictureStudio.App_Data.Equipment>()
-            .Name("EquipmentDetails")
-            .Columns(columns =>
-            {
-                columns.Bound(p => p.EquipmentName).Filterable(false).Width(100);
-                columns.Bound(p => p.EquipmentDetail).Width(100);
-                columns.Bound(p => p.Quantity).Format("{0:MM/dd/yyyy}").Width(140);
-            })
-            .Pageable()
-            .Sortable()
-            .Scrollable()
-            .Filterable()
-            .HtmlAttributes(new { style = "height:430px;" })
-            .DataSource(dataSource => dataSource
-                .Ajax()
-                .PageSize(20)
-                .Read(read => read.Action("EquipmentSets_Read", "EquipmentSchedules", new { serviceId = @ViewBag.EquipmentSetId }))
-             )
-        )
 
+    </div>
+    <div class="panel-heading">รายละเอียดสถานที่ถ่ายภาพ</div>
+    <div class="panel-body">
+        <div class="google-maps">
+            <iframe id="googleMAPURL" src="@Model.Map" width="600" height="450" frameborder="0" style="border:0"></iframe>
+        </div>
     </div>
 </div>
 
+<style>
+    .google-maps {
+        position: relative;
+        padding-bottom: 75%;
+        // This is the aspect ratio height: 0;
+        overflow: hidden;
+    }
+
+        .google-maps iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+        }
+</style>

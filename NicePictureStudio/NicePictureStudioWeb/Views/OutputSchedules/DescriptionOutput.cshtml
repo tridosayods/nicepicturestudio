@@ -1,0 +1,40 @@
+﻿@model NicePictureStudio.Models.OutputInformation
+<div class="panel-default">
+    <div class="panel-heading">รายละเอียดชิ้นงานส่งลูกค้า</div>
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <div class="form-group-sm">
+                <div class="col-sm-12 text-left">
+                    @Html.Label("ชื่อสินค้า:")
+                    @Html.DisplayFor(model => model.OutputName  )
+                </div>
+            </div>
+            <div class="form-group-sm">
+                <div class="col-sm-12 text-left">
+                    @Html.Label("รายละเอียด:")
+                    @Html.DisplayFor(model => model.Description)
+                </div>
+            </div>
+            <div class="form-group-sm">
+                <div class="col-sm-12 text-left">
+                    @Html.Label("ขนาด :")
+                    @Html.DisplayFor(model => model.OutputSize)
+                </div>
+            </div>
+            <div class="form-group-sm">
+                <div class="col-sm-12 text-left">
+                    @Html.Label("ประเภทสินค้า :")
+                    @Html.DisplayFor(model => model.OutputType)
+                </div>
+            </div>
+            <div class="form-group-sm">
+                <div class="col-sm-12 text-left">
+                    @Html.Label("จำนวน :")
+                    @Html.DisplayFor(model => model.Quantity)
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+

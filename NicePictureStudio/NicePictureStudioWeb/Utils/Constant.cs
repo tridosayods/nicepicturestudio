@@ -20,6 +20,7 @@ namespace NicePictureStudio.Utils
         public static readonly int SERVICE_STATUS_CONFIRM = 2;
         public static readonly int SERVICE_STATUS_COMPLETE = 3;
         public static readonly int SERVICE_STATUS_CANCEL = 4;
+        public static readonly int SERVICE_STATUS_CANCEL_IN7DAYS = 5;
 
         public static readonly int SERVICE_TYPE_PREWEDDING = 1;
         public static readonly int SERVICE_TYPE_ENGAGEMENT = 2;
@@ -108,6 +109,20 @@ namespace NicePictureStudio.Utils
         public static readonly int CUBE_PROMOTION_TYPE_1 = 1;
         public static readonly int CUBE_PROMOTION_TYPE_2 = 2;
         public static readonly int CUBE_PROMOTION_TYPE_3 = 3;
+
+        public static readonly string SERVICE_FORM_STATUS_NEW = "รายการใหม่";
+        public static readonly string SERVICE_FORM_STATUS_PARTIAL_NEW = "ยังมีรายการที่ไม่ได้รับการยืนยัน";
+        public static readonly string SERVICE_FORM_STATUS_CONFIRM = "ยืนยัน";
+        public static readonly string SERVICE_FORM_STATUS_PARTIAL_FINISH = "ยังมีบางรายการที่ยังไม่เสร็จสิ้น";
+        public static readonly string SERVICE_FORM_STATUS_FINISH = "เสร็จสิ้นการให้บริการ";
+        public static readonly string SERVICE_FORM_STATUS_PARTIAL_CANCEL = "มีบางรายการถูกยกเลิกการให้บริการ";
+        public static readonly string SERVICE_FORM_STATUS_CANCEL = "ยกเลิกการให้บริการ";
+
+        public static readonly int SERVICE_PHOTOGRAPH = 1;
+        public static readonly int SERVICE_EQUIPMENT = 2;
+        public static readonly int SERVICE_LOCATION = 3;
+        public static readonly int SERVICE_OUTSOURCE = 4;
+        public static readonly int SERVICE_OUTPUT = 5;
 
     }
 

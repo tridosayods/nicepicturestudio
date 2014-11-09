@@ -42,7 +42,7 @@
     }
 }
 
-
+@Html.HiddenFor(model => model.Id, new { @class = "IdOutSchedule" });
 
 <div class="k-edit-label">
     @(Html.LabelFor(model => model.Title))
@@ -104,12 +104,12 @@
     <span data-for="start" class="k-invalid-msg"></span>
 </div>
 
-<div class="k-edit-label">
+@*<div class="k-edit-label">
     @(Html.LabelFor(model => model.ReviseCount))
 </div>
 <div data-container-for="ReviseCount" class="k-edit-field">
     @(Html.TextBoxFor(model => model.ReviseCount, new { @class = "k-textbox", data_bind = "value:ReviseCount" }))
-</div>
+</div>*@
 
 
 @*<div class="k-edit-label">
@@ -156,7 +156,7 @@
 </div>
 <div class="k-edit-label">@Html.Label("Details")</div>
 <div class="k-edit-field container">
-    <button type="button" class="ui-button btn-default"><span class="glyphicon glyphicon-book"></span>Show Details</button>
+    <button type="button" class="ui-button btn-default" onclick="modelOpen()"><span class="glyphicon glyphicon-book"></span>Show Details</button>
 </div>
         @*<script>
                 $(".k-timezone-toggle").on("click", function () {

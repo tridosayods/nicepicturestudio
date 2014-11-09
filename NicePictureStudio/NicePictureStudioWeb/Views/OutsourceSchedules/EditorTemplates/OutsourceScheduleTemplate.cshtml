@@ -27,6 +27,7 @@
 }
 
 
+@Html.HiddenFor(model => model.Id, new { @class = "IdORCSchedule" });
 
 <div class="k-edit-label">
     @(Html.LabelFor(model => model.Title))
@@ -102,9 +103,10 @@
                     .ValuePrimitive(true)
                     .Template("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
                     .BindTo(new[] {
-                            new { Text = "New", Value = 1, Color = "\\#6eb3fa" },
-                            new { Text = "Confirm", Value = 2, Color = "\\#f58a8a" },
-                            new { Text = "Complete", Value = 3, Color = "\\#80ff00" }
+                             new { Text = "รายการใหม่", Value = 1, Color = "\\#FFBF00" },
+                            new { Text = "ยืนยัน", Value = 2, Color = "\\#6eb3fa" },
+                            new { Text = "เสร็จสิ้นการให้บริการ", Value = 3, Color = "\\#01DF01" },
+                            new { Text = "ยกเลิก", Value = 4, Color = "\\#A4A4A4" }
                         }).ToClientTemplate()
     )
 </div>
@@ -117,7 +119,7 @@
 </div>
 <div class="k-edit-label">@Html.Label("Details")</div>
 <div class="k-edit-field container">
-    <button type="button" class="ui-button btn-default"><span class="glyphicon glyphicon-book"></span>Show Details</button>
+    <button type="button" class="ui-button btn-default" onclick="modelOpen()"><span class="glyphicon glyphicon-book"></span>Show Details</button>
 </div>
         @*<script>
                 $(".k-timezone-toggle").on("click", function () {

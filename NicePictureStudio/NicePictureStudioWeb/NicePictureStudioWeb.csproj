@@ -928,6 +928,16 @@
     <Content Include="Views\GeneralReports\GEReport19_Cost_Promotion_Summary.cshtml" />
     <Content Include="Views\GeneralReports\GEReport20_Cost_Outsource.cshtml" />
     <Content Include="Views\EquipmentSchedules\DetailsEquipment.cshtml" />
+    <Content Include="Views\LocationSchedules\DetailsLocation.cshtml" />
+    <Content Include="Views\OutsourceSchedules\EditorTemplates\OutsourceScheduleTemplate.cshtml" />
+    <Content Include="Views\OutsourceSchedules\DetailsOutsource.cshtml" />
+    <Content Include="Views\OutsourceSchedules\DescriptionOutsource.cshtml" />
+    <Content Include="Views\OutputSchedules\DetailsOutput.cshtml" />
+    <Content Include="Views\OutputSchedules\DescriptionOutput.cshtml" />
+    <Content Include="Views\EmployeeSchedules\DetailsEmployee.cshtml" />
+    <Content Include="Views\EmployeeSchedules\DescriptionEmployee.cshtml" />
+    <Content Include="Views\ServiceForms\DetailsServiceForm.cshtml" />
+    <Content Include="Views\ServiceForms\DescriptionServiceForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">
@@ -964,7 +974,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Reports\" />
-    <Folder Include="Views\OutsourceSchedules\EditorTemplates\" />
     <Folder Include="Views\Reports\" />
   </ItemGroup>
   <ItemGroup>

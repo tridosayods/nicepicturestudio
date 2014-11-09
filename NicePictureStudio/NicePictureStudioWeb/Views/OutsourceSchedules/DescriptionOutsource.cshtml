@@ -1,0 +1,50 @@
+﻿@model NicePictureStudio.Models.OutsourceInformation
+<div class="panel-default">
+    <div class="panel-heading">รายละเอียดผู้ให้บริการจัดจ้าง</div>
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <div class="form-group-sm">
+                <div class="col-sm-12 text-left">
+                    @Html.Label("ชื่อบริการจัดจ้าง :")
+                    @Html.DisplayFor(model => model.Name)
+                </div>
+            </div>
+            <div class="form-group-sm">
+                <div class="col-sm-12 text-left">
+                    @Html.Label("ที่อยู่ :")
+                    @Html.DisplayFor(model => model.Address)
+                </div>
+            </div>
+            <div class="form-group-sm">
+                <div class="col-sm-12 text-left">
+                    @Html.Label("เบอร์โทรศัพท์ :")
+                    @Html.DisplayFor(model => model.NumericNumber)
+                </div>
+            </div>
+            <div class="form-group-sm">
+                <div class="col-sm-12 text-left">
+                    @Html.Label("รายละเอียดของผู้ให้บริการ :")
+                    @Html.DisplayFor(model => model.Detail)
+                </div>
+            </div>
+            <div class="form-group-sm">
+                <div class="col-sm-12 text-left">
+                    @Html.Label("เวลาเปิดทำการ :")
+                    @Html.DisplayFor(model => model.OpenTime)
+                </div>
+            </div>
+            <div class="form-group-sm">
+                <div class="col-sm-12 text-left">
+                    @Html.Label("เวลาปิดทำการ :")
+                    @Html.DisplayFor(model => model.CloseTime)
+                </div>
+            </div>
+            <div class="form-group-sm">
+                <div class="col-sm-12 text-left">
+                    @Html.Label("ประเภทของการให้บริการ :")
+                    @Html.DisplayFor(model => model.OutsourceTypeName)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -422,7 +422,10 @@ namespace NicePictureStudio
                         Name = employee.EmployeeInfoes.FirstOrDefault().Title +" " +
                                 employee.EmployeeInfoes.FirstOrDefault().Name + employee.EmployeeInfoes.FirstOrDefault().Surname+ "("+
                                 employee.EmployeeInfoes.FirstOrDefault().Nickname +")",
-                        Position = employee.EmployeePositions.FirstOrDefault().Name
+                        Position = employee.EmployeePositions.FirstOrDefault().Name,
+                        Email = employee.Email,
+                        PhoneNumber = employee.PhoneNumber,
+                        Specialibity = employee.Specialability
                     };
                     empPhotoGraph.Add(empDetail);
                 }
@@ -431,33 +434,48 @@ namespace NicePictureStudio
                 var locationName =  "";
                 var locationDetails = "";
                 var Map = "";
-                var location = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.Locations).FirstOrDefault();
-                if (location !=null)
+                var locationNumber = "";
+                try
                 {
-                    if (location.Count > 0)
+                    var location = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.Locations).FirstOrDefault();
+                    if (location != null)
                     {
-                        locationName = location.FirstOrDefault().LocationName;
-                        locationDetails = location.FirstOrDefault().MapExplanation;
-                        Map = location.FirstOrDefault().MapURL;
+                        if (location.Count > 0)
+                        {
+                            locationName = location.FirstOrDefault().LocationName;
+                            locationDetails = location.FirstOrDefault().MapExplanation;
+                            Map = location.FirstOrDefault().MapURL;
+                            locationNumber = location.FirstOrDefault().PhoneNumber;
+                        }
+                        else
+                        {
+                            var servicelocation = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.LocationSchedules).FirstOrDefault();
+                            if (servicelocation.Count > 0)
+                            {
+                                var _location = db.Locations.Find(servicelocation.FirstOrDefault().LocationId);
+                                locationName = _location.LocationName;
+                                locationDetails = _location.MapExplanation;
+                                Map = _location.MapURL;
+                                locationNumber = _location.PhoneNumber;
+                            }
+                        }
+
                     }
-                    else 
+                    else
                     {
                         var servicelocation = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.LocationSchedules).FirstOrDefault();
-                        var _location = db.Locations.Find(servicelocation.FirstOrDefault().LocationId);
-                        locationName = _location.LocationName;
-                        locationDetails = _location.MapExplanation;
-                        Map = _location.MapURL;
-                    }
+                        if (servicelocation.Count > 0)
+                        {
+                            var _location = db.Locations.Find(servicelocation.FirstOrDefault().LocationId);
+                            locationName = _location.LocationName;
+                            locationDetails = _location.MapExplanation;
+                            Map = _location.MapURL;
+                            locationNumber = _location.PhoneNumber;
+                        }
 
+                    }
                 }
-                else
-                {
-                    var servicelocation = services.ServiceForms.Where(s => s.Id == serviceFormId).Select(s => s.LocationSchedules).FirstOrDefault();
-                    var _location = db.Locations.Find(servicelocation.FirstOrDefault().LocationId);
-                    locationName = _location.LocationName;
-                    locationDetails = _location.MapExplanation;
-                    Map = _location.MapURL;
-                }
+                catch { }
 
                 //Customer
                 var bookingSpecialRequest = "";
@@ -488,8 +506,10 @@ namespace NicePictureStudio
 
                 var TableReport = new TableReportModel 
                 { 
-                    MainPhotoGraph = empPhotoGraph.FirstOrDefault().Name,
-                    Position = empPhotoGraph.FirstOrDefault().Position,
+                    OutsourceId = empscheduleId,
+                    MainPhotoGraph = empPhotoGraph.Count > 0 ? empPhotoGraph.FirstOrDefault().Name : "",
+                    Position = empPhotoGraph.Count > 0 ? empPhotoGraph.FirstOrDefault().Position : "",
+                    PhotoGraphPhoneNumber = empPhotoGraph.Count >0 ? empPhotoGraph.FirstOrDefault().PhoneNumber : "",
                     Bride = services.BrideName,
                     Groom = services.GroomName,
                     SpecialRequest = services.SpecialRequest,
@@ -497,6 +517,7 @@ namespace NicePictureStudio
                     Location = locationName,
                     LocationDetails = locationDetails,
                     Map = Map,
+                    LocatioNumber = locationNumber,
                     BookingCode = booking.BookingCode,
                     BookingRequest = bookingSpecialRequest
                 };
