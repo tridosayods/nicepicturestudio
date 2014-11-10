@@ -55,25 +55,25 @@
     <div class="container">
         <table class="table table-responsive">
             <tr>
-                <td class="col-md-4 col-lg-4">
+                <td class="col-sm-4 col-md-4">
                     @*<div class="row">*@
                         <div>
                             @Html.AntiForgeryToken()
-                            <form class="panel panel-primary" id="FormSubmit">
+                            <form class="panel panel-default" id="FormSubmit">
                                 <div class="panel-heading">ข้อมูลการให้บริการ</div>
                                 <div class="panel-body">
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                     <div class="form-horizontal">
                                         <div class="form-group">
-                                            @Html.Label("ประเภทบริการ", new {@class="col-sm-3" })
-                                            <div class="col-sm-9">
+                                            @Html.Label("ประเภทบริการ", new {@class="col-sm-12" })
+                                            <div class="col-sm-12">
                                                 @Html.Kendo().DropDownList().Name("ServiceTypeId").BindTo(new string[] { "PreWedding", "Engagement", "Wedding" })
                                                 @Html.ValidationMessage("ServiceTypeId", "กรุณาเลือกประเภทการให้บริการ")
                                               </div>
                                            </div>
                                         <div class="form-group">
-                                            @Html.Label("เริ่มต้น ", new {@class="col-sm-3" })
-                                            <div class="col-sm-9">
+                                            @Html.Label("เริ่มต้น ", new {@class="col-sm-12" })
+                                            <div class="col-sm-12">
                                                 @Html.Kendo().DateTimePickerFor(model => model.EventStart).Min(DateTime.Now).HtmlAttributes(new
                                            {
                                                @id = "EventStartDate",
@@ -86,8 +86,8 @@
                                           
                                         </div>
                                         <div class="form-group">
-                                            @Html.Label("สิ้นสุด ", new { @class = "col-sm-3" })
-                                            <div class="col-sm-9">
+                                            @Html.Label("สิ้นสุด ", new { @class = "col-sm-12" })
+                                            <div class="col-sm-12">
                                                 @Html.Kendo().DateTimePickerFor(model => model.EventEnd).Min(DateTime.Now).HtmlAttributes(new
                                             {
                                                 @id = "EventEndDate",
@@ -99,12 +99,12 @@
                                             </div>
                                             </div>
                                         <div class="form-group">
-                                            @Html.Label("จำนวกแขกในงาน", new { @class = "col-sm-3" })
-                                            <div class="col-sm-9">
-                                                @Html.Kendo().NumericTextBoxFor(model => model.GuestsNumber).Min(1).HtmlAttributes(new { @id = "GuestNumber" }).Value(Model.GuestsNumber == null ? 100 : Model.GuestsNumber)
-                                                @*@Html.Kendo().NumericTextBox().Name("GuestNumber").Min(1).Value(50)*@
-                                                @Html.ValidationMessageFor(model => model.GuestsNumber)
-                                            </div>
+                                            @Html.Label("จำนวกแขกในงาน", new { @class = "col-sm-12" })
+                                            <div class="col-sm-12">
+                                                  @Html.Kendo().NumericTextBoxFor(model => model.GuestsNumber).Min(1).HtmlAttributes(new { @id = "GuestNumber" }).Value(Model.GuestsNumber == null ? 100 : Model.GuestsNumber)
+                                                    @*@Html.Kendo().NumericTextBox().Name("GuestNumber").Min(1).Value(50)*@
+                                                    @Html.ValidationMessageFor(model => model.GuestsNumber)
+                                                </div>
                                          </div>
                                        
                                         <!--Location Section-->
@@ -197,7 +197,7 @@
                                         <!--Location Section-->
 
                                         <div class="form-group">
-                                            <div style="align-content:center" class="col-sm-12 text-right">
+                                            <div style="align-content:initial" class="col-sm-12 text-left">
                                                 <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>&nbsp;บันทึก และ ไปยังขั้นตอนถัดไป</button>
                                                 <button id="EditStartService" type="button" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>&nbsp;แก้ไข</button>
                                             </div>
@@ -207,7 +207,7 @@
                                 </div>
                             </form>
 
-                            <div class="panel panel-primary">
+                            <div class="panel panel-info">
                                 <div class="panel-heading">รายละเอียดค่าใช้จ่าย</div>
                                 <div class="panel-body">
                                     <!-- Service Payment-->
@@ -220,7 +220,41 @@
                                                 UpdateTargetId = "divServicePriceSection"
                                             }))
                                             {
-                                                <div class="form-horizontal">
+                                                <table class="table table-striped">
+                                                    <tr>
+                                                        <td><label id="lblEstimateContext" >ค่าใช้จ่ายเบื้องต้น</label></td>
+                                                        <td><label id="lblEstimateCost" class="control-label"> 0.00 บาท</label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><label id="lblPromotionContext">โปรโมชั่นที่เลือกไว้</label></td>
+                                                        <td><label id="lblPromotionSelected" class="control-label"> - </label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><label id="lblPromotionDiscountContext">ส่วนลด </label></td>
+                                                        <td><label id="lblPromotionDiscount" class="control-label"> 0.00% </label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><label id="lblTotalCostContext">ค่าใช้จ่ายก่อนหักภาษี </label></td>
+                                                        <td><label id="lblTotalCost" class="control-label">0.00 บาท</label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><label >ภาษี </label></td>
+                                                        <td><label class="control-label">10%</label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><label id="lblTotalWithTAXContext" >ราคารวม </label></td>
+                                                        <td><label id="lblTotalCostWithTAX" class="control-label"> 0.00</label></td>
+                                                    </tr>
+                                                   
+                                                </table>
+                                                 <div class="tab-content">
+                                                        <div class="col-md-12">
+                                                            <br />
+                                                            <input class="btn-primary" type="submit" id="btnCalculatePrice" name="btnCalculatePrice" value="คำนวณค่าใช้จ่าย" />
+                                                        </div>
+
+                                                    </div>
+                                                @*<div class="form-horizontal">
                                                     <div class="form-group-sm">
                                                         
                                                             <label id="lblEstimateContext" class="control-label col-sm-6">ค่าใช้จ่ายเบื้องต้น</label>
@@ -281,7 +315,7 @@
                                                         </div>
 
                                                     </div>
-                                                </div>
+                                                </div>*@
 
                                             }
                                         </div>
@@ -290,9 +324,9 @@
                             </div>
                         </div> <!-- End row-->
                 </td>
-                <td class="col-md-8 col-lg-8">
+                <td class="col-sm-8 col-md-8">
                     <div>
-                        <div class="panel panel-primary">
+                        <div class="panel panel-default">
                             <div class="panel-heading">รายละเอียดการให้บริการ</div>
                             <div class="panel-body">
 
@@ -305,13 +339,14 @@
                                         <div class="panel-body">
                                             <div class="form-horizontal" role="form">
                                                 <div class="form-group">
-                                                    @Html.Label("ค้นหาสถานที่", new { @class = "col-md-2" })
-                                                    <div class="col-md-10 col-xs-5">
+                                                    @Html.Label("ค้นหาสถานที่", new { @class = "col-sm-12" })
+                                                    <div class="col-md-12 col-xs-5">
                                                         @Html.TextBox("LocationSearch", null, new { @class = "autocomplete-with-hidden-location form-control", data_url = Url.Action("GetLocationSearching", "Services") })
                                                         @Html.Hidden("LocationId")
                                                         @*@Html.ValidationMessage("ServiceTypeId", "*")*@
                                                     </div>
                                                 </div>
+                                                <hr />
                                                 <div id="SelectedLocationSection">
                                                     @{Html.RenderAction("LocationServicesForm");}
                                                 </div>
@@ -334,6 +369,7 @@
                         @*</div>*@
                     @*</div>*@
     </div>
+ </div>
 <div id="HiddenNav">
     @Html.Hidden("hdPage1",null, new { @id = "page1Id" })
     @Html.Hidden("hdPage2", null, new {@id = "page2Id" })

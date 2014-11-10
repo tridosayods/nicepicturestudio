@@ -23,6 +23,21 @@ namespace NicePictureStudio
             return View();
         }
 
+        public ActionResult IncomeReport()
+        {
+            return View();
+        }
+
+        public ActionResult ApprisalReport()
+        {
+            return View();
+        }
+
+        public ActionResult CostReport()
+        {
+            return View();
+        }
+
         public PartialViewResult GEReport01_Income_Cost()
         {
             var barChart = new List<BarChartViewModel>();

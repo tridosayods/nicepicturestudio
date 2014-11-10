@@ -938,6 +938,10 @@
     <Content Include="Views\EmployeeSchedules\DescriptionEmployee.cshtml" />
     <Content Include="Views\ServiceForms\DetailsServiceForm.cshtml" />
     <Content Include="Views\ServiceForms\DescriptionServiceForm.cshtml" />
+    <Content Include="Views\Services\IndexServicesCRM.cshtml" />
+    <Content Include="Views\GeneralReports\IncomeReport.cshtml" />
+    <Content Include="Views\GeneralReports\ApprisalReport.cshtml" />
+    <Content Include="Views\GeneralReports\CostReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

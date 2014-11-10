@@ -14,10 +14,10 @@
 
                 series.Column(
                     model => model.Data_Group1_1
-                    ).Name("คะแนนความพึงพอใจเต่ำสุด");
+                    ).Name("รายได้");
                 series.Column(
                     model => model.Data_1
-                    ).Name("คะแนนความพึงพอใจสุงสุด");
+                    ).Name("กำไร");
             })
             .CategoryAxis(axis => axis
                 .Categories(model => model.Catalogs)
@@ -25,13 +25,14 @@
             )
             .ValueAxis(axis => axis
                 .Numeric()
-                .Max(8000000)
+                .Max(15000000)
                 .Line(line => line.Visible(false))
                 .MajorGridLines(lines => lines.Visible(true))
+                         .Labels(labels => labels.Format("{0:###,###} บาท"))
             )
             .Tooltip(tooltip => tooltip
                 .Visible(true)
-                .Template("#= series.name #: #= value # บาท")
+                        .Template("#= series.name #: #= kendo.toString(value,'\\#\\#,\\# บาท') #")
             )
     )
 </div>

@@ -28,13 +28,14 @@
             )
             .ValueAxis(axis => axis
                 .Numeric()
-                .Max(3000000)
+                .Max(5000000)
                 .Line(line => line.Visible(false))
                 .MajorGridLines(lines => lines.Visible(true))
+                .Labels(labels => labels.Format("{0:###,###} บาท"))
             )
             .Tooltip(tooltip => tooltip
                 .Visible(true)
-                .Template("#= series.name #: #= value # บาท")
+                        .Template("#= series.name #: #= kendo.toString(value,'\\#\\#,\\# บาท') #")
             )
     )
 </div>

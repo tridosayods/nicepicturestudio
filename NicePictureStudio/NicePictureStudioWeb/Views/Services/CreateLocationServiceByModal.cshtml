@@ -12,6 +12,14 @@
                 success: function (data) { $("#ServiceSelection").replaceWith(data); }
             })
         });
+
+        $("#OverNightPeriod").kendoNumericTextBox().attr("disabled", "disabled");
+        $("#OverNightPeriod").kendoNumericTextBox({
+            format: "d",
+            decimals: 0
+        });
+        $("#OverNightPeriod").data("kendoNumericTextBox").wrapper.width("100px");
+        $("#OverNightPeriod").data("kendoNumericTextBox").wrapper.attr("disabled", "disabled");
     });
 
     function ValidateSummary() {
@@ -35,24 +43,24 @@
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                @Html.Label("ชื่อสถานที่", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.Label("ชื่อสถานที่", htmlAttributes: new { @class = "col-md-12" })
+                <div class="col-md-12">
                     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                    @Html.Label("รายละเเอียด", "LocationId", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.Label("รายละเเอียด", htmlAttributes: new { @class = "col-md-12" })
+                    <div class="col-md-12">
                         @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
             <div class="form-group">
-                @Html.Label("ราคา", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.Label("ราคา", htmlAttributes: new { @class = "col-md-12" })
+                <div class="col-md-12">
                     @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control",@readonly = true } })
                     @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                 </div>
@@ -69,21 +77,23 @@
             @Html.HiddenFor(model => model.Cost)
 
             <div class="form-group">
-                @Html.Label("สถานที่อยู่ต่างจังหวัด", htmlAttributes: new { @class = "control-label col-md-2", @readonly = true })
-                <div class="col-md-10">
-                    <div class="col-sm-1">
-                        @Html.CheckBoxFor(model => model.IsOverNight, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.IsOverNight, "", new { @class = "text-danger" })
-                    </div>
+                @*<div class="col-md-1">*@
+                <div class="col-md-12">
+                    @Html.CheckBoxFor(model => model.IsOverNight, new { @class = "right", @Disabled = true })
+                    @Html.ValidationMessageFor(model => model.IsOverNight, "", new { @class = "text-danger" })
+
+                    @*</div>*@
+                    @Html.Label(" สถานที่อยู่ต่างจังหวัด", htmlAttributes: new { @class = "", @readonly = true })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.Label("จำนวนวันค้างแรม", htmlAttributes: new { @class = "control-label col-md-2", @readonly = true })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.OverNightPeriod, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.Label("จำนวนวันค้างแรม", htmlAttributes: new { @class = "col-md-12", @readonly = true })
+                <div class="col-md-12">
+                    @Html.Kendo().NumericTextBoxFor(model => model.OverNightPeriod).HtmlAttributes(new { @id = "OverNightPeriod",@disabled = true }).Min(0).Format("#:0")
                     @Html.ValidationMessageFor(model => model.OverNightPeriod, "", new { @class = "text-danger" })
                 </div>
+               
             </div>
 
             @Html.HiddenFor(model => model.Location.LocationId, htmlAttributes: new { @id = "LocationId", @Name = "LocationId" })
@@ -91,13 +101,13 @@
             <input type="hidden" id="Code" name="Code" value="@Model.Id" />
 
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
+                <div class="col-md-12">
                     <input type="submit" value="เลือกสถานที่" class="btn btn-default" />
                 </div>
             </div>
         </div>
     }
-
+    <hr />
     <div id="tblLocation">
         @if (@ViewBag.ListLocationServices != null)
         {
@@ -124,6 +134,7 @@
                     }
                 </table>
             </div>
+            <hr />
         }
 
     </div>

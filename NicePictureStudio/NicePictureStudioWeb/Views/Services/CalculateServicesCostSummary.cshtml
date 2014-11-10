@@ -1,7 +1,7 @@
 ﻿@model NicePictureStudio.Models.PromotionCalculator
 
 <div id="divServicePriceSection">
-    <div class="container-fluid">
+    <div class="row">
         @using (@Ajax.BeginForm("CalculateServicesCostSummary", "Services", new AjaxOptions
         {
             HttpMethod = "POST",
@@ -9,7 +9,41 @@
             UpdateTargetId = "divServicePriceSection"
         }))
         {
-            <div class="form-horizontal">
+            <table class="table table-striped">
+                <tr>
+                    <td><label id="lblEstimateContext">ค่าใช้จ่ายเบื้องต้น</label></td>
+                    <td class="text-center"><label id="lblEstimateCost" class="control-label"> @Model.EstimatePrice บาท</label></td>
+                </tr>
+                <tr>
+                    <td><label id="lblPromotionContext">โปรโมชั่นที่เลือกไว้</label></td>
+                    <td class="text-center"><label id="lblPromotionSelected" class="control-label">@Model.PromotionName </label></td>
+                </tr>
+                <tr>
+                    <td><label id="lblPromotionDiscountContext">ส่วนลด </label></td>
+                    <td class="text-center"><label id="lblPromotionDiscount" class="control-label"> @Model.PromotionDiscount </label></td>
+                </tr>
+                <tr>
+                    <td><label id="lblTotalCostContext">ค่าใช้จ่ายก่อนหักภาษี </label></td>
+                    <td class="text-center"><label id="lblTotalCost" class="control-label">@Model.TotalPriceBeforeTax บาท</label></td>
+                </tr>
+                <tr>
+                    <td><label>ภาษี </label></td>
+                    <td class="text-center"><label class="control-label text-right">10%</label></td>
+                </tr>
+                <tr>
+                    <td><label id="lblTotalWithTAXContext">ราคารวม </label></td>
+                    <td class="text-center"><label id="lblTotalCostWithTAX" class="control-label">@Model.TotalPrice บาท</label></td>
+                </tr>
+
+            </table>
+            <div class="tab-content">
+                <div class="col-md-12">
+                    <br />
+                    <input class="btn-primary" type="submit" id="btnCalculatePrice" name="btnCalculatePrice" value="คำนวณค่าใช้จ่าย" />
+                </div>
+
+            </div>
+            @*<div class="form-horizontal">
                 <div class="form-group-sm">
 
                     <label id="lblEstimateContext" class="control-label col-sm-6">ค่าใช้จ่ายเบื้องต้น</label>
@@ -70,7 +104,7 @@
                     </div>
 
                 </div>
-            </div>
+            </div>*@
 
         }
     </div>

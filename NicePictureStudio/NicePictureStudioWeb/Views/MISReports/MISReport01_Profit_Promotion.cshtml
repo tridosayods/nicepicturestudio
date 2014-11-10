@@ -25,13 +25,13 @@
             )
             .ValueAxis(axis => axis
                 .Numeric()
-                .Max(200)
+                .Max(40)
                 .Line(line => line.Visible(false))
                 .MajorGridLines(lines => lines.Visible(true))
             )
             .Tooltip(tooltip => tooltip
                 .Visible(true)
-                .Template("#= series.name #: #= value # %")
+                        .Template("#= series.name #: #= kendo.toString(value,'0:3')#  %")
             )
         )
     </div>

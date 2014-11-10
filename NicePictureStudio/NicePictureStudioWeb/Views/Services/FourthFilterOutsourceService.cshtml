@@ -26,14 +26,14 @@
                     <td>
                         <div class="form-horizontal">
                             <div class="form-group-sm">
-                                <div>ประเภทของการให้บริการ</div>
+                                <div><label class="control-label">ประเภทของการให้บริการ</label></div>
                                 <div>
                                     @*@Html.Kendo().DropDownList().Name("OutsourceCatalog").HtmlAttributes(new { @id = "dwnOutsourceCatalog" }).BindTo(*@
                                                            @*new string[] { "ช่างถ่ายภาพ", "ช่างถ่าพภาพวีดีโอ", "ช่างแต่งหน้า", "เช่าชุดแต่งงาน", "ของที่ระลึกวันแต่งงาน" })*@
                                     @(Html.Kendo().DropDownList()
                                          .Name("OutsourceServiceCatalogs")
                                       .HtmlAttributes(new { style = "width:250px" })
-                                      .OptionLabel("กรุณาเลือกประเภทของจัดจ้าง...")
+                                      .OptionLabel("กรุณาเลือกประเภทของบริการจัดจ้าง")
                                               .DataTextField("OutsourceTypeName")
                                               .DataValueField("OutsourceTypeId")
                                       .DataSource(source =>
@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         <div class="form-group-sm">
-                            <div>ช่วงราคาค่าบริการ</div>
+                            <div><label class="control-label">ช่วงราคาค่าบริการ</label></div>
                             <div>
                                 @*@Html.Kendo().DropDownList().Name("OutsourceType").HtmlAttributes(new { @id = "dwnOutsourceType" }).BindTo(
                                                            new string[] { "5000-15000", "10000-25000", "20000-35000", "มากกว่า 45000" })*@
@@ -64,7 +64,7 @@
                                 @(Html.Kendo().DropDownList()
                                           .Name("OutsourceServiceRange")
                                           .HtmlAttributes(new { style = "width:250px" })
-                                          .OptionLabel("กรุณาเลือกช่วงราคา...")
+                                          .OptionLabel("กรุณาเลือกช่วงราคา")
                                                   .DataTextField("OutsourcePriceRangeName")
                                                   .DataValueField("OutsourcePriceRangeId")
                                           .DataSource(source =>
@@ -95,7 +95,7 @@
 
                     <div class="form-group-sm">
                         @*@Html.Label("สถานที่", htmlAttributes: new { @class = "control-label col-md-2" })*@
-                        <div>บริการจัดจ้าง</div>
+                        <div><label class="control-label">บริการจัดจ้าง</label></div>
                         <div class="list-group col-md-10">
                             @*@Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
                             @*@Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["OutsourceList"] as IEnumerable<SelectListItem>).HtmlAttributes(new { @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))*@
@@ -111,7 +111,7 @@
                             @(Html.Kendo().DropDownList()
                                           .Name("dwnServicePattern")
                                           .HtmlAttributes(new { @style = "width:180px", @id = "dwnServicePattern" })
-                                          .OptionLabel("บริการเลือกสถานที่..")
+                                          .OptionLabel("กรุณาเลือกบริการ")
                                                   .DataTextField("OutsourceServiceName")
                                                   .DataValueField("OutsourceServiceID")
                                           .DataSource(source =>

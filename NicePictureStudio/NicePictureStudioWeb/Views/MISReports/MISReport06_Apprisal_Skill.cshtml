@@ -30,14 +30,14 @@
             .Crosshair(c => c.Visible(true))
         )
         .ValueAxis(axis => axis
-            .Numeric().Labels(labels => labels.Format("{0}"))
+                    .Numeric().Labels(labels => labels.Format("{0:###,###} คะแนน"))
             .Line(line => line.Visible(false))
             .AxisCrossingValue(-10)
         )
         .Tooltip(tooltip => tooltip
             .Visible(true)
             .Shared(true)
-            .Format("{0}")
+                    .Format("{0:###,###} คะแนน")
         )
     )
 </div>

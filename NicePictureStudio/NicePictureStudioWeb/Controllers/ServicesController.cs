@@ -169,9 +169,15 @@ namespace NicePictureStudio
             return View(await services.ToListAsync());
         }
 
+        public ActionResult IndexServicesCRM()
+        {
+            return View();
+        }
+
         public ActionResult Services_read([DataSourceRequest] DataSourceRequest request)
         {
             var services = db.Services.Include(s => s.Customer);
+
             IQueryable<ServiceGridViewModel> tasks = services.Select(task => new ServiceGridViewModel()
             {
                 Id = task.Id,

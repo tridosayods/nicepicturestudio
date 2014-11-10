@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "IndexServicesCRM";
+}
+
+
+<div><h3>การสร้างแบบประเมินความพึงพอใจลูกค้า</h3></div>
+@(Html.Kendo().Grid<NicePictureStudio.Models.ServiceGridViewModel>()
+                        .Name("srvGrid")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(p => p.BookingName).Filterable(false).Width(100).Title("ชื่อคนจอง");
+                            columns.Bound(p => p.GroomName).Width(150);
+                            columns.Bound(p => p.BrideName).Format("{0:MM/dd/yyyy}").Width(140);
+                            columns.Bound(p => p.Payment);
+                            columns.Bound(p => p.PayAmount).Width(150);
+                            columns.Bound(p => p.CustomerName);
+                            columns.Bound(p => p.ServiceStatus).Title("Status").ClientTemplate(
+                                 "# if (ServiceStatus == 'Complete') { #" +
+                                     "<strong>#: ServiceStatus #</strong>" +
+                                 "# } else { #" +
+                                       "#: ServiceStatus #" +
+                                 "# } #"
+                                );
+                            //columns.Template(p=> @Html.ActionLink("Edit", "Edit","Bookings", new { id = p.Id }));
+                            columns.Bound(p => p.Id).Title("Action").ClientTemplate(@Html.ActionLink("สร้างแบบประเมิน", "Edit", "Services", new { id = "#=Id#" }, null).ToHtmlString());
+                        })
+                        .Pageable()
+                        .Sortable()
+                        .Scrollable()
+                        .Filterable()
+                        .HtmlAttributes(new { style = "height:730px;" })
+                              .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    .PageSize(50)
+                                    .ServerOperation(true)
+                                    .Read(read => read.Action("Services_read", "Services"))
+                         )
+)

@@ -35,13 +35,13 @@
             )
             .ValueAxis(axis => axis
                 .Numeric()
-                .Max(5)
+                .Max(6)
                 .Line(line => line.Visible(false))
                 .MajorGridLines(lines => lines.Visible(true))
             )
             .Tooltip(tooltip => tooltip
                 .Visible(true)
-                .Template("#= series.name #: #= value #")
+                .Template("#= series.name #: #= value # คะแนน")
             )
     )
 </div>

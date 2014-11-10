@@ -25,16 +25,18 @@
             .CategoryAxis(axis => axis
                 .Categories(model => model.Catalogs)
                 .MajorGridLines(lines => lines.Visible(false))
+                         .Labels(labels => labels.Rotation(30))
             )
             .ValueAxis(axis => axis
                 .Numeric()
-                .Max(4000000)
+                .Max(6000000)
                 .Line(line => line.Visible(false))
                 .MajorGridLines(lines => lines.Visible(true))
+                         .Labels(labels => labels.Format("{0:###,###} บาท"))
             )
             .Tooltip(tooltip => tooltip
                 .Visible(true)
-                .Template("#= series.name #: #= value # บาท")
+                        .Template("#= series.name #: #= kendo.toString(value,'\\#\\#,\\# บาท') #")
             )
     )
 </div>

@@ -476,6 +476,18 @@ namespace NicePictureStudio.Models
         private bool hasPromotion;
         private PromotionViewModel currentPromotion;
 
+        public string PhotoGraphPriceText { get; set; }
+        public string EquipmentPriceText { get; set; }
+        public string LocationPriceText { get; set; }
+        public string OutsourcePriceText { get; set; }
+        public string OutputPriceText { get; set; }
+
+        public decimal PhotoNetPrice { get; set; }
+        public decimal EquipmentNetPrice { get; set; }
+        public decimal LocationNetPrice { get; set; }
+        public decimal OutsourceNetPrice { get; set; }
+        public decimal OutputNetPrice { get; set; }
+
         public string EstimatePrice { get; set; }
         public string TotalPrice { get; set; }
         public string TotalPriceBeforeTax { get; set; }
@@ -510,10 +522,10 @@ namespace NicePictureStudio.Models
             hasPromotion = false;
             PromotionName = PromotionDefaultName;
             PromotionDiscount = PromotionDiscountDefaultName;
-            EstimatePrice = "0";
-            TotalPrice = "0";
-            TotalPriceBeforeTax = "0";
-            ServiceTax = "0";
+            EstimatePrice = "0.00";
+            TotalPrice = "0.00";
+            TotalPriceBeforeTax = "0.00";
+            ServiceTax = "0.00";
         }
 
 
@@ -527,9 +539,22 @@ namespace NicePictureStudio.Models
             decimal _totalPriceBeforeTax = 0;
             decimal _totalVat = 0;
 
+            PhotoNetPrice = PhotographPrice;
+            EquipmentNetPrice = EquipmentPrice;
+            LocationNetPrice = LocationPrice;
+            OutsourceNetPrice = OutsourcePrice;
+            OutputNetPrice = OutputPrice;
+
+            PhotoGraphPriceText = PhotographPrice.ToString("0,0.000");
+            EquipmentPriceText = EquipmentPrice.ToString("0,0.000");
+            LocationPriceText = LocationPrice.ToString("0,0.000");
+            OutsourcePriceText = OutsourceNetPrice.ToString("0,0.000");
+            OutputPriceText = OutputPrice.ToString("0,0.000");
+            
             if (hasPromotion)
             {
-                EstimatePrice = (PhotographPrice + EquipmentPrice + LocationPrice + OutsourcePrice + OutputPrice).ToString("C2",CultureInfo.CurrentCulture);
+
+                EstimatePrice = (PhotographPrice + EquipmentPrice + LocationPrice + OutsourcePrice + OutputPrice).ToString("0,0.000", CultureInfo.CurrentCulture);
                 PromotionName = currentPromotion.PromotionName();
                 PromotionDiscount = ((currentPromotion.PhotoGraphDiscount + currentPromotion.EquipmentDiscount +
                                                    currentPromotion.LocationDiscount + currentPromotion.OutsourceDiscount + currentPromotion.OutputDiscount) / (decimal)500).ToString("P");
@@ -540,10 +565,10 @@ namespace NicePictureStudio.Models
                     + (OutputPrice - (OutputPrice * currentPromotion.OutputDiscount / (decimal)100))
                     );
                 PriceWithoutTax = _totalPriceBeforeTax;
-                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
+                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("0,0.000", CultureInfo.CurrentCulture);
                 _totalVat = (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
                 NetPriceWithoutTax = _totalPriceBeforeTax + _totalVat;
-                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("C2", CultureInfo.CurrentCulture);
+                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("0,0.000", CultureInfo.CurrentCulture);
             }
             else
             {

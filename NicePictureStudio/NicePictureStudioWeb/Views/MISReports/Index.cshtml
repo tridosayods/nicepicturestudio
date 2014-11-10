@@ -3,7 +3,7 @@
     ViewBag.Title = "รายงานสารสนเทศ";
 }
 
-<h2>รายงานสรุปรายได้ประจำปี</h2>
+<h2>รายงานผู้บริหาร</h2>
 <h4>บริษัท รูปสวยโฟโต้ จำกัด</h4>
 <br />
 
@@ -17,7 +17,7 @@
 }*@
 
 <div class="chart-wrapper">
-    @(Html.Kendo().Chart()
+    @*@(Html.Kendo().Chart()
         .Name("IncomeStatement")
         .Title("รายงานสรุปรายรับประจำปี ของบริษัท รูปสวยโฟโต้จำกัด")
         .Legend(legend => legend
@@ -51,25 +51,35 @@
             .Format("{0:c}")
             .Template("#= series.name #: #= value #")
         )
-    )
+    )*@
 </div>
 
-@{Html.RenderAction("MISReport01_Profit_Promotion");}
-
-@{Html.RenderAction("MISReport02_Appraisal_Max_Min_ServiceType");}
-
-@{Html.RenderAction("MISReport03_Appraisal_Max_Min_Skill");}
-
-@{Html.RenderAction("MISReport04_Profit_Year");}
-
+<div><h1>รายงานผู้บริหารในส่วนของ รายได้ และ ค่าใช้จ่าย</h1></div>
+<br />
+<hr />
 @{Html.RenderAction("MISReport05_Profit_Trend");}
+<br />
+@{Html.RenderAction("MISReport08_Profit_ServiceType");} 
+<br />
+@{Html.RenderAction("MISReport01_Profit_Promotion");}
+<br />
+@{Html.RenderAction("MISReport09_Income_SalePerson_Trend");}
+<br />
+@{Html.RenderAction("MISReport10_Cost_ServiceType_Trend");}
+
+<hr />
+<div><h1>รายงานผู้บริหารในส่วนของแบบประเมินความพึงพอใจ</h1></div>
+<br />
+<hr />
+@{Html.RenderAction("MISReport02_Appraisal_Max_Min_ServiceType");}
+<br />
+@{Html.RenderAction("MISReport03_Appraisal_Max_Min_Skill");}
+<br />
+@{Html.RenderAction("MISReport04_Profit_Year");}
+<br />
 
 @{Html.RenderAction("MISReport06_Apprisal_Skill");}
-
+<br />
 @{Html.RenderAction("MISReport07_Appraisal_ServiceType");}
+<hr />
 
-@{Html.RenderAction("MISReport08_Profit_ServiceType");} 
-
-@{Html.RenderAction("MISReport09_Income_SalePerson_Trend");}  
-
-@{Html.RenderAction("MISReport10_Cost_ServiceType_Trend");}  

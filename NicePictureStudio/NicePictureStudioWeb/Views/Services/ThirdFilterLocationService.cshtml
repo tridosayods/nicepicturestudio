@@ -54,7 +54,7 @@
                     <td class="col-md-5">
                         <div class="form-horizontal">
                             <div class="form-group-sm">
-                                <div>ค้นหาชื่อสถานที่</div>
+                                <div><label class="control-label">ค้นหาชื่อสถานที่</label></div>
                                 <div>
                                     @*@Html.Kendo().AutoComplete().Name("HotelList").BindTo(new string[] {"Hilton","Sheraton","Shangarila","Orienten","Dusit","Centara Grand" }).HtmlAttributes(new { @style="width:250px"})*@
                                     @Html.TextBox("LocationSelectSearch", null, new { @class = "autocomplete-with-hidden-location-select form-control", data_url = Url.Action("Search_LocationServices", "Services") })
@@ -63,13 +63,13 @@
                             </div>
                             <hr/>
                             <div class="form-group-sm">
-                                <div>ประเภทของสถานที่</div>
+                                <div><label class="control-label">ประเภทของสถานที่</label></div>
                                     <div>
                                         @*@Html.Kendo().DropDownList().Name("LocationCatalog").HtmlAttributes(new { @id = "dwnLocationCatalog" }).BindTo(
                                                               new string[] { "โรงแรม", "สถานที่ต้องขออนุญาติ", "สถานที่ราชการ", "สตูดิโอ","ร้านอาหาร","โบสถ์","อื่นๆ" })*@
                                         @(Html.Kendo().DropDownList()
                                          .Name("LocationServiceType")
-                                      .HtmlAttributes(new { style = "width:180px" })
+                                      .HtmlAttributes(new { style = "width:240px" })
                                       .OptionLabel("กรุณาเลือกประเภทของสถานที่...")
                                       .DataTextField("LocationTypeName")
                                       .DataValueField("LocationTypeId")
@@ -84,7 +84,7 @@
                                   </div>
                               </div>
                                 <div class="form-group-sm">
-                                    <div>รูปแบบงานพิธี</div>
+                                    <div><label class="control-label">รูปแบบงานพิธี</label></div>
                                     <div>
                                         @*@Html.Kendo().DropDownList().Name("LocationType").HtmlAttributes(new { @id = "dwnLocationType" }).BindTo(
                                             new string[] { "พิธีกงานกลางแจ้ง", "พิธีงานในร่ม", "พิธีงานให้ห้องโรงแรม" })*@
@@ -99,7 +99,7 @@
 
                                         @(Html.Kendo().DropDownList()
                                           .Name("LocationServiceStyle")
-                                          .HtmlAttributes(new { style = "width:180px" })
+                                          .HtmlAttributes(new { style = "width:240px" })
                                           .OptionLabel("กรุณาเลือกรูปแบบของสถานที่...")
                                           .DataTextField("LocationStyleName")
                                           .DataValueField("LocationStyleID")
@@ -123,7 +123,7 @@
   
                             <div class="form-group-sm">
                                 @*@Html.Label("สถานที่", htmlAttributes: new { @class = "control-label col-md-2" })*@
-                                <div>สถานที่ที่ถูกเลือก</div>
+                                <div><label class="control-label">สถานที่ที่ถูกเลือก</label></div>
                                 <div class="list-group col-md-10">
                                     @*@Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
                                     @*@Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["LocationList"] as IEnumerable<SelectListItem>).HtmlAttributes(new {  @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))*@
@@ -137,7 +137,7 @@
 
                                     @(Html.Kendo().DropDownList()
                                           .Name("dwnServicePattern")
-                                          .HtmlAttributes(new { @style = "width:180px", @id = "dwnServicePattern" })
+                                          .HtmlAttributes(new { @style = "width:240px", @id = "dwnServicePattern" })
                                           .OptionLabel("บริการเลือกสถานที่..")
                                           .DataTextField("LocationServiceName")
                                           .DataValueField("LocationServiceID")
@@ -172,6 +172,7 @@
                 </tr>
             </table>
         </div>
+        <hr />
         <div class="panel-body">
             @{Html.RenderAction("CreateLocationServiceByModal", "Services", new { id = @ViewData["Code"], ServiceType = @ViewData["SType"] });}
         </div>

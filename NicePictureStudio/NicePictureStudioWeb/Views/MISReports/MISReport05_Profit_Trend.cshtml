@@ -25,13 +25,13 @@
             .Crosshair(c=>c.Visible(true))
         )
         .ValueAxis(axis => axis
-            .Numeric().Labels(labels => labels.Format("{0} บาท"))
+                    .Numeric().Labels(labels => labels.Format("{0:###,###} บาท"))
             .Line(line => line.Visible(false))
             .AxisCrossingValue(-10)
         )
         .Tooltip(tooltip => tooltip
             .Visible(true)
-            .Format("{0} บาท")
+                    .Format("{0:###,###} บาท")
         )
     )
 </div>

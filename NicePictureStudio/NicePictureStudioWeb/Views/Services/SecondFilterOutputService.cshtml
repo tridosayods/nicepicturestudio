@@ -23,7 +23,7 @@
                 <td>
                     <div class="form-horizontal">
                         <div class="form-group-sm">
-                            <div>รูปแบบรูปภาพ</div>
+                            <div><label class="control-label">รูปแบบรูปภาพ</label></div>
                             <div>
                                 @*@Html.Kendo().DropDownList().Name("OutputType").HtmlAttributes(new { @class = "form-control", @id = "dwnOutputType" }).BindTo(
                                                               new string[] { "กรอบรูป", "รูปภาพ", "โฟโต้บุค", "วีดีโอ" }
@@ -31,7 +31,7 @@
                                 @(Html.Kendo().DropDownList()
                                       .Name("OutputType")
                                       .HtmlAttributes(new { style = "width:180px" })
-                                      .OptionLabel("Select Outpu type...")
+                                      .OptionLabel("กรุณาเลือกชิ้นงาน")
                                               .DataTextField("OutputTypeName")
                                               .DataValueField("OutputTypeId")
                                       .DataSource(source =>
@@ -45,7 +45,7 @@
                             </div>
                         </div>
                             <div class="form-group-sm">
-                                <div>ประเภทของผลงาน</div>
+                                <div><label class="control-label">ประเภทของผลงาน</label></div>
                                 <div>
                                     @*@Html.Kendo().DropDownList().Name("OutputSize").HtmlAttributes(new { @class = "form-control", @id = "dwnOutputSize" }).BindTo(
                                             new string[] { "6*9'", "10*15'", "20*30'", "10รูป", "30รูป", "50รูป", "ทั้งหมด", "ดีวีดี", "ทั้มไดร์ฟ", "พรีเซนเทชั่น" }
@@ -61,7 +61,7 @@
                                     @(Html.Kendo().DropDownList()
                                           .Name("OutputSize")
                                           .HtmlAttributes(new { style = "width:180px" })
-                                          .OptionLabel("Select output size...")
+                                          .OptionLabel("กรุณาเลือกขนาด")
                                                   .DataTextField("OutputSizeName")
                                                   .DataValueField("OutputSizeID")
                                           .DataSource(source =>
@@ -83,7 +83,7 @@
                            
                     <div class="form-group-sm">
                         @*<div>@Html.Label("OutputServices", htmlAttributes: new { @class = "control-label col-md-2" })</div>*@
-                        <div>บริการรูปภาพ</div>
+                        <div><label class="control-label">บริการรูปภาพ</label></div>
                         <div class="list-group col-md-10">
                             @*@Html.DropDownList("Code", @ViewData["OutputList"] as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-group", @id = "dwnServicePattern", @name = "dwnServicePattern" })*@
                             @*@Html.Kendo().DropDownList().Name("dwnServicePattern").BindTo(@ViewData["OutputList"] as IEnumerable<SelectListItem>).HtmlAttributes(new { @class = "form-control", @id = "dwnServicePattern" }).SelectedIndex(Convert.ToInt32(@ViewData["Code"]))*@
@@ -98,7 +98,7 @@
                             @(Html.Kendo().DropDownList()
                                           .Name("dwnServicePattern")
                                           .HtmlAttributes(new { @style = "width:180px", @id = "dwnServicePattern" })
-                                          .OptionLabel("บริการรูปภาพ..")
+                                          .OptionLabel("กรุณาเลือกรูปแบบชิ้นงาน")
                                                   .DataTextField("OutputName")
                                                   .DataValueField("OutputID")
                                           .DataSource(source =>
