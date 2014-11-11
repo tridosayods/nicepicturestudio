@@ -4,7 +4,7 @@
         $("#dwnServicePattern").on("change", function (item) {
             event.preventDefault();
             var selectedItem = $("#dwnServicePattern").val();
-            alert(selectedItem);
+            //alert(selectedItem);
             $.ajax({
                 url: '@Url.Action("CreateOutsourceServiceByModal", "Services")',
                 data: { id: selectedItem, serviceType: '@ViewData["SType"]' },

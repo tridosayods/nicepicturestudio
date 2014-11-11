@@ -174,6 +174,12 @@ namespace NicePictureStudio
             return View();
         }
 
+        public ActionResult ServicesCostReport(int? serviceId)
+        {
+            ViewBag.ServiceId = serviceId;
+            return View();
+        }
+
         public ActionResult Services_read([DataSourceRequest] DataSourceRequest request)
         {
             var services = db.Services.Include(s => s.Customer);
@@ -193,6 +199,7 @@ namespace NicePictureStudio
              ).AsQueryable();
             return Json(tasks.ToDataSourceResult(request));
         }
+
 
         public ActionResult Service_PreWedding_Read([DataSourceRequest] DataSourceRequest request)
         {
@@ -3534,7 +3541,9 @@ namespace NicePictureStudio
         public JsonResult OutsourceServices_read(int outsourceCatalogId, int outsourcPriceId)
         { 
             OutSourcePriceRanx priceRange = db.OutSourcePriceRanges.Find(outsourcPriceId);
-            var outsourceList = db.OutsourceServices.Where(os => os.Price >= priceRange.MinRange && os.Price <= priceRange.MaxRange && os.OutsourceContact.OutsourceContactId == outsourceCatalogId).GroupBy(
+            //var outsourceList = db.OutsourceServices.Where(os => os.Price >= priceRange.MinRange && os.Price <= priceRange.MaxRange && os.OutsourceContact.OutsourceContactId == outsourceCatalogId).GroupBy(
+            //    osg => osg.Id).Select(osgl => osgl.FirstOrDefault());
+            var outsourceList = db.OutsourceServices.Where(os => os.Price >= priceRange.MinRange && os.Price <= priceRange.MaxRange && os.OutsourceContact.OutsourceServiceType.Id == outsourceCatalogId).GroupBy(
                 osg => osg.Id).Select(osgl => osgl.FirstOrDefault());
             return Json(outsourceList.Select(o => new { OutsourceServiceID = o.Id, OutsourceServiceName = o.Name + " " + o.Description }), JsonRequestBehavior.AllowGet);
         }
@@ -4050,6 +4059,7 @@ namespace NicePictureStudio
             List<ServiceForm> _serviceForms = new List<ServiceForm>();
             _serviceForms = db.ServiceForms.Where(s => s.Service.Id == serviceId).ToList();
             @ViewBag.ServicesListSummary = _serviceForms;
+            @ViewBag.ServiceIdSelected = _serviceId;
             return PartialView();
         }
 
@@ -4064,6 +4074,9 @@ namespace NicePictureStudio
             decimal _locationPrice = 0;
             decimal _outsourcePrice = 0;
             decimal _outputPrice = 0;
+            decimal _locationOutingPreWedding = 0;
+            decimal _locationOutingEngagement = 0;
+            decimal _locationOutingWedding = 0;
 
             var _servicesTmp = TempData["Services"] as ServicesViewModel;
             var _promotionCalculatorTmp = TempData["Promotion"] as PromotionCalculator;
@@ -4085,7 +4098,14 @@ namespace NicePictureStudio
                                 + GettingPriceFromOutputService(_servicesTmp.ServiceFormEngagement)
                                 + GettingPriceFromOutputService(_servicesTmp.ServiceFormWedding);
 
-            _promotionCalculatorTmp.CalculateCurrentPrice(_photoGraphPrice, _equipmentPrice, _locationPrice, _outsourcePrice, _outputPrice);
+            if (_servicesTmp.ServiceFormPreWedding.ServiceForm != null)
+            _locationOutingPreWedding = _servicesTmp.ServiceFormPreWedding.ServiceForm.IsOvernightSelected == true ? 3500 : 0;
+            if (_servicesTmp.ServiceFormEngagement.ServiceForm != null)
+            _locationOutingEngagement = _servicesTmp.ServiceFormEngagement.ServiceForm.IsOvernightSelected == true ? 3500 : 0;
+            if (_servicesTmp.ServiceFormWedding.ServiceForm != null)
+            _locationOutingWedding = _servicesTmp.ServiceFormWedding.ServiceForm.IsOvernightSelected == true ? 3500 : 0;
+
+            _promotionCalculatorTmp.CalculateCurrentPrice(_photoGraphPrice, _equipmentPrice, _locationPrice, _outsourcePrice, _outputPrice,_locationOutingPreWedding,_locationOutingEngagement,_locationOutingWedding);
             
             //Get price from service section
             if (_servicesTmp.ServiceFormPreWedding != null)
@@ -4096,13 +4116,17 @@ namespace NicePictureStudio
                                                                            + GettingPriceFromEquipmentService(_servicesTmp.ServiceFormPreWedding)
                                                                            + GettingPriceFromLocationService(_servicesTmp.ServiceFormPreWedding)
                                                                            + GettingPriceFromOutsourceService(_servicesTmp.ServiceFormPreWedding)
-                                                                           + GettingPriceFromOutputService(_servicesTmp.ServiceFormPreWedding);
+                                                                           + GettingPriceFromOutputService(_servicesTmp.ServiceFormPreWedding)
+                                                                           + _locationOutingPreWedding;
 
+                    //Outing Cost = 1500
+                    var _precost = _locationOutingPreWedding == 0 ? 0 : 1500;
                     _servicesTmp.ServiceFormPreWedding.ServiceForm.ServiceCost = GettingCostFromPhotographService(_servicesTmp.ServiceFormPreWedding)
                                                                        + GettingCostFromEquipmentService(_servicesTmp.ServiceFormPreWedding)
                                                                        + GettingCostFromLocationService(_servicesTmp.ServiceFormPreWedding)
                                                                        + GettingCostFromOutsourceService(_servicesTmp.ServiceFormPreWedding)
-                                                                       + GettingCostFromOutputService(_servicesTmp.ServiceFormPreWedding);
+                                                                       + GettingCostFromOutputService(_servicesTmp.ServiceFormPreWedding) + _precost;
+
                     _servicesTmp.ServiceFormPreWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
                 }
             }
@@ -4115,13 +4139,17 @@ namespace NicePictureStudio
                                                                         + GettingPriceFromEquipmentService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingPriceFromLocationService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingPriceFromOutsourceService(_servicesTmp.ServiceFormEngagement)
-                                                                        + GettingPriceFromOutputService(_servicesTmp.ServiceFormEngagement);
+                                                                        + GettingPriceFromOutputService(_servicesTmp.ServiceFormEngagement)
+                                                                        + _locationOutingEngagement;
 
+                    //Outing Cost = 1500
+                    var _precost = _locationOutingEngagement == 0 ? 0 : 1500;
                     _servicesTmp.ServiceFormEngagement.ServiceForm.ServiceCost = GettingCostFromPhotographService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingCostFromEquipmentService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingCostFromLocationService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingCostFromOutsourceService(_servicesTmp.ServiceFormEngagement)
-                                                                        + GettingCostFromOutputService(_servicesTmp.ServiceFormEngagement);
+                                                                        + GettingCostFromOutputService(_servicesTmp.ServiceFormEngagement) + _precost;
+
                     _servicesTmp.ServiceFormEngagement.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
                 }
             }
@@ -4134,13 +4162,16 @@ namespace NicePictureStudio
                                                                       + GettingPriceFromEquipmentService(_servicesTmp.ServiceFormWedding)
                                                                       + GettingPriceFromLocationService(_servicesTmp.ServiceFormWedding)
                                                                       + GettingPriceFromOutsourceService(_servicesTmp.ServiceFormWedding)
-                                                                      + GettingPriceFromOutputService(_servicesTmp.ServiceFormWedding);
-
+                                                                      + GettingPriceFromOutputService(_servicesTmp.ServiceFormWedding)
+                                                                      + _locationOutingWedding;
+                    //Outing Cost = 1500
+                    var _precost = _locationOutingWedding == 0 ? 0 : 1500;
                     _servicesTmp.ServiceFormWedding.ServiceForm.ServiceCost = GettingCostFromPhotographService(_servicesTmp.ServiceFormWedding)
                                                                                + GettingCostFromEquipmentService(_servicesTmp.ServiceFormWedding)
                                                                                + GettingCostFromLocationService(_servicesTmp.ServiceFormWedding)
                                                                                + GettingCostFromOutsourceService(_servicesTmp.ServiceFormWedding)
-                                                                               + GettingCostFromOutputService(_servicesTmp.ServiceFormWedding);
+                                                                               + GettingCostFromOutputService(_servicesTmp.ServiceFormWedding) + _precost;
+
                     _servicesTmp.ServiceFormWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
                 }
             }
@@ -4157,9 +4188,20 @@ namespace NicePictureStudio
             decimal _outsourcePrice = 0;
             decimal _outputPrice = 0;
 
+            decimal _locationOutingPreWedding = 0;
+            decimal _locationOutingEngagement = 0;
+            decimal _locationOutingWedding = 0;
+
             var _servicesTmp = TempData["ServiceEdit"] as ServicesViewModel;
             var _promotionCalculatorTmp = TempData["PromotionEdit"] as PromotionCalculator;
             TempData.Keep();
+
+            if (_servicesTmp.ServiceFormPreWedding.ServiceForm != null)
+            _locationOutingPreWedding = _servicesTmp.ServiceFormPreWedding.ServiceForm.IsOvernightSelected == true ? 3500 : 0;
+            if (_servicesTmp.ServiceFormEngagement.ServiceForm != null)
+            _locationOutingEngagement = _servicesTmp.ServiceFormEngagement.ServiceForm.IsOvernightSelected == true ? 3500 : 0;
+            if (_servicesTmp.ServiceFormWedding.ServiceForm != null)
+            _locationOutingWedding = _servicesTmp.ServiceFormWedding.ServiceForm.IsOvernightSelected == true ? 3500 : 0;
 
             _photoGraphPrice = GettingPriceFromPhotographService(_servicesTmp.ServiceFormPreWedding)
                                 + GettingPriceFromPhotographService(_servicesTmp.ServiceFormEngagement)
@@ -4177,8 +4219,8 @@ namespace NicePictureStudio
                                 + GettingPriceFromOutputService(_servicesTmp.ServiceFormEngagement)
                                 + GettingPriceFromOutputService(_servicesTmp.ServiceFormWedding);
 
-            _promotionCalculatorTmp.CalculateCurrentPrice(_photoGraphPrice, _equipmentPrice, _locationPrice, _outsourcePrice, _outputPrice);
-            _servicesTmp.Calculator.CalculateCurrentPrice(_photoGraphPrice, _equipmentPrice, _locationPrice, _outsourcePrice, _outputPrice);
+            _promotionCalculatorTmp.CalculateCurrentPrice(_photoGraphPrice, _equipmentPrice, _locationPrice, _outsourcePrice, _outputPrice, _locationOutingPreWedding, _locationOutingEngagement, _locationOutingWedding);
+            _servicesTmp.Calculator.CalculateCurrentPrice(_photoGraphPrice, _equipmentPrice, _locationPrice, _outsourcePrice, _outputPrice, _locationOutingPreWedding, _locationOutingEngagement, _locationOutingWedding);
 
             //Get price from service section
             if (_servicesTmp.ServiceFormPreWedding != null)
@@ -4189,13 +4231,15 @@ namespace NicePictureStudio
                                                                            + GettingPriceFromEquipmentService(_servicesTmp.ServiceFormPreWedding)
                                                                            + GettingPriceFromLocationService(_servicesTmp.ServiceFormPreWedding)
                                                                            + GettingPriceFromOutsourceService(_servicesTmp.ServiceFormPreWedding)
-                                                                           + GettingPriceFromOutputService(_servicesTmp.ServiceFormPreWedding);
+                                                                           + GettingPriceFromOutputService(_servicesTmp.ServiceFormPreWedding)
+                                                                           + _locationOutingPreWedding;
 
+                    var _precost = _locationOutingPreWedding == 0 ? 0 : 1500;
                     _servicesTmp.ServiceFormPreWedding.ServiceForm.ServiceCost = GettingCostFromPhotographService(_servicesTmp.ServiceFormPreWedding)
                                                                        + GettingCostFromEquipmentService(_servicesTmp.ServiceFormPreWedding)
                                                                        + GettingCostFromLocationService(_servicesTmp.ServiceFormPreWedding)
                                                                        + GettingCostFromOutsourceService(_servicesTmp.ServiceFormPreWedding)
-                                                                       + GettingCostFromOutputService(_servicesTmp.ServiceFormPreWedding);
+                                                                       + GettingCostFromOutputService(_servicesTmp.ServiceFormPreWedding) + _precost;
                     _servicesTmp.ServiceFormPreWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
                 }
             }
@@ -4208,13 +4252,14 @@ namespace NicePictureStudio
                                                                         + GettingPriceFromEquipmentService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingPriceFromLocationService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingPriceFromOutsourceService(_servicesTmp.ServiceFormEngagement)
-                                                                        + GettingPriceFromOutputService(_servicesTmp.ServiceFormEngagement);
+                                                                        + GettingPriceFromOutputService(_servicesTmp.ServiceFormEngagement) + _locationOutingEngagement;
 
+                    var _precost = _locationOutingEngagement == 0 ? 0 : 1500;
                     _servicesTmp.ServiceFormEngagement.ServiceForm.ServiceCost = GettingCostFromPhotographService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingCostFromEquipmentService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingCostFromLocationService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingCostFromOutsourceService(_servicesTmp.ServiceFormEngagement)
-                                                                        + GettingCostFromOutputService(_servicesTmp.ServiceFormEngagement);
+                                                                        + GettingCostFromOutputService(_servicesTmp.ServiceFormEngagement) + _precost;
                     _servicesTmp.ServiceFormEngagement.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
                 }
             }
@@ -4227,13 +4272,14 @@ namespace NicePictureStudio
                                                                       + GettingPriceFromEquipmentService(_servicesTmp.ServiceFormWedding)
                                                                       + GettingPriceFromLocationService(_servicesTmp.ServiceFormWedding)
                                                                       + GettingPriceFromOutsourceService(_servicesTmp.ServiceFormWedding)
-                                                                      + GettingPriceFromOutputService(_servicesTmp.ServiceFormWedding);
+                                                                      + GettingPriceFromOutputService(_servicesTmp.ServiceFormWedding) + _locationOutingWedding;
 
+                    var _precost = _locationOutingWedding == 0 ? 0 : 1500;
                     _servicesTmp.ServiceFormWedding.ServiceForm.ServiceCost = GettingCostFromPhotographService(_servicesTmp.ServiceFormWedding)
                                                                                + GettingCostFromEquipmentService(_servicesTmp.ServiceFormWedding)
                                                                                + GettingCostFromLocationService(_servicesTmp.ServiceFormWedding)
                                                                                + GettingCostFromOutsourceService(_servicesTmp.ServiceFormWedding)
-                                                                               + GettingCostFromOutputService(_servicesTmp.ServiceFormWedding);
+                                                                               + GettingCostFromOutputService(_servicesTmp.ServiceFormWedding) + _precost;
                     _servicesTmp.ServiceFormWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
                 }
             }
@@ -4296,7 +4342,8 @@ namespace NicePictureStudio
                     decimal LocationPrice = GettingPriceFromLocationService(_targetServiceForm);
                     decimal OutsourcePrice = GettingPriceFromOutsourceService(_targetServiceForm);
                     decimal OutputPrice = GettingPriceFromOutputService(_targetServiceForm);
-                    _promotionCalculatorTmp.CalculateCurrentPrice(PhotoGraphPrice, EquipmentPrice, LocationPrice, OutsourcePrice, OutputPrice);
+                    decimal OutingPrice = _targetServiceForm.ServiceForm.IsOvernightSelected == true ? 3500 : 0;
+                    _promotionCalculatorTmp.CalculateCurrentPrice(PhotoGraphPrice, EquipmentPrice, LocationPrice, OutsourcePrice, OutputPrice,OutingPrice,0,0);
 
                     //SummarizePriceForEdit();
                     return PartialView(_promotionCalculatorTmp);
@@ -4314,7 +4361,8 @@ namespace NicePictureStudio
                     decimal LocationPrice = GettingPriceFromLocationService(_targetServiceForm);
                     decimal OutsourcePrice = GettingPriceFromOutsourceService(_targetServiceForm);
                     decimal OutputPrice = GettingPriceFromOutputService(_targetServiceForm);
-                    promotionCalc.CalculateCurrentPrice(PhotoGraphPrice, EquipmentPrice, LocationPrice, OutsourcePrice, OutputPrice);
+                    decimal OutingPrice = _targetServiceForm.ServiceForm.IsOvernightSelected == true ? 3500 : 0;
+                    promotionCalc.CalculateCurrentPrice(PhotoGraphPrice, EquipmentPrice, LocationPrice, OutsourcePrice, OutputPrice,OutingPrice,0,0);
                     return PartialView(promotionCalc);
                 }
             }
@@ -5418,6 +5466,7 @@ namespace NicePictureStudio
             decimal payment = _promotionCalculatorTmp.NetPriceWithoutTax;
 
             Service _service = await db.Services.FindAsync(_servicesTmp.Id);
+            ViewBag.ServiceIdSelected = _service != null ? _service.Id : 0;
             if (_service != null)
             {
                 _service.PayAmount = payAmount;
@@ -5796,7 +5845,7 @@ namespace NicePictureStudio
             }
         }
 
-        public async Task<PartialViewResult> CalculateServiceOverallWhenEdit()
+        public PartialViewResult CalculateServiceOverallWhenEdit()
         {
             var _servicesTmp = TempData["ServicesEdit"] as ServicesViewModel;
             var _promotionCalculatorTmp = TempData["PromotionEdit"] as PromotionCalculator;
@@ -5818,13 +5867,14 @@ namespace NicePictureStudio
             decimal payAmount = _promotionCalculatorTmp.PriceWithoutTax;
             decimal payment = _promotionCalculatorTmp.NetPriceWithoutTax;
 
-            Service _service = await db.Services.FindAsync(_servicesTmp.Id);
+            Service _service = db.Services.Find(_servicesTmp.Id);
+            ViewBag.ServiceIdSelected = _service != null ? _service.Id : 0;
             if (_service != null)
             {
                 _service.PayAmount = payAmount;
                 _service.Payment = payment;
                 db.Entry(_service).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
             return PartialView(_promotionCalculatorTmp);
         }

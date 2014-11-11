@@ -10,7 +10,7 @@
                         <td>@item.Name</td>
                         <td>@item.Description</td>
                         <td>@item.OutputQuantity</td>
-                        <td>@item.Price</td>
+                        <td>@item.Price.Value.ToString("#,#0.00 บาท")</td>
                         <td>@Ajax.ActionLink("Remove", "RemoveOutput", new { Id = @item.Id, serviceType = @ViewBag.OutputServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblOutput" })</td>
                     </tr>
                 }

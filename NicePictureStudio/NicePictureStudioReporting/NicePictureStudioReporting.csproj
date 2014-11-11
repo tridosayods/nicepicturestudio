@@ -95,7 +95,7 @@
     <Compile Include="SubReportOutsourceServices.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SubReportOutsource.Designer.cs">
+    <Compile Include="SubReportOutsourceServices.Designer.cs">
       <DependentUpon>SubReportOutsourceServices.cs</DependentUpon>
     </Compile>
     <Compile Include="SubReportPhotoGraphContact.cs">
@@ -148,7 +148,7 @@
     <EmbeddedResource Include="SubReportOutputServices.resx">
       <DependentUpon>SubReportOutputServices.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SubReportOutsource.resx">
+    <EmbeddedResource Include="SubReportOutsourceServices.resx">
       <DependentUpon>SubReportOutsourceServices.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SubReportPhotoGraphContact.resx">

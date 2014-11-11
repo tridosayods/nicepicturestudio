@@ -8,11 +8,11 @@ namespace NicePictureStudioReporting
     using Telerik.Reporting.Drawing;
 
     /// <summary>
-    /// Summary description for SubReportOutsource.
+    /// Summary description for SubReportOutsourceServices.
     /// </summary>
-    public partial class SubReportOutsource : Telerik.Reporting.Report
+    public partial class SubReportOutsourceServices : Telerik.Reporting.Report
     {
-        public SubReportOutsource()
+        public SubReportOutsourceServices()
         {
             //
             // Required for telerik Reporting designer support

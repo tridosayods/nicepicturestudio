@@ -77,6 +77,22 @@
             });
         });
 
+        @*$("#btnGenReport").bind("click", function () {
+            var data = $("#ServiceID").val();
+            var url = '@Url.Action("ServicesCostReport", "Services")';
+            
+            //$.get(url, { ServiceId: $("#ServiceID").val() }, function (data) {
+            //    $("#SrvPatternBody").html(data);
+            //    $("#SrvBody").modal('show');
+            //});
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: { ServiceId: $("#ServiceID").val() },
+                success: function (data) { var w = window.open(); w.document.write(data); }
+            })
+        });*@
+
 
         $("#BookingId").val('@ViewBag.BookingId');
     });
@@ -291,12 +307,13 @@
                     <br/>
                 <div class="panel-body">
                     <div id="Summary">
-                        <div class="col-md-8 col-lg-6">
+                        <div class="col-md-12 col-lg-6">
                             @{Html.RenderAction("TableServices", "Services", new { serviceId = @Model.Id });}
                         </div>
-                        <div class="col-md-4 col-lg-6">
+                        <div class="col-md-12 col-lg-6">
                             <div id="divServicesTotalPriceSection">
-                                <div>Summary</div>
+                                @{Html.RenderAction("CalculateServiceOverallWhenEdit", "Services", new { serviceId = @Model.Id });}
+                                @*<div>Summary</div>
                                 <div class="container-fluid">
                                     @using (@Ajax.BeginForm("CalculateServiceOverallWhenEdit", "Services", new AjaxOptions
                                     {
@@ -305,7 +322,78 @@
                                         UpdateTargetId = "divServicesTotalPriceSection"
                                     }))
                                     {
-                                        <div class="form-horizontal">
+                                        <br />
+                                        <div class="row">
+                                            <h4> สรุปค่าใช้จ่ายในการให้บริการ</h4>
+                                            <input class="btn btn-primary" type="submit" id="btnCalculateTotalPrice" name="btnCalculateTotalPrice" value="คำนวณค่าใช้จ่าย" />
+                                            <div class="">
+                                                <div class="col-md-12">
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <hr />
+                                        <table class="table table-responsive table-hover">
+
+                                            <tr>
+                                                <th style="background-color:lightgrey" colspan="2">ประเภทของการให้บริการ</th>
+                                            </tr>
+                                            <tr>
+                                                <td><label>ค่าใช้จ่ายส่วนของช่างถ่ายภาพ</label></td>
+                                                <td class="text-right"><label id="lblEstimateCost" class="control-label"> 0.00 บาท</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>ค่าใช้จ่ายส่วนของชิ้นงาน</label></td>
+                                                <td class="text-right"><label id="lblEstimateCost" class="control-label"> 0.00 บาท</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>ค่าใช้จ่ายส่วนของสถานที่ถ่ายภาพ</label></td>
+                                                <td class="text-right"><label id="lblEstimateCost" class="control-label"> 0.00 บาท</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>ค่าใช้จ่ายส่วนของการจัดจ้าง</label></td>
+                                                <td class="text-right"><label id="lblEstimateCost" class="control-label"> 0.00 บาท</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>ค่าใช้จ่ายส่วนของอุปกรณ์ถ่ายภาพ</label></td>
+                                                <td class="text-right"><label id="lblEstimateCost" class="control-label"> 0.00 บาท</label></td>
+                                            </tr>
+                                        </table>
+
+                                        <table class="table table-hover">
+                                            <tr>
+                                                <th colspan="2" style="background-color:lightgrey">รวมค่าใช้จ่าย</th>
+                                            </tr>
+                                            <tr>
+                                                <td><label id="lblEstimateContext">ค่าใช้จ่ายเบื้องต้น</label></td>
+                                                <td class="text-right"><label id="lblEstimateCost" class="control-label"> 0.00 บาท</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label id="lblPromotionContext">โปรโมชั่นที่เลือกไว้</label></td>
+                                                <td class="text-right"><label id="lblPromotionSelected" class="control-label"> - </label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label id="lblPromotionDiscountContext">ส่วนลด </label></td>
+                                                <td class="text-right"><label id="lblPromotionDiscount" class="control-label"> - </label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label id="lblTotalCostContext">ค่าใช้จ่ายก่อนหักภาษี </label></td>
+                                                <td class="text-right"><label id="lblTotalCost" class="control-label">0.00 บาท</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label>ภาษี </label></td>
+                                                <td class="text-right"><label class="control-label text-right">10%</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label id="lblTotalWithTAXContext">ราคารวม </label></td>
+                                                <td class="text-right"><label id="lblTotalCostWithTAX" class="control-label">0.00 บาท</label></td>
+                                            </tr>
+
+                                        </table>*@
+
+                                        @*<div class="form-horizontal">
                                             <div class="form-group-sm">
 
                                                 <label id="lblEstimateContext" class="control-label col-sm-6">ค่าใช้จ่ายเบื้องต้น</label>
@@ -363,13 +451,14 @@
                                                 <div class="col-md-12">
                                                     <br />
                                                     <input class="btn-primary" type="submit" id="btnCalculateTotalPrice" name="btnCalculateTotalPrice" value="คำนวณค่าใช้จ่าย" />
+                                                    <button type="button" id="btnGenReport" class="btn btn-default"><span class="glyphicon glyphicon-star"></span>สร้างรายงานการให้บริการ</button>
                                                 </div>
 
                                             </div>
-                                        </div>
-                                    }
+                                        </div>*@
+                                    @*}
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                 </div>
@@ -401,6 +490,32 @@
                 <button id="btnCancelPattern" type="button" class="btn btn-default"
                         data-dismiss="modal">
                     Close
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="SrvPriceReport" tabindex="-1" role="dialog"
+     aria-labelledby="SrvService" aria-hidden="true" data-url='' data-servicetype="">
+    <div class="modal-dialog modal-lg" style="width:90%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="SrvPattern">
+                   รายงานค่าใช้จ่ายในการดำเนินงาน
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="SrvBody"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancelPattern" type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                    ปิดหน้าต่าง
                 </button>
             </div>
         </div><!-- /.modal-content -->

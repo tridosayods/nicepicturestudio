@@ -9,7 +9,80 @@
             UpdateTargetId = "divServicesTotalPriceSection"
         }))
         {
-            <div class="form-horizontal">
+            <br />
+            <div class="row">
+                <h4><span class="glyphicon glyphicon-shopping-cart "></span> สรุปค่าใช้จ่ายในการให้บริการ</h4>
+                <input class="btn btn-primary" type="submit" id="btnCalculateTotalPrice" name="btnCalculateTotalPrice" value="คำนวณค่าใช้จ่าย" />
+                <button type="button" id="btnGenReport" class="btn btn-default" onclick="window.open('@Url.Action("ServicesCostReport", "Services", ViewBag.ServiceIdSelected)')"><span class="glyphicon glyphicon-star"></span>สร้างรายงานการให้บริการ</button>
+                <div class="">
+                    <div class="col-md-12">
+                        
+                    </div>
+                </div>
+            
+
+             </div>
+            <hr />
+            <table class="table table-responsive table-hover">
+                
+                <tr>
+                        <th style="background-color:lightgrey" colspan="2">ค่าใช้จ่ายในแต่ละประเภทของบริการ</th>
+                        @*<th style="background-color:lightgrey">ค่าใช้จ่าย</th>*@
+                </tr>
+                <tr>
+                    <td><label>ค่าใช้จ่ายส่วนของช่างถ่ายภาพ</label></td>
+                    <td class="text-right"><label id="lblEstimateCost" class="control-label"> @Model.PhotoGraphPriceText บาท</label></td>
+                </tr>
+                <tr>
+                    <td><label>ค่าใช้จ่ายส่วนของชิ้นงาน</label></td>
+                    <td class="text-right"><label id="lblEstimateCost" class="control-label"> @Model.OutputPriceText บาท</label></td>
+                </tr>
+                <tr>
+                    <td><label>ค่าใช้จ่ายส่วนของสถานที่ถ่ายภาพ</label></td>
+                    <td class="text-right"><label id="lblEstimateCost" class="control-label"> @Model.LocationPriceText บาท</label></td>
+                </tr>
+                <tr>
+                    <td><label>ค่าใช้จ่ายส่วนของการจัดจ้าง</label></td>
+                    <td class="text-right"><label id="lblEstimateCost" class="control-label"> @Model.OutsourcePriceText บาท</label></td>
+                </tr>
+                <tr>
+                    <td><label>ค่าใช้จ่ายสำหรับการดำเนินงานนอกสถานที่</label></td>
+                    <td class="text-right"><label id="lblEstimateCost" class="control-label"> @Model.OutingOverallText บาท</label></td>
+                </tr>
+            </table>
+
+            <table class="table table-hover">
+                <tr>
+                    <th colspan="2" style="background-color:lightgrey">ค่าใช้จ่ายทั้งหมด</th>
+                </tr>
+                <tr>
+                    <td><label id="lblEstimateContext">ค่าใช้จ่ายเบื้องต้น</label></td>
+                    <td class="text-right"><label id="lblEstimateCost" class="control-label"> @Model.EstimatePrice บาท</label></td>
+                </tr>
+                <tr>
+                    <td><label id="lblPromotionContext">โปรโมชั่นที่เลือกไว้</label></td>
+                    <td class="text-right"><label id="lblPromotionSelected" class="control-label">@Model.PromotionName </label></td>
+                </tr>
+                <tr>
+                    <td><label id="lblPromotionDiscountContext">ส่วนลด </label></td>
+                    <td class="text-right"><label id="lblPromotionDiscount" class="control-label"> @Model.PromotionDiscount </label></td>
+                </tr>
+                <tr>
+                    <td><label id="lblTotalCostContext">ค่าใช้จ่ายก่อนหักภาษี </label></td>
+                    <td class="text-right"><label id="lblTotalCost" class="control-label">@Model.TotalPriceBeforeTax บาท</label></td>
+                </tr>
+                <tr>
+                    <td><label>ภาษี </label></td>
+                    <td class="text-right"><label class="control-label text-right">10%</label></td>
+                </tr>
+                <tr>
+                    <td><label id="lblTotalWithTAXContext">ราคารวม </label></td>
+                    <td class="text-right"><label id="lblTotalCostWithTAX" class="control-label">@Model.TotalPrice บาท</label></td>
+                </tr>
+
+            </table>
+               
+            @*<div class="form-horizontal">
                 <div class="form-group-sm">
 
                     <label id="lblEstimateContext" class="control-label col-sm-6">ค่าใช้จ่ายเบื้องต้น</label>
@@ -70,7 +143,7 @@
                     </div>
 
                 </div>
-            </div>
+            </div>*@
         }
     </div>
 </div>

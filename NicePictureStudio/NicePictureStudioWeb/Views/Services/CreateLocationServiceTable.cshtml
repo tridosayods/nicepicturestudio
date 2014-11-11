@@ -17,7 +17,7 @@
                         {
                             <td>No</td>
                             <td>-</td> }
-                        <td>@item.Price</td>
+                        <td>@item.Price.Value.ToString("#,#0.00 บาท")</td>
                         <td>@Ajax.ActionLink("Remove", "RemoveLocation", new { Id = @item.Id, serviceType = @ViewBag.LocationServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblLocation" })</td>
                     </tr>
                 }

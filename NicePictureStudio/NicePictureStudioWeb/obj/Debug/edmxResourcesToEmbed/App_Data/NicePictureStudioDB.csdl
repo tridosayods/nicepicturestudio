@@ -283,7 +283,7 @@
     <Property Name="BuildingBlock" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Road" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Subdistrict" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="District" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="District" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Province" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="CoupleEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />

@@ -14,37 +14,29 @@ namespace NicePictureStudioReporting
             Telerik.Reporting.Drawing.StyleRule styleRule1 = new Telerik.Reporting.Drawing.StyleRule();
             this.detail = new Telerik.Reporting.DetailSection();
             this.textBox1 = new Telerik.Reporting.TextBox();
-            this.textBox2 = new Telerik.Reporting.TextBox();
             this.textBox3 = new Telerik.Reporting.TextBox();
             this.sqlDataSource1 = new Telerik.Reporting.SqlDataSource();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // detail
             // 
-            this.detail.Height = Telerik.Reporting.Drawing.Unit.Inch(0.40003934502601624D);
+            this.detail.Height = Telerik.Reporting.Drawing.Unit.Inch(0.4000394344329834D);
             this.detail.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
             this.textBox1,
-            this.textBox2,
             this.textBox3});
             this.detail.Name = "detail";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(1.2000789642333984D), Telerik.Reporting.Drawing.Unit.Inch(3.9339065551757812E-05D));
+            this.textBox1.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(3.9418537198798731E-05D), Telerik.Reporting.Drawing.Unit.Inch(3.9339065551757812E-05D));
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.2000001668930054D), Telerik.Reporting.Drawing.Unit.Inch(0.40000009536743164D));
+            this.textBox1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(2.4000003337860107D), Telerik.Reporting.Drawing.Unit.Inch(0.40000009536743164D));
             this.textBox1.Value = "=Fields.Name";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(0D), Telerik.Reporting.Drawing.Unit.Inch(0D));
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.2000000476837158D), Telerik.Reporting.Drawing.Unit.Inch(0.40000000596046448D));
-            this.textBox2.Value = "=Fields.Expr1";
             // 
             // textBox3
             // 
-            this.textBox3.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(2.4001579284667969D), Telerik.Reporting.Drawing.Unit.Inch(0D));
+            this.textBox3.Format = "{0:#,##0.00 บาท}";
+            this.textBox3.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(2.4001185894012451D), Telerik.Reporting.Drawing.Unit.Inch(0D));
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.2000001668930054D), Telerik.Reporting.Drawing.Unit.Inch(0.40000009536743164D));
             this.textBox3.Value = "=Fields.Price";
@@ -85,7 +77,6 @@ namespace NicePictureStudioReporting
 
         private Telerik.Reporting.DetailSection detail;
         private Telerik.Reporting.TextBox textBox1;
-        private Telerik.Reporting.TextBox textBox2;
         private Telerik.Reporting.TextBox textBox3;
         private Telerik.Reporting.SqlDataSource sqlDataSource1;
     }

@@ -1,6 +1,6 @@
 namespace NicePictureStudioReporting
 {
-    partial class SubReportPHServices
+    partial class SubReportOutsourceServices
     {
         #region Component Designer generated code
         /// <summary>
@@ -9,64 +9,58 @@ namespace NicePictureStudioReporting
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SubReportPHServices));
-            Telerik.Reporting.ReportParameter reportParameter1 = new Telerik.Reporting.ReportParameter();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SubReportOutsourceServices));
             Telerik.Reporting.Drawing.StyleRule styleRule1 = new Telerik.Reporting.Drawing.StyleRule();
             Telerik.Reporting.Drawing.StyleRule styleRule2 = new Telerik.Reporting.Drawing.StyleRule();
             Telerik.Reporting.Drawing.StyleRule styleRule3 = new Telerik.Reporting.Drawing.StyleRule();
             Telerik.Reporting.Drawing.DescendantSelector descendantSelector1 = new Telerik.Reporting.Drawing.DescendantSelector();
             Telerik.Reporting.Drawing.StyleRule styleRule4 = new Telerik.Reporting.Drawing.StyleRule();
             Telerik.Reporting.Drawing.DescendantSelector descendantSelector2 = new Telerik.Reporting.Drawing.DescendantSelector();
-            this.detailSection1 = new Telerik.Reporting.DetailSection();
-            this.textBox1 = new Telerik.Reporting.TextBox();
-            this.textBox3 = new Telerik.Reporting.TextBox();
-            this.NicePictureStudio = new Telerik.Reporting.SqlDataSource();
+            this.detail = new Telerik.Reporting.DetailSection();
+            this.sqlDataSource1 = new Telerik.Reporting.SqlDataSource();
+            this.textBox7 = new Telerik.Reporting.TextBox();
+            this.textBox8 = new Telerik.Reporting.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
-            // detailSection1
+            // detail
             // 
-            this.detailSection1.Height = Telerik.Reporting.Drawing.Unit.Inch(0.30000004172325134D);
-            this.detailSection1.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
-            this.textBox1,
-            this.textBox3});
-            this.detailSection1.Name = "detailSection1";
+            this.detail.Height = Telerik.Reporting.Drawing.Unit.Inch(0.40003952383995056D);
+            this.detail.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
+            this.textBox7,
+            this.textBox8});
+            this.detail.Name = "detail";
             // 
-            // textBox1
+            // sqlDataSource1
             // 
-            this.textBox1.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(3.9418537198798731E-05D), Telerik.Reporting.Drawing.Unit.Inch(3.9339065551757812E-05D));
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(2.4000394344329834D), Telerik.Reporting.Drawing.Unit.Inch(0.29996070265769958D));
-            this.textBox1.Value = "=Fields.Expr1";
+            this.sqlDataSource1.ConnectionString = "NicePictureStudioReporting.Properties.Settings.NicePictureStudioDB";
+            this.sqlDataSource1.Name = "sqlDataSource1";
+            this.sqlDataSource1.Parameters.AddRange(new Telerik.Reporting.SqlDataSourceParameter[] {
+            new Telerik.Reporting.SqlDataSourceParameter("@ServiceFormId", System.Data.DbType.String, "3")});
+            this.sqlDataSource1.SelectCommand = resources.GetString("sqlDataSource1.SelectCommand");
             // 
-            // textBox3
+            // textBox7
             // 
-            this.textBox3.Format = "{0:#,##0.00 บาท}";
-            this.textBox3.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(2.4001579284667969D), Telerik.Reporting.Drawing.Unit.Inch(3.9339065551757812E-05D));
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.2000001668930054D), Telerik.Reporting.Drawing.Unit.Inch(0.29996070265769958D));
-            this.textBox3.Value = "=Fields.Price";
+            this.textBox7.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(3.9418537198798731E-05D), Telerik.Reporting.Drawing.Unit.Inch(0D));
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(2.3998422622680664D), Telerik.Reporting.Drawing.Unit.Inch(0.3999999463558197D));
+            this.textBox7.Value = "=Fields.Name";
             // 
-            // NicePictureStudio
+            // textBox8
             // 
-            this.NicePictureStudio.ConnectionString = "NicePictureStudioReporting.Properties.Settings.NicePictureStudioDB";
-            this.NicePictureStudio.Name = "NicePictureStudio";
-            this.NicePictureStudio.Parameters.AddRange(new Telerik.Reporting.SqlDataSourceParameter[] {
-            new Telerik.Reporting.SqlDataSourceParameter("@ServiceFormId", System.Data.DbType.String, "=Parameters.ServiceFormId.Value")});
-            this.NicePictureStudio.SelectCommand = resources.GetString("NicePictureStudio.SelectCommand");
+            this.textBox8.Format = "{0:#,##0.00}";
+            this.textBox8.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(2.3999605178833008D), Telerik.Reporting.Drawing.Unit.Inch(3.9418537198798731E-05D));
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.1000001430511475D), Telerik.Reporting.Drawing.Unit.Inch(0.40000009536743164D));
+            this.textBox8.Value = "=Fields.Price";
             // 
-            // SubReportPHServices
+            // SubReportOutsourceServices
             // 
-            this.DataSource = this.NicePictureStudio;
+            this.DataSource = this.sqlDataSource1;
             this.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
-            this.detailSection1});
-            this.Name = "SubReportPHServices";
+            this.detail});
+            this.Name = "SubReportOutsourceServices";
             this.PageSettings.Margins = new Telerik.Reporting.Drawing.MarginsU(Telerik.Reporting.Drawing.Unit.Inch(1D), Telerik.Reporting.Drawing.Unit.Inch(1D), Telerik.Reporting.Drawing.Unit.Inch(1D), Telerik.Reporting.Drawing.Unit.Inch(1D));
             this.PageSettings.PaperKind = System.Drawing.Printing.PaperKind.Letter;
-            reportParameter1.Name = "ServiceFormId";
-            reportParameter1.Text = "ServiceFormId";
-            reportParameter1.Type = Telerik.Reporting.ReportParameterType.Integer;
-            reportParameter1.Value = "10";
-            this.ReportParameters.Add(reportParameter1);
             styleRule1.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
             new Telerik.Reporting.Drawing.TypeSelector(typeof(Telerik.Reporting.TextItemBase)),
             new Telerik.Reporting.Drawing.TypeSelector(typeof(Telerik.Reporting.HtmlTextBox))});
@@ -106,16 +100,15 @@ namespace NicePictureStudioReporting
             styleRule2,
             styleRule3,
             styleRule4});
-            this.Width = Telerik.Reporting.Drawing.Unit.Inch(3.6001975536346436D);
+            this.Width = Telerik.Reporting.Drawing.Unit.Inch(3.5D);
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
         #endregion
 
-        private Telerik.Reporting.DetailSection detailSection1;
-        private Telerik.Reporting.SqlDataSource NicePictureStudio;
-        private Telerik.Reporting.TextBox textBox1;
-        private Telerik.Reporting.TextBox textBox3;
-
+        private Telerik.Reporting.DetailSection detail;
+        private Telerik.Reporting.SqlDataSource sqlDataSource1;
+        private Telerik.Reporting.TextBox textBox7;
+        private Telerik.Reporting.TextBox textBox8;
     }
 }

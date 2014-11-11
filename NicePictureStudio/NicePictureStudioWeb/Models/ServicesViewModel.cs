@@ -476,6 +476,16 @@ namespace NicePictureStudio.Models
         private bool hasPromotion;
         private PromotionViewModel currentPromotion;
 
+        public string OutingPreWeddingPriceText { get; set; }
+        public string OutingEngagementPriceText { get; set; }
+        public string OutingWeddingPriceText { get; set; }
+        public string OutingOverallText { get; set; }
+
+        public decimal OutingPreWeddingNetPrice { get; set; }
+        public decimal OutingEngagementNetPrice { get; set; }
+        public decimal OutingWeddingNetPrice { get; set; }
+        public decimal OutingOverallNetPrice { get; set; }
+
         public string PhotoGraphPriceText { get; set; }
         public string EquipmentPriceText { get; set; }
         public string LocationPriceText { get; set; }
@@ -529,7 +539,8 @@ namespace NicePictureStudio.Models
         }
 
 
-        public void CalculateCurrentPrice(decimal PhotographPrice, decimal EquipmentPrice, decimal LocationPrice, decimal OutsourcePrice, decimal OutputPrice)
+        public void CalculateCurrentPrice(decimal PhotographPrice, decimal EquipmentPrice, decimal LocationPrice, decimal OutsourcePrice, decimal OutputPrice,
+            decimal OutingPreWedding, decimal OutingEngagement, decimal OutingWedding)
         {
             decimal _photoGraphPrice = PhotographPrice;
             decimal _equipmentPrice = EquipmentPrice;
@@ -539,22 +550,38 @@ namespace NicePictureStudio.Models
             decimal _totalPriceBeforeTax = 0;
             decimal _totalVat = 0;
 
+            decimal _outingPreWedding = OutingPreWedding;
+            decimal _outingEngagement = OutingEngagement;
+            decimal _outingWedding = OutingWedding;
+            decimal _overallOuting = _outingPreWedding + _outingEngagement + _outingWedding;
+
             PhotoNetPrice = PhotographPrice;
             EquipmentNetPrice = EquipmentPrice;
             LocationNetPrice = LocationPrice;
             OutsourceNetPrice = OutsourcePrice;
             OutputNetPrice = OutputPrice;
 
-            PhotoGraphPriceText = PhotographPrice.ToString("0,0.000");
-            EquipmentPriceText = EquipmentPrice.ToString("0,0.000");
-            LocationPriceText = LocationPrice.ToString("0,0.000");
-            OutsourcePriceText = OutsourceNetPrice.ToString("0,0.000");
-            OutputPriceText = OutputPrice.ToString("0,0.000");
+            OutingPreWeddingNetPrice = _outingPreWedding;
+            OutingEngagementNetPrice = _outingEngagement;
+            OutingWeddingNetPrice = _outingWedding;
+            OutingOverallNetPrice = _overallOuting;
+
+            PhotoGraphPriceText = PhotographPrice.ToString("0,0.00");
+            EquipmentPriceText = EquipmentPrice.ToString("0,0.00");
+            LocationPriceText = LocationPrice.ToString("0,0.00");
+            OutsourcePriceText = OutsourceNetPrice.ToString("0,0.00");
+            OutputPriceText = OutputPrice.ToString("0,0.00");
+
+            OutingPreWeddingPriceText = OutingPreWeddingNetPrice.ToString("0,0.00");
+            OutingEngagementPriceText = OutingEngagementNetPrice.ToString("0,0.00");
+            OutingWeddingPriceText = OutingWeddingNetPrice.ToString("0,0.00");
+            OutingOverallText = OutingOverallNetPrice.ToString("0,0.00");
             
             if (hasPromotion)
             {
 
-                EstimatePrice = (PhotographPrice + EquipmentPrice + LocationPrice + OutsourcePrice + OutputPrice).ToString("0,0.000", CultureInfo.CurrentCulture);
+                EstimatePrice = (PhotographPrice + EquipmentPrice + LocationPrice + OutsourcePrice + OutputPrice + OutingPreWeddingNetPrice+
+                    OutingEngagementNetPrice + OutingWeddingNetPrice).ToString("0,0.00", CultureInfo.CurrentCulture);
                 PromotionName = currentPromotion.PromotionName();
                 PromotionDiscount = ((currentPromotion.PhotoGraphDiscount + currentPromotion.EquipmentDiscount +
                                                    currentPromotion.LocationDiscount + currentPromotion.OutsourceDiscount + currentPromotion.OutputDiscount) / (decimal)500).ToString("P");
@@ -565,22 +592,19 @@ namespace NicePictureStudio.Models
                     + (OutputPrice - (OutputPrice * currentPromotion.OutputDiscount / (decimal)100))
                     );
                 PriceWithoutTax = _totalPriceBeforeTax;
-                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("0,0.000", CultureInfo.CurrentCulture);
+                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("0,0.00", CultureInfo.CurrentCulture);
                 _totalVat = (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
                 NetPriceWithoutTax = _totalPriceBeforeTax + _totalVat;
-                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("0,0.000", CultureInfo.CurrentCulture);
+                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("0,0.00", CultureInfo.CurrentCulture);
             }
             else
             {
-                EstimatePrice = (PhotographPrice + EquipmentPrice + LocationPrice + OutsourcePrice + OutputPrice).ToString("C2", CultureInfo.CurrentCulture);
+                EstimatePrice = (PhotographPrice + EquipmentPrice + LocationPrice + OutsourcePrice + OutputPrice
+                    + OutingPreWeddingNetPrice + OutingEngagementNetPrice + OutingWeddingNetPrice).ToString("C2", CultureInfo.CurrentCulture);
                 PromotionName = PromotionDefaultName;
                 PromotionDiscount = PromotionDiscountDefaultName;
-                _totalPriceBeforeTax = ((PhotographPrice)
-                    + (EquipmentPrice)
-                    + (LocationPrice)
-                    + (OutsourcePrice)
-                    + (OutputPrice)
-                    );
+                _totalPriceBeforeTax = (PhotographPrice + EquipmentPrice + LocationPrice + OutsourcePrice + OutputPrice
+                    + OutingPreWeddingNetPrice + OutingEngagementNetPrice + OutingWeddingNetPrice);
                 PriceWithoutTax = _totalPriceBeforeTax;
                 TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
                 _totalVat = _totalPriceBeforeTax - (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
@@ -600,7 +624,8 @@ namespace NicePictureStudio.Models
                 PromotionName = currentPromotion.PromotionName();
                 PromotionDiscount = ((currentPromotion.PhotoGraphDiscount + currentPromotion.EquipmentDiscount +
                                                    currentPromotion.LocationDiscount + currentPromotion.OutsourceDiscount + currentPromotion.OutputDiscount) / (decimal)500).ToString("P");
-                _totalPriceBeforeTax = ((decimal)netPrice - ((decimal)netPrice * currentPromotion.OutputDiscount / (decimal)100));
+                //_totalPriceBeforeTax = ((decimal)netPrice - ((decimal)netPrice * currentPromotion.OutputDiscount / (decimal)100));
+                _totalPriceBeforeTax = ((decimal)estimatePrice - ((decimal)estimatePrice * currentPromotion.OutputDiscount / (decimal)100));
                 PriceWithoutTax = _totalPriceBeforeTax;
                 TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
                 _totalVat = (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
@@ -612,7 +637,8 @@ namespace NicePictureStudio.Models
                 EstimatePrice = estimatePrice.Value.ToString("C2", CultureInfo.CurrentCulture);
                 PromotionName = PromotionDefaultName;
                 PromotionDiscount = PromotionDiscountDefaultName;
-                _totalPriceBeforeTax = (decimal)netPrice;
+                //_totalPriceBeforeTax = (decimal)netPrice;
+                _totalPriceBeforeTax = (decimal)estimatePrice;
                 PriceWithoutTax = _totalPriceBeforeTax;
                 TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
                 _totalVat = (_totalPriceBeforeTax * (decimal)10 / (decimal)100);

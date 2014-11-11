@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d1b6a36b3623465492412af731b07f40" Name="Diagram1" ZoomLevel="34" >
+      <Diagram DiagramId="d1b6a36b3623465492412af731b07f40" Name="Diagram1" ZoomLevel="74" >
         <EntityTypeShape EntityType="NicePictureStudioDBModel.C__MigrationHistory" Width="1.875" PointX="30" PointY="0.75" IsExpanded="false" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.Booking" Width="1.75" PointX="22.625" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.BookingStatu" Width="1.5" PointX="19.625" PointY="3.75" />
@@ -23,7 +23,7 @@
         <EntityTypeShape EntityType="NicePictureStudioDBModel.OutsourceContact" Width="1.875" PointX="25.5" PointY="12" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.OutsourceSchedule" Width="2" PointX="13.5" PointY="12.125" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.OutsourceService" Width="2" PointX="25.5" PointY="16.625" />
-        <EntityTypeShape EntityType="NicePictureStudioDBModel.OutsourceServiceType" Width="1.5" PointX="22.5" PointY="12.125" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.OutsourceServiceType" Width="2" PointX="22" PointY="12.125" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.OutsourceStatu" Width="1.5" PointX="22.5" PointY="9.875" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.PhotographService" Width="2" PointX="9.875" PointY="0.5" />
         <EntityTypeShape EntityType="NicePictureStudioDBModel.Promotion" Width="1.5" PointX="6.875" PointY="0.5" />

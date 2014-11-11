@@ -118,14 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="sqlDataSource1.ParameterValues" xml:space="preserve">
-    <value>{@ServiceFormId:2}</value>
+    <value>{@ServiceFormId:3}</value>
   </metadata>
   <data name="sqlDataSource1.SelectCommand" xml:space="preserve">
-    <value>SELECT        OutsourceService.Name, OutsourceService.Price, ServiceForm.Name AS Expr1
+    <value>SELECT        OutputService.Name, OutputService.Price, ServiceForm.Name AS Expr1
 FROM            ServiceForm INNER JOIN
-                         OutsourceServiceTiming ON ServiceForm.Id = OutsourceServiceTiming.ServiceFormId INNER JOIN
-                         OutsourceSchedule ON OutsourceServiceTiming.OutsourceScheduleId = OutsourceSchedule.Id INNER JOIN
-                         OutsourceService ON OutsourceSchedule.OutsourceServiceId = OutsourceService.Id
+                         OutputServiceTiming ON ServiceForm.Id = OutputServiceTiming.ServiceFormId INNER JOIN
+                         OutputSchedule ON OutputServiceTiming.OutputScheduleId = OutputSchedule.Id INNER JOIN
+                         OutputService ON OutputSchedule.OutputServiceId = OutputService.Id
 WHERE        (ServiceForm.Id = @ServiceFormId)</value>
   </data>
 </root>

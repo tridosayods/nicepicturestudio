@@ -1,0 +1,46 @@
+﻿@using NicePictureStudioReporting
+@{
+    ViewBag.Title = "ServicesCostReport";
+}
+
+<h2>รายงานค่าใช้จ่ายในการดำเนินงาน</h2>
+
+@section styles
+    {
+        <link href= @Url.Content("~/Scripts/ReportViewer/styles/telerikReportViewer-8.1.14.804.css") rel="stylesheet" />
+        <style>
+            #reportPricing {
+                position: absolute;
+                left: 5px;
+                right: 5px;
+                top: 50px;
+                bottom: 5px;
+                overflow: hidden;
+            }
+        </style>
+
+    }
+
+    @section scripts
+    {
+        <script src=@Url.Content("~/Scripts/ReportViewer/js/telerikReportViewer-8.1.14.804.js")></script>
+    }
+
+    @{
+        var typeReportSource = new TypeReportSource() { TypeName = typeof(ServicePricing).AssemblyQualifiedName };
+        typeReportSource.Parameters.Add("ServiceId", @ViewBag.ServiceId);
+    }
+
+    @(Html.TelerikReporting().ReportViewer()
+            .Id("reportPricing")
+            .ServiceUrl("/api/reports/")
+            .TemplateUrl(@Url.Content("~/Scripts/ReportViewer/templates/telerikReportViewerTemplate-8.1.14.804.html"))
+            //.ReportSource(new TypeReportSource() { TypeName = typeof(CRMCustomerRelationReport).AssemblyQualifiedName})
+            .ReportSource(typeReportSource)
+            .ViewMode(ViewModes.PRINT_PREVIEW)
+            .ScaleMode(ScaleModes.SPECIFIC)
+            .Scale(1.0)
+            .PersistSession(true)
+
+
+    )

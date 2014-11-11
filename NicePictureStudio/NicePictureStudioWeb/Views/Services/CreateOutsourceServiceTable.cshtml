@@ -10,7 +10,15 @@
                         <td>@item.Name</td>
                         <td>@item.Description</td>
                         <td>@item.PortFolioURL</td>
-                        <td>@item.Price</td>
+                        @if (@item.Price == null)
+                        {
+                            <td>0.00 บาท</td>
+                        }
+                        else
+                        {
+                            <td>@item.Price.Value.ToString("#,#0.00 บาท")</td>
+                        }
+                      
                         <td>@Ajax.ActionLink("Remove", "RemoveOutsource", new { Id = @item.Id, serviceType = @ViewBag.OutsourceServiceType }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblOutsource" })</td>
                     </tr>
                 }

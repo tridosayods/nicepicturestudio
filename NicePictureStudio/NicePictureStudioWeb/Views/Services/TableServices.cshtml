@@ -1,5 +1,6 @@
 ﻿<div id="tblServiceFormSummary">
-
+   
+    <input type="hidden" id="ServiceID" name="ServiceID" value="@ViewBag.ServiceIdSelected" />
     @if (@ViewBag.ServicesListSummary != null)
     {
         <table class="table table-bordered">
@@ -16,18 +17,19 @@
                     <td>@item.ServiceType.ServiceTypeName</td>
                     <td>@item.EventStart</td>
                     <td>@item.EventEnd</td>
-                    <td>@item.ServicePrice</td>
-                    <td><button onclick="OpenServiceDialog(@item.Id)" type="button" value="Details"></button></td>
+                    <td>@item.ServicePrice.Value.ToString("#,#0.00") บาท</td>
+                    <td><button onclick="OpenServiceDialog(@item.Id)" type="button" class="btn-default" value="Details"><span class="glyphicon glyphicon-edit"></span>แก้ไข</button></td>
                 </tr>
             }
         </table>
+     <hr />
     }
 
 </div>
 
 <script type="text/javascript">
     function OpenServiceDialog(id) {
-        alert(id);
+        //alert(id);
         var url = '@Url.Action("ServicesNavigationOverallWhenEdit", "Services")';
         var data = { id : id };
         $.get(url, data, function (data) {

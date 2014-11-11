@@ -26,7 +26,7 @@ namespace NicePictureStudioReporting
             this.subReportEquipmentServices1 = new NicePictureStudioReporting.SubReportEquipmentServices();
             this.subReportOutputServices1 = new NicePictureStudioReporting.SubReportOutputServices();
             this.subReportLocationServices1 = new NicePictureStudioReporting.SubReportLocationServices();
-            this.subReportOutsource1 = new NicePictureStudioReporting.SubReportOutsource();
+            this.subReportOutsource1 = new NicePictureStudioReporting.SubReportOutsourceServices();
             this.detail = new Telerik.Reporting.DetailSection();
             this.textBox1 = new Telerik.Reporting.TextBox();
             this.textBox2 = new Telerik.Reporting.TextBox();
@@ -69,7 +69,7 @@ namespace NicePictureStudioReporting
             // 
             // detail
             // 
-            this.detail.Height = Telerik.Reporting.Drawing.Unit.Inch(3.5D);
+            this.detail.Height = Telerik.Reporting.Drawing.Unit.Inch(3D);
             this.detail.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
             this.textBox1,
             this.textBox2,
@@ -86,10 +86,10 @@ namespace NicePictureStudioReporting
             // 
             // textBox1
             // 
-            this.textBox1.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(1.000078558921814D), Telerik.Reporting.Drawing.Unit.Inch(3.9418537198798731E-05D));
+            this.textBox1.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(1.6000789403915405D), Telerik.Reporting.Drawing.Unit.Inch(3.9418537198798731E-05D));
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.2000000476837158D), Telerik.Reporting.Drawing.Unit.Inch(0.20000004768371582D));
-            this.textBox1.Value = "=Fields.Id";
+            this.textBox1.Value = "= Fields.Expr1";
             // 
             // textBox2
             // 
@@ -161,8 +161,8 @@ namespace NicePictureStudioReporting
             // 
             this.textBox4.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Inch(0.299999862909317D), Telerik.Reporting.Drawing.Unit.Inch(3.9339065551757812E-05D));
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(0.69999980926513672D), Telerik.Reporting.Drawing.Unit.Inch(0.20000012218952179D));
-            this.textBox4.Value = "ประเภทการบริการ : ";
+            this.textBox4.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Inch(1.3000001907348633D), Telerik.Reporting.Drawing.Unit.Inch(0.20000012218952179D));
+            this.textBox4.Value = "ประเภทบริการ : ";
             // 
             // shape2
             // 
@@ -254,7 +254,7 @@ namespace NicePictureStudioReporting
         private SubReportEquipmentServices subReportEquipmentServices1;
         private SubReportOutputServices subReportOutputServices1;
         private SubReportLocationServices subReportLocationServices1;
-        private SubReportOutsource subReportOutsource1;
+        private SubReportOutsourceServices subReportOutsource1;
         private Telerik.Reporting.Shape shape1;
         private Telerik.Reporting.TextBox textBox3;
         private Telerik.Reporting.TextBox textBox4;
