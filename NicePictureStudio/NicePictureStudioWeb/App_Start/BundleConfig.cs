@@ -19,7 +19,8 @@ namespace NicePictureStudio
                        "~/Scripts/kendo/kendo.all.min.js",
                        "~/Scripts/kendo/kendo.timezones.min.js",
                        "~/Scripts/kendo/kendo.aspnetmvc.min.js",
-                         "~/Scripts/kendo/kendo.web.min.js"
+                         "~/Scripts/kendo/kendo.web.min.js",
+                         "~/Scripts/kendo/cultures/kendo.culture.th-TH.min.js"
                       
                        //"~/Scripts/kendo/kendo.mobile.min.js"
                        

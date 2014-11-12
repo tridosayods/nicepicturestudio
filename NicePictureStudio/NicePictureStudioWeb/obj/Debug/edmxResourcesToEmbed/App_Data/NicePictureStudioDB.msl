@@ -14,6 +14,8 @@
     <EntitySetMapping Name="Bookings">
       <EntityTypeMapping TypeName="NicePictureStudioDBModel.Booking">
         <MappingFragment StoreEntitySet="Booking">
+          <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+          <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
           <ScalarProperty Name="Surname" ColumnName="Surname" />
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Details" ColumnName="Details" />

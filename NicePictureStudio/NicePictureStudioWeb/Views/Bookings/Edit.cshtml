@@ -4,140 +4,259 @@
     ViewBag.Title = "แก้ไขรายการจอง";
 }
 
+<script type="text/javascript">
+    kendo.culture("th-TH");
+    $(document).ready(function () {
+        $(function () {
+            var scheduler = $("#AppointmentScheduler_Edit").data("kendoScheduler");
+            //$("#AppointmentDate").parent().css('width', '120px');
+            $("#AppointmentDate").css('width', '280px');
+            new Date()
+            $("#AppointmentDate").kendoDateTimePicker({
+                format: "dd/MM/yyyy hh:mm",
+                parseFormats: "dd/MM/yyyy hh:mm",
+                min: new Date('@DateTime.Now.Year', '@DateTime.Now.AddMonths(-1).Month', '@DateTime.Now.Day'),
+                //value: new Date(kendo.toString('@Model.AppointmentDate'), "dd/MM/yyyy hh:mm tt"),
+                change: function () {
+                    //alert(kendo.toString(new Date(this.value()), "MM/dd/yyyy"));
+                    scheduler.date(this.value());
+                    scheduler.view("day");
+                }
+            });
+
+        });
+
+        jQuery.validator.addMethod(
+                 'date',
+                 function (value, element, params) {
+                     if (this.optional(element)) {
+                         return true;
+                     };
+                     var result = false;
+                     try {
+                         var date = kendo.parseDate(value, "dd/MM/yyyy");
+                         result = true;
+                         if (!date) {
+                             result = false;
+                         }
+                     } catch (err) {
+                         result = false;
+                     }
+                     return result;
+                 },
+                 ''
+             );
+
+    });
+</script>
+
 <h2>แก้ไขรายการจอง</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    <table class="table table-responsive">
+        <tr>
+            <td class="col-sm-7">
+                <div class="form-horizontal">
+                    <h4>รายละเอียดรายการจองที่เลือกไว้</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+
+                    <div class="form-group">
+
+                        @Html.Label("คำนำหน้า*", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.Kendo().DropDownListFor(model => model.Title).Name("Title").BindTo(new string[] { "นาย", "นางสาว", "นาง" }).HtmlAttributes(new { @Style = "width:100px", @id = "Title" })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("ชื่อ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("นามสกุล*", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control", @id = "Surname" } })
+                            @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("หมายเลขการจอง", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.BookingCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.BookingCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("วันนัดพบ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @*@Html.EditorFor(model => model.AppointmentDate, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.Kendo().DateTimePickerFor(model => model.AppointmentDate).Name("AppointmentDate").Animation(true).Min(DateTime.Now).HtmlAttributes(new { @id="AppointmentDate"}).Format("dd/MM/yyyy hh:mm").ParseFormats(new string[] {"dd/MM/yyyy hh:mm"})
+                            @*@Html.ValidationMessageFor(model => model.AppointmentDate, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("เบอร์โทรศัพท์*", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.Kendo().MaskedTextBoxFor(model => model.ContactNumber).HtmlAttributes(new { @class = "form-control", @id = "ContactNumber", @Style = "width:280px" }).Mask("000-000-0000")
+                            @Html.ValidationMessageFor(model => model.ContactNumber, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("อีเมล*", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.Kendo().TextBoxFor(model => model.ContactEmail).HtmlAttributes(new { @class = "form-control", @id = "ContactEmail", @Style = "width:280px" })
+                            @Html.ValidationMessageFor(model => model.ContactEmail, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    @*<div class="form-group">
+                @Html.LabelFor(model => model.SpecialOrder, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SpecialOrder, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SpecialOrder, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+                    @*<div class="form-group">
+                        @Html.Label("คำขอร้องพิเศษ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.Kendo().MultiSelect().Name("SpecialOrder").BindTo(@ViewBag.SpecialOrder as MultiSelectList).HtmlAttributes(new { @Style = "width:280px", @id = "SpecialOrder" }).Value(@ViewBag.SelectedSpecialOrder as MultiSelectList)
+                        </div>
+                    </div>*@
+
+                    @*<div class="form-group">
+                @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+                    @*<div class="form-group">
+                        @Html.Label("หมายเหตุ", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Details, htmlAttributes: new { @class = "form-control", @rows = "5" })
+                            @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                    @*<div class="form-group">
+                @Html.LabelFor(model => model.BookingStatu, "BookingStatus", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("BookingStatus", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.BookingStatu, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+                    <div class="form-group">
+                        @Html.Label("สถานะการจอง", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @*@Html.DropDownList("BookingStatus", null, htmlAttributes: new { @class = "form-control" })*@
+                            @Html.Kendo().DropDownListFor(model => model.BookingStatu).Name("BookingStatus").BindTo(@ViewBag.BookingStatus as SelectList).HtmlAttributes(new { @id = "BookingStatus" })
+                            @Html.ValidationMessageFor(model => model.BookingStatu, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("เลือกโปรโมชั่น", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("PromotionId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Promotion.Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                @Html.LabelFor(model => model.Promotion, "PromotionId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("PromotionId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Promotion, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+                    @*<div class="form-group">
+                @Html.LabelFor(model => model.ServiceId, "ServiceId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ServiceId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ServiceId, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="submit" value="Save" class="btn btn-default">ยืนยันการแก้ไข</button>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td class="col-sm-5">
+            <td class="col-sm-5">
+                <!--Calendar for Booking-->
+                @(Html.Kendo().Scheduler<NicePictureStudio.Models.SchedulerViewModels>()
+                                     .Name("AppointmentScheduler_Edit")
+                                            .Date(@Model.AppointmentDate)
+                                            .StartTime(@Model.AppointmentDate)
+                                            .Height(800).Width(600)
+                                            .WorkDayEnd(20, 0, 0)
+                                            .ShowWorkHours(true)
+                                            .Views(views =>
+                                            {
+                                                views.MonthView();
+                                                views.DayView(dayview => dayview.Selected(true));
+                                            })
+                                                   .Editable(editable =>
+                                                    {
+                                                        editable.TemplateName("BookingTemplate");
+                                                        editable.Create(false);
+                                                        editable.Resize(false);
+                                                        editable.Destroy(false);
+                                                    })
+
+                                                .Resources(resource =>
+                                                {
+                                                    resource.Add(m => m.selectedStatus)
+                                                        .Title("Room")
+                                                        .DataTextField("Text")
+                                                        .DataValueField("Value")
+                                                        .DataColorField("Color")
+                                                        .BindTo(new[] {
+                                                            new { Text = "รายการจองใหม่", Value = 1, Color = "#CC0000" },
+                                                            new { Text = "เสร็จสิ้นการจอง", Value = 2, Color = "#3366CC" },
+                                                            new { Text = "ยกเลิกการจอง", Value = 3, Color = "#99CC93" }
+                                                        });
+
+                                                })
+                                                .DataSource(d => d
+                                                    .Model(m =>
+                                                    {
+                                                        m.Id(f => f.Id);
+                                                        m.Field(f => f.Title).DefaultValue("No title");
+
+                                                    })
+                                                    .Read("Appointments_Read", "Bookings")
+                                                    .Update("Appointments_Update", "Bookings")
+                                                )
+                )
+            </td>  
+            </td>
+        </tr>
+    </table>
     
-    <div class="form-horizontal">
-        <h4>รายละเอียดรายการจองที่เลือกไว้</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-
-            @Html.Label("คำนำหน้า*", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.Kendo().DropDownListFor(model=>model.Title).Name("Title").BindTo(new string[] { "นาย", "นางสาว", "นาง" }).HtmlAttributes(new { @Style = "width:100px", @id = "Title" })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        
-        <div class="form-group">
-            @Html.Label("ชื่อ", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("นามสกุล*", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model=>model.Surname, new { htmlAttributes = new { @class = "form-control", @id = "Surname" } })
-                @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
-            </div>
-
-        </div>
-
-        <div class="form-group">
-            @Html.Label("หมายเลขการจอง", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.BookingCode, new {  htmlAttributes = new { @class = "form-control",@readonly ="readonly" }})
-                @Html.ValidationMessageFor(model => model.BookingCode, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("วันนัดพบ", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.AppointmentDate, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.Kendo().DateTimePickerFor(model => model.AppointmentDate).Name("AppointmentDate").Animation(true).Min(DateTime.Now)
-                @Html.ValidationMessageFor(model => model.AppointmentDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.SpecialOrder, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SpecialOrder, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SpecialOrder, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        <div class="form-group">
-            @Html.Label("คำขอร้องพิเศษ", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.Kendo().DropDownList().Name("SpecialOrder").BindTo(@ViewBag.SpecialOrder as SelectList).HtmlAttributes(new { @Style = "width:250px", @id = "SpecialOrder" })*@
-                @Html.Kendo().MultiSelect().Name("SpecialOrder").BindTo(@ViewBag.SpecialOrder as MultiSelectList).HtmlAttributes(new { @Style = "width:250px", @id = "SpecialOrder" }).Value(@ViewBag.SelectedSpecialOrder as MultiSelectList)
-            </div>
-        </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        <div class="form-group">
-            @Html.Label("หมายเหตุ", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Details, htmlAttributes: new { @class = "form-control", @rows = "5" })
-                @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.BookingStatu, "BookingStatus", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("BookingStatus", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.BookingStatu, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        <div class="form-group">
-            @Html.Label("สถานะการจอง", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.DropDownList("BookingStatus", null, htmlAttributes: new { @class = "form-control" })*@
-                @Html.Kendo().DropDownListFor(model=>model.BookingStatu).Name("BookingStatus").BindTo(@ViewBag.BookingStatus as SelectList).HtmlAttributes(new {@id="BookingStatus" })
-                @Html.ValidationMessageFor(model => model.BookingStatu, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("เลือกโปรโมชั่น", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("PromotionId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Promotion.Id, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.Promotion, "PromotionId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("PromotionId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Promotion, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.ServiceId, "ServiceId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("ServiceId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ServiceId, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <button type="submit" value="Save" class="btn btn-default" >ยืนยันการแก้ไข</button>
-            </div>
-        </div>
-    </div>
 }
 
 <div>

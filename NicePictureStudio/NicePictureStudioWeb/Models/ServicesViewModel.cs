@@ -593,7 +593,7 @@ namespace NicePictureStudio.Models
                     );
                 PriceWithoutTax = _totalPriceBeforeTax;
                 TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("0,0.00", CultureInfo.CurrentCulture);
-                _totalVat = (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
+                _totalVat = (_totalPriceBeforeTax * (decimal)7 / (decimal)100);
                 NetPriceWithoutTax = _totalPriceBeforeTax + _totalVat;
                 TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("0,0.00", CultureInfo.CurrentCulture);
             }
@@ -624,11 +624,14 @@ namespace NicePictureStudio.Models
                 PromotionName = currentPromotion.PromotionName();
                 PromotionDiscount = ((currentPromotion.PhotoGraphDiscount + currentPromotion.EquipmentDiscount +
                                                    currentPromotion.LocationDiscount + currentPromotion.OutsourceDiscount + currentPromotion.OutputDiscount) / (decimal)500).ToString("P");
+                var promotionDigit = ((currentPromotion.PhotoGraphDiscount + currentPromotion.EquipmentDiscount +
+                                                    currentPromotion.LocationDiscount + currentPromotion.OutsourceDiscount + currentPromotion.OutputDiscount) / (decimal)500);
                 //_totalPriceBeforeTax = ((decimal)netPrice - ((decimal)netPrice * currentPromotion.OutputDiscount / (decimal)100));
-                _totalPriceBeforeTax = ((decimal)estimatePrice - ((decimal)estimatePrice * currentPromotion.OutputDiscount / (decimal)100));
+               // _totalPriceBeforeTax = ((decimal)estimatePrice - ((decimal)estimatePrice * currentPromotion.OutputDiscount / (decimal)100));
+                _totalPriceBeforeTax = ((decimal)estimatePrice - ((decimal)estimatePrice * promotionDigit));
                 PriceWithoutTax = _totalPriceBeforeTax;
                 TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
-                _totalVat = (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
+                _totalVat = (_totalPriceBeforeTax * (decimal)7 / (decimal)100);
                 NetPriceWithoutTax = _totalPriceBeforeTax + _totalVat;
                 TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("C2", CultureInfo.CurrentCulture);
             }
@@ -641,7 +644,7 @@ namespace NicePictureStudio.Models
                 _totalPriceBeforeTax = (decimal)estimatePrice;
                 PriceWithoutTax = _totalPriceBeforeTax;
                 TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
-                _totalVat = (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
+                _totalVat = (_totalPriceBeforeTax * (decimal)7 / (decimal)100);
                 NetPriceWithoutTax = _totalPriceBeforeTax + _totalVat;
                 TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("C2", CultureInfo.CurrentCulture);
             }

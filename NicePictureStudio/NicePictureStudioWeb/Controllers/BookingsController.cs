@@ -50,17 +50,83 @@ namespace NicePictureStudio
         public ActionResult BookingsNotConfirm_read([DataSourceRequest] DataSourceRequest request)
         {
             var bookings = db.Bookings.Include(b => b.BookingStatu).Include(b => b.Promotion).Include(b => b.Service).ToList();
-            var bookingNotConfirm = bookings.Where(book => book.BookingStatu.Id < Constant.BOOKING_STATUS_OPERATED);
-            IQueryable<BookingViewsModel> tasks = bookingNotConfirm.Select(task => new BookingViewsModel()
+            var currentDate = DateTime.Now;
+            //#1 Booking that not operated yet , almost due or overdeu => red warning
+            var bookingNotConfirm = bookings.Where(book => book.BookingStatu.Id < Constant.BOOKING_STATUS_OPERATED && (book.AppointmentDate - currentDate).TotalDays < 0).OrderBy(b=>b.AppointmentDate);
+            var lstBookingNotConfirm = new List<BookingViewsModel>();
+            foreach (var books in bookingNotConfirm)
             {
+                var booking = new BookingViewsModel
+                {
+                    Id = books.Id,  
+                    Name = books.Title + " " + books.Name + " " + books.Surname,
+                    AppointmentDate = books.AppointmentDate,
+                    BookingCode = books.BookingCode,
+                    BookingStatus = "เลยกำหนดนัดหมาย",
+                    Details = books.Details,
+                    PromotionName = books.Promotion == null ? string.Empty : books.Promotion.Name,
+                    ServiceName = books.Service == null ? string.Empty : books.Service.Customer.CustomerName
+                };
+                lstBookingNotConfirm.Add(booking);
+            }
+
+            var bookingTobeConfirm = bookings.Where(book => book.BookingStatu.Id < Constant.BOOKING_STATUS_OPERATED && (book.AppointmentDate - currentDate).TotalDays > 0 
+                && (book.AppointmentDate - currentDate).TotalDays <= 3).OrderBy(b => b.AppointmentDate);
+            var lstBookingTobeConfirm = new List<BookingViewsModel>();
+            foreach (var books in bookingTobeConfirm)
+            {
+                var booking = new BookingViewsModel
+                {
+                    Id = books.Id,
+                    Name = books.Title + " " + books.Name + " " + books.Surname,
+                    AppointmentDate = books.AppointmentDate,
+                    BookingCode = books.BookingCode,
+                    BookingStatus = "ใกล้ถึงเวลานัดหมาย",
+                    Details = books.Details,
+                    PromotionName = books.Promotion == null ? string.Empty : books.Promotion.Name,
+                    ServiceName = books.Service == null ? string.Empty : books.Service.Customer.CustomerName
+                };
+                lstBookingTobeConfirm.Add(booking);
+            }
+
+            //#2 Booking all in normal, asc
+            var bookingAlls = bookings.Where(book =>(book.AppointmentDate - currentDate).TotalDays > 3).OrderBy(b => b.AppointmentDate).OrderBy(b=>b.AppointmentDate);
+            var lstBookingNormalAlls = new List<BookingViewsModel>();
+            foreach (var books in bookingAlls)
+            {
+                var booking = new BookingViewsModel
+                {
+                    Id = books.Id,
+                    Name = books.Title + " " + books.Name + " " + books.Surname,
+                    AppointmentDate = books.AppointmentDate,
+                    BookingCode = books.BookingCode,
+                    BookingStatus = books.BookingStatu.Name,
+                    Details = books.Details,
+                    PromotionName = books.Promotion == null ? string.Empty : books.Promotion.Name,
+                    ServiceName = books.Service == null ? string.Empty : books.Service.Customer.CustomerName
+                };
+                lstBookingNormalAlls.Add(booking);
+            }
+
+            var allUnionListBooking = lstBookingNotConfirm.Union(lstBookingTobeConfirm).Union(lstBookingNormalAlls);
+            IQueryable<BookingViewsModel> tasks = allUnionListBooking.Select(task => new BookingViewsModel()
+            {
+                //Id = task.Id,
+                //Name = task.Title + " " + task.Name + " " + task.Surname,
+                //AppointmentDate = task.AppointmentDate,
+                //BookingCode = task.BookingCode,
+                //BookingStatus = task.BookingStatu.Name,
+                //Details = task.Details,
+                //PromotionName = task.Promotion == null ? string.Empty : task.Promotion.Name,
+                //ServiceName = task.Service == null ? string.Empty : task.Service.Customer.CustomerName,
                 Id = task.Id,
-                Name = task.Title + " " + task.Name + " " + task.Surname,
+                Name = task.Name,
                 AppointmentDate = task.AppointmentDate,
                 BookingCode = task.BookingCode,
-                BookingStatus = task.BookingStatu.Name,
+                BookingStatus = task.BookingStatus,
                 Details = task.Details,
-                PromotionName = task.Promotion == null ? string.Empty : task.Promotion.Name,
-                ServiceName = task.Service == null ? string.Empty : task.Service.Customer.CustomerName,
+               PromotionName = task.PromotionName ,
+               ServiceName = task.ServiceName 
             }
              ).AsQueryable();
             return Json(tasks.ToDataSourceResult(request));
@@ -109,7 +175,7 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Name,Surname,BookingCode,AppointmentDate,SpecialOrder,Details,BookingStatu,PromotionId,ServiceId")] Booking booking, int PromotionId,int[] SpecialOrder)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Name,Surname,BookingCode,AppointmentDate,SpecialOrder,Details,BookingStatu,PromotionId,ServiceId,ContactNumber,ContactEmail")] Booking booking, int PromotionId, int[] SpecialOrder)
         {
             int statusConfirm = Constant.BOOKING_STATUS_CONFIRM;
             if (ModelState.IsValid)
@@ -190,7 +256,7 @@ namespace NicePictureStudio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Name,Surname,BookingCode,AppointmentDate,SpecialOrder,Details,PromotionId,ServiceId")] Booking booking,int BookingStatus, int PromotionId, int[] SpecialOrder)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Name,Surname,BookingCode,AppointmentDate,SpecialOrder,Details,PromotionId,ServiceId,ContactNumber,ContactEmail")] Booking booking, int BookingStatus, int PromotionId, int[] SpecialOrder)
         {
             if (ModelState.IsValid)
             {
@@ -205,6 +271,8 @@ namespace NicePictureStudio
                 currentBooking.Surname = booking.Surname;
                 currentBooking.AppointmentDate = booking.AppointmentDate;
                 currentBooking.Details = booking.Details;
+                currentBooking.ContactEmail = booking.ContactEmail;
+                currentBooking.ContactNumber = booking.ContactNumber;
                 
                 currentBooking.BookingStatu = bookingStauts;
                 currentBooking.Promotion = promotion;

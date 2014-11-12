@@ -249,6 +249,8 @@
     <Property Name="Title" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
     <Property Name="Surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="BookingSpecialRequests" Relationship="NicePictureStudioDBModel.BookingRequestRelation" FromRole="Booking" ToRole="BookingSpecialRequest" />
+    <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ContactEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="BookingStatu">
     <Key>

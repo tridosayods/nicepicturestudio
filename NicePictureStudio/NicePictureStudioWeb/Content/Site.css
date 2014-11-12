@@ -56,3 +56,11 @@ input[type="checkbox"].input-validation-error {
 .ui-selectmenu-menu {
     z-index:100;
 }
+
+.highlighted-row {
+	background-color: #eeffee;
+}
+
+.highlighted-row.k-alt {
+	background-color: #ccffcc;
+}

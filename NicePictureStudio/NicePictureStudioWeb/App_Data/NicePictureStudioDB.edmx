@@ -29,6 +29,8 @@
           <Property Name="BookingStatus" Type="int" Nullable="false" />
           <Property Name="PromotionId" Type="int" />
           <Property Name="ServiceId" Type="int" />
+          <Property Name="ContactNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactEmail" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="BookingRequestRelation">
           <Key>
@@ -1816,6 +1818,8 @@
           <Property Name="Title" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BookingSpecialRequests" Relationship="NicePictureStudioDBModel.BookingRequestRelation" FromRole="Booking" ToRole="BookingSpecialRequest" />
+          <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="BookingStatu">
           <Key>
@@ -2638,6 +2642,8 @@
           <EntitySetMapping Name="Bookings">
             <EntityTypeMapping TypeName="NicePictureStudioDBModel.Booking">
               <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Details" ColumnName="Details" />

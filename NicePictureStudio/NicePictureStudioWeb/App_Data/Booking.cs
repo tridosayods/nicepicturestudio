@@ -26,6 +26,8 @@ namespace NicePictureStudio.App_Data
         public string Details { get; set; }
         public string Title { get; set; }
         public string Surname { get; set; }
+        public string ContactNumber { get; set; }
+        public string ContactEmail { get; set; }
     
         public virtual BookingStatu BookingStatu { get; set; }
         public virtual Promotion Promotion { get; set; }

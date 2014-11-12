@@ -6,6 +6,28 @@
 
 <h2><span class="glyphicon glyphicon-book"></span>รายการจอง</h2>
 
+<script type="text/javascript">
+    kendo.culture("th-TH");
+    $(document).ready(function () {
+    });
+
+    function dataBound(e) {
+        var grid = $("#bookGridDanger").data("kendoGrid");
+        var gridData = grid.dataSource.view();
+
+        for (var i = 0; i < gridData.length; i++) {
+            if (gridData[i].BookingStatus == "เลยกำหนดนัดหมาย") {
+                grid.table.find("tr[data-uid='" + gridData[i].uid + "']").addClass("highlighted-row");
+            }
+            if (gridData[i].BookingStatus == "ใกล้ถึงเวลานัดหมาย") {
+                grid.table.find("tr[data-uid='" + gridData[i].uid + "']").addClass("highlighted-row");
+            }
+        }
+    }
+
+ </script>
+
+
 @*<p>
     @Html.ActionLink("Create New", "Create")
 </p>*@
@@ -88,7 +110,7 @@
                 {
                     columns.Bound(p => p.Name).Filterable(false).Width(120).Title("ชื่อผู้จอง");
                     columns.Bound(p => p.BookingCode).Width(70).Title("รหัส");
-                    columns.Bound(p => p.AppointmentDate).Format("{0:MM/dd/yyyy}").Width(100).Title("วันนัดจอง");
+                    columns.Bound(p => p.AppointmentDate).Format("{0:dd/MM/yyyy}").Width(100).Title("วันนัดจอง");
                     //columns.Bound(p => p.SpecialOrder);
                     columns.Bound(p => p.BookingStatus).Title("สถานะการจอง").ClientTemplate(
                          "# if (BookingStatus == 'รายการจองใหม่') { #" +
@@ -101,15 +123,21 @@
                     //columns.Template(p=> @Html.ActionLink("Edit", "Edit","Bookings", new { id = p.Id }));
                     columns.Bound(p => p.Id).Title("").ClientTemplate(@Html.ActionLink("แก้ไข", "Edit", "Bookings", new { id = "#=Id#" }, null).ToHtmlString());
                 })
+                            //.ClientRowTemplate("<tr class='active'><td>"+
+                            //                    "#: Name #"+ "</td><td>"+
+                            //                    "#: AppointmentDate#"+
+                            //                    "</tr>")
                 .Pageable()
                 .Sortable()
                 .Scrollable()
-                .HtmlAttributes(new { style = "height:250px;" })
+                .HtmlAttributes(new { style = "height:850px;" })
                       .DataSource(dataSource => dataSource
                             .Ajax()
-                            .PageSize(20)
+                            .PageSize(50)
                             .Read(read => read.Action("BookingsNotConfirm_read", "Bookings"))
+
                  )
+                 .Events(e => e.DataBound("dataBound"))
                     )
                 </div>
             </div>

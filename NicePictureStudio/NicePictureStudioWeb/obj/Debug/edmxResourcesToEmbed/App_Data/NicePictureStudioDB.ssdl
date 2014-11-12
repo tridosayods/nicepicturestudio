@@ -24,6 +24,8 @@
     <Property Name="BookingStatus" Type="int" Nullable="false" />
     <Property Name="PromotionId" Type="int" />
     <Property Name="ServiceId" Type="int" />
+    <Property Name="ContactNumber" Type="nvarchar" MaxLength="50" />
+    <Property Name="ContactEmail" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="BookingRequestRelation">
     <Key>
