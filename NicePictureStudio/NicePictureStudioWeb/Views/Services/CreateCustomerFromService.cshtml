@@ -1,11 +1,103 @@
 ﻿@model NicePictureStudio.App_Data.Customer
 
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        jQuery.validator.addMethod(
+            'date',
+            function (value, element, params) {
+                if (this.optional(element)) {
+                    return true;
+                };
+                var result = false;
+                try {
+                    var date = kendo.parseDate(value, "dd/MM/yyyy");
+                    result = true;
+                    if (!date) {
+                        result = false;
+                    }
+                } catch (err) {
+                    result = false;
+                }
+                return result;
+            },
+            ''
+        );
+
+        $("#btnSearchNumber").bind("click", function () {
+            event.preventDefault();
+            var url = '@Url.Action("CreateCustomerFromService", "Services")';
+            $.ajax({
+                url: url,
+                data: { bookingid: $("#CustomerBookingNumberId").val() },
+                type: "GET",
+                success: function (data) { $("#CustomerFromService").replaceWith(data); }
+            })
+        }); 
+
+        $("#btnSearchName").bind("click", function () {
+            event.preventDefault();
+            var url = '@Url.Action("CreateCustomerFromService", "Services")';
+            $.ajax({
+                url: url,
+                data: { bookingid: $("#CustomerBookingNameId").val() },
+                type: "GET",
+                success: function (data) { $("#CustomerFromService").replaceWith(data); }
+            })
+        }); 
+
+        $(function () {
+            $(".autocomplete-with-hidden-booking-search").autocomplete({
+                minLength: 0,
+                source: function (request, response) {
+                    var url = $(this.element).data("url");
+
+                    $.getJSON(url, { term: request.term }, function (data) {
+                        response(data);
+                    })
+                },
+                select: function (event, ui) {
+                    $(event.target).next("input[type=hidden]").val(ui.item.id);
+                    var orderUrl = '@Url.Action("GetSelectedSpecialRequest", "Services")'
+                    //$.getJSON(orderUrl, { bookingId: ui.item.id }, function (data) {
+                    //    var multiselect = $("#BookingSpecialRequests").data("kendoMultiSelect")
+                    //    multiselect.dataSource.filter({});
+                    //    multiselect.value(data);
+                    //})
+                },
+                change: function (event, ui) {
+                    if (!ui.item) {
+                        $(event.target).val("").next("input[type=hidden]").val("");
+                    }
+                }
+            });
+        });
+            
+    });
+
+    function OnlyNumeric(event) {
+        if (event) {
+            var charCode = (event.which) ? event.which : event.keyCode;
+            if (charCode != 190 && charCode > 31 &&
+               (charCode < 48 || charCode > 57) &&
+               (charCode < 96 || charCode > 105) &&
+               (charCode < 37 || charCode > 40) &&
+                charCode != 110 && charCode != 8 && charCode != 46)
+                return false;
+        }
+        return true;
+    }
+
+   
+</script>
+
 <div id="CustomerFromService">
     @using (Ajax.BeginForm("CreateCustomerFromService", "Services", new AjaxOptions
 {
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = "CustomerFromService"
+    UpdateTargetId = "CustomerFromService",
+    OnBegin = "UpdateData()"
 }))
     {
         @Html.AntiForgeryToken()
@@ -16,13 +108,48 @@
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+            <!--Search Criteria-->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <p>ข้อมูลรายการจองที่ลูกค้าเลือกไว้</p>
+                </div>
+                <div class="panel-body">
+                    <p>หมายเหตุ : หากยังไม่มีรายการจองระบบจะไม่อนุญาติให้สร้างรายการได้ </p>
+                    <table class="table">
+                        <tr>
+                            <td><label class="control-label">ค้นหาจากหมายเลขการจอง</label>
+                                <div>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><span class="label label-default">S</span></div>
+                                        @Html.TextBox("CustomeBookingNumber", null, new { @onkeydown = "return OnlyNumeric(event);", @class = "autocomplete-with-hidden-booking-search form-control", data_url = Url.Action("GetListForBookingByNumberAutocomplete", "Services"), placeholder = "..กรุณากรอกหมายเลขการจอง..." })
+                                        @Html.Hidden("CustomerBookingNumberId")
+                                        <button type="button" id="btnSearchNumber" class="btn btn-default">เลือก</button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <label class="control-label">ค้นหาจากชื่อผู้จอง</label>
+                                <div>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><span class="label label-default">S</span></div>
+                                        @Html.TextBox("CustomeBookingName", null, new { @class = "autocomplete-with-hidden-booking-search form-control", data_url = Url.Action("GetListForBookingByNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อผู้จอง..." })
+                                        @Html.Hidden("CustomerBookingNameId")
+                                        <button type="button" id="btnSearchName" class="btn btn-default">เลือก</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
             <div class="panel panel-default">
                 <div class="panel-heading">ข้อมูลลูกค้า</div>
             <div class="panel panel-body">
                 <div class="form-group">
                     <div>@Html.Label("คำนำหน้า", htmlAttributes: new { @class = "control-label col-md-2" })</div>
                     <div class="col-md-8">
-                        @Html.Kendo().DropDownListFor(model=>model.CustomerTitle).Name("CustomerTitle").BindTo(new string[] { "นาย", "นางสาว", "นาง" }).HtmlAttributes(new { @Style = "width:100px",@id="CustomerTitle" }).SelectedIndex(0)
+                        @Html.Kendo().DropDownList().Name("CustomerTitle").BindTo(@ViewBag.TitleListForMan as SelectList).HtmlAttributes(new { @Style = "width:100px", @id = "CustomerTitle" })
                         @Html.ValidationMessageFor(model => model.CustomerTitle, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -84,7 +211,7 @@
                 <div class="form-group">
                     @Html.Label("คำนำหน้า", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">        
-                            @Html.Kendo().DropDownListFor(model => model.CoupleTitle).Name("CoupleTitle").BindTo(new string[] { "นาย", "นางสาว", "นาง" }).HtmlAttributes(new { @Style = "width:100px" }).SelectedIndex(1)
+                            @Html.Kendo().DropDownList().Name("CoupleTitle").BindTo(@ViewBag.TitleListForWoman as SelectList).HtmlAttributes(new { @Style = "width:100px", @id = "CoupleTitle" })
                             @Html.ValidationMessageFor(model => model.CoupleTitle, "", new { @class = "text-danger" })
                         </div>
                 </div>
@@ -147,7 +274,7 @@
                     @Html.Label("วันพิธีแต่งงาน", htmlAttributes: new { @class ="control-label col-md-2" })
                     <div class="col-md-10">
                        @*@Html.Kendo().DateTimePickerFor(model => model.AnniversaryDate).Name("AnniversaryDate").HtmlAttributes(new { @class="k-rtl"})*@
-                        @Html.Kendo().DateTimePickerFor(model => model.AnniversaryDate).Name("AnniversaryDate")
+                        @Html.Kendo().DatePickerFor(model => model.AnniversaryDate).Name("AnniversaryDate").Min(DateTime.Now.Date).ParseFormats(new string[] {"dd/MM/yyyy"}).Format("dd/MM/yyyy")
                         @Html.ValidationMessageFor(model => model.AnniversaryDate, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -161,7 +288,7 @@
 
                 <div class="form-group">
                     @Html.Label("บ้านเลขที่", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-2">
+                    <div class="col-sm-3">
                         <div class="input-group">
                             <div class="input-group-addon"><span class="label label-default">T</span></div>
                                 @Html.Kendo().MaskedTextBoxFor(model => model.Address).HtmlAttributes(new { @id="Address" })
@@ -169,10 +296,10 @@
                          </div>
                      </div>
                     @Html.Label("ชั้น/ตึก/หมู่บ้าน", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-2">
+                    <div class="col-sm-2">
                         <div class="input-group">
                             <div class="input-group-addon"><span class="label label-default">T</span></div>
-                            @Html.TextBoxFor(model => model.BuildingBlock, htmlAttributes: new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.BuildingBlock, htmlAttributes: new { @class = "form-control",@style="width:170px" })
                             @Html.ValidationMessageFor(model => model.BuildingBlock, "", new { @class = "text-danger" })
                         </div>
                      </div>
@@ -180,7 +307,7 @@
 
                     <div class="form-group">
                         @Html.Label("ถนน", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-2">
+                        <div class="col-sm-3">
                             <div class="input-group">
                                 <div class="input-group-addon"><span class="label label-default">T</span></div>
                                 @Html.Kendo().MaskedTextBoxFor(model => model.Road).HtmlAttributes(new { @id = "Road" })
@@ -188,10 +315,24 @@
                             </div>
                         </div>
                         @Html.Label("แขวง/ตำบล", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-2">
+                        <div class="col-sm-2">
                             <div class="input-group">
                                 <div class="input-group-addon"><span class="label label-default">T</span></div>
-                                @Html.TextBoxFor(model => model.Subdistrict, htmlAttributes: new { @class = "form-control" })
+                                @*@Html.TextBoxFor(model => model.Subdistrict, htmlAttributes: new { @class = "form-control" })*@
+                                @(Html.Kendo().ComboBoxFor(model=>model.Subdistrict)
+                                    .Name("Subdistrict")
+                                    .DataTextField("value")
+                                    .DataValueField("value")
+                                    .HtmlAttributes(new { @id = "Subdistrict" })
+                                    .Filter("contains")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read => { read.Action("GetSubDistrictListAutocomplete", "Services"); })
+                                        .ServerFiltering(false);
+                                    })
+                                    .Suggest(true)
+
+                                )
                                 @Html.ValidationMessageFor(model => model.Subdistrict, "", new { @class = "text-danger" })
                             </div>
                          </div>
@@ -199,18 +340,46 @@
 
                     <div class="form-group">
                         @Html.Label("เขต/อำเภอ", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-2">
+                        <div class="col-sm-3">
                             <div class="input-group">
                                 <div class="input-group-addon"><span class="label label-default">T</span></div>
-                                @Html.Kendo().MaskedTextBoxFor(model => model.District).HtmlAttributes(new { @id = "Subdistric" })
+                                @*@Html.Kendo().MaskedTextBoxFor(model => model.District).HtmlAttributes(new { @id = "Subdistric" })*@
+                                @(Html.Kendo().ComboBoxFor(model => model.District)
+                                    .Name("District")
+                                    .DataTextField("value")
+                                    .DataValueField("value")
+                                    .HtmlAttributes(new { @id = "District" })
+                                    .Filter("contains")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read => { read.Action("GetDistrictListAutocomplete", "Services"); })
+                                        .ServerFiltering(false);
+                                    })
+                                    .Suggest(true)
+
+                                )
                                 @Html.ValidationMessageFor(model => model.District, "", new { @class = "text-danger" })
                             </div>
                             </div>
                         @Html.Label("จังหวัด", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-2">
+                        <div class="col-sm-2">
                             <div class="input-group">
                                 <div class="input-group-addon"><span class="label label-default">T</span></div>
-                                @Html.TextBoxFor(model => model.Province, htmlAttributes: new { @class = "form-control" })
+                                @*@Html.TextBoxFor(model => model.Province, htmlAttributes: new { @class = "form-control" })*@
+                                @(Html.Kendo().ComboBoxFor(model => model.Province)
+                                    .Name("Province")
+                                    .DataTextField("value")
+                                    .DataValueField("value")
+                                    .HtmlAttributes(new { @id = "Province" })
+                                    .Filter("contains")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read => { read.Action("GetProvinceListAutocomplete", "Services"); })
+                                        .ServerFiltering(false);
+                                    })
+                                    .Suggest(true)
+
+                                )
                                 @Html.ValidationMessageFor(model => model.Province, "", new { @class = "text-danger" })
                             </div>
                             </div>
@@ -231,7 +400,21 @@
                         <div class="input-group">
                             <div class="input-group-addon"><span class="label label-default">N</span></div>
                             @*@Html.EditorFor(model => model.PostcalCode, new { htmlAttributes = new { @class = "form-control" } })*@
-                            @Html.Kendo().MaskedTextBoxFor(model => model.PostcalCode).HtmlAttributes(new { @id = "PostcalCode", @Style = "width:100px",@class="form-control" }).Mask("00000")
+                            @Html.Kendo().MaskedTextBoxFor(model => model.PostcalCode).HtmlAttributes(new { @id = "PostcalCode", @Style = "width:170px",@class="form-control" }).Mask("00000")
+                            @*@(Html.Kendo().ComboBoxFor(model => model.PostcalCode)
+                                     .Name("PostcalCode")
+                                    .DataTextField("label")
+                                    .DataValueField("value")
+                                     .HtmlAttributes(new { @id = "PostcalCode" })
+                                    .Filter("contains")
+                                    .DataSource(source =>
+                                    {
+                                        source.Read(read => { read.Action("GetPostCodeListAutocomplete", "Services"); })
+                                        .ServerFiltering(false);
+                                    })
+                                    .Suggest(true)
+
+                            )*@
                             @Html.ValidationMessageFor(model => model.PostcalCode, "", new { @class = "text-danger" })
                         </div>
                         </div>
@@ -248,7 +431,8 @@
                 <div class="form-group">
                     @Html.Label("คำนำหน้า", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.Kendo().DropDownListFor(model => model.ReferenceTitle).Name("ReferenceTitle").BindTo(new string[] { "นาย", "นางสาว", "นาง" }).HtmlAttributes(new { @Style = "width:100px" }).SelectedIndex(0)
+                        @*@Html.Kendo().DropDownListFor(model => model.ReferenceTitle).Name("ReferenceTitle").BindTo(new string[] { "นาย", "นางสาว", "นาง" }).HtmlAttributes(new { @Style = "width:100px" }).SelectedIndex(0)*@
+                        @Html.Kendo().DropDownList().Name("ReferenceTitle").BindTo(@ViewBag.TitleRef as SelectList).HtmlAttributes(new { @Style = "width:100px", @id = "ReferenceTitle" })
                         @*@Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })*@
                     </div>
                 </div>
@@ -300,6 +484,8 @@
             </div>
            
                 <div class="form-group">
+                    @Html.Hidden("BookingNumberSelected",ViewData["BookingNumber"] as string)
+                    @Html.Hidden("BookingIdSelected", ViewData["BookingId"] as string)
                     <div class="col-md-offset-2 col-md-10">
                         <button type="submit" value="Save" class="btn btn-default">บันทึกข้อมูลลูกค้า</button>
                         <button type="reset" value="Clear" class="btn btn-default">ล้างข้อมูล</button>

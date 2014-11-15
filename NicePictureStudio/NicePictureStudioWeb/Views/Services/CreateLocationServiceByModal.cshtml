@@ -20,10 +20,50 @@
         });
         $("#OverNightPeriod").data("kendoNumericTextBox").wrapper.width("100px");
         $("#OverNightPeriod").data("kendoNumericTextBox").wrapper.attr("disabled", "disabled");
+
+
+        $(function () {
+            var locationId = $("#LocationFormId").val();
+
+            if (locationId != "") {
+                $("#LocationSelectSearch").attr("disabled", "disabled");
+                $("#LocationServiceType").attr("disabled", "disabled");
+                $("#btnSelectedLocation").attr("disabled", "disabled");
+                $("#lblLocationSelectInfo").removeClass("hidden");
+                $("#lblLocationSelectInfoFooter").removeClass("hidden");
+            }
+            else {
+                $("#LocationSelectSearch").attr("disabled", null);
+                $("#LocationServiceType").attr("disabled", null);
+                //$("#btnSelectedLocation").attr("disabled", null);
+                $("#lblLocationSelectInfo").addClass("hidden");
+                $("#lblLocationSelectInfoFooter").addClass("hidden");
+                if (('@ViewBag.ListLocationServices' != null) && ('@ViewBag.ListLocationServices' != ""))
+                {
+
+                    $("#btnSelectedLocation").attr("disabled", "disabled");
+                }
+                else {
+
+                    $("#btnSelectedLocation").attr("disabled", null);
+                }
+            }
+
+        });
     });
 
     function ValidateSummary() {
         $("#page3Id").val($("#Code").val());
+    }
+
+    function ChooseLocation()
+    {
+        $("#btnSelectedLocation").attr("disabled", "disabled");
+    }
+
+    function RemoveLocation()
+    {
+        $("#btnSelectedLocation").attr("disabled", null);
     }
 
 </script>
@@ -33,7 +73,8 @@
         {
             HttpMethod = "POST",
             InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = "tblLocation"
+            UpdateTargetId = "tblLocation",
+            OnSuccess = "ChooseLocation()"
         }))
     {
         @Html.AntiForgeryToken()
@@ -102,12 +143,13 @@
 
             <div class="form-group">
                 <div class="col-md-12">
-                    <input type="submit" value="เลือกสถานที่" class="btn btn-default" />
+                   <button id="btnSelectedLocation" type="submit" value="เลือกสถานที่" class="btn btn-default">เลือกสถานที่</button>
                 </div>
             </div>
         </div>
     }
     <hr />
+    <div class="label label-danger" id="lblLocationSelectInfoFooter">สถานที่ในการถ่ายทำได้ถูกเลือกไว้แล้ว กรุณาไปยังส่วนของการเลือกบริการจัดจ้างในขั้นตอนถัดไป</div>
     <div id="tblLocation">
         @if (@ViewBag.ListLocationServices != null)
         {
@@ -129,7 +171,7 @@
                                 <td>No</td>
                                 <td>-</td> }
                             <td>@item.Price</td>
-                            <td>@Ajax.ActionLink("Remove", "RemoveLocation", new { Id = @item.Id, serviceType = @ViewData["ServiceType"] }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblLocation" })</td>
+                            <td>@Ajax.ActionLink("Remove", "RemoveLocation", new { Id = @item.Id, serviceType = @ViewData["ServiceType"] }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblLocation", OnComplete = "RemoveLocation()" })</td>
                         </tr>
                     }
                 </table>

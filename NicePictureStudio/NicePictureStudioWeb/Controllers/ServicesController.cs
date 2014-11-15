@@ -335,6 +335,50 @@ namespace NicePictureStudio
             return Json(grid.AsQueryable().ToDataSourceResult(request));
         }
 
+        public JsonResult GetSubDistrictListAutocomplete([DataSourceRequest] DataSourceRequest request)
+        {
+            return Json(db.Districts.Select(m => new
+            {
+                id = m.DISTRICT_ID,
+                value = m.DISTRICT_NAME,
+                label = m.DISTRICT_NAME
+            }), JsonRequestBehavior.AllowGet);
+           
+        }
+
+        public JsonResult GetDistrictListAutocomplete([DataSourceRequest] DataSourceRequest request)
+        {
+            return Json(db.Aumphurs.Select(m => new
+            {
+                id = m.AMPHUR_ID,
+                value = m.AMPHUR_NAME,
+                label = m.AMPHUR_NAME
+            }), JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetProvinceListAutocomplete([DataSourceRequest] DataSourceRequest request)
+        {
+            return Json(db.Provinces.Select(m => new
+            {
+                id = m.PROVINCE_ID,
+                value = m.PROVINCE_NAME,
+                label = m.PROVINCE_NAME
+            }), JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetPostCodeListAutocomplete([DataSourceRequest] DataSourceRequest request)
+        {
+            return Json(db.Districts.Select(m => new
+            {
+                id = m.DISTRICT_CODE,
+                value = m.DISTRICT_CODE.Substring(0,5),
+                label = m.DISTRICT_CODE.Substring(0,5) + " " + m.DISTRICT_NAME
+            }), JsonRequestBehavior.AllowGet);
+
+        }
+
         // GET: Services/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -377,7 +421,7 @@ namespace NicePictureStudio
             //}),JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetListForBookingAutocomplete(string term)
+        public JsonResult GetListForBookingByNameAutocomplete(string term)
         {
             if (string.Compare(term, string.Empty) != 0)
             {
@@ -385,13 +429,37 @@ namespace NicePictureStudio
                 int _bookingOpened = Constant.BOOKING_STATUS_CONFIRM;
                 Booking[] matching = string.IsNullOrWhiteSpace(term) ?
                     db.Bookings.ToArray() :
-                    db.Bookings.Where(p => (p.BookingCode.ToUpper().StartsWith(term.ToUpper()) || p.Name.ToUpper().StartsWith(term.ToUpper())) && p.BookingStatu.Id == _bookingOpened).ToArray();
+                    db.Bookings.Where(p => (p.Name.ToUpper().StartsWith(term.ToUpper()))
+                          && p.BookingStatu.Id == _bookingOpened).ToArray();
 
                 return Json(matching.Select(m => new
                 {
                     id = m.Id,
-                    value = m.Name,
-                    label = m.Name
+                    value = m.Title +" "+ m.Name + " " + m.Surname,
+                    label = m.Title + " " + m.Name + " " + m.Surname
+                }), JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(null);
+            }
+        }
+
+        public JsonResult GetListForBookingByNumberAutocomplete(string term)
+        {
+            if (string.Compare(term, string.Empty) != 0)
+            {
+                // Booking staus = 1 means opened booking.
+                int _bookingOpened = Constant.BOOKING_STATUS_CONFIRM;
+                Booking[] matching = string.IsNullOrWhiteSpace(term) ?
+                    db.Bookings.ToArray() :
+                    db.Bookings.Where(p => (p.BookingCode.ToUpper().StartsWith(term.ToUpper()))&& p.BookingStatu.Id == _bookingOpened).ToArray();
+
+                return Json(matching.Select(m => new
+                {
+                    id = m.Id,
+                    value = m.BookingCode,
+                    label = m.Title + " " + m.Name + " " + m.Surname
                 }), JsonRequestBehavior.AllowGet);
             }
             else
@@ -754,7 +822,7 @@ namespace NicePictureStudio
             TempData["PromotionEdit"] = _promotionCalculatorEdit;
             SummarizePriceForEdit();
             ViewBag.BookingId = _booking.Id;
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.Id);
+            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", service.Customer.CustomerId);
             return View(_servicesEdit);
         }
 
@@ -924,8 +992,9 @@ namespace NicePictureStudio
                 TempData.Keep();
 
                 Promotion promotion = new Promotion();
-                if (BookingId > 0) { promotion = await db.Promotions.FindAsync(BookingId); }
-                else if (BookingId == 0)
+                var promotionId = db.Bookings.Find(BookingId).Promotion.Id;
+                if (promotionId > 0) { promotion = await db.Promotions.FindAsync(promotionId); }
+                else if (promotionId == 0)
                 {
                     promotion = await db.Promotions.FindAsync(_servicesTmp.Promotion.PromotionId);
                 }
@@ -1184,11 +1253,11 @@ namespace NicePictureStudio
         }
 
 
-        public async Task<PartialViewResult> EditCustomerFromServiceWhenEdit(int? id)
+        public ActionResult EditCustomerFromServiceWhenEdit(int? id)
         {
             if (id != null)
             {
-                Customer customer = await db.Customers.FindAsync(id);
+                Customer customer = db.Customers.Find(id);
 
                 if (customer == null)
                 {
@@ -1227,7 +1296,20 @@ namespace NicePictureStudio
                         ReferencePhoneNumber = customer.ReferencePhoneNumber
                     };
 
+                    int indexTitleMan = 0;
+                    int indexTitleWoman = 1;
+                    int indexRef = 0;
 
+                    indexTitleMan = customer.CustomerTitle == Constant.TITLE_MR ? 0 : customer.ReferenceTitle == Constant.TITLE_MS ? 1 : 2;
+                    indexTitleWoman = customer.CoupleTitle == Constant.TITLE_MR ? 0 : customer.ReferenceTitle == Constant.TITLE_MS ? 1 : 2;
+                    indexRef = customer.ReferenceTitle == Constant.TITLE_MR ? 0 : customer.ReferenceTitle == Constant.TITLE_MS ? 1 : 2;
+                    var titles = new string[] { Constant.TITLE_MR, Constant.TITLE_MS, Constant.TITLE_MRS };
+                    var manTitles = titles.Select((r, index) => new SelectListItem { Text = r, Value = index.ToString(), Selected = index == indexTitleMan ? true : false }).ToList();
+                    var womanTitles = titles.Select((r, index) => new SelectListItem { Text = r, Value = index.ToString(), Selected = index == indexTitleWoman ? true : false });
+                    var refTitle = titles.Select((r, index) => new SelectListItem { Text = r, Value = index.ToString(), Selected = index == indexRef ? true : false });
+                    ViewBag.TitleListForMan = new SelectList(manTitles, "Text", "Text", indexTitleMan);
+                    ViewBag.TitleListForWoman = new SelectList(womanTitles, "Text", "Text", indexTitleWoman);
+                    ViewBag.TitleRef = new SelectList(refTitle, "Text", "Text", indexRef);
                     return PartialView(customerView);
                 }
             }
@@ -1243,7 +1325,6 @@ namespace NicePictureStudio
             {
                 var _servicesEditTmp = TempData["ServiceEdit"] as ServicesViewModel;
                 TempData.Keep("ServiceEdit");
-
                 db.Entry(customer).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 _servicesEditTmp.CreateCustomer(customer);
@@ -1299,14 +1380,54 @@ namespace NicePictureStudio
         #region Create Customer Section
         /***************************Create Customer Section*******************************************************/
 
-        public PartialViewResult CreateCustomerFromService()
+        public ActionResult CreateCustomerFromService(int? bookingid)
         {
-            return PartialView();
+            Customer cus = new Customer();
+            int indexTitleMan = 0;
+            int indexTitleWoman = 1;
+            int indexRef = 0;
+            string BookingCode = "";
+            string BookingId = "";
+            if (bookingid != null)
+            {
+                var bookingInfo = db.Bookings.Find(bookingid);
+                if (bookingInfo != null)
+                {
+                    if (bookingInfo.Title == Constant.TITLE_MR)
+                    {
+                        cus.CustomerName = bookingInfo.Name;
+                        cus.CustomerSurname = bookingInfo.Surname;
+                        cus.PhoneNumber = bookingInfo.ContactNumber;
+                        cus.Email = bookingInfo.ContactEmail;
+                    }
+                    else if (bookingInfo.Title == Constant.TITLE_MS || bookingInfo.Title == Constant.TITLE_MRS)
+                    {
+                        cus.CoupleName = bookingInfo.Name;
+                        cus.CoupleSurname = bookingInfo.Surname;
+                        cus.CouplePhoneNumber = bookingInfo.ContactNumber;
+                        cus.CoupleEmail = bookingInfo.ContactEmail;
+                        indexTitleWoman = bookingInfo.Title == Constant.TITLE_MRS ? 2 : 1;
+                    }
+                    BookingCode = bookingInfo.BookingCode;
+                    BookingId = bookingInfo.Id.ToString();
+                }
+                 
+            }
+            var titles = new string[] {Constant.TITLE_MR,Constant.TITLE_MS,Constant.TITLE_MRS};
+            var manTitles = titles.Select((r, index) => new SelectListItem { Text = r, Value = index.ToString(), Selected = index == indexTitleMan ? true : false }).ToList();
+            var womanTitles = titles.Select((r, index) => new SelectListItem { Text = r, Value = index.ToString(), Selected = index == indexTitleWoman ? true : false });
+            var refTitles = titles.Select((r, index) => new SelectListItem { Text = r, Value = index.ToString(), Selected = index == indexRef ? true : false }).ToList();
+            ViewBag.TitleListForMan = new SelectList(manTitles, "Text", "Text", indexTitleMan ==0 ? Constant.TITLE_MR : indexTitleMan ==1? Constant.TITLE_MS : Constant.TITLE_MRS);
+            ViewBag.TitleListForWoman = new SelectList(womanTitles, "Text", "Text", indexTitleWoman == 0 ? Constant.TITLE_MR : indexTitleWoman == 1 ? Constant.TITLE_MS : Constant.TITLE_MRS);
+            ViewBag.TitleRef = new SelectList(refTitles, "Text", "Text", indexRef == 0 ? Constant.TITLE_MR : indexRef == 1 ? Constant.TITLE_MS : Constant.TITLE_MRS);
+            ViewData["BookingNumber"] = BookingCode;
+            ViewData["BookingId"] = BookingId;
+            return PartialView(cus);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<PartialViewResult> CreateCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,Email,PostcalCode,AnniversaryDate,ReferencePerson,ReferenceEmail,ReferencePhoneNumber,CustomerTitle,CustomerSurname,CoupleTitle,CoupleName,CoupleSurname,CouplePhoneNumber,BuildingBlock,Road,Subdistrict,District,Province,Country,CoupleEmail,ReferenceTitle,ReferenceSurname,CustomerNickname,CoupleNickname")] Customer customer)
+        public async Task<PartialViewResult> CreateCustomerFromService([Bind(Include = "CustomerId,CustomerName,PhoneNumber,Address,Email,PostcalCode,AnniversaryDate,ReferencePerson,ReferenceEmail,ReferencePhoneNumber,CustomerTitle,CustomerSurname,CoupleTitle,CoupleName,CoupleSurname,CouplePhoneNumber,BuildingBlock,Road,Subdistrict,District,Province,Country,CoupleEmail,ReferenceTitle,ReferenceSurname,CustomerNickname,CoupleNickname")] Customer customer, string BookingNumberSelected, string BookingIdSelected)
         {
             try
             {
@@ -1319,6 +1440,23 @@ namespace NicePictureStudio
                     _servicesTmp.CreateCustomer(customer);
                     TempData["Services"] = _servicesTmp;
                     Customer _customer = customer;
+
+                    //Update Title
+                    int indexTitleMan = 0;
+                    int indexTitleWoman = 1;
+                    int indexRef = 0;
+
+                    indexTitleMan = customer.CustomerTitle == Constant.TITLE_MR ? 0 : customer.ReferenceTitle == Constant.TITLE_MS ? 1 : 2;
+                    indexTitleWoman = customer.CoupleTitle == Constant.TITLE_MR ? 0 : customer.ReferenceTitle == Constant.TITLE_MS ? 1 : 2;
+                    indexRef = customer.ReferenceTitle == Constant.TITLE_MR ? 0 : customer.ReferenceTitle == Constant.TITLE_MS ? 1 : 2;
+                    var _titles = new string[] { Constant.TITLE_MR, Constant.TITLE_MS, Constant.TITLE_MRS };
+                    var _manTitles = _titles.Select((r, index) => new SelectListItem { Text = r, Value = index.ToString(), Selected = index == indexTitleMan ? true : false }).ToList();
+                    var _womanTitles = _titles.Select((r, index) => new SelectListItem { Text = r, Value = index.ToString(), Selected = index == indexTitleWoman ? true : false });
+                    var _refTitle = _titles.Select((r, index) => new SelectListItem { Text = r, Value = index.ToString(), Selected = index == indexRef ? true : false });
+                    ViewBag.TitleListForMan = new SelectList(_manTitles, "Text", "Text", indexTitleMan);
+                    ViewBag.TitleListForWoman = new SelectList(_womanTitles, "Text", "Text", indexTitleWoman);
+                    ViewBag.TitleRef = new SelectList(_refTitle, "Value", "Text", indexRef);
+
                     return PartialView(@"/Views/Services/DetailsCustomerFromService.cshtml", _customer);
                 }
             }
@@ -1338,6 +1476,13 @@ namespace NicePictureStudio
                 throw new Exception(dbEx.Message);
             }
 
+            var titles = new string[] { Constant.TITLE_MR, Constant.TITLE_MS, Constant.TITLE_MRS };
+            var manTitles = titles.Select((r, index) => new SelectListItem { Text = r, Value = index.ToString() }).ToList();
+            var womanTitles = titles.Select((r, index) => new SelectListItem { Text = r, Value = index.ToString()});
+            ViewBag.TitleListForMan = new SelectList(manTitles, "Text", "Text", 0);
+            ViewBag.TitleListForWoman = new SelectList(womanTitles, "Text", "Text", customer.CoupleTitle == Constant.TITLE_MS ? 1 :2);
+            ViewData["BookingNumber"] = BookingNumberSelected;
+            ViewData["BookingId"] = BookingIdSelected;
             return PartialView();
         }
 
@@ -2342,7 +2487,12 @@ namespace NicePictureStudio
                       serviceForm.IsLocationSelected = isLocationSelected;
                       serviceForm.IsOverNight = isOvernight;
                       //create string for mapping
-                      ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+                      //ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+                      ServiceFormFactory serviceFactory = RenewServiceFormByInputSection(serviceType);
+                      PromotionCalculator _promotionCalculatorTmp= TempData["Promotion"] as PromotionCalculator;
+                      TempData.Keep();
+                      if (_promotionCalculatorTmp != null)
+                      { _promotionCalculatorTmp.ResetServicesCost(); }
                       if (serviceFactory != null)
                       {
                           serviceFactory.CreateServiceForm(serviceForm, statusNew, _serviceType.Id, locationId);
@@ -2403,7 +2553,7 @@ namespace NicePictureStudio
               else
               {
                   ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
-                  if (serviceFactory != null)
+                  if (serviceFactory != null && serviceFactory.ServiceForm !=null)
                   {conditionNumber = (int)serviceFactory.ServiceForm.GuestsNumber;
                         hasData = true;
                         photoGraphSelected = serviceFactory.PhotoGraphService.PhotographerNumber;
@@ -3256,6 +3406,18 @@ namespace NicePictureStudio
 
         public PartialViewResult ThirdFilterLocationService(int? id, string serviceType)
         {
+            //Checking if location is selcted
+            //ServiceFormFactory serviceFactory = CreateServiceFormByInputSection(serviceType);
+            //if (serviceFactory.ServiceForm != null)
+            //{
+            //    var isLocationSelected = serviceFactory.ServiceForm.IsLocationSelected;
+            //    if (isLocationSelected)
+            //    {
+            //        //User already select Location
+            //        return PartialView("FourthFilterOutsourceService", new { serviceType = serviceType });
+            //    }
+            //}
+            //User did not select location
             LocationService locationService;
             ViewData["LocationList"] = new SelectList(db.LocationServices, "Id", "Name");
             if (id != null)
@@ -3645,7 +3807,7 @@ namespace NicePictureStudio
         }
 
         [HttpPost]
-        public async Task<PartialViewResult> CreateOutsourceServiceTable([Bind(Include = "Name,PortFolioURL,Price,Cost,Description")]OutsourceService outsourceService, int? OutsourceId, string ServiceType, int Code)
+        public async Task<PartialViewResult> CreateOutsourceServiceTable([Bind(Include = "Name,PortFolioURL,Price,Cost,Description")]OutsourceService outsourceService, int? OutsourceId, string ServiceType, int Code,string Name, string Description,decimal? Price)
         {
             OutsourceService _outsourceService = outsourceService;
             int _outsourceId = int.Parse(OutsourceId.ToString());
@@ -3905,7 +4067,16 @@ namespace NicePictureStudio
                 ViewData["TblEquipment"] = HTMLTableOutputWedding;
             }
             ViewData["ServiceType"] = serviceType;
-            ViewBag.MinTimeHandOn = serviceFactory.ServiceForm.EventEnd.AddDays(7);
+            if (serviceFactory.ServiceForm == null)
+            {
+                ViewBag.MinTimeHandOn = DateTime.Now;
+            }
+            else
+            {
+                ViewBag.MinTimeHandOn = serviceFactory.ServiceForm.EventEnd.AddDays(7);
+            }
+
+           
             return PartialView(outputService);
         }
 
@@ -4127,7 +4298,7 @@ namespace NicePictureStudio
                                                                        + GettingCostFromOutsourceService(_servicesTmp.ServiceFormPreWedding)
                                                                        + GettingCostFromOutputService(_servicesTmp.ServiceFormPreWedding) + _precost;
 
-                    _servicesTmp.ServiceFormPreWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
+                    _servicesTmp.ServiceFormPreWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithTax;
                 }
             }
 
@@ -4150,7 +4321,7 @@ namespace NicePictureStudio
                                                                         + GettingCostFromOutsourceService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingCostFromOutputService(_servicesTmp.ServiceFormEngagement) + _precost;
 
-                    _servicesTmp.ServiceFormEngagement.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
+                    _servicesTmp.ServiceFormEngagement.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithTax;
                 }
             }
 
@@ -4172,7 +4343,7 @@ namespace NicePictureStudio
                                                                                + GettingCostFromOutsourceService(_servicesTmp.ServiceFormWedding)
                                                                                + GettingCostFromOutputService(_servicesTmp.ServiceFormWedding) + _precost;
 
-                    _servicesTmp.ServiceFormWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
+                    _servicesTmp.ServiceFormWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithTax;
                 }
             }
 
@@ -4240,7 +4411,7 @@ namespace NicePictureStudio
                                                                        + GettingCostFromLocationService(_servicesTmp.ServiceFormPreWedding)
                                                                        + GettingCostFromOutsourceService(_servicesTmp.ServiceFormPreWedding)
                                                                        + GettingCostFromOutputService(_servicesTmp.ServiceFormPreWedding) + _precost;
-                    _servicesTmp.ServiceFormPreWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
+                    _servicesTmp.ServiceFormPreWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithTax;
                 }
             }
 
@@ -4260,7 +4431,7 @@ namespace NicePictureStudio
                                                                         + GettingCostFromLocationService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingCostFromOutsourceService(_servicesTmp.ServiceFormEngagement)
                                                                         + GettingCostFromOutputService(_servicesTmp.ServiceFormEngagement) + _precost;
-                    _servicesTmp.ServiceFormEngagement.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
+                    _servicesTmp.ServiceFormEngagement.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithTax;
                 }
             }
 
@@ -4280,7 +4451,7 @@ namespace NicePictureStudio
                                                                                + GettingCostFromLocationService(_servicesTmp.ServiceFormWedding)
                                                                                + GettingCostFromOutsourceService(_servicesTmp.ServiceFormWedding)
                                                                                + GettingCostFromOutputService(_servicesTmp.ServiceFormWedding) + _precost;
-                    _servicesTmp.ServiceFormWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithoutTax;
+                    _servicesTmp.ServiceFormWedding.ServiceForm.ServiceNetPrice = _promotionCalculatorTmp.NetPriceWithTax;
                 }
             }
 
@@ -4380,7 +4551,7 @@ namespace NicePictureStudio
             //TempData.Keep();
             SummarizePrice();
             int _serviceId = 0;
-            decimal price = Convert.ToDecimal(_promotionCalculatorTmp.NetPriceWithoutTax);
+            decimal price = Convert.ToDecimal(_promotionCalculatorTmp.NetPriceWithTax);
             //decimal esitmatePrice = Convert.ToDecimal(_promotionCalculatorTmp.EstimatePrice);
             if (_servicesTmp.Customer != null)
             {
@@ -4532,17 +4703,36 @@ namespace NicePictureStudio
             return RedirectToAction("TableServices", new { serviceId = _serviceId });
         }
 
+        private decimal GetCostFromServiceForm(ServiceFormFactory _serviceForm, bool IsEditTable = false)
+        {
+            var _precost = _serviceForm.ServiceForm.IsOvernightSelected == false ? 0 : 1500;
+            var cost = GettingCostFromPhotographService(_serviceForm)
+                                                                + GettingCostFromEquipmentService(_serviceForm)
+                                                                + GettingCostFromLocationService(_serviceForm)
+                                                                + GettingCostFromOutsourceService(_serviceForm)
+                                                                + GettingCostFromOutputService(_serviceForm) + _precost;
+            return cost;
+        }
+
         [HttpPost]
         public async Task<ActionResult> SaveAllDocumentWhenEditNew(bool IsEditTable = false)
         {
             int _serviceId = 0;
             if(IsEditTable)
             {
+                var _promotionCalculatorTmp = TempData["PromotionEdit"] as PromotionCalculator;
                 var _targetService = TempData["TargetServiceForm"] as ServiceFormFactory;
                 TempData.Keep();
+              
                 int _serviceTypeIndex =  _targetService.ServiceForm.ServiceType;
                 var _serviceType = db.ServiceTypes.Find(_serviceTypeIndex).ServiceTypeName;
                   ServiceFormFactory _serviceFormFactory = CreateServiceFormByInputSectionWhenEdit(_serviceType, IsEditTable);
+                  var price = _promotionCalculatorTmp.CalculateEstimatePrice();
+                  var netprice = _promotionCalculatorTmp.NetPriceWithTax;
+                  var cost = GetCostFromServiceForm(_serviceFormFactory);
+                  _serviceFormFactory.ServiceForm.ServicePrice = price;
+                  _serviceFormFactory.ServiceForm.ServiceNetPrice = netprice;
+                  _serviceFormFactory.ServiceForm.ServiceCost = cost;
                    ServiceType serviceType = db.ServiceTypes.Where(s => s.Id == _serviceTypeIndex).FirstOrDefault();
                     await SaveServiceByCategoryWhenEditNew(_serviceFormFactory, serviceType,IsEditTable);
                     _serviceId = db.ServiceForms.Where(srf => srf.Id == _targetService.ServiceForm.Id).Select(srf => srf.Service.Id).FirstOrDefault();
@@ -4556,7 +4746,7 @@ namespace NicePictureStudio
                     //TempData.Keep();
                     SummarizePriceForEdit();
                     
-                    decimal price = Convert.ToDecimal(_promotionCalculatorTmp.NetPriceWithoutTax);
+                    decimal price = Convert.ToDecimal(_promotionCalculatorTmp.NetPriceWithTax);
                     //decimal esitmatePrice = Convert.ToDecimal(_promotionCalculatorTmp.EstimatePrice);
                     if (_servicesTmp.Customer != null)
                     {
@@ -4855,7 +5045,7 @@ namespace NicePictureStudio
             if(IsEditTable)
             {
                 SaveServiceFormWhenEditNew(_serviceFactory, _serviceType);
-                TempData.Clear();
+                TempData.Remove("TargetServiceForm");
             }
             else
             {
@@ -5460,10 +5650,11 @@ namespace NicePictureStudio
                 netPrice += item.ServiceNetPrice;
             }
 
-            _promotionCalculatorTmp.CalculateTotalPrice(estimatePrice, netPrice);
+            var priceGroup = calculatePriceBySection(_serviceForms);
+            _promotionCalculatorTmp.CalculateTotalPrice(estimatePrice, netPrice, priceGroup);
 
             decimal payAmount = _promotionCalculatorTmp.PriceWithoutTax;
-            decimal payment = _promotionCalculatorTmp.NetPriceWithoutTax;
+            decimal payment = _promotionCalculatorTmp.NetPriceWithTax;
 
             Service _service = await db.Services.FindAsync(_servicesTmp.Id);
             ViewBag.ServiceIdSelected = _service != null ? _service.Id : 0;
@@ -5603,7 +5794,7 @@ namespace NicePictureStudio
             //Calculator Cost for all services
             var _promotionCalculatorTmp = TempData["PromotionEdit"] as PromotionCalculator;
             SummarizePrice();
-            decimal price = Convert.ToDecimal(_promotionCalculatorTmp.NetPriceWithoutTax);
+            decimal price = Convert.ToDecimal(_promotionCalculatorTmp.NetPriceWithTax);
             Service _service = await db.Services.FindAsync(_servicesTmp.Id);
             if (_service != null)
             {
@@ -5845,6 +6036,71 @@ namespace NicePictureStudio
             }
         }
 
+        private PricesGroup calculatePriceBySection(List<ServiceForm> _serviceForms)
+        {
+
+            decimal? photographPrices = 0;
+            foreach (var item in _serviceForms)
+            {
+                var photoService = db.PhotographServices.Find(item.EmployeeSchedules.FirstOrDefault().EmployeeServiceId);
+                if (photoService != null)
+                {
+                    photographPrices += photoService.Price;
+                }
+            }
+
+            decimal? locationPrices = 0;
+            foreach (var item in _serviceForms)
+            {
+                foreach (var subitem in item.LocationSchedules)
+                {
+                    var locationService = db.LocationServices.Find(subitem.LocationServiceId);
+                    if (locationService != null)
+                    { locationPrices += locationService.Price; }
+                }
+
+            }
+            decimal? outputPrices = 0;
+            foreach (var item in _serviceForms)
+            {
+                foreach (var subitem in item.OutputSchedules)
+                {
+                    var outputService = db.OutputServices.Find(subitem.OutputServiceId);
+                    if (outputService != null)
+                    { outputPrices += outputService.Price; }
+                }
+
+            }
+
+            decimal? outsourcePrices = 0;
+            foreach (var item in _serviceForms)
+            {
+                foreach (var subitem in item.OutsourceSchedules)
+                {
+                    var outsourceService = db.OutsourceServices.Find(subitem.OutsourceServiceId);
+                    if (outsourceService != null)
+                    { outsourcePrices += outsourceService.Price; }
+                }
+
+            }
+
+            decimal? locationOutingPrices = 0;
+            foreach (var item in _serviceForms)
+            {
+                locationOutingPrices += item.IsOverNight == true ? 3500 : 0;
+            }
+
+            var priceGroup = new PricesGroup {
+                PhotoGraphPrice = (decimal)photographPrices,
+                LocationPrice = (decimal)locationPrices,
+                OutputPrice = (decimal)outputPrices,
+                OutsourcePrice = (decimal)outsourcePrices,
+                OutingPrice = (decimal)locationOutingPrices
+            };
+
+            return priceGroup;
+        }
+
         public PartialViewResult CalculateServiceOverallWhenEdit()
         {
             var _servicesTmp = TempData["ServicesEdit"] as ServicesViewModel;
@@ -5861,11 +6117,12 @@ namespace NicePictureStudio
             {
                 netPrice += item.ServiceNetPrice;
             }
+            var priceGroup = calculatePriceBySection(_serviceForms);
 
-            _promotionCalculatorTmp.CalculateTotalPrice(estimatePrice, netPrice);
+            _promotionCalculatorTmp.CalculateTotalPrice(estimatePrice, netPrice, priceGroup);
 
             decimal payAmount = _promotionCalculatorTmp.PriceWithoutTax;
-            decimal payment = _promotionCalculatorTmp.NetPriceWithoutTax;
+            decimal payment = _promotionCalculatorTmp.NetPriceWithTax;
 
             Service _service = db.Services.Find(_servicesTmp.Id);
             ViewBag.ServiceIdSelected = _service != null ? _service.Id : 0;
@@ -5891,8 +6148,8 @@ namespace NicePictureStudio
                 Location location = db.Locations.Find(LocId);
                 LocationType selectedLocationType =  db.LocationTypes.Find(location.LocationType.Id);
                 LocationStyle selectedLocationStyle =  db.LocationStyles.Find(location.LocationStyle.Id);
-                ViewBag.LocationTypes = new SelectList(db.LocationTypes, "Id", "TypeName", selectedLocationType);
-                ViewBag.LocationStyles = new SelectList(db.LocationStyles, "Id", "Name", selectedLocationStyle);
+                ViewBag.LocationTypes = new SelectList(db.LocationTypes, "Id", "TypeName", selectedLocationType.Id);
+                ViewBag.LocationStyles = new SelectList(db.LocationStyles, "Id", "Name", selectedLocationStyle.Id);
                 return PartialView(location);
             }
             else 
@@ -5919,30 +6176,39 @@ namespace NicePictureStudio
         }
 
         [HttpPost]
-        public int SaveAndGetIdFromLocation([Bind(Include = "LocationName,LocationAddress,Detail,MapURL,MapExplanation")]Location location,string btnSubmitCLocation, int LocationType, int LocationStyle, int? LocationId)
+        public ActionResult SaveAndGetIdFromLocation([Bind(Include = "LocationName,LocationAddress,Detail,MapURL,MapExplanation")]Location location,string btnSubmitCLocation, int LocationType, int LocationStyle, int? LocationId)
         {
             if (btnSubmitCLocation == "CreateNew")
             {
-                int _status = Constant.LOCATION_STATUS_MOREINFO;
-                LocationType _locationType = db.LocationTypes.Find(LocationType);
-                LocationStyle _locationStyle = db.LocationStyles.Find(LocationStyle);
-                LocationStatu _locaionStatus = db.LocationStatus.Find(_status);
-                location.LocationType = _locationType;
-                location.LocationStyle = _locationStyle;
-                location.LocationStatu = _locaionStatus;
-                db.Locations.Add(location);
-                db.SaveChanges();
-                return location.LocationId;
+                if (ModelState.IsValid)
+                {
+                    int _status = Constant.LOCATION_STATUS_MOREINFO;
+                    LocationType _locationType = db.LocationTypes.Find(LocationType);
+                    LocationStyle _locationStyle = db.LocationStyles.Find(LocationStyle);
+                    LocationStatu _locaionStatus = db.LocationStatus.Find(_status);
+                    location.LocationType = _locationType;
+                    location.LocationStyle = _locationStyle;
+                    location.LocationStatu = _locaionStatus;
+                    location.PhoneNumber = Constant.PHONE_NUMBER_DEFAULT;
+                    db.Locations.Add(location);
+                    db.SaveChanges();
+                    return Json(new { location = location.LocationId });
+                }
+                else
+                {
+                   return Json(new { location = 0 });
+                }
+                
             }
             else if (btnSubmitCLocation == "Create")
             {
                 if (LocationId != null)
-                    return (int)LocationId;
+                     return Json(new { location = (int)LocationId });
                 else
-                    return 0;
+                    return Json(new { location = 0 });
             }
             else
-            { return 0; }
+            { return Json(new { location = 0 }); }
         }
 
         [HttpPost]
@@ -6001,6 +6267,37 @@ namespace NicePictureStudio
         //        return null;
         //    }  
         //}
+
+        private ServiceFormFactory RenewServiceFormByInputSection(string serviceType)
+        {
+            var _servicesTmp = TempData["Services"] as ServicesViewModel;
+            TempData.Keep();
+
+            if (_servicesTmp != null)
+            {
+                if (string.Compare(serviceType, PreWedding) == 0)
+                {
+                    _servicesTmp.ServiceFormPreWedding = new ServiceFormFactory();
+                    return _servicesTmp.ServiceFormPreWedding;
+                }
+                else if (string.Compare(serviceType, Engagement) == 0)
+                {
+                    _servicesTmp.ServiceFormEngagement = new ServiceFormFactory();
+                    return _servicesTmp.ServiceFormEngagement;
+                }
+                else if (string.Compare(serviceType, Wedding) == 0)
+                {
+                    _servicesTmp.ServiceFormWedding = new ServiceFormFactory();
+                    return _servicesTmp.ServiceFormWedding;
+                }
+                else
+                { return null; }
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         private ServiceFormFactory CreateServiceFormByInputSection(string serviceType)
         {
@@ -6253,7 +6550,78 @@ namespace NicePictureStudio
                 return 0;
             }
         }
-
-    }
-}
         #endregion
+
+        #region DeleteServiceFrom
+
+        public ActionResult DeleteServiceFrom(int? serviceFormId)
+        {
+            int? _serviceId = null;
+            if (serviceFormId != null)
+            {
+                
+                var serviceForm = db.ServiceForms.Find(serviceFormId);
+                _serviceId = serviceForm.Service.Id;
+                var employeeshcedule = serviceForm.EmployeeSchedules;
+                if(employeeshcedule!=null)
+                db.EmployeeSchedules.RemoveRange(employeeshcedule);
+                //foreach (var emp in employeeshcedule)
+                //{
+                //    db.EmployeeSchedules.Remove(emp);
+                //}
+
+                var equipmentschedule = serviceForm.EquipmentSchedules;
+                if (equipmentschedule != null)
+                db.EquipmentSchedules.RemoveRange(equipmentschedule);
+                //foreach (var eqp in equipmentschedule)
+                //{
+                //    db.EquipmentSchedules.Remove(eqp);
+                //}
+
+                var locationschedule = serviceForm.LocationSchedules;
+                if (locationschedule.Count > 0)
+                    db.LocationSchedules.RemoveRange(locationschedule);
+
+                var isLocationAttach = serviceForm.IsLocationSelected;
+                if (isLocationAttach == true)
+                {
+                    serviceForm.Locations.Remove(serviceForm.Locations.FirstOrDefault());
+                }
+               
+                //foreach (var loc in locationschedule)
+                //{
+                //    db.LocationSchedules.Remove(loc);
+                //}
+
+                var outsourceschedule = serviceForm.OutsourceSchedules;
+                if (outsourceschedule.Count > 0)
+                    db.OutsourceSchedules.RemoveRange(outsourceschedule);
+                //foreach (var ouc in outsourceschedule)
+                //{
+                //    db.OutsourceSchedules.Remove(ouc);
+                //}
+
+                var outputschedule = serviceForm.OutputSchedules;
+                if (outputschedule.Count > 0)
+                    db.OutputSchedules.RemoveRange(outputschedule);
+                //foreach (var outp in outputschedule)
+                //{
+                //    db.OutputSchedules.Remove(outp);
+                //}
+
+                db.ServiceForms.Remove(serviceForm);
+
+                db.SaveChanges();
+            }
+
+            return PartialView("TableServices",_serviceId);
+        }
+
+
+        #endregion
+    }
+
+
+}
+        
+

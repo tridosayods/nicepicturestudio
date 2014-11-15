@@ -73,14 +73,23 @@
                 </tr>
                 <tr>
                     <td><label>ภาษี </label></td>
-                    <td class="text-right"><label class="control-label text-right">10%</label></td>
+                    <td class="text-right"><label class="control-label text-right">7%</label></td>
                 </tr>
                 <tr>
                     <td><label id="lblTotalWithTAXContext">ราคารวม </label></td>
                     <td class="text-right"><label id="lblTotalCostWithTAX" class="control-label">@Model.TotalPrice บาท</label></td>
                 </tr>
 
+                <tr>
+                    <td><label id="lblTotalWithTAXContext">ราคารวม </label></td>
+                    <td class="text-right"><label id="lblTotalCostWithTAX" class="control-label">@Model.TotalPrice บาท</label></td>
+                </tr>
+                <tr>
+                    <td><label id="lblTotalWithTAXContext">ส่วนที่ต้องวางมัดจำ </label></td>
+                    <td class="text-right"><label id="lblTotalCostWithTAX" class="control-label text-danger">@Model.PayFirstText บาท</label></td>
+                </tr>
             </table>
+           
                
             @*<div class="form-horizontal">
                 <div class="form-group-sm">

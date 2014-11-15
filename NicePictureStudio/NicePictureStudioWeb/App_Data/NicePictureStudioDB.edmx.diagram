@@ -98,6 +98,9 @@
         <EntityTypeShape EntityType="NicePictureStudioDBModel.EquipmentSet" Width="1.5" PointX="15.375" PointY="1" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_EquipmentSet_Equipment" />
         <AssociationConnector Association="NicePictureStudioDBModel.FK_EquipmentSet_EquipmentService" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.Aumphur" Width="1.5" PointX="16.75" PointY="20.75" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.District" Width="1.5" PointX="0.75" PointY="21.75" />
+        <EntityTypeShape EntityType="NicePictureStudioDBModel.Province" Width="1.5" PointX="2.75" PointY="21.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

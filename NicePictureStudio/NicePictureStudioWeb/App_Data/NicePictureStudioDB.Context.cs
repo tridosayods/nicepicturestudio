@@ -75,5 +75,8 @@ namespace NicePictureStudio.App_Data
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<EquipmentService> EquipmentServices { get; set; }
         public virtual DbSet<EquipmentSet> EquipmentSets { get; set; }
+        public virtual DbSet<Aumphur> Aumphurs { get; set; }
+        public virtual DbSet<District> Districts { get; set; }
+        public virtual DbSet<Province> Provinces { get; set; }
     }
 }

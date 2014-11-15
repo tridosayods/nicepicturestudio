@@ -40,11 +40,16 @@
             });
         });
 
+        $(function () {
+            var locationId = $("#LocationFormId").val();
+        });
+
     });
 
 </script>
 
 <div id="ServiceSelection">
+    <div class="label label-danger" id="lblLocationSelectInfo">สถานที่ในการถ่ายทำได้ถูกเลือกไว้แล้ว กรุณาไปยังส่วนของการเลือกบริการจัดจ้างในขั้นตอนถัดไป</div>
     <div class="panel panel-default">
         <div class="panel-heading">ตัวเลือกต่างๆ</div>
         <div class="panel-info">
@@ -52,15 +57,14 @@
                 <tr>
                     <td class="col-md-5">
                         <div class="form-horizontal">
-                            <div class="form-group-sm">
+                            @*<div class="form-group-sm">
                                 <div>ค้นหาชื่อสถานที่</div>
                                 <div>
-                                    @*@Html.Kendo().AutoComplete().Name("HotelList").BindTo(new string[] {"Hilton","Sheraton","Shangarila","Orienten","Dusit","Centara Grand" }).HtmlAttributes(new { @style="width:250px"})*@
                                     @Html.TextBox("LocationSelectSearch", null, new { @class = "autocomplete-with-hidden-location-select form-control", data_url = Url.Action("Search_LocationServices", "Services") })
                                     @Html.Hidden("LocationSelectId")
                                 </div>
                             </div>
-                            <hr />
+                            <hr />*@
                             <div class="form-group-sm">
                                 <div>ประเภทของสถานที่</div>
                                 <div>
@@ -134,10 +138,11 @@
                                         }
                                     </script>
 
-                                    @(Html.Kendo().DropDownList()
+                                   @(Html.Kendo().ComboBox()
                                           .Name("dwnServicePattern")
-                                          .HtmlAttributes(new { @style = "width:180px", @id = "dwnServicePattern" })
-                                          .OptionLabel("บริการเลือกสถานที่..")
+                                          .HtmlAttributes(new { @style = "width:240px", @id = "dwnServicePattern" })
+                                           //.OptionLabel("บริการเลือกสถานที่..")
+                                          .Placeholder("บริการเลือกสถานที่..")
                                           .DataTextField("LocationServiceName")
                                           .DataValueField("LocationServiceID")
                                           .DataSource(source =>
@@ -151,8 +156,9 @@
                                           })
                                           .Enable(false)
                                           .AutoBind(false)
-                                                  .CascadeFrom("LocationServiceStyle")
-                                    )
+                                          .CascadeFrom("LocationServiceStyle")
+                                          .Suggest(false)
+                                )
 
 
                                 </div>

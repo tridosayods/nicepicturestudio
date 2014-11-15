@@ -1,6 +1,31 @@
 ﻿@model NicePictureStudio.App_Data.ServiceForm
 
-<script>
+<script type="text/javascript">
+    kendo.culture("th-TH");
+
+    $(document).ready(function () {
+        jQuery.validator.addMethod(
+                'date',
+                function (value, element, params) {
+                    if (this.optional(element)) {
+                        return true;
+                    };
+                    var result = false;
+                    try {
+                        var date = kendo.parseDate(value, "dd/MM/yyyy");
+                        result = true;
+                        if (!date) {
+                            result = false;
+                        }
+                    } catch (err) {
+                        result = false;
+                    }
+                    return result;
+                },
+                ''
+            );
+
+    });
 
     function startChange() {
         var endPicker = $("#EventEndDate").data("kendoDateTimePicker"),
@@ -27,7 +52,7 @@
     function EnableServiceFormItem() {
         $("#LocationName").attr("disabled", null);
         $("#GuestNumber").data("kendoNumericTextBox").enable();
-        $("#IsLocationSelected").attr("disabled", null);
+        //$("#IsLocationSelected").attr("disabled", null);
         $("#IsOvernightSelected").attr("disabled", null);
         $("#ServiceTypeId").data("kendoDropDownList").enable();
         $("#EventStartDate").data("kendoDateTimePicker").enable();
@@ -52,7 +77,7 @@
 </script>
 
 <div id="ServiceNavigation">
-    <div class="container">
+    <div class="container-fluid">
         <table class="table table-responsive">
             <tr>
                 <td class="col-sm-4 col-md-4">
@@ -79,7 +104,7 @@
                                                @id = "EventStartDate",
                                                @styles = "width:120px"
                                                   }).Value(Model.EventStart == DateTime.MinValue ? DateTime.Now : Model.EventStart).Events(e =>
-                                                    e.Change("startChange"))
+                                                             e.Change("startChange")).Format("dd/MM/yyyy HH:mm").ParseFormats(new string[]{"dd/MM/yyyy HH:mm"})
                                                 @*@Html.Kendo().DateTimePicker().Name("EventStartDate").Min(DateTime.Now.AddDays(-1)).Events(e => e.Change("startChange")).Value(DateTime.Now)*@
                                                 @Html.ValidationMessageFor(model => model.EventStart)
                                             </div>
@@ -93,7 +118,7 @@
                                                 @id = "EventEndDate",
                                                 @styles = "width:120px"
                                             }).Value(Model.EventEnd == DateTime.MinValue ? DateTime.Now : Model.EventEnd).Events(e =>
-                                                             e.Change("endChange"))
+                                                             e.Change("endChange")).Format("dd/MM/yyyy HH:mm").ParseFormats(new string[] { "dd/MM/yyyy HH:mm" })
                                                 @*@Html.Kendo().DateTimePicker().Name("EventEnd").Min(DateTime.Now)*@
                                                 @Html.ValidationMessageFor(model => model.EventEnd)
                                             </div>
@@ -199,7 +224,7 @@
                                         <div class="form-group">
                                             <div style="align-content:initial" class="col-sm-12 text-left">
                                                 <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>&nbsp;บันทึก และ ไปยังขั้นตอนถัดไป</button>
-                                                <button id="EditStartService" type="button" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>&nbsp;แก้ไข</button>
+                                                <button id="EditStartService" type="button" class="btn btn-default hidden"><span class="glyphicon glyphicon-book"></span>&nbsp;แก้ไข</button>
                                             </div>
                                            
                                         </div>
@@ -324,7 +349,7 @@
                             </div>
                         </div> <!-- End row-->
                 </td>
-                <td class="col-sm-8 col-md-8">
+                <td class="col-sm-8">
                     <div>
                         <div class="panel panel-default">
                             <div class="panel-heading">รายละเอียดการให้บริการ</div>
@@ -378,6 +403,7 @@
 </div>
 
 <script type="text/javascript">
+    kendo.culture("th-TH");
     $(document).ready(function () {
 
         $("#EventStart").kendoDateTimePicker().attr("required", true);
@@ -402,10 +428,24 @@
             var isselectedLocation = $("#IsLocationSelected").is(':checked');
             var isovernight = $("#IsOvernightSelected").is(':checked');
             var locationId = $("#LocationFormId").val();
+            
+            var startParse = $("#EventStartDate").kendoDateTimePicker({
+                parseFormats: ["dd/MM/yyyy hh:mm tt"],
+                format: "dd/MM/yyyy HH:mm"
+            }).data("kendoDateTimePicker");
+
+            var endParse = $("#EventEndDate").kendoDateTimePicker({
+                parseFormats: ["dd/MM/yyyy hh:mm tt"],
+                format: "dd/MM/yyyy HH:mm"
+            }).data("kendoDateTimePicker");
+
+            var start = kendo.parseDate(startParse.value()).toISOString();
+            var end = kendo.parseDate(endParse.value()).toISOString();
+            //alert(start);
 
             $.ajax({
                 url: url,
-                data: { id: null, serviceType: selectedValue, startDate: selectedStartDate, endDate: selectedEndDate, guestNumber: guestNum, locationId: locationId, isLocationSelected: isselectedLocation, isOvernight: isovernight },
+                data: { id: null, serviceType: selectedValue, startDate: start, endDate: end, guestNumber: guestNum, locationId: locationId, isLocationSelected: isselectedLocation, isOvernight: isovernight },
                 type: "GET",
                 success: function (data) {
                     $("#LocationFillUp").hide();

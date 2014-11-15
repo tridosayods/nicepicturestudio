@@ -19,6 +19,51 @@
         $("#page3Id").val($("#Code").val());
     }
 
+    $("#OverNightPeriod").kendoNumericTextBox().attr("disabled", "disabled");
+    $("#OverNightPeriod").kendoNumericTextBox({
+        format: "d",
+        decimals: 0
+    });
+    $("#OverNightPeriod").data("kendoNumericTextBox").wrapper.width("100px");
+    $("#OverNightPeriod").data("kendoNumericTextBox").wrapper.attr("disabled", "disabled");
+
+
+    $(function () {
+        var locationId = $("#LocationFormId").val();
+
+        if (locationId != "") {
+            $("#LocationSelectSearch").attr("disabled", "disabled");
+            $("#LocationServiceType").attr("disabled", "disabled");
+            $("#btnSelectedLocation").attr("disabled", "disabled");
+            $("#lblLocationSelectInfo").removeClass("hidden");
+            $("#lblLocationSelectInfoFooter").removeClass("hidden");
+        }
+        else {
+            $("#LocationSelectSearch").attr("disabled", null);
+            $("#LocationServiceType").attr("disabled", null);
+            //$("#btnSelectedLocation").attr("disabled", null);
+            $("#lblLocationSelectInfo").addClass("hidden");
+            $("#lblLocationSelectInfoFooter").addClass("hidden");
+            if (('@ViewBag.ListLocationServices' != null) && ('@ViewBag.ListLocationServices' != "")) {
+
+                $("#btnSelectedLocation").attr("disabled", "disabled");
+            }
+            else {
+
+                $("#btnSelectedLocation").attr("disabled", null);
+            }
+        }
+
+    });
+
+    function ChooseLocation() {
+        $("#btnSelectedLocation").attr("disabled", "disabled");
+    }
+
+    function RemoveLocation() {
+        $("#btnSelectedLocation").attr("disabled", null);
+    }
+
 </script>
 
 <div id="divLocation">
@@ -26,7 +71,8 @@
         {
             HttpMethod = "POST",
             InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = "tblLocation"
+            UpdateTargetId = "tblLocation",
+            OnSuccess = "ChooseLocation()"
         }))
     {
         @Html.AntiForgeryToken()
@@ -36,24 +82,24 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.Label("ชื่อสถานที่", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.Label("ชื่อสถานที่", htmlAttributes: new { @class = "col-md-12" })
+            <div class="col-md-12">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.Label("รายละเเอียด", "LocationId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.Label("รายละเเอียด", "LocationId", htmlAttributes: new { @class = "col-md-12" })
+            <div class="col-md-12">
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.Label("ราคา", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.Label("ราคา", htmlAttributes: new { @class = "col-md-12" })
+            <div class="col-md-12">
                 @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
                 @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
             </div>
@@ -63,21 +109,33 @@
         @Html.HiddenFor(model => model.Cost)
 
         <div class="form-group">
-            @Html.Label("สถานที่อยู่ต่างจังหวัด", htmlAttributes: new { @class = "control-label col-md-2", @readonly = true })
+            @*@Html.Label("สถานที่อยู่ต่างจังหวัด", htmlAttributes: new { @class = "col-md-12", @readonly = true })*@
             <div class="col-md-10">
-                <div class="col-sm-1">
-                    @Html.CheckBoxFor(model => model.IsOverNight, new { @class = "form-control" })
+                <div class="col-md-12">
+                    @Html.CheckBoxFor(model => model.IsOverNight, new { @class = "right", @Disabled = true })
                     @Html.ValidationMessageFor(model => model.IsOverNight, "", new { @class = "text-danger" })
+
+                    @*</div>*@
+                    @Html.Label(" สถานที่อยู่ต่างจังหวัด", htmlAttributes: new { @class = "", @readonly = true })
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.Label("จำนวนวันค้างแรม", htmlAttributes: new { @class = "control-label col-md-2", @readonly = true })
-            <div class="col-md-10">
+        @*<div class="form-group">
+            @Html.Label("จำนวนวันค้างแรม", htmlAttributes: new { @class = "col-md-12", @readonly = true })
+            <div class="col-md-12">
                 @Html.EditorFor(model => model.OverNightPeriod, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.OverNightPeriod, "", new { @class = "text-danger" })
             </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.Label("จำนวนวันค้างแรม", htmlAttributes: new { @class = "col-md-12", @readonly = true })
+            <div class="col-md-12">
+                @Html.Kendo().NumericTextBoxFor(model => model.OverNightPeriod).HtmlAttributes(new { @id = "OverNightPeriod", @disabled = true }).Min(0).Format("#:0")
+                @Html.ValidationMessageFor(model => model.OverNightPeriod, "", new { @class = "text-danger" })
+            </div>
+
         </div>
 
         @Html.HiddenFor(model => model.Location.LocationId, htmlAttributes: new { @id = "LocationId", @Name = "LocationId" })
@@ -86,8 +144,8 @@
         @Html.Hidden("IsEditTable", new { IsEditTable = @ViewBag.IsEditTable })
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="เลือกสถานที่" class="btn btn-default" />
+            <div class="col-md-10">
+                <input id="btnSelectedLocation" type="submit" value="เลือกสถานที่" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -146,7 +204,7 @@
                 </div>
             </div>
         </div>*@
-
+    <div class="label label-danger" id="lblLocationSelectInfoFooter">สถานที่ในการถ่ายทำได้ถูกเลือกไว้แล้ว กรุณาไปยังส่วนของการเลือกบริการจัดจ้างในขั้นตอนถัดไป</div>
     <div id="tblLocation">
         @if (@ViewBag.ListLocationServices != null)
         {
@@ -168,7 +226,7 @@
                                 <td>No</td>
                                 <td>-</td> }
                             <td>@item.Price</td>
-                            <td>@Ajax.ActionLink("Remove", "RemoveLocationWhenEditNew", new { Id = @item.Id, serviceType = @ViewData["ServiceType"],IsEditTable = @ViewBag.IsEditTable }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblLocation" })</td>
+                            <td>@Ajax.ActionLink("Remove", "RemoveLocationWhenEditNew", new { Id = @item.Id, serviceType = @ViewData["ServiceType"], IsEditTable = @ViewBag.IsEditTable }, new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tblLocation", OnComplete = "RemoveLocation()" })</td>
                         </tr>
                     }
                 </table>

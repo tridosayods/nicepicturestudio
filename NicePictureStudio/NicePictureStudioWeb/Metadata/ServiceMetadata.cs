@@ -35,4 +35,18 @@ namespace NicePictureStudio.App_Data
         public object GuestNumber { get; set; }
     }
 
+
+    [MetadataType(typeof(LocationMetadata))]
+    public partial class Location
+    { }
+
+    public class LocationMetadata
+    {
+        [Required]
+        public object LocationName { get; set; }
+
+        [Required]
+        public object LocationAddress { get; set; }
+    }
+
 }

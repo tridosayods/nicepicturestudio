@@ -15,24 +15,24 @@
                     @*<th>ค่าใช้จ่าย</th>*@
                 </tr>
                 <tr>
-                    <td><label>ค่าใช้จ่ายส่วนของช่างถ่ายภาพ</label></td>
-                    <td class="text-right"><label id="lblEstimateCost" class="control-label"> @Model.PhotoGraphPriceText บาท</label></td>
+                    <td><label class="small">ค่าใช้จ่ายส่วนของช่างถ่ายภาพ</label></td>
+                    <td class="text-right small"><label id="lblEstimateCost" class="control-label"> @Model.PhotoGraphPriceText บาท</label></td>
                 </tr>
                 <tr>
-                    <td><label>ค่าใช้จ่ายส่วนของชิ้นงาน</label></td>
-                    <td class="text-right"><label id="lblEstimateCost" class="control-label"> @Model.OutputPriceText บาท</label></td>
+                    <td><label class="small">ค่าใช้จ่ายส่วนของชิ้นงาน</label></td>
+                    <td class="text-right small"><label id="lblEstimateCost" class="control-label"> @Model.OutputPriceText บาท</label></td>
                 </tr>
                 <tr>
-                    <td><label>ค่าใช้จ่ายส่วนของสถานที่ถ่ายภาพ</label></td>
-                    <td class="text-right"><label id="lblEstimateCost" class="control-label"> @Model.LocationPriceText บาท</label></td>
+                    <td><label class="small">ค่าใช้จ่ายส่วนของสถานที่ถ่ายภาพ</label></td>
+                    <td class="text-right small"><label id="lblEstimateCost" class="control-label"> @Model.LocationPriceText บาท</label></td>
                 </tr>
                 <tr>
-                    <td><label>ค่าใช้จ่ายส่วนของการจัดจ้าง</label></td>
-                    <td class="text-right"><label id="lblEstimateCost" class="control-label"> @Model.OutsourcePriceText บาท</label></td>
+                    <td><label class="small">ค่าใช้จ่ายส่วนของการจัดจ้าง</label></td>
+                    <td class="text-right small"><label id="lblEstimateCost" class="control-label"> @Model.OutsourcePriceText บาท</label></td>
                 </tr>
                 <tr>
-                    <td><label>ค่าใช้จ่ายสำหรับการดำเนินงานนอกสถานที่</label></td>
-                    <td class="text-right"><label id="lblEstimateCost" class="control-label"> @Model.OutingOverallText บาท</label></td>
+                    <td><label class="small">ค่าใช้จ่ายสำหรับการดำเนินงานนอกสถานที่</label></td>
+                    <td class="text-right small"><label id="lblEstimateCost" class="control-label"> @Model.OutingOverallText บาท</label></td>
                 </tr>
             </table>
 
@@ -41,28 +41,28 @@
                     <th style="background-color:lightgrey" colspan="2">ค่าใช้จ่ายทั้งหมด</th>
                 </tr>
                 <tr>
-                    <td><label id="lblEstimateContext">ค่าใช้จ่ายเบื้องต้น</label></td>
-                    <td class="text-right"><label id="lblEstimateCost" class="control-label"> @Model.EstimatePrice บาท</label></td>
+                    <td><label id="lblEstimateContext" class="small">ค่าใช้จ่ายเบื้องต้น</label></td>
+                    <td class="text-right small"><label id="lblEstimateCost" class="control-label"> @Model.EstimatePrice บาท</label></td>
                 </tr>
                 <tr>
-                    <td><label id="lblPromotionContext">โปรโมชั่นที่เลือกไว้</label></td>
-                    <td class="text-right"><label id="lblPromotionSelected" class="control-label">@Model.PromotionName </label></td>
+                    <td><label id="lblPromotionContext" class="small">โปรโมชั่นที่เลือกไว้</label></td>
+                    <td class="text-right small"><label id="lblPromotionSelected" class="control-label">@Model.PromotionName </label></td>
                 </tr>
                 <tr>
-                    <td><label id="lblPromotionDiscountContext">ส่วนลด </label></td>
-                    <td class="text-right"><label id="lblPromotionDiscount" class="control-label"> @Model.PromotionDiscount </label></td>
+                    <td><label id="lblPromotionDiscountContext" class="small">ส่วนลด </label></td>
+                    <td class="text-right small"><label id="lblPromotionDiscount" class="control-label"> @Model.PromotionDiscount </label></td>
                 </tr>
                 <tr>
-                    <td><label id="lblTotalCostContext">ค่าใช้จ่ายก่อนหักภาษี </label></td>
-                    <td class="text-right"><label id="lblTotalCost" class="control-label">@Model.TotalPriceBeforeTax บาท</label></td>
+                    <td><label id="lblTotalCostContext" class="small">ค่าใช้จ่ายก่อนหักภาษี </label></td>
+                    <td class="text-right small"><label id="lblTotalCost" class="control-label">@Model.TotalPriceBeforeTax บาท</label></td>
                 </tr>
                 <tr>
-                    <td><label>ภาษี </label></td>
-                    <td class="text-right"><label class="control-label text-right">10%</label></td>
+                    <td><label class="small">ภาษี </label></td>
+                    <td class="text-right small"><label class="control-label text-right">7%</label></td>
                 </tr>
                 <tr>
-                    <td><label id="lblTotalWithTAXContext">ราคารวม </label></td>
-                    <td class="text-right"><label id="lblTotalCostWithTAX" class="control-label">@Model.TotalPrice บาท</label></td>
+                    <td><label id="lblTotalWithTAXContext" class="small">ราคารวม </label></td>
+                    <td class="text-right small"><label id="lblTotalCostWithTAX" class="control-label">@Model.TotalPrice บาท</label></td>
                 </tr>
 
             </table>

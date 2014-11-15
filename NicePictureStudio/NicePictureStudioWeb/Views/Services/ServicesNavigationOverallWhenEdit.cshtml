@@ -1,6 +1,31 @@
 ﻿@model NicePictureStudio.App_Data.ServiceForm
 
 <script>
+    kendo.culture("th-TH");
+
+    $(document).ready(function () {
+        jQuery.validator.addMethod(
+                'date',
+                function (value, element, params) {
+                    if (this.optional(element)) {
+                        return true;
+                    };
+                    var result = false;
+                    try {
+                        var date = kendo.parseDate(value, "dd/MM/yyyy");
+                        result = true;
+                        if (!date) {
+                            result = false;
+                        }
+                    } catch (err) {
+                        result = false;
+                    }
+                    return result;
+                },
+                ''
+            );
+
+    });
 
     function startChange() {
         var endPicker = $("#EventEndDate").data("kendoDateTimePicker"),
@@ -27,7 +52,7 @@
     function EnableServiceFormItem() {
         $("#LocationName").attr("disabled", null);
         $("#GuestNumber").data("kendoNumericTextBox").enable();
-        $("#IsLocationSelected").attr("disabled", null);
+        //$("#IsLocationSelected").attr("disabled", null);
         $("#IsOvernightSelected").attr("disabled", null);
         $("#ServiceTypeId").data("kendoDropDownList").enable();
         $("#EventStartDate").data("kendoDateTimePicker").enable();
@@ -36,7 +61,8 @@
         $("#ServiceSelection").hide();
     }
 
-    function DisableServiceFormItem() {
+    function DisableServiceFormItem()
+    {
         $("#LocationName").attr("disabled", "disabled");
         $("#GuestNumber").data("kendoNumericTextBox").enable(false);
         $("#IsLocationSelected").attr("disabled", "disabled");
@@ -51,7 +77,7 @@
 </script>
 
 <div id="ServiceNavigation">
-    <d class="container">
+    <div class="container-fluid">
         <table class="table table-responsive">
             <tr>
                 <td class="col-md-4 col-lg-4">
@@ -59,20 +85,20 @@
                     <div>
                         @Html.AntiForgeryToken()
                         <form class="panel panel-primary" id="FormSubmit">
-                            <div class="panel-heading">Services Details</div>
+                            <div class="panel-heading">ข้อมูลการให้บริการ</div>
                             <div class="panel-body">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="form-horizontal">
                                     <div class="form-group">
-                                        @Html.Label("ประเภทบริการ", new { @class = "col-sm-3" })
-                                        <div class="col-sm-9">
+                                        @Html.Label("ประเภทบริการ", new { @class = "col-sm-12" })
+                                        <div class="col-sm-12">
                                             @Html.Kendo().DropDownList().Name("ServiceTypeId").BindTo(new string[] { "PreWedding", "Engagement", "Wedding" })
                                             @Html.ValidationMessage("ServiceTypeId", "กรุณาเลือกประเภทการให้บริการ")
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        @Html.Label("เริ่มต้น ", new { @class = "col-sm-3" })
-                                        <div class="col-sm-9">
+                                        @Html.Label("เริ่มต้น ", new { @class = "col-sm-12" })
+                                        <div class="col-sm-12">
                                             @Html.Kendo().DateTimePickerFor(model => model.EventStart).Min(DateTime.Now).HtmlAttributes(new
                                            {
                                                @id = "EventStartDate",
@@ -86,8 +112,8 @@
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.Label("เริ่มต้น ", new { @class = "col-sm-3" })
-                                        <div class="col-sm-9">
+                                        @Html.Label("เริ่มต้น ", new { @class = "col-sm-12" })
+                                        <div class="col-sm-12">
                                             @Html.Kendo().DateTimePickerFor(model => model.EventEnd).Min(DateTime.Now).HtmlAttributes(new
                                            {
                                                @id = "EventEndDate",
@@ -99,8 +125,8 @@
                                         </div>
                                         </div>
                                     <div class="form-group">
-                                        @Html.Label("จำนวกแขกในงาน", new { @class = "col-sm-3" })
-                                        <div class="col-sm-9">
+                                        @Html.Label("จำนวกแขกในงาน", new { @class = "col-sm-12" })
+                                        <div class="col-sm-12">
                                             @Html.Kendo().NumericTextBoxFor(model => model.GuestsNumber).Min(1).HtmlAttributes(new { @id = "GuestNumber" }).Value(Model.GuestsNumber == null ? 100 : Model.GuestsNumber)
                                             @*@Html.Kendo().NumericTextBox().Name("GuestNumber").Min(1).Value(50)*@
                                             @Html.ValidationMessageFor(model => model.GuestsNumber)
@@ -143,8 +169,8 @@
 
                                     <div class="form-group">
                                         <div style="align-content:center" class="col-sm-12 text-right">
-                                            <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>บีนทึก</button>
-                                            <button id="EditStartService" type="button" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>&nbsp;แก้ไข</button>
+                                            <button id="StartCreateService" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-book"></span>&nbsp;บันทึก และ ไปยังขั้นตอนถัดไป</button>
+                                            <button id="EditStartService" type="button" class="btn btn-default hidden"><span class="glyphicon glyphicon-book"></span>&nbsp;แก้ไข</button>
                                         </div>
                                         </div>
                                 </div>
@@ -211,6 +237,7 @@
         @*</div>*@
         @*</div>*@
     </div>
+  </div>
     <div id="HiddenNav">
         @Html.Hidden("hdPage1", null, new { @id = "page1Id" })
         @Html.Hidden("hdPage2", null, new { @id = "page2Id" })
@@ -243,9 +270,22 @@
             var isovernight = $("#IsOvernightSelected").is(':checked');
             var locationId = $("#LocationFormId").val();
 
+            var startParse = $("#EventStartDate").kendoDateTimePicker({
+                parseFormats: ["dd/MM/yyyy hh:mm tt"],
+                format: "dd/MM/yyyy HH:mm"
+            }).data("kendoDateTimePicker");
+
+            var endParse = $("#EventEndDate").kendoDateTimePicker({
+                parseFormats: ["dd/MM/yyyy hh:mm tt"],
+                format: "dd/MM/yyyy HH:mm"
+            }).data("kendoDateTimePicker");
+
+            var start = kendo.parseDate(startParse.value()).toISOString();
+            var end = kendo.parseDate(endParse.value()).toISOString();
+
             $.ajax({
                 url: url,
-                data: { id: null, serviceType: selectedValue, startDate: selectedStartDate, endDate: selectedEndDate, guestNumber: guestNum, locationId: locationId, isLocationSelected: isselectedLocation, isOvernight: isovernight },
+                data: { id: null, serviceType: selectedValue, startDate: start, endDate: end, guestNumber: guestNum, locationId: locationId, isLocationSelected: isselectedLocation, isOvernight: isovernight },
                 type: "GET",
                 success: function (data) {
                     $("#LocationFillUp").hide();

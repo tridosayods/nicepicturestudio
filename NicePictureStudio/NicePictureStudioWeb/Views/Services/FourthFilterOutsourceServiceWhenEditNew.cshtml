@@ -4,12 +4,12 @@
         $("#dwnServicePattern").on("change", function (item) {
             event.preventDefault();
             var selectedItem = $("#dwnServicePattern").val();
-            alert(selectedItem);
+            //alert(selectedItem);
             $.ajax({
                 url: '@Url.Action("CreateOutsourceServiceByModalWhenEditNew", "Services")',
                 data: { id: selectedItem, serviceType: '@ViewData["SType"]',IsEditTable: '@ViewBag.IsEditTable' },
                 type: "GET",
-                success: function (data) { $("#divLocation").replaceWith(data); }
+                success: function (data) { $("#divOutsource").replaceWith(data); }
             });
         });
     });

@@ -9,7 +9,7 @@
                 url: '@Url.Action("CreateOutsourceServiceByModal", "Services")',
                 data: { id: selectedItem, serviceType: '@ViewData["SType"]' },
                 type: "GET",
-                success: function (data) { $("#divLocation").replaceWith(data); }
+                success: function (data) { $("#divOutsource").replaceWith(data); }
             });
         });
     });

@@ -10,6 +10,7 @@
                 <th>เวลาสิ้นสุดการให้บริการ</th>
                 <th>ราคา</th>
                 <th></th>
+                <th></th>
             </tr>
             @foreach (NicePictureStudio.App_Data.ServiceForm item in @ViewBag.ServicesListSummary)
             {
@@ -19,6 +20,7 @@
                     <td>@item.EventEnd</td>
                     <td>@item.ServicePrice.Value.ToString("#,#0.00") บาท</td>
                     <td><button onclick="OpenServiceDialog(@item.Id)" type="button" class="btn-default" value="Details"><span class="glyphicon glyphicon-edit"></span>แก้ไข</button></td>
+                    <td><button onclick="DeleteServiceDialog(@item.Id)" type="button" class="btn btn-default" value="DeleteITem"><span class="glyphicon-remove-sign"></span>ยกเลิก</button></td>
                 </tr>
             }
         </table>
@@ -37,5 +39,15 @@
             $("#NavPattern").modal('show');
         });
     }
+
+    function DeleteServiceDialog(id) {
+        //alert(id);
+        var url = '@Url.Action("DeleteServiceFrom", "Services")';
+        var data = { serviceFormId: id };
+        $.get(url, data, function (data) {
+            $("#tblServiceFormSummary").html(data);
+        });
+    }
+
 </script>
 

@@ -65,7 +65,9 @@ namespace NicePictureStudio
                     BookingStatus = "เลยกำหนดนัดหมาย",
                     Details = books.Details,
                     PromotionName = books.Promotion == null ? string.Empty : books.Promotion.Name,
-                    ServiceName = books.Service == null ? string.Empty : books.Service.Customer.CustomerName
+                    ServiceName = books.Service == null ? string.Empty : books.Service.Customer.CustomerName,
+                    ContactEmail = books.ContactEmail,
+                    ContactNumber = books.ContactNumber
                 };
                 lstBookingNotConfirm.Add(booking);
             }
@@ -84,7 +86,9 @@ namespace NicePictureStudio
                     BookingStatus = "ใกล้ถึงเวลานัดหมาย",
                     Details = books.Details,
                     PromotionName = books.Promotion == null ? string.Empty : books.Promotion.Name,
-                    ServiceName = books.Service == null ? string.Empty : books.Service.Customer.CustomerName
+                    ServiceName = books.Service == null ? string.Empty : books.Service.Customer.CustomerName,
+                    ContactEmail = books.ContactEmail,
+                    ContactNumber = books.ContactNumber
                 };
                 lstBookingTobeConfirm.Add(booking);
             }
@@ -103,7 +107,9 @@ namespace NicePictureStudio
                     BookingStatus = books.BookingStatu.Name,
                     Details = books.Details,
                     PromotionName = books.Promotion == null ? string.Empty : books.Promotion.Name,
-                    ServiceName = books.Service == null ? string.Empty : books.Service.Customer.CustomerName
+                    ServiceName = books.Service == null ? string.Empty : books.Service.Customer.CustomerName,
+                    ContactEmail = books.ContactEmail,
+                    ContactNumber = books.ContactNumber
                 };
                 lstBookingNormalAlls.Add(booking);
             }
@@ -126,7 +132,9 @@ namespace NicePictureStudio
                 BookingStatus = task.BookingStatus,
                 Details = task.Details,
                PromotionName = task.PromotionName ,
-               ServiceName = task.ServiceName 
+               ServiceName = task.ServiceName ,
+                ContactEmail = task.ContactEmail,
+                ContactNumber = task.ContactNumber
             }
              ).AsQueryable();
             return Json(tasks.ToDataSourceResult(request));

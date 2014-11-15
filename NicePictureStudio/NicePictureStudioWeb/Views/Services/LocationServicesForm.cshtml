@@ -5,11 +5,11 @@
     {
         HttpMethod = "POST",
         OnBegin = "ValidateFormClocation",
-        OnSuccess = "FinishSubmitCLocation",
-    }))
+        OnSuccess = "FinishSubmitCLocation"
+    }, new { @id = "FormLocation" }))
     {
         @Html.AntiForgeryToken()
-
+    <form id="FormRole" role="form">
         <div class="form-horizontal">
             <h4>สถานที่ในการถ่ายภาพ</h4>
             <hr />
@@ -22,7 +22,7 @@
                         @Html.EditorFor(model => model.LocationName, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.LocationName, "", new { @class = "text-danger" })
                     </div>
-                    </div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -33,7 +33,8 @@
                         @Html.EditorFor(model => model.LocationAddress, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.LocationAddress, "", new { @class = "text-danger" })
                     </div>
-                    </div>
+                   
+                </div>
             </div>
 
 
@@ -42,10 +43,10 @@
                 <div class="col-sm-8">
                     <div class="input-group">
                         <div class="input-group-addon"><span class="label label-default">T</span></div>
-                        @Html.TextAreaFor(model => model.Detail, new  { @class = "form-control",@rows ="5" } )
+                        @Html.TextAreaFor(model => model.Detail, new { @class = "form-control", @rows = "5" })
                         @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
                     </div>
-                    </div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -64,7 +65,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 @Html.Label("แผนที่", htmlAttributes: new { @class = "control-label col-sm-4" })
                 <div class="col-sm-8">
                     <div class="input-group">
@@ -72,7 +73,7 @@
                         @Html.TextAreaFor(model => model.MapURL, new { @class = "form-control", @rows = "5" })
                         @Html.ValidationMessageFor(model => model.MapURL, "", new { @class = "text-danger" })
                     </div>
-                    </div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -80,25 +81,26 @@
                 <div class="col-sm-8">
                     <div class="input-group">
                         <div class="input-group-addon"><span class="label label-default">T</span></div>
-                        @Html.TextAreaFor(model => model.MapExplanation, new { @class = "form-control",@rows = "5" })
+                        @Html.TextAreaFor(model => model.MapExplanation, new { @class = "form-control", @rows = "5" })
                         @Html.ValidationMessageFor(model => model.MapExplanation, "", new { @class = "text-danger" })
                     </div>
-                    </div>
-            </div>
+                </div>
+            </div>*@
 
-            @Html.HiddenFor(model => model.LocationId, new { @id="LocationFormId"})
+            @Html.HiddenFor(model => model.LocationId, new { @id = "LocationFormId" })
 
             <hr />
             <div class="form-group">
                 <div class="col-sm-12">
-                    <button type="submit" id="btnSubmitNewCLocation" name="btnSubmitCLocation" value="CreateNew" class="btn btn-default">บันทึกเป็นถานที่ใหม่</button>
-                    <button type="submit" id="btnSubmitCLocation" name="btnSubmitCLocation" value="Create" class="btn btn-default">บันทึกสถานที่จากการค้นหา</button>
+                    <button type="submit" id="btnSubmitNewCLocation" name="btnSubmitCLocation" value="CreateNew" class="btn btn-default" clicked="false">บันทึกเป็นสถานที่ใหม่</button>
+                    <button type="submit" id="btnSubmitCLocation" name="btnSubmitCLocation" value="Create" class="btn btn-default" clicked="false">บันทึกสถานที่จากการค้นหา</button>
                     <button type="button" id="btnEditCLocation" name="btnEditCLocation" value="Edit" class="btn btn-default" onclick="EnableCLocationForm()">แก้ไข</button>
-                    <button type="button" id="btnSaveEditCLocation" name="btnSaveEditCLocation" value="SaveEdit" class="btn btn-default">บันทึกการแก้ไข</button>
-                    <button type="button" name="btnReset" value="Clean" onclick="CleanFormCLocation()" class="btn btn-default">ล้างข้อมูล</button>
+                    <button type="button" id="btnSaveEditCLocation" name="btnSaveEditCLocation" value="SaveEdit" onclick="DisableSaveEditAfterSave()" class="btn btn-default">บันทึกการแก้ไข</button>
+                    <button type="button" id="btnReset" name="btnReset" value="Clean" onclick="CleanFormCLocation()" class="btn btn-default">ล้างข้อมูล</button>
                 </div>
             </div>
         </div>
+    </form>
     }
 </div>
 
@@ -109,7 +111,7 @@
 
         $("#btnSaveEditCLocation").on("click", function () {
             event.preventDefault();
-            alert($("#LocationType").data("kendoDropDownList").value());
+            //alert($("#LocationType").data("kendoDropDownList").value());
             var url = '@Url.Action("EditAndGetIdFromLocation", "Services")';
             var data = {
                 LocationName: $("#LocationName").val(),
@@ -119,7 +121,7 @@
                 MapExplanation: $("#MapExplanation").val(),
                 LocationType : $("#LocationType").data("kendoDropDownList").value(),
                 LocationStyle : $("#LocationStyle").data("kendoDropDownList").value(),
-                LocationFormId: $("#LocationFormId").val()
+                LocationId: $("#LocationFormId").val()
                 };
             $.ajax({
                 url: url,
@@ -129,12 +131,46 @@
             })
         });
 
+        var existingValdiation = $("#FormLocation").validate({
+            rules: {
+                LocationName: { required: true },
+                LocationAddress: { required: true },
+                Detail: {required:true}
+            },
+            messages: {
+                LocationName: " กรุณาใส่ ชื่อสถานที่",
+                LocationAddress: " กรุณาใส่ ที่ตั้งของสถานที่",
+                Detail: " กรุณาใส่รายละเอียดของสถานที่"
+            }
+            
+        });
+
+
+        $("#btnSubmitNewCLocation").on("click", function () {
+            
+            $("#btnSubmitNewCLocation").attr("clicked", "true");
+            $("#btnSubmitCLocation").attr("clicked", "false");
+        });
+
+        $("#btnSubmitCLocation").on("click", function () {
+
+            $("#btnSubmitCLocation").attr("clicked", "true");
+            $("#btnSubmitNewCLocation").attr("clicked", "false");
+        });
+
     });
 
     function ValidateFormClocation()
     {
+        var valid = $("#FormLocation").valid();
         if (($("#LocationFormId").val() == 0) || $("#LocationFormId").val() == null)
         {
+            //var Sender = window.event.srcElement;
+            var btnCreateNew = $("#btnSubmitNewCLocation[clicked=true]").val()
+            if (btnCreateNew == "CreateNew")
+            {
+                return true;
+            }
             alert("กรุณาเลือกสถานที่ ให้เสร็จสิ้น");
             return false;
         }
@@ -154,14 +190,24 @@
 
     function FinishSubmitCLocation(data)
     {
-        $("#btnSubmitNewCLocation").attr("disabled", "disabled");
-        $("#btnSubmitCLocation").attr("disabled", "disabled");
-        //$("#btnReset").attr("disabled", "disabled");
-        $("#btnEditCLocation").attr("disabled", null);
-        $("#btnSaveEditCLocation").attr("disabled", null);
-        $("#LocationFormId").val(data);
-        $("#StartCreateService").attr("disabled", null);
-        DisableCLocationForm();
+        if (data.location == 0)
+        {
+
+            alert("กรุณาใส่ ชื่อสถานที่ และ ที่ตั้ง");
+            return false;
+        }
+        else
+        {
+            $("#btnSubmitNewCLocation").attr("disabled", "disabled");
+            $("#btnSubmitCLocation").attr("disabled", "disabled");
+            //$("#btnReset").attr("disabled", "disabled");
+            $("#btnEditCLocation").attr("disabled", null);
+            $("#btnSaveEditCLocation").attr("disabled", null);
+            $("#LocationFormId").val(data.location);
+            $("#StartCreateService").attr("disabled", null);
+            DisableCLocationForm();
+        }
+        
     }
 
     function EnableCLocationForm()
@@ -175,6 +221,8 @@
         $("#LocationStyle").attr("disabled", null);
         $("#LocationType").data("kendoDropDownList").enable();
         $("#LocationStyle").data("kendoDropDownList").enable();
+        $("#btnEditCLocation").attr("disabled", "disabled");
+        $("#btnSaveEditCLocation").attr("disabled", null);
     }
 
     function DisableCLocationForm()
@@ -188,7 +236,16 @@
         $("#LocationStyle").attr("disabled", "disabled");
         $("#LocationType").data("kendoDropDownList").enable(false);
         $("#LocationStyle").data("kendoDropDownList").enable(false);
-    }  
+        $("#btnReset").attr("disabled", "disabled");
+        $("#btnSaveEditCLocation").attr("disabled", "disabled");
+        $("#btnEditCLocation").attr("disabled", null);
+    }
+
+    function DisableSaveEditAfterSave()
+    {
+        $("#btnEditCLocation").attr("disabled", null);
+        $("#btnSaveEditCLocation").attr("disabled", "disabled");
+    }
     
 
 </script>

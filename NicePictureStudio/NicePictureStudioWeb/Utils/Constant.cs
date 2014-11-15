@@ -10,6 +10,11 @@ namespace NicePictureStudio.Utils
     {
         public static readonly string UNDEFINED = "undefined";
         public static readonly int DEFAULT = 0;
+        public static readonly string TITLE_MR = "นาย";
+        public static readonly string TITLE_MS = "นางสาว";
+        public static readonly string TITLE_MRS = "นาง";
+
+        public static readonly string PHONE_NUMBER_DEFAULT = "กรุณาใส่ข้อมูลเพิ่มเติม";
 
         public static readonly int BOOKING_STATUS_NEW = 1;
         public static readonly int BOOKING_STATUS_CONFIRM = 2;

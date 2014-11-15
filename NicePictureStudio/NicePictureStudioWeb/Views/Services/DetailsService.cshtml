@@ -62,8 +62,9 @@
         </dd>
 
     </dl>
-</div>
-<p>
-    @Ajax.ActionLink("Edit", "EditService", new { id = Model.Id },
+    <p>
+        @Ajax.ActionLink("Edit", "EditService", new { id = Model.Id },
                     new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "MainSection" }) |
-</p>
+    </p>
+</div>
+

@@ -42,10 +42,13 @@
         <div class="form-group">
             @Html.Label("หมายเลขการจอง", htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.TextBoxFor(model => model.BookingName, new { @class = "autocomplete-with-hidden-booking form-control", data_url = Url.Action("GetListForBookingAutocomplete", "Services"), placeholder = "..กรุณากรอกหมายเลขการจอง..." })
-                @Html.Hidden("BookingId")
-                @Html.ValidationMessageFor(model => model.BookingName)
-            </div>
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="label label-default">T</span></div>
+                    @Html.TextBoxFor(model => model.BookingName, new { @class = "autocomplete-with-hidden-booking form-control", data_url = Url.Action("GetListForBookingAutocomplete", "Services"), placeholder = "..กรุณากรอกหมายเลขการจอง...",@readonly=true })
+                    @Html.Hidden("BookingId")
+                    @Html.ValidationMessageFor(model => model.BookingName)
+                </div>
+                </div>
         </div>
 
         @*<div class="form-group">
@@ -59,28 +62,39 @@
         <div class="form-group">
             @Html.Label("ชื่อเจ้าบ่าว*", htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.TextBoxFor(model => model.GroomName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForGroomNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าบ่าว..." })
-                @*@Html.EditorFor(model => model.GroomName, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.ValidationMessageFor(model => model.GroomName, "", new { @class = "text-danger" })
-            </div>
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="label label-default">T</span></div>
+                    @Html.TextBoxFor(model => model.GroomName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForGroomNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าบ่าว...",@readonly=true })
+                    @*@Html.EditorFor(model => model.GroomName, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.ValidationMessageFor(model => model.GroomName, "", new { @class = "text-danger" })
+                </div>
+                </div>
         </div>
 
         <div class="form-group">
             @Html.Label("ชื่อเจ้าสาว*", htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.TextBoxFor(model => model.BrideName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForBrideNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าสาว..." })
-                @*@Html.EditorFor(model => model.BrideName, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.ValidationMessageFor(model => model.BrideName, "", new { @class = "text-danger" })
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="label label-default">T</span></div>
+
+                    @Html.TextBoxFor(model => model.BrideName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForBrideNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าสาว...", @readonly = true })
+                    @*@Html.EditorFor(model => model.BrideName, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.ValidationMessageFor(model => model.BrideName, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("คำขอพิเศษ", htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @(Html.Kendo().MultiSelect()
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="label label-default">M</span></div>
+
+                    @(Html.Kendo().MultiSelect()
                                      .Name("BookingSpecialRequests")
                                .BindTo(@ViewBag.SpecialOrder as MultiSelectList).HtmlAttributes(new { @Style = "width:200px", @id = "BookingSpecialRequests" }).Value(@ViewBag.SelectedSpecialOrder as MultiSelectList))
 
+                </div>
             </div>
         </div>
 
@@ -103,18 +117,27 @@
         <div class="form-group">
             @Html.Label("บริการให้คำแนะนำ", htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @(Html.Kendo().MultiSelect()
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="label label-default">M</span></div>
+                    @(Html.Kendo().MultiSelect()
                                       .Name("ServiceSuggestions")
                               .BindTo(@ViewBag.SuggestionService as MultiSelectList).HtmlAttributes(new { @Style = "width:200px", @id = "ServiceSuggestions" }).Value(@ViewBag.SelectedSuggestion as MultiSelectList)
-                )
-            </div>
+                    )
+                </div>
+              </div>
         </div>
 
         <div class="form-group">
             @Html.Label("หมายเหตุ", htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.TextAreaFor(model => model.SpecialRequest, new { @class = "form-control", @rows = "5" })
-                @Html.ValidationMessageFor(model => model.SpecialRequest, "", new { @class = "text-danger" })
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <span class="label label-default">T</span>
+                    </div>
+
+                    @Html.TextAreaFor(model => model.SpecialRequest, new { @class = "form-control", @rows = "5" })
+                    @Html.ValidationMessageFor(model => model.SpecialRequest, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 

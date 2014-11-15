@@ -223,6 +223,9 @@
       <End Role="EquipmentService" EntitySet="EquipmentServices" />
       <End Role="EquipmentSet" EntitySet="EquipmentSets" />
     </AssociationSet>
+    <EntitySet Name="Aumphurs" EntityType="NicePictureStudioDBModel.Aumphur" />
+    <EntitySet Name="Districts" EntityType="NicePictureStudioDBModel.District" />
+    <EntitySet Name="Provinces" EntityType="NicePictureStudioDBModel.Province" />
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -1054,4 +1057,34 @@
     <End Type="NicePictureStudioDBModel.EquipmentService" Role="EquipmentService" Multiplicity="1" />
     <End Type="NicePictureStudioDBModel.EquipmentSet" Role="EquipmentSet" Multiplicity="*" />
   </Association>
+  <EntityType Name="Aumphur">
+    <Key>
+      <PropertyRef Name="AMPHUR_ID" />
+    </Key>
+    <Property Name="AMPHUR_ID" Type="Int32" Nullable="false" />
+    <Property Name="AMPHUR_CODE" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="AMPHUR_NAME" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="GEO_ID" Type="Int32" Nullable="false" />
+    <Property Name="PROVINCE_ID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="District">
+    <Key>
+      <PropertyRef Name="DISTRICT_ID" />
+    </Key>
+    <Property Name="DISTRICT_ID" Type="Int32" Nullable="false" />
+    <Property Name="DISTRICT_CODE" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Name="DISTRICT_NAME" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="AMPHUR_ID" Type="Int32" Nullable="false" />
+    <Property Name="PROVINCE_ID" Type="Int32" Nullable="false" />
+    <Property Name="GEO_ID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Province">
+    <Key>
+      <PropertyRef Name="PROVINCE_ID" />
+    </Key>
+    <Property Name="PROVINCE_ID" Type="Int32" Nullable="false" />
+    <Property Name="PROVINCE_CODE" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+    <Property Name="PROVINCE_NAME" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="GEO_ID" Type="Int32" Nullable="false" />
+  </EntityType>
 </Schema>

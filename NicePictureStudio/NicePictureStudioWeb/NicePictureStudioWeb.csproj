@@ -213,6 +213,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Data\Aumphur.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\Booking.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
@@ -243,6 +246,9 @@
     <Compile Include="App_Data\C__MigrationHistory.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Data\District.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Data\Employee.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
@@ -271,6 +277,9 @@
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Data\OutSourcePriceRanx.cs">
+      <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Data\Province.cs">
       <DependentUpon>NicePictureStudioDB.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Data\ServiceSuggestion.cs">

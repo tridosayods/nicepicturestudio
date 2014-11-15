@@ -17,5 +17,8 @@ namespace NicePictureStudio.Models
         public string BookingStatus  { get; set; }
         public string PromotionName { get; set; }
         public string ServiceName  { get; set; }
+
+        public string ContactNumber { get; set; }
+        public string ContactEmail { get; set; }
     }
 }

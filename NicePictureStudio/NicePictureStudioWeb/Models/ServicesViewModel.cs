@@ -111,7 +111,7 @@ namespace NicePictureStudio.Models
             ServiceForm.EventEnd = serviceForm.EventEnd;
             ServiceForm.GuestsNumber = serviceForm.GuestsNumber;
             ServiceForm.IsLocationSelected = (bool)serviceForm.IsLocationSelected;
-            ServiceForm.IsOvernightSelected = (bool)serviceForm.IsLocationSelected;
+            ServiceForm.IsOvernightSelected = (bool)serviceForm.IsOverNight;
             ServiceForm.LocationId = locationId == null ? 0 : (int)locationId;
         }
 
@@ -130,6 +130,8 @@ namespace NicePictureStudio.Models
             ServiceForm.ServicePrice = Convert.ToDecimal(serviceForm.ServicePrice);
             ServiceForm.ServiceNetPrice = Convert.ToDecimal(serviceForm.ServiceNetPrice);
             ServiceForm.LocationId = serviceForm.Locations.Count <= 0 ? 0 : serviceForm.Locations.FirstOrDefault().LocationId;
+            ServiceForm.IsLocationSelected = (bool)serviceForm.IsLocationSelected;
+            ServiceForm.IsOvernightSelected = (bool)serviceForm.IsOverNight;
         }
 
         public void UpdateServiceForm(ServiceForm serviceForm)
@@ -505,8 +507,46 @@ namespace NicePictureStudio.Models
         public string PromotionName { get; set; }
         public string ServiceTax { get; set; }
 
-        public decimal NetPriceWithoutTax { get; set; }
+        public decimal NetPriceWithTax { get; set; }
         public decimal PriceWithoutTax { get; set; }
+
+        public string PayFirstText { get; set; }
+        public decimal PayFirstNetPrice { get; set; }
+
+        public void ResetServicesCost()
+        {
+            OutingPreWeddingPriceText ="";
+            OutingEngagementPriceText ="";
+            OutingWeddingPriceText ="";
+            OutingOverallText = "";
+
+            OutingPreWeddingNetPrice=0;
+            OutingEngagementNetPrice =0;
+            OutingWeddingNetPrice =0;
+            OutingOverallNetPrice=0;
+
+        PhotoGraphPriceText ="";
+        EquipmentPriceText ="";
+        LocationPriceText ="";
+        OutsourcePriceText ="";
+        OutputPriceText ="";
+
+        PhotoNetPrice =0;
+         EquipmentNetPrice =0;
+         LocationNetPrice =0;
+         OutsourceNetPrice =0;
+         OutputNetPrice =0;
+
+         EstimatePrice ="";
+         TotalPrice ="";
+         TotalPriceBeforeTax ="";
+         PromotionDiscount ="";
+         PromotionName ="";
+         ServiceTax ="";
+
+         NetPriceWithTax = 0;
+         PriceWithoutTax=0;
+        }
 
         public PromotionCalculator()
         {
@@ -536,6 +576,12 @@ namespace NicePictureStudio.Models
             TotalPrice = "0.00";
             TotalPriceBeforeTax = "0.00";
             ServiceTax = "0.00";
+        }
+
+        public decimal CalculateEstimatePrice()
+        {
+            return PhotoNetPrice + EquipmentNetPrice + LocationNetPrice + OutsourceNetPrice + OutputNetPrice + OutingPreWeddingNetPrice +
+                    OutingEngagementNetPrice + OutingWeddingNetPrice;
         }
 
 
@@ -581,7 +627,7 @@ namespace NicePictureStudio.Models
             {
 
                 EstimatePrice = (PhotographPrice + EquipmentPrice + LocationPrice + OutsourcePrice + OutputPrice + OutingPreWeddingNetPrice+
-                    OutingEngagementNetPrice + OutingWeddingNetPrice).ToString("0,0.00", CultureInfo.CurrentCulture);
+                    OutingEngagementNetPrice + OutingWeddingNetPrice).ToString("0,0.00");
                 PromotionName = currentPromotion.PromotionName();
                 PromotionDiscount = ((currentPromotion.PhotoGraphDiscount + currentPromotion.EquipmentDiscount +
                                                    currentPromotion.LocationDiscount + currentPromotion.OutsourceDiscount + currentPromotion.OutputDiscount) / (decimal)500).ToString("P");
@@ -592,35 +638,35 @@ namespace NicePictureStudio.Models
                     + (OutputPrice - (OutputPrice * currentPromotion.OutputDiscount / (decimal)100))
                     );
                 PriceWithoutTax = _totalPriceBeforeTax;
-                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("0,0.00", CultureInfo.CurrentCulture);
+                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("0,0.00");
                 _totalVat = (_totalPriceBeforeTax * (decimal)7 / (decimal)100);
-                NetPriceWithoutTax = _totalPriceBeforeTax + _totalVat;
-                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("0,0.00", CultureInfo.CurrentCulture);
+                NetPriceWithTax = _totalPriceBeforeTax + _totalVat;
+                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("0,0.00");
             }
             else
             {
                 EstimatePrice = (PhotographPrice + EquipmentPrice + LocationPrice + OutsourcePrice + OutputPrice
-                    + OutingPreWeddingNetPrice + OutingEngagementNetPrice + OutingWeddingNetPrice).ToString("C2", CultureInfo.CurrentCulture);
+                    + OutingPreWeddingNetPrice + OutingEngagementNetPrice + OutingWeddingNetPrice).ToString("0,0.00");
                 PromotionName = PromotionDefaultName;
                 PromotionDiscount = PromotionDiscountDefaultName;
                 _totalPriceBeforeTax = (PhotographPrice + EquipmentPrice + LocationPrice + OutsourcePrice + OutputPrice
                     + OutingPreWeddingNetPrice + OutingEngagementNetPrice + OutingWeddingNetPrice);
                 PriceWithoutTax = _totalPriceBeforeTax;
-                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
+                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("0,0.00");
                 _totalVat = _totalPriceBeforeTax - (_totalPriceBeforeTax * (decimal)10 / (decimal)100);
-                NetPriceWithoutTax = _totalPriceBeforeTax + _totalVat;
-                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("C2", CultureInfo.CurrentCulture);
+                NetPriceWithTax = _totalPriceBeforeTax + _totalVat;
+                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("0,0.00");
             }
         }
 
-        public void CalculateTotalPrice(decimal? estimatePrice, decimal? netPrice)
+        public void CalculateTotalPrice(decimal? estimatePrice, decimal? netPrice, PricesGroup _priceGroup)
         {
             decimal _totalPriceBeforeTax = 0;
             decimal _totalVat = 0;
             
             if (hasPromotion)
             {
-                EstimatePrice = estimatePrice.Value.ToString("C2",CultureInfo.CurrentCulture);
+                EstimatePrice = estimatePrice.Value.ToString("0,0.00");
                 PromotionName = currentPromotion.PromotionName();
                 PromotionDiscount = ((currentPromotion.PhotoGraphDiscount + currentPromotion.EquipmentDiscount +
                                                    currentPromotion.LocationDiscount + currentPromotion.OutsourceDiscount + currentPromotion.OutputDiscount) / (decimal)500).ToString("P");
@@ -630,24 +676,45 @@ namespace NicePictureStudio.Models
                // _totalPriceBeforeTax = ((decimal)estimatePrice - ((decimal)estimatePrice * currentPromotion.OutputDiscount / (decimal)100));
                 _totalPriceBeforeTax = ((decimal)estimatePrice - ((decimal)estimatePrice * promotionDigit));
                 PriceWithoutTax = _totalPriceBeforeTax;
-                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
+                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("0,0.00");
                 _totalVat = (_totalPriceBeforeTax * (decimal)7 / (decimal)100);
-                NetPriceWithoutTax = _totalPriceBeforeTax + _totalVat;
-                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("C2", CultureInfo.CurrentCulture);
+                NetPriceWithTax = _totalPriceBeforeTax + _totalVat;
+                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("0,0.00");
+
+                PayFirstNetPrice = NetPriceWithTax / 2;
+                PayFirstText = PayFirstNetPrice.ToString("0,0.00");
             }
             else
             {
-                EstimatePrice = estimatePrice.Value.ToString("C2", CultureInfo.CurrentCulture);
+                EstimatePrice = estimatePrice.Value.ToString("0,0.00");
                 PromotionName = PromotionDefaultName;
                 PromotionDiscount = PromotionDiscountDefaultName;
                 //_totalPriceBeforeTax = (decimal)netPrice;
                 _totalPriceBeforeTax = (decimal)estimatePrice;
                 PriceWithoutTax = _totalPriceBeforeTax;
-                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("C2", CultureInfo.CurrentCulture);
+                TotalPriceBeforeTax = _totalPriceBeforeTax.ToString("0,0.00");
                 _totalVat = (_totalPriceBeforeTax * (decimal)7 / (decimal)100);
-                NetPriceWithoutTax = _totalPriceBeforeTax + _totalVat;
-                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("C2", CultureInfo.CurrentCulture);
+                NetPriceWithTax = _totalPriceBeforeTax + _totalVat;
+                TotalPrice = (_totalPriceBeforeTax + _totalVat).ToString("0,0.00");
+
+                PayFirstNetPrice = NetPriceWithTax / 2;
+                PayFirstText = PayFirstNetPrice.ToString("0,0.00");
             }
+
+            PhotoGraphPriceText = _priceGroup.PhotoGraphPrice != 0 ? _priceGroup.PhotoGraphPrice.ToString("0,0.00") : "0.00";
+            PhotoNetPrice = _priceGroup.PhotoGraphPrice;
+
+            LocationPriceText = _priceGroup.LocationPrice != 0 ? _priceGroup.LocationPrice.ToString("0,0.00") : "0.00";
+            LocationNetPrice = _priceGroup.LocationPrice;
+
+            OutputPriceText = _priceGroup.OutputPrice !=0 ? _priceGroup.OutputPrice.ToString("0.0,00") : "0.00";
+            OutputNetPrice = _priceGroup.OutputPrice;
+
+            OutsourcePriceText = _priceGroup.OutsourcePrice !=0 ? _priceGroup.OutsourcePrice.ToString("0,0.00") : "0.00";
+            OutsourcePriceText = _priceGroup.OutsourcePrice != 0 ? _priceGroup.OutsourcePrice.ToString("0,0.00") : "0.00";
+
+            OutingOverallText = _priceGroup.OutputPrice != 0 ? _priceGroup.OutingPrice.ToString("0,0.00") : "0.00";
+            OutingOverallNetPrice = _priceGroup.OutingPrice;
         }
     }
 
@@ -675,5 +742,14 @@ namespace NicePictureStudio.Models
         public DateTime EventEnd { get; set; }
         public string Place { get; set; }
 
+    }
+
+    public class PricesGroup
+    {
+        public decimal PhotoGraphPrice { get; set; }
+        public decimal LocationPrice { get; set; }
+        public decimal OutputPrice { get; set; }
+        public decimal OutsourcePrice { get; set; }
+        public decimal OutingPrice { get; set; }
     }
 }

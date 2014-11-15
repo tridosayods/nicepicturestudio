@@ -5,6 +5,7 @@
 }
 
 <script type="text/javascript">
+    kendo.culture("th-TH");
     $(document).ready(function () {
         // Hide the "busy" Gif at load:
         // $("#ServiceFromSection").show();
@@ -34,33 +35,7 @@
             });
         });
 
-        $(function () {
-            $(".autocomplete-with-hidden-booking").autocomplete({
-                minLength: 0,
-                source: function (request, response) {
-                    var url = $(this.element).data("url");
-
-                    $.getJSON(url, { term: request.term }, function (data) {
-                        response(data);
-                    })
-                },
-                select: function (event, ui) {
-                    $(event.target).next("input[type=hidden]").val(ui.item.id);
-                    var orderUrl = '@Url.Action("GetSelectedSpecialRequest", "Services")'
-                    $.getJSON(orderUrl, { bookingId: ui.item.id }, function (data) {
-                        var multiselect = $("#BookingSpecialRequests").data("kendoMultiSelect")
-                        multiselect.dataSource.filter({});
-                        multiselect.value(data);
-                    })
-                   
-                },
-                change: function (event, ui) {
-                    if (!ui.item) {
-                        $(event.target).val("").next("input[type=hidden]").val("");
-                    }
-                }
-            });
-        });
+        
 
         $("#btnSaveAll").on("click", function () {
             event.preventDefault();
@@ -135,6 +110,37 @@
         }
     }
 
+    function UpdateData() {
+        var bookingNumber = $("#BookingNumberSelected").val();
+        var bookingId = $("#BookingIdSelected").val();
+        var GroomNickName = $("#CustomerNickname").val() == "" ? "" : " (" + $("#CustomerNickname").val() + ")";
+        var BrideNickName = $("#CoupleNickname").val() == "" ? "" : " (" + $("#CoupleNickname").val() + ")";
+        //var GroomTitle = $("#CustomerTitle").val() == 0 ? "นาย " : $("#CustomerTitle").val() == 1 ? "นางสาว " : $("#CustomerTitle").val() == 2 ? "นาง " : "";
+        //var BrideTitle = $("#CoupleTitle").val() == 0 ? "นาย " : $("#CoupleTitle").val() == 1 ? "นางสาว " : $("#CoupleTitle").val() == 2 ? "นาง " : "";
+        var GroomTitle = $("#CustomerTitle").val();
+        var BrideTitle = $("#CoupleTitle").val();
+        var GroomName = GroomTitle + $("#CustomerName").val() + " " + $("#CustomerSurname").val() + GroomNickName;
+        var BrideName = BrideTitle + $("#CoupleName").val() + " " + $("#CoupleSurname").val() +BrideNickName;
+        $("#BookingName").val(bookingNumber);
+        $("#BookingId").val(bookingId);
+        $("#GroomName").val(GroomName);
+        $("#BrideName").val(BrideName);
+    }
+
+    function UpdateName() {
+      
+        var GroomNickName = $("#CustomerNickname").val() == "" ? "" : " (" + $("#CustomerNickname").val() + ")";
+        var BrideNickName = $("#CoupleNickname").val() == "" ? "" : " (" + $("#CoupleNickname").val() + ")";
+        //var GroomTitle = $("#CustomerTitle").val() == 0 ? "นาย " : $("#CustomerTitle").val() == 1 ? "นางสาว " : $("#CustomerTitle").val() == 2 ? "นาง " : "";
+        //var BrideTitle = $("#CoupleTitle").val() == 0 ? "นาย " : $("#CoupleTitle").val() == 1 ? "นางสาว " : $("#CoupleTitle").val() == 2 ? "นาง " : "";
+        var GroomTitle = $("#CustomerTitle").val();
+        var BrideTitle = $("#CoupleTitle").val();
+        var GroomName = GroomTitle + $("#CustomerName").val() + " " + $("#CustomerSurname").val() + GroomNickName;
+        var BrideName = BrideTitle + $("#CoupleName").val() + " " + $("#CoupleSurname").val() + BrideNickName;
+        $("#GroomName").val(GroomName);
+        $("#BrideName").val(BrideName);
+    }
+
     @*$("#btnSubmitServiceForm").click(function () {
         alert("Do somthing");
         event.preventDefault();
@@ -197,7 +203,7 @@
                         </div>*@
                     @*<div id="CustomerFromService"></div>*@
                     @*@{Html.RenderPartial("CreateCustomerFromService");}*@
-                    @Html.Partial("CreateCustomerFromService")
+                    @{Html.RenderAction("CreateCustomerFromService");}
                 </div>
             </td>
         </tr>
@@ -235,8 +241,8 @@
                                 @Html.Label("หมายเลขการจอง", htmlAttributes: new { @class = "control-label col-md-3" })
                                 <div class="col-md-9">
                                     <div class="input-group">
-                                        <div class="input-group-addon"><span class="label label-default">S</span></div>
-                                        @Html.TextBoxFor(model => model.BookingName, new { @class = "autocomplete-with-hidden-booking form-control", data_url = Url.Action("GetListForBookingAutocomplete", "Services"), placeholder = "..กรุณากรอกหมายเลขการจอง..." })
+                                        <div class="input-group-addon"><span class="label label-default">T</span></div>
+                                        @Html.TextBoxFor(model => model.BookingName, new { @class = "autocomplete-with-hidden-booking form-control", data_url = Url.Action("GetListForBookingAutocomplete", "Services"), placeholder = "..กรุณากรอกหมายเลขการจอง...",@readonly=true })
                                         @Html.Hidden("BookingId")
                                         @Html.ValidationMessageFor(model => model.BookingName)
                                     </div>
@@ -256,8 +262,8 @@
                                 <div class="col-md-9">
                                     <div class="input-group">
                                         <div class="input-group-addon"><span class="label label-default">T</span></div>
-                                        @Html.TextBoxFor(model => model.GroomName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForGroomNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าบ่าว..." })
-                                        @*@Html.EditorFor(model => model.GroomName, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        @*@Html.TextBoxFor(model => model.GroomName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForGroomNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าบ่าว...", @id = "GroomName" })*@
+                                        @Html.EditorFor(model => model.GroomName, new { htmlAttributes = new { @class = "form-control",@id="GroomName",@readonly=true} })
                                         @Html.ValidationMessageFor(model => model.GroomName, "", new { @class = "text-danger" })
                                     </div>
                                     </div>
@@ -268,8 +274,8 @@
                                 <div class="col-md-9">
                                     <div class="input-group">
                                         <div class="input-group-addon"><span class="label label-default">T</span></div>
-                                        @Html.TextBoxFor(model => model.BrideName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForBrideNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าสาว..." })
-                                        @*@Html.EditorFor(model => model.BrideName, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        @*@Html.TextBoxFor(model => model.BrideName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForBrideNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าสาว..." ,@id="BrideName"})*@
+                                        @Html.EditorFor(model => model.BrideName, new { htmlAttributes = new { @class = "form-control",@id="BrideName",@readonly=true } })
                                         @Html.ValidationMessageFor(model => model.BrideName, "", new { @class = "text-danger" })
                                     </div>
                                     </div>

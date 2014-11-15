@@ -3,7 +3,7 @@
         $("#dwnServicePattern").on("change", function (item) {
             event.preventDefault();
             var selectedItem = $("#dwnServicePattern").val();
-            alert(selectedItem);
+            //alert(selectedItem);
             $.ajax({
                 url: '@Url.Action("CreateOutputServiceByModalWhenEditNew","Services")',
                 data: { id: selectedItem, serviceType: '@ViewData["SType"]', IsEditTable : '@ViewBag.IsEditTable' },
@@ -31,7 +31,7 @@
                         @(Html.Kendo().DropDownList()
                                       .Name("OutputType")
                                       .HtmlAttributes(new { style = "width:180px" })
-                                      .OptionLabel("Select Outpu type...")
+                                      .OptionLabel("กรุณาเลือกประเภท ชิ้นงาน")
                                               .DataTextField("OutputTypeName")
                                               .DataValueField("OutputTypeId")
                                       .DataSource(source =>
@@ -61,7 +61,7 @@
                         @(Html.Kendo().DropDownList()
                                           .Name("OutputSize")
                                           .HtmlAttributes(new { style = "width:180px" })
-                                          .OptionLabel("Select output size...")
+                                          .OptionLabel("กรุณาเลือกขนาด")
                                                   .DataTextField("OutputSizeName")
                                                   .DataValueField("OutputSizeID")
                                           .DataSource(source =>

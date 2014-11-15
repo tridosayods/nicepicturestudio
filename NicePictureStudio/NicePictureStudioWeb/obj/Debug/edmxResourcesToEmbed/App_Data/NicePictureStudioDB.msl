@@ -888,5 +888,38 @@
         <ScalarProperty Name="Id" ColumnName="EqServiceId" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="Aumphurs">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Aumphur">
+        <MappingFragment StoreEntitySet="Aumphur">
+          <ScalarProperty Name="PROVINCE_ID" ColumnName="PROVINCE_ID" />
+          <ScalarProperty Name="GEO_ID" ColumnName="GEO_ID" />
+          <ScalarProperty Name="AMPHUR_NAME" ColumnName="AMPHUR_NAME" />
+          <ScalarProperty Name="AMPHUR_CODE" ColumnName="AMPHUR_CODE" />
+          <ScalarProperty Name="AMPHUR_ID" ColumnName="AMPHUR_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Districts">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.District">
+        <MappingFragment StoreEntitySet="District">
+          <ScalarProperty Name="GEO_ID" ColumnName="GEO_ID" />
+          <ScalarProperty Name="PROVINCE_ID" ColumnName="PROVINCE_ID" />
+          <ScalarProperty Name="AMPHUR_ID" ColumnName="AMPHUR_ID" />
+          <ScalarProperty Name="DISTRICT_NAME" ColumnName="DISTRICT_NAME" />
+          <ScalarProperty Name="DISTRICT_CODE" ColumnName="DISTRICT_CODE" />
+          <ScalarProperty Name="DISTRICT_ID" ColumnName="DISTRICT_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Provinces">
+      <EntityTypeMapping TypeName="NicePictureStudioDBModel.Province">
+        <MappingFragment StoreEntitySet="Province">
+          <ScalarProperty Name="GEO_ID" ColumnName="GEO_ID" />
+          <ScalarProperty Name="PROVINCE_NAME" ColumnName="PROVINCE_NAME" />
+          <ScalarProperty Name="PROVINCE_CODE" ColumnName="PROVINCE_CODE" />
+          <ScalarProperty Name="PROVINCE_ID" ColumnName="PROVINCE_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

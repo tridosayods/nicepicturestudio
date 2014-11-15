@@ -124,6 +124,18 @@
             e.style.display = 'block';
         }
     }
+
+    function UpdateName() {
+
+        var GroomNickName = $("#CustomerNickname").val() == "" ? "" : " (" + $("#CustomerNickname").val() + ")";
+        var BrideNickName = $("#CoupleNickname").val() == "" ? "" : " (" + $("#CoupleNickname").val() + ")";
+        var GroomTitle = $("#CustomerTitle").val();
+        var BrideTitle = $("#CoupleTitle").val();
+        var GroomName = GroomTitle + $("#CustomerName").val() + " " + $("#CustomerSurname").val() + GroomNickName;
+        var BrideName = BrideTitle + $("#CoupleName").val() + " " + $("#CoupleSurname").val() + BrideNickName;
+        $("#GroomName").val(GroomName);
+        $("#BrideName").val(BrideName);
+    }
 </script>
 
 
@@ -163,7 +175,8 @@
         <tr>
             <td>
                 <div class="container" id="tblCustomerFromService">
-                    @Html.Partial("EditCustomerFromServiceWhenEdit", @Model.Customer)
+                    @*@Html.Partial("EditCustomerFromServiceWhenEdit", @Model.Customer)*@
+                    @{Html.RenderAction("EditCustomerFromServiceWhenEdit", new { id = @Model.Customer.CustomerId });}
                 </div>
             </td>
         </tr>
@@ -192,55 +205,73 @@
                             <div class="form-group">
                                 @Html.Label("หมายเลขการจอง", htmlAttributes: new { @class = "control-label col-md-3" })
                                 <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.BookingName, new { @class = "autocomplete-with-hidden form-control-booking", data_url = Url.Action("GetListForBookingAutocomplete", "Services"), placeholder = "..กรุณากรอกหมายเลขการจอง..." })
-                                    @Html.Hidden("BookingId")
-                                    @Html.ValidationMessageFor(model => model.BookingName)
-                                </div>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><span class="label label-default">T</span></div>
+                                        @Html.TextBoxFor(model => model.BookingName, new { @class = "form-control", data_url = Url.Action("GetListForBookingAutocomplete", "Services"), placeholder = "..กรุณากรอกหมายเลขการจอง...",@readonly=true })
+                                        @Html.Hidden("BookingId")
+                                        @Html.ValidationMessageFor(model => model.BookingName)
+                                    </div>
+                                    </div>
                             </div>
 
                             <div class="form-group">
                                 @Html.Label("ชื่อเจ้าบ่าว*", htmlAttributes: new { @class = "control-label col-md-3" })
                                 <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.GroomName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForGroomNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าบ่าว..." })
-                                    @Html.ValidationMessageFor(model => model.GroomName, "", new { @class = "text-danger" })
-                                </div>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><span class="label label-default">T</span></div>
+                                        @Html.TextBoxFor(model => model.GroomName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForGroomNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าบ่าว...",@readonly=true })
+                                        @Html.ValidationMessageFor(model => model.GroomName, "", new { @class = "text-danger" })
+                                    </div>
+                                    </div>
                             </div>
 
                             <div class="form-group">
                                 @Html.Label("ชื่อเจ้าสาว*", htmlAttributes: new { @class = "control-label col-md-3" })
                                 <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.BrideName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForBrideNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าสาว..." })
-                                    @*@Html.EditorFor(model => model.BrideName, new { htmlAttributes = new { @class = "form-control" } })*@
-                                    @Html.ValidationMessageFor(model => model.BrideName, "", new { @class = "text-danger" })
-                                </div>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><span class="label label-default">T</span></div>
+                                        @Html.TextBoxFor(model => model.BrideName, new { @class = "autocomplete-with-hidden form-control", data_url = Url.Action("GetListForBrideNameAutocomplete", "Services"), placeholder = "..กรุณากรอกชื่อเจ้าสาว...",@readonly=true })
+                                        @*@Html.EditorFor(model => model.BrideName, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        @Html.ValidationMessageFor(model => model.BrideName, "", new { @class = "text-danger" })
+                                    </div>
+                                    </div>
                             </div>
 
                             <div class="form-group">
                                 @Html.Label("คำขอพิเศษ", htmlAttributes: new { @class = "control-label col-md-3" })
                                 <div class="col-md-9">
-                                    @(Html.Kendo().MultiSelect()
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><span class="label label-default">M</span></div>
+                                        @(Html.Kendo().MultiSelect()
                                      .Name("BookingSpecialRequests")
                                .BindTo(@ViewBag.SpecialOrder as MultiSelectList).HtmlAttributes(new { @Style = "width:200px", @id = "BookingSpecialRequests" }).Value(@ViewBag.SelectedSpecialOrder as MultiSelectList))
 
-                                </div>
+                                    </div>
+                                    </div>
                             </div>
 
                             <div class="form-group">
                                 @Html.Label("บริการให้คำแนะนำ", htmlAttributes: new { @class = "control-label col-md-3" })
                                 <div class="col-md-9">
-                                    @(Html.Kendo().MultiSelect()
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><span class="label label-default">M</span></div>
+                                        @(Html.Kendo().MultiSelect()
                                       .Name("ServiceSuggestions")
                               .BindTo(@ViewBag.SuggestionService as MultiSelectList).HtmlAttributes(new { @Style = "width:200px", @id = "ServiceSuggestions" }).Value(@ViewBag.SelectedSuggestion as MultiSelectList)
-                                    )
-                                </div>
+                                        )
+                                    </div>
+                                    </div>
                             </div>
 
                             <div class="form-group">
                                 @Html.Label("หมายเหตุ", htmlAttributes: new { @class = "control-label col-md-3" })
                                 <div class="col-md-9">
-                                    @Html.TextAreaFor(model => model.SpecialRequest, new { @class = "form-control", @rows = "5" })
-                                    @Html.ValidationMessageFor(model => model.SpecialRequest, "", new { @class = "text-danger" })
-                                </div>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><span class="label label-default">T</span></div>
+                                        @Html.TextAreaFor(model => model.SpecialRequest, new { @class = "form-control", @rows = "5" })
+                                        @Html.ValidationMessageFor(model => model.SpecialRequest, "", new { @class = "text-danger" })
+                                    </div>
+                                    </div>
                             </div>
 
                             @*<div class="form-group">
@@ -269,8 +300,8 @@
 
                             <div class="form-group">
                                 <div class="col-md-offset-3 col-md-9">
-                                    <input type="submit" value="บันทึก" class="btn btn-default" />
-                                    <input type="reset" value="ล้างข้อมูล" class="btn btn-default" />
+                                    <button id="btnSaveServiceForm" type="submit" value="บันทึก" class="btn btn-default">บันทึก</button>
+                                    <button type="reset" value="ล้างข้อมูล" class="btn btn-default">ล้างข้อมูล</button>
                                 </div>
                             </div>
                         </div>
@@ -299,7 +330,7 @@
                 <div class="panel panel-default">
                     <div class="panel panel-heading">สร้างรายการให้บริการ</div>
                     <div class="panel-body">
-                        <button type="button" id="NavigateFormGenerate" class=" btn btn-default"><span class="glyphicon glyphicon-adjust">สร้างรายการให้บริการ</span></button>
+                        <button type="button" id="NavigateFormGenerate" class=" btn btn-default "><span class="glyphicon glyphicon-adjust">สร้างรายการให้บริการ</span></button>
                         @*<button type="button" id="btnSaveEditAll" class="btn btn-primary"><span class="glyphicon glyphicon-star"></span>Save All</button>
                          <button type="button" id="btnGenReport" class="btn btn-default disabled"><span class="glyphicon glyphicon-star"></span>Generate Report</button>
                          <button type="reset" id="btnResetForm" class="btn btn-default disabled">Cancel</button>*@
@@ -480,7 +511,7 @@
                     ×
                 </button>
                 <h4 class="modal-title" id="NavModelPattern">
-                    Welcome to NicePictureStudio Services :)
+                    ยินดีต้อบรับสู่บริการถ่ายภาพ ของ บริษัท รูปสวยโฟโต้ จำกัด
                 </h4>
             </div>
             <div class="modal-body">
@@ -489,7 +520,7 @@
             <div class="modal-footer">
                 <button id="btnCancelPattern" type="button" class="btn btn-default"
                         data-dismiss="modal">
-                    Close
+                    ปิดหน้าต่าง
                 </button>
             </div>
         </div><!-- /.modal-content -->
