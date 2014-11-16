@@ -12,6 +12,7 @@ using Kendo.Mvc.UI;
 using NicePictureStudio.Models;
 using Kendo.Mvc.Extensions;
 using NicePictureStudio.Utils;
+using System.Text.RegularExpressions;
 
 namespace NicePictureStudio
 {
@@ -194,81 +195,97 @@ namespace NicePictureStudio
             //int statusConfirm  =2;
             //int statusNew = 1;
             //int statusCancel = 3;
+            SchedulerViewModels scheduler = new SchedulerViewModels { 
+                Id = service.Id,
+                Description = service.Description,
+                End = service.End,
+                Start = service.Start,
+                selectedStatus = service.selectedStatus
+            };
             List<EquipmentSchedulerViewModel> lstEquipmentServiceItems = new List<EquipmentSchedulerViewModel>();
             if (ModelState.IsValid)
             {
                 if (ValidateModel(service, ModelState))
                 {
-                    if (string.IsNullOrEmpty(service.Title))
+                    int? scheduleStatus = db.EquipmentSchedules.Find(service.Id).Status;
+                    if (scheduleStatus != null)
                     {
-                        service.Title = "";
+                        if (ValidateServiceTableClass.ValidateStatus(scheduler, ModelState, (int)scheduleStatus))
+                        {
+                            if (string.IsNullOrEmpty(service.Title))
+                            {
+                                service.Title = "";
+                            }
+
+                            var entity = db.EquipmentSchedules.FirstOrDefault(m => m.Id == service.Id);
+                            //var matchEntityAtTheSameTime = (from schedule in db.EquipmentSchedules
+                            //                                where (schedule.StartTime >= entity.StartTime && schedule.StartTime <= entity.EndTime) && (schedule.EquipmentId == entity.EquipmentId)
+                            //                                select (schedule)).ToList();
+                            //matchEntityAtTheSameTime.Remove(entity);
+
+                            //if (matchEntityAtTheSameTime != null)
+                            //{
+                            //    if (service.selectedStatus == statusConfirm && (entity.Status == statusNew || entity.Status == statusCancel))
+                            //    {
+                            //        // reduce remain 
+                            //        // select item at the same schedule to reduce remain number
+                            //        // Find the number of service which is count as confirm
+                            //        int numberOfConfirmService = matchEntityAtTheSameTime.Count(confirm => confirm.Status == 2);
+                            //        int remainQuantity = service.Quantity - numberOfConfirmService - 1;
+                            //        foreach (var eqpItem in matchEntityAtTheSameTime)
+                            //        {
+                            //            var entityChange = db.EquipmentSchedules.Find(eqpItem.Id);
+                            //            entityChange.Remain = remainQuantity;
+                            //            db.Entry(entityChange).State = EntityState.Modified;
+
+                            //            var changeItem = GenerateEquipmentModel(entityChange);
+                            //            lstEquipmentServiceItems.Add(changeItem);
+                            //        }
+                            //        entity.Remain = remainQuantity;
+                            //        service.RemainItem = remainQuantity;
+                            //    }
+                            //    else if ((service.selectedStatus == statusNew && entity.Status == statusConfirm) || (service.selectedStatus == statusCancel && entity.Status == statusConfirm))
+                            //    {
+                            //        //increase remain
+                            //        //select item at the same schedule to increase remain number
+                            //        int remainQuantity = service.RemainItem + 1;
+                            //        foreach (var eqpItem in matchEntityAtTheSameTime)
+                            //        {
+                            //            var entityChange = db.EquipmentSchedules.Find(eqpItem.Id);
+                            //            entityChange.Remain = remainQuantity;
+                            //            db.Entry(entityChange).State = EntityState.Modified;
+
+                            //            var changeItem = GenerateEquipmentModel(entityChange);
+                            //            lstEquipmentServiceItems.Add(changeItem);
+                            //        }
+                            //        entity.Remain = remainQuantity;
+                            //        service.RemainItem = remainQuantity;
+                            //    }
+                            //}
+
+                            //entity.StartTime = service.Start;
+                            //entity.EndTime = service.End;
+                            entity.Status = service.selectedStatus;
+                            db.Entry(entity).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        
                     }
-
-                    var entity = db.EquipmentSchedules.FirstOrDefault(m => m.Id == service.Id);
-                    //var matchEntityAtTheSameTime = (from schedule in db.EquipmentSchedules
-                    //                                where (schedule.StartTime >= entity.StartTime && schedule.StartTime <= entity.EndTime) && (schedule.EquipmentId == entity.EquipmentId)
-                    //                                select (schedule)).ToList();
-                    //matchEntityAtTheSameTime.Remove(entity);
-                   
-                    //if (matchEntityAtTheSameTime != null)
-                    //{
-                    //    if (service.selectedStatus == statusConfirm && (entity.Status == statusNew || entity.Status == statusCancel))
-                    //    {
-                    //        // reduce remain 
-                    //        // select item at the same schedule to reduce remain number
-                    //        // Find the number of service which is count as confirm
-                    //        int numberOfConfirmService = matchEntityAtTheSameTime.Count(confirm => confirm.Status == 2);
-                    //        int remainQuantity = service.Quantity - numberOfConfirmService - 1;
-                    //        foreach (var eqpItem in matchEntityAtTheSameTime)
-                    //        {
-                    //            var entityChange = db.EquipmentSchedules.Find(eqpItem.Id);
-                    //            entityChange.Remain = remainQuantity;
-                    //            db.Entry(entityChange).State = EntityState.Modified;
-
-                    //            var changeItem = GenerateEquipmentModel(entityChange);
-                    //            lstEquipmentServiceItems.Add(changeItem);
-                    //        }
-                    //        entity.Remain = remainQuantity;
-                    //        service.RemainItem = remainQuantity;
-                    //    }
-                    //    else if ((service.selectedStatus == statusNew && entity.Status == statusConfirm) || (service.selectedStatus == statusCancel && entity.Status == statusConfirm))
-                    //    {
-                    //        //increase remain
-                    //        //select item at the same schedule to increase remain number
-                    //        int remainQuantity = service.RemainItem + 1;
-                    //        foreach (var eqpItem in matchEntityAtTheSameTime)
-                    //        {
-                    //            var entityChange = db.EquipmentSchedules.Find(eqpItem.Id);
-                    //            entityChange.Remain = remainQuantity;
-                    //            db.Entry(entityChange).State = EntityState.Modified;
-
-                    //            var changeItem = GenerateEquipmentModel(entityChange);
-                    //            lstEquipmentServiceItems.Add(changeItem);
-                    //        }
-                    //        entity.Remain = remainQuantity;
-                    //        service.RemainItem = remainQuantity;
-                    //    }
-                    //}
-
-                    entity.StartTime = service.Start;
-                    entity.EndTime = service.End;
-                    entity.Status = service.selectedStatus;
-                    db.Entry(entity).State = EntityState.Modified;
-                    db.SaveChanges();
+                    
                 }
             }
             //lstEquipmentServiceItems.Add(new[] { service }.ToDataSourceResult(request, ModelState));
-            lstEquipmentServiceItems.Add(service);
-            lstEquipmentServiceItems.Reverse();
+            //lstEquipmentServiceItems.Add(service);
+            //lstEquipmentServiceItems.Reverse();
             //return Json(new[]{
             //    {new[] { service,xx }.ToDataSourceResult(request, ModelState)},
             //    {new[] { xx }.ToDataSourceResult(request, ModelState)}
             //});
-            ViewBag.Id = service.Id;
-            return Json(lstEquipmentServiceItems.AsQueryable().ToDataSourceResult(request));
+            //ViewBag.Id = service.Id;
+            //return Json(lstEquipmentServiceItems.AsQueryable().ToDataSourceResult(request, ModelState));
             //return Json(lstEquipmentServiceItems);
             //return Json(tasks.ToDataSourceResult(request));
-            //return Json(new[] { service }.ToDataSourceResult(request, ModelState));
+            return Json(new[] { service }.ToDataSourceResult(request, ModelState));
         }
 
         private bool ValidateModel(EquipmentSchedulerViewModel service, ModelStateDictionary modelState)
@@ -284,7 +301,7 @@ namespace NicePictureStudio
 
         private EquipmentSchedulerViewModel GenerateEquipmentModel(EquipmentSchedule entity)
         {
-            int EquipmentStatusVacant = 1;
+           // int EquipmentStatusVacant = 1;
             var Equipment = db.Equipments.Where(eqp => eqp.EquipmentId == entity.EquipmentId).FirstOrDefault();
                                 
             EquipmentSchedulerViewModel _eqpItem = new EquipmentSchedulerViewModel
@@ -424,7 +441,7 @@ namespace NicePictureStudio
                                 employee.EmployeeInfoes.FirstOrDefault().Nickname +")",
                         Position = employee.EmployeePositions.FirstOrDefault().Name,
                         Email = employee.Email,
-                        PhoneNumber = employee.PhoneNumber,
+                        PhoneNumber = Regex.Replace(employee.PhoneNumber, @"(\d{3})(\d{3})(\d{4})", "$1-$2-$3"),
                         Specialibity = employee.Specialability
                     };
                     empPhotoGraph.Add(empDetail);
@@ -479,17 +496,21 @@ namespace NicePictureStudio
 
                 //Customer
                 var bookingSpecialRequest = "";
-                foreach (var item in booking.BookingSpecialRequests)
+                if (booking != null)
                 {
-                    if (bookingSpecialRequest == "")
+                    foreach (var item in booking.BookingSpecialRequests)
                     {
-                        bookingSpecialRequest += item.Name;
-                    }
-                    else
-                    {
-                        bookingSpecialRequest += ", " + item.Name;
+                        if (bookingSpecialRequest == "")
+                        {
+                            bookingSpecialRequest += item.Name;
+                        }
+                        else
+                        {
+                            bookingSpecialRequest += ", " + item.Name;
+                        }
                     }
                 }
+                
 
                 var suggestion = "";
                 foreach (var item in services.ServiceSuggestions)
@@ -504,22 +525,48 @@ namespace NicePictureStudio
                     }
                 }
 
+                //New stuff info
+                var serviceForm = db.ServiceForms.Find(serviceFormId);
+                var eventStart = serviceForm.EventStart;
+                var eventEnd = serviceForm.EventEnd;
+                var groomEmail = services.Customer.Email;
+                var groomPhone = services.Customer.PhoneNumber;
+                var brideEmail = services.Customer.CoupleEmail;
+                var bridePhone = services.Customer.CouplePhoneNumber;
+                var address = services.Customer.Address + " " +
+                    services.Customer.Subdistrict + " " + services.Customer.District + " " + services.Customer.Province + " " + services.Customer.PostcalCode;
+                var serviceType = serviceForm.ServiceType.ServiceTypeName;
+                var guestNumber = serviceForm.GuestsNumber.ToString();
+                var serviceId = services.Id;
+                var bookingCode = booking == null ? "" : booking.BookingCode;
+
                 var TableReport = new TableReportModel 
-                { 
+                {
                     OutsourceId = empscheduleId,
                     MainPhotoGraph = empPhotoGraph.Count > 0 ? empPhotoGraph.FirstOrDefault().Name : "",
                     Position = empPhotoGraph.Count > 0 ? empPhotoGraph.FirstOrDefault().Position : "",
-                    PhotoGraphPhoneNumber = empPhotoGraph.Count >0 ? empPhotoGraph.FirstOrDefault().PhoneNumber : "",
+                    PhotoGraphPhoneNumber = empPhotoGraph.Count > 0 ? empPhotoGraph.FirstOrDefault().PhoneNumber : "",
                     Bride = services.BrideName,
                     Groom = services.GroomName,
-                    SpecialRequest = services.SpecialRequest,
+                    SpecialRequest = services.SpecialRequest != null ? services.SpecialRequest : "",
                     Suggestion = suggestion,
                     Location = locationName,
-                    LocationDetails = locationDetails,
+                    LocationDetails = locationDetails != null ? locationDetails : "",
                     Map = Map,
                     LocatioNumber = locationNumber,
-                    BookingCode = booking.BookingCode,
-                    BookingRequest = bookingSpecialRequest
+                    BookingCode = booking != null ? booking.BookingCode : Constant.UNDEFINED,
+                    BookingRequest = bookingSpecialRequest,
+                    listEmployee = empPhotoGraph,
+                    EventStart = eventStart,
+                    EventEnd = eventEnd,
+                    GroomMail = groomEmail,
+                    BrideMail = brideEmail,
+                    GroomPhone = groomPhone,
+                    BridePhone = bridePhone,
+                    Address = address,
+                    ServiceType = serviceType,
+                    GuestNumber = guestNumber,
+                    ServiceId = serviceId
                 };
 
                 return PartialView(TableReport);

@@ -42,17 +42,17 @@
     }
 }
 
-@Html.HiddenFor(model => model.Id, new { @class = "IdOutSchedule" });
+@Html.HiddenFor(model => model.Id, new { @class = "IdOutSchedule" })
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.Title))
+    @(Html.Label("ชื่อสินค้า"))
 </div>
 <div data-container-for="title" class="k-edit-field">
-    @(Html.TextBoxFor(model => model.Title, new { @class = "k-textbox", data_bind = "value:title",  @disabled = "true"  }))
+    @(Html.TextBoxFor(model => model.Title, new { @class = "k-textbox", data_bind = "value:title",  @readonly = "true",@Style="width:210px"  }))
 </div>
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.Start))
+    @(Html.Label("วันเริ่มเตรียมการ"))
 </div>
 <div data-container-for="start" class="k-edit-field">
 
@@ -67,7 +67,7 @@
 </div>
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.End))
+    @(Html.Label("วันส่งงานลูกค้า"))
 </div>
 <div data-container-for="end" class="k-edit-field">
 
@@ -89,7 +89,7 @@
     <span data-for="end" class="k-invalid-msg"></span>
 </div>
 
-<div class="k-edit-label">
+@*<div class="k-edit-label">
     @(Html.LabelFor(model => model.ReviseDate))
 </div>
 <div data-container-for="ReviseDate" class="k-edit-field">
@@ -102,7 +102,7 @@
 
     <span data-bind="text: startTimezone"></span>
     <span data-for="start" class="k-invalid-msg"></span>
-</div>
+</div>*@
 
 @*<div class="k-edit-label">
     @(Html.LabelFor(model => model.ReviseCount))
@@ -130,33 +130,36 @@
 </div>*@
 
 <div class="k-edit-label">
-    @(Html.Label("Status"))
+    @(Html.Label("สถานะ"))
 </div>
 <div data-container-for="selectedStatus" class="k-edit-field">
     @(Html.Kendo().DropDownListFor(model => model.selectedStatus)
-                        .HtmlAttributes(new { data_bind = "value:selectedStatus", style = "width: 200px" })
+                        .HtmlAttributes(new { data_bind = "value:selectedStatus", style = "width: 210px" })
                     .DataTextField("Text")
                     .DataValueField("Value")
                     .OptionLabel("None")
                     .ValuePrimitive(true)
                     .Template("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
                     .BindTo(new[] {
-                            new { Text = "New", Value = 1, Color = "\\#6eb3fa" },
-                            new { Text = "Confirm", Value = 2, Color = "\\#f58a8a" },
-                            new { Text = "Complete", Value = 3, Color = "\\#80ff00" }
+                             new { Text = "รายการใหม่", Value = 1, Color = "\\#FE9A2E" },
+                             new { Text = "แจ้งเตือน", Value = 6, Color = "\\#FF0000" },
+                            new { Text = "ยืนยัน", Value = 2, Color = "\\#6eb3fa" },
+                            new { Text = "เสร็จสิ้นการให้บริการ", Value = 3, Color = "\\#01DF01" },
+                            new { Text = "ยกเลิก", Value = 4, Color = "\\#A4A4A4" },
+                            new { Text = "ยกเลิกล่าช้ากว่ากำหนด", Value = 5, Color = "\\#A901DB" }
                         }).ToClientTemplate()
     )
 </div>
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.Description))
+    @(Html.Label("ข้อมูลสินค้า"))
 </div>
 <div data-container-for="description" class="k-edit-field">
-    @(Html.TextAreaFor(model => model.Description, new { @class = "k-textbox", data_bind = "value:description" }))
+    @(Html.TextAreaFor(model => model.Description, new { @class = "k-textbox", data_bind = "value:description",@readonly=true, @Style="width:250px",@rows=5 }))
 </div>
-<div class="k-edit-label">@Html.Label("Details")</div>
+<div class="k-edit-label">@Html.Label("รายละเอียด")</div>
 <div class="k-edit-field container">
-    <button type="button" class="ui-button btn-default" onclick="modelOpen()"><span class="glyphicon glyphicon-book"></span>Show Details</button>
+    <button type="button" class="btn btn-default" onclick="modelOpen()"><span class="glyphicon glyphicon-book"></span>ดูรายละเอียด</button>
 </div>
         @*<script>
                 $(".k-timezone-toggle").on("click", function () {

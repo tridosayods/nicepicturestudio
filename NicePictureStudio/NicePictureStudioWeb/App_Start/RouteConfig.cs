@@ -38,6 +38,12 @@ namespace NicePictureStudio
                url: "{controller}/{action}/{id}",
                defaults: new { controller = "Services", action = "ServicesCostReport", serviceId = UrlParameter.Optional }
            );
+
+                routes.MapRoute(
+                  name: "EditServices",
+                  url: "{controller}/{action}/{id}",
+                  defaults: new { controller = "Services", action = "Edit", id = UrlParameter.Optional }
+              );
         }
     }
 }

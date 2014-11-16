@@ -12,19 +12,19 @@
                 <div class="form-group-sm">
                     <div class="col-sm-12 text-left">
                         @Html.Label("จำนวนแขกในงาน:")
-                        @Html.DisplayFor(model=>model.GuestsNumber)
+                        @Html.DisplayFor(model=>model.GuestsNumber) คน
                     </div>
                 </div>
             <div class="form-group-sm">
                 <div class="col-sm-12 text-left">
                     @Html.Label("จำนวนช่างภาพ:")
-                    @Html.DisplayFor(model => model.Numphotographer)
+                    @Html.DisplayFor(model => model.Numphotographer) คน
                 </div>
             </div>
             <div class="form-group-sm">
                 <div class="col-sm-12 text-left">
                     @Html.Label("จำนวนช่างถ่ายวีดีโอ:")
-                    @Html.DisplayFor(model => model.NumCameraman)
+                    @Html.DisplayFor(model => model.NumCameraman) คน
                 </div>
             </div>  
         </div>
@@ -38,15 +38,15 @@
             .Name("PhotoGraphDetails")
             .Columns(columns =>
             {
-                columns.Bound(p => p.Name).Filterable(false).Width(100);
-                columns.Bound(p => p.Position).Width(100);
-                columns.Bound(p => p.Specialibity).Width(140);
-                columns.Bound(p => p.PhoneNumber).Width(140);
+                columns.Bound(p => p.Name).Filterable(false).Width(180).Title("ชื่อ");
+                columns.Bound(p => p.Position).Width(100).Title("ตำแหน่ง");
+                columns.Bound(p => p.Specialibity).Width(140).Title("ความถนัด / ความสามารถพิเศษ");
+                columns.Bound(p => p.PhoneNumber).Width(140).Title("เบอร์โทรศัพท์");
             })
-            .Pageable()
+            //.Pageable()
             .Sortable()
             .Scrollable()
-            .Filterable()
+            //.Filterable()
             //.HtmlAttributes(new { style = "height:200px;" })
              )
     </div>

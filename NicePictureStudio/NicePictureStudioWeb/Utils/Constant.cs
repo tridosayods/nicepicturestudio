@@ -26,6 +26,7 @@ namespace NicePictureStudio.Utils
         public static readonly int SERVICE_STATUS_COMPLETE = 3;
         public static readonly int SERVICE_STATUS_CANCEL = 4;
         public static readonly int SERVICE_STATUS_CANCEL_IN7DAYS = 5;
+        public static readonly int SERVICE_STATUS_WARNING = 6;
 
         public static readonly int SERVICE_TYPE_PREWEDDING = 1;
         public static readonly int SERVICE_TYPE_ENGAGEMENT = 2;
@@ -122,6 +123,8 @@ namespace NicePictureStudio.Utils
         public static readonly string SERVICE_FORM_STATUS_FINISH = "เสร็จสิ้นการให้บริการ";
         public static readonly string SERVICE_FORM_STATUS_PARTIAL_CANCEL = "มีบางรายการถูกยกเลิกการให้บริการ";
         public static readonly string SERVICE_FORM_STATUS_CANCEL = "ยกเลิกการให้บริการ";
+        public static readonly string SERVICE_FORM_NOSERVICES = "ลูกค้าไม่ได้เลือกรับบริการ";
+        public static readonly string SERVICE_FORM_WARNNING = "มีการแจ้งเตือนการยืนยัน";
 
         public static readonly int SERVICE_PHOTOGRAPH = 1;
         public static readonly int SERVICE_EQUIPMENT = 2;

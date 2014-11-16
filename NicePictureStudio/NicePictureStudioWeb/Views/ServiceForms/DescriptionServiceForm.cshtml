@@ -1,6 +1,6 @@
 ﻿@model NicePictureStudio.Models.PhotographInfo
-<div class="panel-default">
-    <div class="panel-heading">รายละเอียดรายการให้บริการ</div>
+@*<div class="panel-default">
+    <div class="panel-heading">สถานะ</div>
     <div class="panel-body">
             @(Html.Kendo().Grid((IEnumerable<NicePictureStudio.Models.ServiceFormWithAllRelatedServicesInfo>)ViewBag.ServiceFormItems)
             .Name("PhotoGraphDetails")
@@ -18,27 +18,248 @@
             .Filterable()
             )
     </div>
-</div>
-@*<div class="panel panel-default">
-    <div class="panel-heading">ตารางช่างถ่ายภาพทั้งหมด</div>
-    <div class="panel-body">
-
-        @(Html.Kendo().Grid((IEnumerable<NicePictureStudio.Models.EmployeeDetails>)ViewBag.PhotoGrapherList)
-            .Name("PhotoGraphDetails")
-            .Columns(columns =>
-            {
-                columns.Bound(p => p.Name).Filterable(false).Width(100);
-                columns.Bound(p => p.Position).Width(100);
-                columns.Bound(p => p.Specialibity).Width(140);
-                columns.Bound(p => p.PhoneNumber).Width(140);
-            })
-            .Pageable()
-            .Sortable()
-            .Scrollable()
-            .Filterable()
-                //.HtmlAttributes(new { style = "height:200px;" })
-        )
-    </div>
 </div>*@
 
+<div id="ServicesInformationStatus">
+    <!--Photograph Status-->
+        @if ((@ViewBag.PHOTO as List<NicePictureStudio.Models.ServiceFormWithAllRelatedServicesInfo>).Count > 0)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">สถานะช่างถ่ายภาพ </div>
+                <div class="panel-body">
+                    <div>
+                        <h5></h5>
+                        <table class="table table-responsive">
+                            <tr>
+                                <th>รูปแบบการให้บริการ</th>
+                                <th>ชื่อ</th>
+                                <th>ตำแหน่ง</th>
+                                <th>สถานะ</th>
+                            </tr>
+                            @foreach (var item in @ViewBag.PHOTO as List<NicePictureStudio.Models.ServiceFormWithAllRelatedServicesInfo>)
+                            {
+                                <tr>
+                                    <td>@item.ServiceTypeName</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Details</td>
+                                    <td class="ServiceStatus">@item.Status</td>
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">สถานะช่างถ่ายภาพ</div>
+                <div class="panel-body">
+                    <div>ลูกค้าไม่ได้เลือกรับบริการ</div>
+                </div>
+            </div>
+        }
+        
+        <!--Location Status-->
+        @if ((@ViewBag.LOCATION as List<NicePictureStudio.Models.ServiceFormWithAllRelatedServicesInfo>).Count > 0)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">สถานะของสถานที่ในการถ่ายภาพ</div>
+                <div class="panel-body">
+                    <div>
+                        <h5> </h5>
+                        <table class="table table-responsive">
+                            <tr>
+                                <th>รูปแบบการให้บริการ</th>
+                                <th>ชื่อสถานที่</th>
+                                <th>รายละเอียดการเดินทาง</th>
+                                <th>สถานะ</th>
+                            </tr>
+                            @foreach (var item in @ViewBag.LOCATION as List<NicePictureStudio.Models.ServiceFormWithAllRelatedServicesInfo>)
+                            {
+                                <tr>
+                                    <td>@item.ServiceTypeName</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Details</td>
+                                    <td class="ServiceStatus">@item.Status</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="panel-body">
+                                            <div class="google-maps">
+                                                <iframe id="googleMAPURL" src="@item.ExtraInfo1" width="400" height="450" frameborder="0" style="border:0"></iframe>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        }
+        else
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">สถานะของสถานที่ในการถ่ายภาพ</div>
+                <div class="panel-body">
+                    <div>ลูกค้าไม่ได้เลือกรับบริการ</div>
+                </div>
+            </div>
+        }
+
+
+
+    <!--Outsource Status-->
+    @if ((@ViewBag.OUTSOURCE as List<NicePictureStudio.Models.ServiceFormWithAllRelatedServicesInfo>).Count > 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">สถานะของบริการจัดจ้าง</div>
+            <div class="panel-body">
+                <div>
+                    <h5> </h5>
+                    <table class="table table-responsive">
+                        <tr>
+                            <th>รูปแบบการให้บริการ</th>
+                            <th>ชื่อผู้ให้บริการจัดจ้าง</th>
+                            <th>รายละเอียดของผู้ให้บริการ</th>
+                            <th>เบอร์โทรศัพท์</th>
+                            <th>สถานะ</th>
+                        </tr>
+                        @foreach (var item in @ViewBag.OUTSOURCE as List<NicePictureStudio.Models.ServiceFormWithAllRelatedServicesInfo>)
+                        {
+                            <tr>
+                                <td>@item.ServiceTypeName</td>
+                                <td>@item.Name</td>
+                                <td>@item.Details</td>
+                                <td>@item.ExtraInfo1</td>
+                                <td class="ServiceStatus">@item.Status</td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    }
+    else
+    {
+         <div class="panel panel-default">
+            <div class="panel-heading">สถานะของบริการจัดจ้าง</div>
+            <div class="panel-body">
+                <div>ลูกค้าไม่ได้เลือกรับบริการ</div>
+                </div>
+         </div>
+    }
+
+    @if ((@ViewBag.EQUIPMENT as List<NicePictureStudio.Models.ServiceFormWithAllRelatedServicesInfo>).Count > 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">สถานะอุปกรณ์ในการถ่ายภาพ</div>
+            <div class="panel-body">
+                <div>
+                    <h5> </h5>
+                    <table class="table table-responsive">
+                        <tr>
+                            <th>รูปแบบการให้บริการ</th>
+                            <th>ชื่ออุปกรณ์</th>
+                            <th>สถานะ</th>
+                        </tr>
+                        @foreach (var item in @ViewBag.EQUIPMENT as List<NicePictureStudio.Models.ServiceFormWithAllRelatedServicesInfo>)
+                        {
+                            <tr>
+                                <td>@item.ServiceTypeName</td>
+                                <td>@item.Name</td>                               
+                                <td class="ServiceStatus">@item.Status</td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">สถานะอุปกรณ์ในการถ่ายภาพ</div>
+            <div class="panel-body">
+                <div>ลูกค้าไม่ได้เลือกรับบริการ</div>
+            </div>
+        </div>
+    }
+
+    @if ((@ViewBag.OUTPUT as List<NicePictureStudio.Models.ServiceFormWithAllRelatedServicesInfo>).Count > 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">สถานะชิ้นงานถ่ายภาพ</div>
+            <div class="panel-body">
+                <div>
+                    <h5> </h5>
+                    <table class="table table-responsive">
+                        <tr>
+                            <th>รูปแบบการให้บริการ</th>
+                            <th>สินค้า</th>
+                            <th>รายละเอียดสินค้า</th>
+                            <th>วันส่งมอบสินค้า</th>
+                            <th>สถานะ</th>
+                        </tr>
+                        @foreach (var item in @ViewBag.OUTPUT as List<NicePictureStudio.Models.ServiceFormWithAllRelatedServicesInfo>)
+                        {
+                            <tr>
+                                <td>@item.ServiceTypeName</td>
+                                <td>@item.Name</td>
+                                <td>@item.Details</td>
+                                <td>@item.EventEnd.ToString("dd/MM/yyyy")</td>
+                                <td class="ServiceStatus">@item.Status</td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">สถานะชิ้นงานถ่ายภาพ</div>
+            <div class="panel-body">
+                <div>ลูกค้าไม่ได้เลือกรับบริการ</div>
+            </div>
+        </div>
+    }
+       
+
+</div>
+
+
+
+
+<style>
+    .google-maps {
+        position: relative;
+        padding-bottom: 75%;
+        // This is the aspect ratio height: 0;
+        overflow: hidden;
+    }
+
+        .google-maps iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+        }
+</style>
 

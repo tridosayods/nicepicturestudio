@@ -26,17 +26,17 @@
     }
 }
 
-@Html.HiddenFor(model => model.Id, new { @class = "IdEMPSchedule" });
+@Html.HiddenFor(model => model.Id, new { @class = "IdEMPSchedule" })
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.Title))
+    @(Html.Label("ชื่อช่างภาพ"))
 </div>
 <div data-container-for="title" class="k-edit-field">
-    @(Html.TextBoxFor(model => model.Title, new { @class = "k-textbox", data_bind = "value:title",  @disabled = "true"  }))
+    @(Html.TextBoxFor(model => model.Title, new { @class = "k-textbox", data_bind = "value:title", @disabled = "true", @Style = "width:210px" }))
 </div>
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.Start))
+    @(Html.Label("เวลาเริ่มต้น"))
 </div>
 <div data-container-for="start" class="k-edit-field">
 
@@ -51,7 +51,7 @@
 </div>
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.End))
+    @(Html.Label("เวลาสิ้นสุด"))
 </div>
 <div data-container-for="end" class="k-edit-field">
 
@@ -91,34 +91,36 @@
 </div>*@
 
 <div class="k-edit-label">
-    @(Html.Label("Status"))
+    @(Html.Label("สถานะ"))
 </div>
 <div data-container-for="selectedStatus" class="k-edit-field">
     @(Html.Kendo().DropDownListFor(model => model.selectedStatus)
-                        .HtmlAttributes(new { data_bind = "value:selectedStatus", style = "width: 200px" })
+                        .HtmlAttributes(new { data_bind = "value:selectedStatus", style = "width: 210px" })
                     .DataTextField("Text")
                     .DataValueField("Value")
                     .OptionLabel("None")
                     .ValuePrimitive(true)
                     .Template("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
                     .BindTo(new[] {
-                             new { Text = "รายการใหม่", Value = 1, Color = "\\#FFBF00" },
+                             new { Text = "รายการใหม่", Value = 1, Color = "\\#FE9A2E" },
+                             new { Text = "แจ้งเตือน", Value = 6, Color = "\\#FF0000" },
                             new { Text = "ยืนยัน", Value = 2, Color = "\\#6eb3fa" },
                             new { Text = "เสร็จสิ้นการให้บริการ", Value = 3, Color = "\\#01DF01" },
-                            new { Text = "ยกเลิก", Value = 4, Color = "\\#A4A4A4" }
+                            new { Text = "ยกเลิก", Value = 4, Color = "\\#A4A4A4" },
+                            new { Text = "ยกเลิกล่าช้ากว่ากำหนด", Value = 5, Color = "\\#A901DB" }
                         }).ToClientTemplate()
     )
 </div>
 
 <div class="k-edit-label">
-    @(Html.LabelFor(model => model.Description))
+    @(Html.Label("ประเถท"))
 </div>
 <div data-container-for="description" class="k-edit-field">
-    @(Html.TextAreaFor(model => model.Description, new { @class = "k-textbox", data_bind = "value:description" }))
+    @(Html.TextBoxFor(model => model.Description, new { @class = "k-textbox", data_bind = "value:description", @Style = "width:210px",@readonly=true }))
 </div>
-<div class="k-edit-label">@Html.Label("Details")</div>
+<div class="k-edit-label">@Html.Label("รายละเอียด")</div>
 <div class="k-edit-field container">
-    <button type="button" class="ui-button btn-default" onclick="modelOpen()"><span class="glyphicon glyphicon-book"></span>Show Details</button>
+    <button type="button" class="btn btn-default" onclick="modelOpen()"><span class="glyphicon glyphicon-book"></span>ดูรายละเอียด</button>
 </div>
         @*<script>
                 $(".k-timezone-toggle").on("click", function () {

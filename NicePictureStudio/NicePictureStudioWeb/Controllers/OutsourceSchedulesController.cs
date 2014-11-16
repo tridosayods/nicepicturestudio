@@ -12,6 +12,7 @@ using Kendo.Mvc.UI;
 using NicePictureStudio.Models;
 using Kendo.Mvc.Extensions;
 using NicePictureStudio.Utils;
+using System.Text.RegularExpressions;
 
 namespace NicePictureStudio
 {
@@ -234,16 +235,26 @@ namespace NicePictureStudio
             {
                 if (ValidateModel(service, ModelState))
                 {
-                    if (string.IsNullOrEmpty(service.Title))
+                    if (ValidateModel(service, ModelState))
                     {
-                        service.Title = "";
+                        int? scheduleStatus = db.OutsourceSchedules.Find(service.Id).Status;
+                        if (scheduleStatus != null)
+                        {
+                            if (ValidateServiceTableClass.ValidateStatus(service, ModelState, (int)scheduleStatus))
+                            {
+                                if (string.IsNullOrEmpty(service.Title))
+                                {
+                                    service.Title = "";
+                                }
+                                var entity = db.OutsourceSchedules.FirstOrDefault(m => m.Id == service.Id);
+                                entity.StartTime = service.Start;
+                                entity.EndTime = service.End;
+                                entity.Status = service.selectedStatus;
+                                db.Entry(entity).State = EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
                     }
-                    var entity = db.OutsourceSchedules.FirstOrDefault(m => m.Id == service.Id);
-                    entity.StartTime = service.Start;
-                    entity.EndTime = service.End;
-                    entity.Status = service.selectedStatus;
-                    db.Entry(entity).State = EntityState.Modified;
-                    db.SaveChanges();
                 }
             }
 
@@ -287,7 +298,7 @@ namespace NicePictureStudio
                                 employee.EmployeeInfoes.FirstOrDefault().Nickname + ")",
                         Position = employee.EmployeePositions.FirstOrDefault().Name,
                         Email = employee.Email,
-                        PhoneNumber = employee.PhoneNumber,
+                        PhoneNumber = Regex.Replace(employee.PhoneNumber, @"(\d{3})(\d{3})(\d{4})", "$1-$2-$3"),
                         Specialibity = employee.Specialability
                     };
                     empPhotoGraph.Add(empDetail);
@@ -369,6 +380,21 @@ namespace NicePictureStudio
                     }
                 }
 
+                //New stuff info
+                var serviceForm = db.ServiceForms.Find(serviceFormId);
+                var eventStart = serviceForm.EventStart;
+                var eventEnd = serviceForm.EventEnd;
+                var groomEmail = services.Customer.Email;
+                var groomPhone = services.Customer.PhoneNumber;
+                var brideEmail = services.Customer.CoupleEmail;
+                var bridePhone = services.Customer.CouplePhoneNumber;
+                var address = services.Customer.Address + " " +
+                    services.Customer.Subdistrict + " " + services.Customer.District + " " + services.Customer.Province + " " + services.Customer.PostcalCode;
+                var serviceType = serviceForm.ServiceType.ServiceTypeName;
+                var guestNumber = serviceForm.GuestsNumber.ToString();
+                var serviceId = services.Id;
+                var bookingCode = booking == null ? "" : booking.BookingCode;
+
                 var TableReport = new TableReportModel
                 {
                     OutsourceId = OutSourceScheduleId,
@@ -381,10 +407,21 @@ namespace NicePictureStudio
                     Suggestion = suggestion,
                     Location = locationName,
                     LocationDetails = locationDetails,
-                    Map = Map,
                     LocatioNumber = locationNumber,
-                    BookingCode = booking.BookingCode,
-                    BookingRequest = bookingSpecialRequest
+                    Map = Map,
+                    BookingCode = booking == null?  Constant.UNDEFINED : booking.BookingCode,
+                    BookingRequest = booking ==null? string.Empty : bookingSpecialRequest,
+                    listEmployee = empPhotoGraph,
+                    EventStart = eventStart,
+                    EventEnd = eventEnd,
+                    GroomMail = groomEmail,
+                    BrideMail = brideEmail,
+                    GroomPhone = groomPhone,
+                    BridePhone = bridePhone,
+                    Address = address,
+                    ServiceType = serviceType,
+                    GuestNumber = guestNumber,
+                    ServiceId = serviceId
                 };
 
                 return PartialView(TableReport);
@@ -410,7 +447,7 @@ namespace NicePictureStudio
                     OpenTime = outsource.OpenTime,
                     Detail = outsource.Detail,
                     NumericNumber = outsource.PhoneNumber != null ? Convert.ToInt32(outsource.PhoneNumber) : 0,
-                    PhoneNumber =outsource.PhoneNumber,
+                    PhoneNumber = Regex.Replace(outsource.PhoneNumber, @"(\d{3})(\d{3})(\d{4})", "$1-$2-$3"),
                     OutsourceTypeName = outsource.OutsourceServiceType.TypeName
                 };
                 return PartialView(outsourceInfo);

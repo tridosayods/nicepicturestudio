@@ -12,6 +12,7 @@ using Kendo.Mvc.UI;
 using NicePictureStudio.Models;
 using Kendo.Mvc.Extensions;
 using NicePictureStudio.Utils;
+using System.Text.RegularExpressions;
 
 namespace NicePictureStudio
 {
@@ -184,6 +185,15 @@ namespace NicePictureStudio
 
             //Add condition for filtering
             var filterServiceForms = alloutputs;
+            var photoId = 0;
+            if (Int32.TryParse(photographId, out photoId))
+            {
+                if (photoId > Constant.DEFAULT && photographId != null)
+                {
+                    filterServiceForms = filterServiceForms.Where(s => s.outputSchedule.ServiceForm.Service.Id == photoId).Select(s => s).ToList();
+                }
+            }
+            
 
             if (serviceTypeId > 0 && statusId != null)
             {
@@ -239,18 +249,36 @@ namespace NicePictureStudio
             {
                 if (ValidateModel(service, ModelState))
                 {
-                    if (string.IsNullOrEmpty(service.Title))
+                    if (ValidateModel(service, ModelState))
                     {
-                        service.Title = "";
+                        SchedulerViewModels sheduler = new SchedulerViewModels { 
+                            Id = service.Id,
+                            Description = service.Description,
+                            selectedStatus = service.selectedStatus,
+                            Start = service.Start,
+                            End = service.End
+                        };
+                        int? scheduleStatus = db.OutputSchedules.Find(service.Id).Status;
+                        if (scheduleStatus != null)
+                        {
+                            if (ValidateServiceTableClass.ValidateStatus(sheduler, ModelState, (int)scheduleStatus))
+                            {
+                                if (string.IsNullOrEmpty(service.Title))
+                                {
+                                    service.Title = "";
+                                }
+                                var entity = db.OutputSchedules.FirstOrDefault(m => m.Id == service.Id);
+                                entity.TargetDate = service.Start;
+                                entity.HandOnDate = service.End;
+                                entity.ReviseDate = service.ReviseDate;
+                                entity.ReviseCount = service.ReviseCount;
+                                entity.Status = service.selectedStatus;
+                                db.Entry(entity).State = EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
                     }
-                    var entity = db.OutputSchedules.FirstOrDefault(m => m.Id == service.Id);
-                    entity.TargetDate = service.Start;
-                    entity.HandOnDate= service.End;
-                    entity.ReviseDate = service.ReviseDate;
-                    entity.ReviseCount = service.ReviseCount;
-                    entity.Status = service.selectedStatus;
-                    db.Entry(entity).State = EntityState.Modified;
-                    db.SaveChanges();
+                   
                 }
             }
 
@@ -300,7 +328,7 @@ namespace NicePictureStudio
                                 employee.EmployeeInfoes.FirstOrDefault().Nickname + ")",
                         Position = employee.EmployeePositions.FirstOrDefault().Name,
                         Email = employee.Email,
-                        PhoneNumber = employee.PhoneNumber,
+                        PhoneNumber = Regex.Replace(employee.PhoneNumber, @"(\d{3})(\d{3})(\d{4})", "$1-$2-$3"),
                         Specialibity = employee.Specialability
                     };
                     empPhotoGraph.Add(empDetail);
@@ -384,6 +412,21 @@ namespace NicePictureStudio
                     }
                 }
 
+                //New stuff info
+                var serviceForm = db.ServiceForms.Find(serviceFormId);
+                var eventStart = serviceForm.EventStart;
+                var eventEnd = serviceForm.EventEnd;
+                var groomEmail = services.Customer.Email;
+                var groomPhone = services.Customer.PhoneNumber;
+                var brideEmail = services.Customer.CoupleEmail;
+                var bridePhone = services.Customer.CouplePhoneNumber;
+                var address = services.Customer.Address + " " +
+                    services.Customer.Subdistrict + " " + services.Customer.District + " " + services.Customer.Province + " " + services.Customer.PostcalCode;
+                var serviceType = serviceForm.ServiceType.ServiceTypeName;
+                var guestNumber = serviceForm.GuestsNumber.ToString();
+                var serviceId = services.Id;
+                var bookingCode = booking == null ? "" : booking.BookingCode;
+
                 var TableReport = new TableReportModel
                 {
                     OutsourceId = OutputScheduleId,
@@ -392,14 +435,25 @@ namespace NicePictureStudio
                     PhotoGraphPhoneNumber = empPhotoGraph.Count > 0 ? empPhotoGraph.FirstOrDefault().PhoneNumber : "",
                     Bride = services.BrideName,
                     Groom = services.GroomName,
-                    SpecialRequest = services.SpecialRequest != null ? services.SpecialRequest : "",
+                    SpecialRequest = services.SpecialRequest,
                     Suggestion = suggestion,
                     Location = locationName,
-                    LocationDetails = locationDetails != null ? locationDetails : "",
-                    Map = Map,
+                    LocationDetails = locationDetails,
                     LocatioNumber = locationNumber,
-                    BookingCode = booking !=null ? booking.BookingCode : Constant.UNDEFINED,
-                    BookingRequest = bookingSpecialRequest
+                    Map = Map,
+                    BookingCode = booking == null?  Constant.UNDEFINED : booking.BookingCode,
+                    BookingRequest = booking ==null? string.Empty : bookingSpecialRequest,
+                    listEmployee = empPhotoGraph,
+                    EventStart = eventStart,
+                    EventEnd = eventEnd,
+                    GroomMail = groomEmail,
+                    BrideMail = brideEmail,
+                    GroomPhone = groomPhone,
+                    BridePhone = bridePhone,
+                    Address = address,
+                    ServiceType = serviceType,
+                    GuestNumber = guestNumber,
+                    ServiceId = serviceId
                 };
 
                 return PartialView(TableReport);

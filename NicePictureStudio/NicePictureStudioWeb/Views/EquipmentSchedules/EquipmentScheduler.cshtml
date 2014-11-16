@@ -34,12 +34,13 @@
                 .DataTextField("Text")
                 .DataValueField("Value")
                 .DataColorField("Color")
-                .BindTo(new[] {
-                      new { Text = "รายการใหม่", Value = 1, Color = "\\#FFBF00" },
+                   .BindTo(new[] {
+                             new { Text = "รายการใหม่", Value = 1, Color = "\\#FE9A2E" },
+                             new { Text = "แจ้งเตือน", Value = 6, Color = "\\#FF0000" },
                             new { Text = "ยืนยัน", Value = 2, Color = "\\#6eb3fa" },
                             new { Text = "เสร็จสิ้นการให้บริการ", Value = 3, Color = "\\#01DF01" },
                             new { Text = "ยกเลิก", Value = 4, Color = "\\#A4A4A4" },
-                                 new { Text = "ยกเลิกล่าช้ากว่ากำหนด", Value = 5, Color = "\\#FF0000" }
+                            new { Text = "ยกเลิกล่าช้ากว่ากำหนด", Value = 5, Color = "\\#A901DB" }
                 });
             //resource.Add(m => m.Attendees)
             //    .Title("Attendees")
@@ -61,7 +62,7 @@
                 //m.RecurrenceId(f => f.RecurrenceID);
             })
             .ServerOperation(true)
-                .Events(e => { e.Error("error_handler"); e.RequestEnd("RefreshScheduler"); })
+                .Events(e => { e.Error("error_handler");  })
                         .Read("Equipments_Read", "EquipmentSchedules", new
                     {
                         phothgraphId = @ViewBag.PhotographerId,
@@ -78,7 +79,7 @@
     )
 
 
-
+    <!--e.RequestEnd("RefreshScheduler");-->
     <script type="text/javascript">
         function error_handler(e) {
             if (e.errors) {

@@ -4,7 +4,7 @@
     ViewBag.Title = "ตารางงานช่างถ่ายภาพ";
 }
 <script type="text/javascript">
-
+    kendo.culture("th-TH");
     $(document).ready(function () {
         $("#statusId").on("change", function () {
             if ($("#statusId").val() >1)
@@ -13,6 +13,7 @@
                 $("#isNotFinish").attr("disabled", "disabled");
                 $("#lblIsConfirm").css("color", "#d2cdcd");
                 $("#lblIsNotFinish").css("color", "#d2cdcd");
+                $("#isNotFinish").attr("checked", false);
             }
             else if ($("#statusId").val() <= 1)
             {
@@ -67,37 +68,38 @@
                     <td>
                         <div class="form-horizontal">
                             <div class="form-group-sm">
-                                <div class="col-sm-2 col-xs-3 text-right">@Html.Label("รายชื่อพนักงาน")</div>
+                                <div class="col-sm-12 col-xs-3">@Html.Label("รายชื่อพนักงาน")</div>
                                
-                                <div class="col-sm-2 col-xs-3">@(Html.Kendo().DropDownList().Name("photographId").BindTo(@ViewBag.EmployeeList as SelectList).HtmlAttributes(new { @style = "width:140px" }))</div>
-
-                                <div class="col-sm-2 col-xs-3 text-right">@Html.Label("ประเภทของบริการ") </div>
-                              
-                                <div class="col-sm-2 col-xs-3">@(Html.Kendo().DropDownList().Name("serviceTypeId").BindTo(@ViewBag.ServiceTypeList as SelectList).HtmlAttributes(new { @style = "width:160px" }))</div>
-
-
-                                <div class="col-sm-2 col-xs-3 text-right">@Html.Label("สถานะ")</div>
-                               
-                                <div class="col-sm-2 col-xs-3">@(Html.Kendo().DropDownList().Name("statusId").BindTo(@ViewBag.StatusList as SelectList).HtmlAttributes(new { @class = "statusId", @style = "width:150px" }))</div>
+                                <div class="col-sm-12 col-xs-3">@(Html.Kendo().DropDownList().Name("photographId").BindTo(@ViewBag.EmployeeList as SelectList).HtmlAttributes(new { @style = "width:180px" }))</div>                    
                             </div>
 
                         </div>
                     </td>
+                    <td>
+                        <div class="col-sm-12 col-xs-3">@Html.Label("ประเภทของบริการ") </div>
+
+                        <div class="col-sm-12 col-xs-3">@(Html.Kendo().DropDownList().Name("serviceTypeId").BindTo(@ViewBag.ServiceTypeList as SelectList).HtmlAttributes(new { @style = "width:160px" }))</div>
+                    </td>
+                    <td>
+                        <div class="col-sm-12 col-xs-3">@Html.Label("สถานะ")</div>
+
+                        <div class="col-sm-2 col-xs-3">@(Html.Kendo().DropDownList().Name("statusId").BindTo(@ViewBag.StatusList as SelectList).HtmlAttributes(new { @class = "statusId", @style = "width:150px" }))</div>
+                    </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td colspan="3">
                         <hr />
                         <div class="form-horizontal">
                             <div class="panel-default table-bordered">
                                 <div class="panel-heading">ตัวเลือกสำหรับรายการที่ยังไม่เสร็จสิ้นการให้บริการ</div>
                                 <div class="panel-body">
-                                    <div class="form-group-sm">
+                                    <div class="form-group-sm hidden">
                                         <div class="col-sm-1 col-xs-1 text-right"> @Html.CheckBox("isConfirm", false, new { @class = "form-contorl", @id = "isConfirm" })</div>
                                         <div class="col-sm-11 col-xs-5 text-left">@Html.Label("เลือกรายการที่ยังไม่ได้รับการยืนยันจากพนักงาน", new { @id = "lblIsConfirm" })</div>
                                     </div>
                                     <div class="form-group-sm">
                                         <div class="col-sm-1 col-xs-1 text-right"> @Html.CheckBox("isNotFinish", false, new { @class = "form-contorl", @id = "isNotFinish" })</div>
-                                        <div class="col-sm-5 col-xs-11 text-left">@Html.Label("เลือกรายการที่ยังไม่เสร็จสิ้นก่อนถึงกำหนดงาน 3 วันล่วงหน้า", new { @id = "lblIsNotFinish" })</div>
+                                        <div class="col-sm-7 col-xs-11 text-left">@Html.Label("เลือกรายการที่ยังไม่เสร็จสิ้นและใกล้ถึงเวลาที่กำหนด", new { @id = "lblIsNotFinish" })</div>
                                     </div>
                                 </div>
                             </div>
@@ -131,16 +133,17 @@
                     ×
                 </button>
                 <h4 class="modal-title" id="NavModelPattern">
-                    Welcome to NicePictureStudio Services :)
+                    รายงานการให้บริการ บริษัทรูปสวยโฟโต้ จำกัด
                 </h4>
             </div>
             <div class="modal-body">
                 <div id="NavPatternBody" class="nccontainer"></div>
             </div>
             <div class="modal-footer">
+                <button type="button" id="btnPrint" class="btn btn-default" onclick="PrintX()">พิมพ์</button>
                 <button id="btnCancelPattern" type="button" class="btn btn-default"
                         data-dismiss="modal">
-                    Close
+                    ปิดรายการ
                 </button>
             </div>
         </div><!-- /.modal-content -->

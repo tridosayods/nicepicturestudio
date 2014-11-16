@@ -9,11 +9,14 @@ namespace NicePictureStudio.Models
 {
     public class TableReportModel
     {
+        public int? ServiceId { get; set; }
         public int? OutsourceId { get; set; }
         public List<EmployeeDetails> listEmployee { get; set; }
         public string MainPhotoGraph { get; set; }
         public string Position { get; set; }
         public string PhotoGraphPhoneNumber { get; set; }
+        public string ServiceType { get; set; }
+        public string GuestNumber { get; set; }
 
         //Equipment - Output Section
         public DateTime RequiredDate { get; set; }
@@ -24,12 +27,19 @@ namespace NicePictureStudio.Models
         public string SpecialRequest { get; set; }
         public string Suggestion { get; set; }
         public string Remark { get; set; }
+        public string GroomPhone { get; set; }
+        public string BridePhone { get; set; }
+        public string GroomMail { get; set; }
+        public string BrideMail { get; set; }
+        public string Address { get; set; }
 
         //Location
         public string Location { get; set; }
         public string LocationDetails { get; set; }
         public string Map { get; set; }
         public string LocatioNumber { get; set; }
+        public DateTime EventStart { get; set; }
+        public DateTime EventEnd { get; set; }
 
         //booking
         public string BookingCode { get; set; }
@@ -86,6 +96,11 @@ namespace NicePictureStudio.Models
        public DateTime EventStart { get; set; }
        public DateTime EventEnd { get; set; }
        public string Status { get; set; }
+
+       public string Details { get; set; }
+       public string ExtraInfo1 { get; set; }
+       public string ExtraInfo2 { get; set; }
+       public int scheduleId { get; set; }
    }
 
 }

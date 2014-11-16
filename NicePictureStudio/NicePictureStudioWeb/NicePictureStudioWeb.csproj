@@ -502,6 +502,7 @@
     <Compile Include="Controllers\ServiceFormsController.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\Constant.cs" />
+    <Compile Include="Utils\ValidateServiceTableClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

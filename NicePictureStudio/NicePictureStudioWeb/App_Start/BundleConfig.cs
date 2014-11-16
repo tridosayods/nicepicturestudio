@@ -9,7 +9,9 @@ namespace NicePictureStudio
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/jquery-ui-{version}.js")
+                        "~/Scripts/jquery-ui-{version}.js",
+                        "~/Scripts/jQuery.print.js"
+                            )
                         );
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

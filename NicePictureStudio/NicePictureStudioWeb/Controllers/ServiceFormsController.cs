@@ -13,6 +13,7 @@ using Kendo.Mvc.Extensions;
 using NicePictureStudio.Models;
 using System.Collections;
 using NicePictureStudio.Utils;
+using System.Text.RegularExpressions;
 
 namespace NicePictureStudio
 {
@@ -21,6 +22,26 @@ namespace NicePictureStudio
         private NicePictureStudioDBEntities db = new NicePictureStudioDBEntities();
 
         // GET: ServiceForms
+        public JsonResult GetCustomerNameFromServices([DataSourceRequest] DataSourceRequest request)
+        {
+            var groomList = db.Services.Select(m => new
+            {
+                id = m.Id,
+                value = m.GroomName,
+                label = m.GroomName
+            });
+            var brideList = db.Services.Select(m => new
+            {
+                id = m.Id,
+                value = m.BrideName,
+                label = m.BrideName
+            });
+            var allList = groomList.Union(brideList);
+            return Json(allList, JsonRequestBehavior.AllowGet);
+
+        }
+
+
         public async Task<ActionResult> Index()
         {
             //Employee Management
@@ -152,9 +173,9 @@ namespace NicePictureStudio
             base.Dispose(disposing);
         }
 
-        public PartialViewResult ServiceFormScheduler(string photographId,int? serviceTypeId, int? statusId,bool? isConfirm, bool? isNotFinish )
+        public PartialViewResult ServiceFormScheduler(int? photographId,int? serviceTypeId, int? statusId,bool? isConfirm, bool? isNotFinish )
         {
-            ViewBag.PhotographerId = photographId == string.Empty ? Constant.UNDEFINED : photographId;
+            ViewBag.PhotographerId = photographId ==Constant.DEFAULT ? Constant.DEFAULT : photographId;
             ViewBag.ServiceTypeId = serviceTypeId == null ? Constant.DEFAULT : serviceTypeId;
             ViewBag.Status = statusId == null ? Constant.DEFAULT : statusId;
             ViewBag.IsConfirm = isConfirm == null ? false : isConfirm;
@@ -162,7 +183,7 @@ namespace NicePictureStudio
             return PartialView();
         }
 
-        public virtual JsonResult Services_Read([DataSourceRequest] DataSourceRequest request, string phothgraphId, int serviceTypeId,int? statusId, bool? isConfirm, bool? isNotFinish)
+        public virtual JsonResult Services_Read([DataSourceRequest] DataSourceRequest request, int? phothgraphId, int serviceTypeId,int? statusId, bool? isConfirm, bool? isNotFinish)
         {
             IQueryable<SchedulerViewModels> tasks = CreateSchedulerServiceForm(phothgraphId, serviceTypeId, statusId,isConfirm,isNotFinish).Select(task => new SchedulerViewModels()
             {
@@ -225,14 +246,15 @@ namespace NicePictureStudio
         }
         #endregion
 
-        private List<SchedulerViewModels> CreateSchedulerServiceForm(string photographId, int? serviceTypeId, int? statusId, bool? isConfirm, bool? isNotFinish)
+        private List<SchedulerViewModels> CreateSchedulerServiceForm(int? photographId, int? serviceTypeId, int? statusId, bool? isConfirm, bool? isNotFinish)
         {
+            //Only this page photograph Id = Service ID
             List<SchedulerViewModels> _listSchecule = new List<SchedulerViewModels>();
             //Add condition for filtering
             var filterServiceForms = db.ServiceForms.ToList();
-            if (photographId != Constant.UNDEFINED && photographId != null)
+            if (photographId > Constant.DEFAULT && photographId != null)
             {
-                filterServiceForms = filterServiceForms.Where(s => s.EmployeeSchedules.Any(e => e.Employee.Id == photographId)).Select(s => s).ToList();
+                filterServiceForms = filterServiceForms.Where(s => s.Service.Id == photographId).Select(s => s).ToList();
             }
 
             if (serviceTypeId >0 && statusId !=null)
@@ -253,10 +275,10 @@ namespace NicePictureStudio
 
             if (isNotFinish != null)
             {
-                if (isNotFinish == true && statusId < Constant.SERVICE_STATUS_NEW)
+                if (isNotFinish == true && statusId <= Constant.SERVICE_STATUS_NEW)
                 { 
                     var currentDate = DateTime.Now;
-                    filterServiceForms = filterServiceForms.Where(s => (s.EventStart - currentDate).TotalDays > 3 && s.ServiceStatu.Id <= Constant.SERVICE_STATUS_CONFIRM).ToList();
+                    filterServiceForms = filterServiceForms.Where(s => (s.EventStart - currentDate).TotalDays > 3 &&(s.EventStart - currentDate).TotalDays <= 7 && s.ServiceStatu.Id <= Constant.SERVICE_STATUS_CONFIRM).ToList();
                 }
             }
             //Add condition for filtering
@@ -303,178 +325,223 @@ namespace NicePictureStudio
 
             if(serviceType==Constant.SERVICE_PHOTOGRAPH)
             {
-                if (serviceFrom.EmployeeSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_NEW))
+                if (serviceFrom.EmployeeSchedules.Count == 0)
                 {
-                    return Constant.SERVICE_FORM_STATUS_NEW;
-                }
-                else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CONFIRM))
-                {
-                    return Constant.SERVICE_FORM_STATUS_CONFIRM;
-                }
-                else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CONFIRM))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
-                }
-                else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_COMPLETE))
-                {
-                    return Constant.SERVICE_FORM_STATUS_FINISH;
-                }
-                else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_COMPLETE))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_FINISH;
-                }
-                else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL))
-                {
-                    return Constant.SERVICE_FORM_STATUS_CANCEL;
-                }
-                else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    return Constant.SERVICE_FORM_NOSERVICES;
                 }
                 else
                 {
-                    return string.Empty;
+                    if (serviceFrom.EmployeeSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_NEW))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_NEW;
+                    }
+                    else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CONFIRM))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CONFIRM;
+                    }
+                    else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CONFIRM))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+                    }
+                    else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_COMPLETE))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_FINISH;
+                    }
+                    else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_COMPLETE))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_FINISH;
+                    }
+                    else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CANCEL;
+                    }
+                    else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
                 }
+                
             }
             else if (serviceType == Constant.SERVICE_EQUIPMENT)
             {
-                if (serviceFrom.EquipmentSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_NEW))
+                if (serviceFrom.EquipmentSchedules.Count == 0)
                 {
-                    return Constant.SERVICE_FORM_STATUS_NEW;
+                    return Constant.SERVICE_FORM_NOSERVICES;
                 }
-                else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CONFIRM))
+                else 
                 {
-                    return Constant.SERVICE_FORM_STATUS_CONFIRM;
+                    if (serviceFrom.EquipmentSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_NEW))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_NEW;
+                    }
+                    else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CONFIRM))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CONFIRM;
+                    }
+                    else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CONFIRM))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+                    }
+                    else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_COMPLETE))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_FINISH;
+                    }
+                    else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_COMPLETE))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_FINISH;
+                    }
+                    else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CANCEL;
+                    }
+                    else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
                 }
-                else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CONFIRM))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
-                }
-                else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_COMPLETE))
-                {
-                    return Constant.SERVICE_FORM_STATUS_FINISH;
-                }
-                else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_COMPLETE))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_FINISH;
-                }
-                else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL))
-                {
-                    return Constant.SERVICE_FORM_STATUS_CANCEL;
-                }
-                else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
-                }
-                else
-                {
-                    return string.Empty;
-                }
+                
             }
             else if (serviceType == Constant.SERVICE_LOCATION)
             {
-                if (serviceFrom.LocationSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_NEW))
+                if (serviceFrom.LocationSchedules.Count == 0)
                 {
-                    return Constant.SERVICE_FORM_STATUS_NEW;
+                    return Constant.SERVICE_FORM_NOSERVICES;
                 }
-                else if (serviceFrom.LocationSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CONFIRM))
+                else 
                 {
-                    return Constant.SERVICE_FORM_STATUS_CONFIRM;
+                    if (serviceFrom.LocationSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_NEW))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_NEW;
+                    }
+                    else if (serviceFrom.LocationSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CONFIRM))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CONFIRM;
+                    }
+                    else if (serviceFrom.LocationSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CONFIRM))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+                    }
+                    else if (serviceFrom.LocationSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_COMPLETE))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_FINISH;
+                    }
+                    else if (serviceFrom.LocationSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_COMPLETE))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_FINISH;
+                    }
+                    else if (serviceFrom.LocationSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CANCEL;
+                    }
+                    else if (serviceFrom.LocationSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
                 }
-                else if (serviceFrom.LocationSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CONFIRM))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
-                }
-                else if (serviceFrom.LocationSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_COMPLETE))
-                {
-                    return Constant.SERVICE_FORM_STATUS_FINISH;
-                }
-                else if (serviceFrom.LocationSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_COMPLETE))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_FINISH;
-                }
-                else if (serviceFrom.LocationSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL))
-                {
-                    return Constant.SERVICE_FORM_STATUS_CANCEL;
-                }
-                else if (serviceFrom.LocationSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
-                }
-                else
-                {
-                    return string.Empty;
-                }
+                
             }
             else if (serviceType == Constant.SERVICE_OUTSOURCE)
             {
-                if (serviceFrom.OutsourceSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_NEW))
+
+                if (serviceFrom.OutsourceSchedules.Count == 0)
                 {
-                    return Constant.SERVICE_FORM_STATUS_NEW;
-                }
-                else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CONFIRM))
-                {
-                    return Constant.SERVICE_FORM_STATUS_CONFIRM;
-                }
-                else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CONFIRM))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
-                }
-                else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_COMPLETE))
-                {
-                    return Constant.SERVICE_FORM_STATUS_FINISH;
-                }
-                else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_COMPLETE))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_FINISH;
-                }
-                else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL))
-                {
-                    return Constant.SERVICE_FORM_STATUS_CANCEL;
-                }
-                else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    return Constant.SERVICE_FORM_NOSERVICES;
                 }
                 else
                 {
-                    return string.Empty;
+                    if (serviceFrom.OutsourceSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_NEW))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_NEW;
+                    }
+                    else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CONFIRM))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CONFIRM;
+                    }
+                    else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CONFIRM))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+                    }
+                    else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_COMPLETE))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_FINISH;
+                    }
+                    else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_COMPLETE))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_FINISH;
+                    }
+                    else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CANCEL;
+                    }
+                    else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
                 }
+                
             }
             else if (serviceType == Constant.SERVICE_OUTPUT)
             {
-                if (serviceFrom.OutputSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_NEW))
+                if (serviceFrom.OutputSchedules.Count == 0)
                 {
-                    return Constant.SERVICE_FORM_STATUS_NEW;
-                }
-                else if (serviceFrom.OutputSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CONFIRM))
-                {
-                    return Constant.SERVICE_FORM_STATUS_CONFIRM;
-                }
-                else if (serviceFrom.OutputSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CONFIRM))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
-                }
-                else if (serviceFrom.OutputSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_COMPLETE))
-                {
-                    return Constant.SERVICE_FORM_STATUS_FINISH;
-                }
-                else if (serviceFrom.OutputSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_COMPLETE))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_FINISH;
-                }
-                else if (serviceFrom.OutputSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL))
-                {
-                    return Constant.SERVICE_FORM_STATUS_CANCEL;
-                }
-                else if (serviceFrom.OutputSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL))
-                {
-                    return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    return Constant.SERVICE_FORM_NOSERVICES;
                 }
                 else
                 {
-                    return string.Empty;
+                    if (serviceFrom.OutputSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_NEW))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_NEW;
+                    }
+                    else if (serviceFrom.OutputSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CONFIRM))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CONFIRM;
+                    }
+                    else if (serviceFrom.OutputSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CONFIRM))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+                    }
+                    else if (serviceFrom.OutputSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_COMPLETE))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_FINISH;
+                    }
+                    else if (serviceFrom.OutputSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_COMPLETE))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_FINISH;
+                    }
+                    else if (serviceFrom.OutputSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CANCEL;
+                    }
+                    else if (serviceFrom.OutputSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    }
+                    else if (serviceFrom.OutputSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_WARNING))
+                    {
+                        return Constant.SERVICE_FORM_WARNNING;
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
                 }
+                
             }
             else
             {
@@ -490,7 +557,8 @@ namespace NicePictureStudio
                 if (ValidateModel(service,ModelState))
                 {
                     //validate before update Status
-                    if(ValidateStatus(service,ModelState))
+                   // if(ValidateStatus(service,ModelState))
+                    if (ValidateServiceTableClass.ValidateStatus(service, ModelState))
                     {
                         if (string.IsNullOrEmpty(service.Title))
                         {
@@ -499,8 +567,8 @@ namespace NicePictureStudio
 
                         var entity = db.ServiceForms.FirstOrDefault(m => m.Id == service.Id);
                         var serviceStatus = db.ServiceStatus.FirstOrDefault(s => s.Id == service.selectedStatus);
-                        entity.EventStart = service.Start;
-                        entity.EventEnd = service.End;
+                        //entity.EventStart = service.Start;
+                        //entity.EventEnd = service.End;
                         entity.ServiceStatu = serviceStatus;
 
                         //Cancel All Related Task
@@ -574,25 +642,26 @@ namespace NicePictureStudio
         {
             if (service.selectedStatus == Constant.SERVICE_STATUS_CONFIRM)
             {
-                if (service.EquipmentStatus == Constant.SERVICE_FORM_STATUS_CONFIRM
+                if ((service.EquipmentStatus == Constant.SERVICE_FORM_STATUS_CONFIRM || service.EquipmentStatus == Constant.SERVICE_FORM_NOSERVICES)
                     && service.PhotoGraphStatus == Constant.SERVICE_FORM_STATUS_CONFIRM
-                    && service.LocationStatus == Constant.SERVICE_FORM_STATUS_CONFIRM && service.OutsourceStatus == Constant.SERVICE_FORM_STATUS_CONFIRM)
+                    && (service.LocationStatus == Constant.SERVICE_FORM_STATUS_CONFIRM || service.LocationStatus == Constant.SERVICE_FORM_NOSERVICES)
+                    && (service.OutsourceStatus == Constant.SERVICE_FORM_STATUS_CONFIRM || service.OutsourceStatus == Constant.SERVICE_FORM_NOSERVICES))
                 {
                     return true;
                 }
                 else
                 {
-                    modelState.AddModelError("ผิดพลาด", "ยังมีบางรายการที่มีสถานะการให้บริการยังไม่ยืนยันให้ครบ โปรดตรวจสอบ สถานะช่างถ่ายภาพ สถานะพนักงานอุปกรณ์ถ่ายภาพ สถานะของสถานที่ให้บริการ หรือ สถานะของผู้ให้บริการจัดจ้าง");
+                    modelState.AddModelError("ผิดพลาด", "ยังมีบางรายการที่มีสถานะการให้บริการยังไม่ยืนยันให้ครบ โปรดตรวจสอบ สถานะช่างถ่ายภาพ สถานะพนักงานอุปกรณ์ถ่ายภาพ สถานะของสถานที่ให้บริการ และ สถานะของผู้ให้บริการจัดจ้าง");
                     return false;
                 }
             }
             else if (service.selectedStatus == Constant.SERVICE_STATUS_COMPLETE)
-            { 
-                if (service.EquipmentStatus == Constant.SERVICE_FORM_STATUS_FINISH
-                    && service.PhotoGraphStatus == Constant.SERVICE_FORM_STATUS_FINISH
-                    && service.LocationStatus == Constant.SERVICE_FORM_STATUS_FINISH 
-                    && service.OutsourceStatus == Constant.SERVICE_FORM_STATUS_FINISH
-                    && service.OutputStatus == Constant.SERVICE_FORM_STATUS_FINISH)
+            {
+                if ((service.EquipmentStatus == Constant.SERVICE_FORM_STATUS_FINISH || service.EquipmentStatus == Constant.SERVICE_FORM_NOSERVICES)
+                    && (service.PhotoGraphStatus == Constant.SERVICE_FORM_STATUS_FINISH || service.PhotoGraphStatus == Constant.SERVICE_FORM_NOSERVICES)
+                    && (service.LocationStatus == Constant.SERVICE_FORM_STATUS_FINISH || service.LocationStatus == Constant.SERVICE_FORM_NOSERVICES)
+                    && (service.OutsourceStatus == Constant.SERVICE_FORM_STATUS_FINISH || service.OutsourceStatus == Constant.SERVICE_FORM_NOSERVICES)
+                    && (service.OutputStatus == Constant.SERVICE_FORM_STATUS_FINISH ||service.OutputStatus == Constant.SERVICE_FORM_NOSERVICES))
                 {
                     return true;
                 }
@@ -628,6 +697,11 @@ namespace NicePictureStudio
                     modelState.AddModelError("คำเตือน", "ไม่สามารถยกเลิกแบบหักค้ามัดจำ 50% ได้เนื่องจากระยะเวลาในการให้บริการมีมากกว่า 7 วันทำการ จากเวลาปัจจุบัน");
                     return false;
                 }
+            }
+            else if (service.selectedStatus == Constant.SERVICE_STATUS_NEW)
+            {
+                modelState.AddModelError("คำเตือน", "ไม่สามารเปลี่ยนสถานะกลับไปเป็น 'รายการใหม่' หากพบข้อสงสัยกรุณา ติดต่อผู้ดูแลระบบ ");
+                return false;
             }
             return true;
         }
@@ -666,11 +740,11 @@ namespace NicePictureStudio
                     var empDetail = new EmployeeDetails
                     {
                         Name = employee.EmployeeInfoes.FirstOrDefault().Title + " " +
-                                employee.EmployeeInfoes.FirstOrDefault().Name + employee.EmployeeInfoes.FirstOrDefault().Surname + "(" +
+                                employee.EmployeeInfoes.FirstOrDefault().Name +" "+ employee.EmployeeInfoes.FirstOrDefault().Surname + " (" +
                                 employee.EmployeeInfoes.FirstOrDefault().Nickname + ")",
                         Position = employee.EmployeePositions.FirstOrDefault().Name,
                         Email = employee.Email,
-                        PhoneNumber = employee.PhoneNumber,
+                        PhoneNumber = Regex.Replace(employee.PhoneNumber, @"(\d{3})(\d{3})(\d{4})", "$1-$2-$3"),
                         Specialibity = employee.Specialability
                     };
                     empPhotoGraph.Add(empDetail);
@@ -750,6 +824,20 @@ namespace NicePictureStudio
                     }
                 }
 
+                //New stuff info
+                var serviceForm = db.ServiceForms.Find(serviceFormId);
+                var eventStart = serviceForm.EventStart;
+                var eventEnd = serviceForm.EventEnd;
+                var groomEmail = services.Customer.Email;
+                var groomPhone = services.Customer.PhoneNumber;
+                var brideEmail = services.Customer.CoupleEmail;
+                var bridePhone = services.Customer.CouplePhoneNumber;
+                var address = services.Customer.Address + " " +
+                    services.Customer.Subdistrict + " " + services.Customer.District + " " + services.Customer.Province + " " + services.Customer.PostcalCode;
+                var serviceType = serviceForm.ServiceType.ServiceTypeName;
+                var guestNumber = serviceForm.GuestsNumber.ToString();
+                var serviceId = services.Id;
+
                 var TableReport = new TableReportModel
                 {
                     OutsourceId = ServiceFormScheduleId,
@@ -766,7 +854,18 @@ namespace NicePictureStudio
                     LocatioNumber = locationNumber,
                     BookingCode = booking != null ? booking.BookingCode : Constant.UNDEFINED,
                     BookingRequest = bookingSpecialRequest,
-                    listEmployee = empPhotoGraph
+                    listEmployee = empPhotoGraph,
+                    EventStart = eventStart,
+                    EventEnd = eventEnd,
+                    GroomMail = groomEmail,
+                    BrideMail = brideEmail,
+                    GroomPhone = groomPhone,
+                    BridePhone = bridePhone,
+                    Address = address,
+                    ServiceType = serviceType,
+                    GuestNumber = guestNumber,
+                    ServiceId = serviceId
+
                 };
 
                 return PartialView(TableReport);
@@ -778,6 +877,12 @@ namespace NicePictureStudio
         public PartialViewResult DescriptionServiceForm(int? serviceFormId, List<EmployeeDetails> lstEmp)
         {
             var _reportItems = new List<ServiceFormWithAllRelatedServicesInfo>();
+            var _photographService = new List<ServiceFormWithAllRelatedServicesInfo>();
+            var _outputService = new List<ServiceFormWithAllRelatedServicesInfo>();
+            var _locationService = new List<ServiceFormWithAllRelatedServicesInfo>();
+            var _outsourceService = new List<ServiceFormWithAllRelatedServicesInfo>();
+            var _equipmentService = new List<ServiceFormWithAllRelatedServicesInfo>();
+
             if (serviceFormId != null)
             {
                 var entityServiceForm = db.ServiceForms.Find(serviceFormId);
@@ -789,71 +894,113 @@ namespace NicePictureStudio
 
                 foreach (var item in entityEmpshcedules)
                 {
-                    var _reportItem = new ServiceFormWithAllRelatedServicesInfo 
+                    try
                     {
-                        Name = item.Employee.EmployeeInfoes.FirstOrDefault().Title + " " + item.Employee.EmployeeInfoes.FirstOrDefault().Name + " " + item.Employee.EmployeeInfoes.FirstOrDefault().Surname + " (" + item.Employee.EmployeeInfoes.FirstOrDefault().Nickname+")",
-                        ServiceTypeName = "บริการช่างถ่ายภาพ",
-                        EventStart = item.StartTime,
-                        EventEnd = item.EndTime,
-                        Status = db.ServiceStatus.Find(item.Status).StatusName
-                    };
-                    _reportItems.Add(_reportItem);
+                        var _reportItem = new ServiceFormWithAllRelatedServicesInfo
+                        {
+                            Name = item.Employee.EmployeeInfoes.FirstOrDefault().Title + " " + item.Employee.EmployeeInfoes.FirstOrDefault().Name + " " + item.Employee.EmployeeInfoes.FirstOrDefault().Surname + " (" + item.Employee.EmployeeInfoes.FirstOrDefault().Nickname + ")",
+                            ServiceTypeName = "บริการช่างถ่ายภาพ",
+                            EventStart = item.StartTime,
+                            EventEnd = item.EndTime,
+                            Status = db.ServiceStatus.Find(item.Status).StatusName,
+                            Details = item.Employee.EmployeePositions.FirstOrDefault().Name,
+                            scheduleId = item.Id
+                        };
+                        _photographService.Add(_reportItem);
+                    }
+                    catch { }
+                    
                 }
 
                 foreach (var item in entityEquipments)
                 {
-                    var _reportItem = new ServiceFormWithAllRelatedServicesInfo
+                    try
                     {
-                        Name = db.EquipmentServices.Find(item.EquipmentServiceId).Name,
-                        ServiceTypeName = "บริการอุปกรณ์ถ่ายภาพ",
-                        EventStart = item.StartTime,
-                        EventEnd = item.EndTime,
-                        Status = db.ServiceStatus.Find(item.Status).StatusName
-                    };
-                    _reportItems.Add(_reportItem);
+                        var _reportItem = new ServiceFormWithAllRelatedServicesInfo
+                        {
+                            Name = db.EquipmentServices.Find(item.EquipmentServiceId).Name,
+                            ServiceTypeName = "อุปกรณ์ถ่ายภาพ",
+                            EventStart = item.StartTime,
+                            EventEnd = item.EndTime,
+                            Status = db.ServiceStatus.Find(item.Status).StatusName,
+                            scheduleId = item.Id
+                        };
+                        _equipmentService.Add(_reportItem);
+                    }
+                    catch { }
+                    
                 }
 
                 foreach (var item in entityLocations)
                 {
-                    var _reportItem = new ServiceFormWithAllRelatedServicesInfo
+                    try
                     {
-                        Name = db.LocationServices.Find(item.LocationServiceId).Name,
-                        ServiceTypeName = "บริการสถานที่ถ่ายภาพ",
-                        EventStart = item.StartTime,
-                        EventEnd = item.EndTime,
-                        Status = db.ServiceStatus.Find(item.Status).StatusName
-                    };
-                    _reportItems.Add(_reportItem);
+                        var _reportItem = new ServiceFormWithAllRelatedServicesInfo
+                        {
+                            Name = db.LocationServices.Find(item.LocationServiceId).Name,
+                            ServiceTypeName = "บริการสถานที่ถ่ายภาพ",
+                            EventStart = item.StartTime,
+                            EventEnd = item.EndTime,
+                            Status = db.ServiceStatus.Find(item.Status).StatusName,
+                            Details = db.Locations.Find(item.LocationId).MapExplanation == null ? "" : db.Locations.Find(item.LocationId).MapExplanation,
+                            ExtraInfo1 = db.Locations.Find(item.LocationId).MapURL == null ? "" : db.Locations.Find(item.LocationId).MapURL,
+                            scheduleId = item.Id
+                        };
+                        _locationService.Add(_reportItem);
+                    }
+                    catch { }
+                   
                 }
 
                 foreach (var item in entityOutsources)
                 {
-                    var _reportItem = new ServiceFormWithAllRelatedServicesInfo
+                    try
                     {
-                        Name = db.OutsourceServices.Find(item.OutsourceServiceId).Name,
-                        ServiceTypeName = "บริการจัดจ้าง",
-                        EventStart = item.StartTime,
-                        EventEnd = item.EndTime,
-                        Status = db.ServiceStatus.Find(item.Status).StatusName
-                    };
-                    _reportItems.Add(_reportItem);
+                        var _reportItem = new ServiceFormWithAllRelatedServicesInfo
+                        {
+                            Name = db.OutsourceServices.Find(item.OutsourceServiceId).Name,
+                            ServiceTypeName = "บริการจัดจ้าง",
+                            EventStart = item.StartTime,
+                            EventEnd = item.EndTime,
+                            Status = db.ServiceStatus.Find(item.Status).StatusName,
+                            scheduleId = item.Id,
+                            Details = db.OutsourceServices.Find(item.OutsourceServiceId).Description,
+                            ExtraInfo1 = Regex.Replace(db.OutsourceContacts.Find(item.OutsourceId).PhoneNumber, @"(\d{3})(\d{3})(\d{4})", "$1-$2-$3")
+                        };
+                        _outsourceService.Add(_reportItem);
+                    }
+                    catch { }
+                    
                 }
 
                 foreach (var item in entityOutputs)
                 {
-                    var _reportItem = new ServiceFormWithAllRelatedServicesInfo
+                    try
                     {
-                        Name = db.OutputServices.Find(item.OutputServiceId).Name + "จำนวน (" + item.OutputQuantity +")",
-                        ServiceTypeName = "บริการชิ้นงานถ่ายภาพ",
-                        EventStart = (DateTime)item.TargetDate,
-                        EventEnd = item.HandOnDate,
-                        Status = db.ServiceStatus.Find(item.Status).StatusName
-                    };
-                    _reportItems.Add(_reportItem);
+                        var _reportItem = new ServiceFormWithAllRelatedServicesInfo
+                        {
+                            Name = db.OutputServices.Find(item.OutputServiceId).Name + "จำนวน (" + item.OutputQuantity + " ชิ้น)",
+                            ServiceTypeName = "บริการชิ้นงานถ่ายภาพ",
+                            EventStart = (DateTime)item.TargetDate,
+                            EventEnd = item.HandOnDate,
+                            Status = db.ServiceStatus.Find(item.Status).StatusName,
+                            scheduleId = item.Id,
+                            Details = db.OutputServices.Find(item.OutputServiceId).Description
+
+                        };
+                        _outputService.Add(_reportItem);
+                    }
+                    catch { }
+                    
                 }
             }
 
             ViewBag.ServiceFormItems = _reportItems;
+            ViewBag.PHOTO = _photographService;
+            ViewBag.EQUIPMENT = _equipmentService;
+            ViewBag.LOCATION = _locationService;
+            ViewBag.OUTSOURCE = _outsourceService;
+            ViewBag.OUTPUT = _outputService;
             //Select Outsource ID
             //ViewBag.PhotoGrapherList = new List<EmployeeDetails>(lstEmp);
             //if (serviceFormId != null)

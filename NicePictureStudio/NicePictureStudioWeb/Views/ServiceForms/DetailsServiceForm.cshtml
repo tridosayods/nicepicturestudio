@@ -3,132 +3,237 @@
     ViewBag.Title = "รายละเอียดการให้บริการ";
 }
 
-<h2>รายละเอียดการให้บริการ</h2>
-<br />
+@*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="../jQuery.print.js"></script>*@
+<script type="text/javascript">
+    function PrintContentDetails() {
+        var DocumentContainer = document.getElementById('DetailsContainer');
+        var WindowObject = window.open("", "PrintWindow",
+        "width=1000,height=650,top=50,left=150,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+        WindowObject.document.writeln(DocumentContainer.innerHTML);
+        WindowObject.document.close();
+        WindowObject.focus();
+        WindowObject.print();
+        WindowObject.close();
+    }
 
-<div class="panel panel-info">
-    <div class="panel-heading">
-        ข้อมูลทั่วไป
-    </div>
-    <div class="panel-body">
-        <table class="table">
-            <tr>
-                <!--Customer/Booking Section-->
-                <td rowspan="2">
-                    <div class="panel-info">
-                        <div class="panel-heading">รายละเอียดลูกค้า</div>
-                        <div class="panel-body">
-                            <div class="form-horizontal">
+   function PrintX(){
+       
+       //$("#DetailsContainer").print({
+       //    globalStyles : true, // Use Global styles
+       //    mediaPrint : true, // Add link with attrbute media=print
+       //    //stylesheet : "http://fonts.googleapis.com/css?family=Inconsolata", //Custom stylesheet
+       //    iframe : true, //Print in a hidden iframe
+       //    //noPrintSelector : ".avoid-this", // Don't print this
+       //    //append : "Free jQuery Plugins<br/>", // Add this on top
+       //   // prepend : "<br/>jQueryScript.net" // Add this at bottom
+       //});
+
+       $.print("#DetailsContainer");
+    }
+
+</script>
+
+<hr />
+<div id="DetailsContainer">
+    <h2>
+        <span class="glyphicon glyphicon-heart-empty"></span>รายละเอียดการให้บริการ (@Model.ServiceType) <br /><br />
+        <button type="button" class="btn btn-warning btn-sm" onclick="window.open('@Url.Action("Edit", "Services", new { id=@Model.ServiceId })')"><span class="glyphicon glyphicon-heart-empty"></span>รายการที่เกี่ยวข้อง</button>
+        <button type="button" class="btn btn-default btn-sm" onclick="PrintX()">พิมพ์</button>
+    </h2>
+    <br />
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            ข้อมูลทั่วไป
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <!--Customer/Booking Section-->
+                    <td rowspan="2">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">รายละเอียดลูกค้า</div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-12 text-left">
+                                            @Html.Label("หมายเลขการจอง :")
+                                            @Html.DisplayFor(model => model.BookingCode)
+                                        </div>
+                                    </div>
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-12 text-left">
+                                            @Html.Label("ชื่อเจ้าบ่าว :")
+                                            @Html.DisplayFor(model => model.Groom)
+                                        </div>
+                                    </div>
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-12 text-left">
+                                            @Html.Label("ชื่อเจ้าสาว :")
+                                            @Html.DisplayFor(model => model.Bride)
+                                        </div>
+                                    </div>
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-12 text-left">
+                                            @Html.Label("คำขอร้องพิเศษ :")
+                                            @Html.DisplayFor(model => model.BookingRequest)
+                                        </div>
+                                    </div>
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-12 text-left">
+                                            @Html.Label("คำแนะนำพิเศษ :")
+                                            @Html.DisplayFor(model => model.Suggestion)
+                                        </div>
+                                    </div>
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-12 text-left">
+                                            @Html.Label("หมายเหตุ :")
+                                            @Html.DisplayFor(model => model.Remark)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel-heading">รายละเอียดการติดต่อลูกค้า</div>
+                            <div class="panel-body">
                                 <div class="form-group-sm">
                                     <div class="col-sm-12 text-left">
-                                        @Html.Label("หมายเลขการจอง :")
-                                        @Html.DisplayFor(model => model.BookingCode)
+                                        @Html.Label("เบอร์โทรศัพท์เจ้าบ่าว :")
+                                        @Html.DisplayFor(model => model.GroomPhone)
                                     </div>
                                 </div>
                                 <div class="form-group-sm">
                                     <div class="col-sm-12 text-left">
-                                        @Html.Label("ชื่อเจ้าบ่าว :")
-                                        @Html.DisplayFor(model => model.Groom)
+                                        @Html.Label("เบอร์โทรศัพท์เจ้าสาว :")
+                                        @Html.DisplayFor(model => model.BridePhone)
                                     </div>
                                 </div>
                                 <div class="form-group-sm">
                                     <div class="col-sm-12 text-left">
-                                        @Html.Label("ชื่อเจ้าสาว :")
-                                        @Html.DisplayFor(model => model.Bride)
+                                        @Html.Label("อีเมลเจ้าบ่าว :")
+                                        @Html.DisplayFor(model => model.GroomMail)
                                     </div>
                                 </div>
                                 <div class="form-group-sm">
                                     <div class="col-sm-12 text-left">
-                                        @Html.Label("คำขอร้องพิเศษ :")
-                                        @Html.DisplayFor(model => model.BookingRequest)
+                                        @Html.Label("อีเมลเจ้าสาว :")
+                                        @Html.DisplayFor(model => model.BrideMail)
                                     </div>
                                 </div>
                                 <div class="form-group-sm">
                                     <div class="col-sm-12 text-left">
-                                        @Html.Label("คำแนะนำพิเศษ :")
-                                        @Html.DisplayFor(model => model.Suggestion)
-                                    </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <div class="col-sm-12 text-left">
-                                        @Html.Label("หมายเหคุ :")
-                                        @Html.DisplayFor(model => model.Remark)
+                                        @Html.Label("ที่อยู่ลูกค้า :")
+                                        @Html.DisplayFor(model => model.Address)
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                </td>
+                    </td>
 
 
-                <!--PhotoGraph Section-->
-                <td>
-                    <div class="panel-info">
-                        <div class="panel-heading">รายละเอียดช่างภาพ</div>
-                        <div class="panel-body">
-                            <div class="form-horizontal">
-                                <div class="form-group-sm">
-                                    <div class="col-sm-12 text-left">
-                                        @Html.Label("ชื่อช่างถ่ายภาพ :")
-                                        @Html.DisplayFor(model => model.MainPhotoGraph)
+                    <!--Location Section-->
+                    <td>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">รายละเอียดเวลาและสถานที่</div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-12 text-left">
+                                            @Html.Label("สถานที่ถ่ายภาพ :")
+                                            @Html.DisplayFor(model => model.Location)
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <div class="col-sm-12 text-left">
-                                        @Html.Label("ตำแหน่ง :")
-                                        @Html.DisplayFor(model => model.Position)
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-12 text-left">
+                                            @Html.Label("รายละเอียด :")
+                                            @Html.DisplayFor(model => model.LocationDetails)
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <div class="col-sm-12 text-left">
-                                        @Html.Label("เบอร์โทรศัพท์ :")
-                                        @Html.DisplayFor(model => model.PhotoGraphPhoneNumber)
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-12 text-left">
+                                            @Html.Label("จำนวนแขกในงาน:")
+                                            @Html.DisplayFor(model => model.GuestNumber) &nbsp; คน
+                                        </div>
+                                    </div>
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-12 text-left">
+                                            @Html.Label("เริ่มต้น :")
+                                            @Html.DisplayFor(model => model.EventStart)
+                                        </div>
+                                    </div>
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-12 text-left">
+                                            @Html.Label("สิ้นสุด :")
+                                            @Html.DisplayFor(model => model.EventEnd)
+                                        </div>
+                                    </div>
+                                    <div class="form-group-sm">
+                                        <div class="col-sm-12 text-left">
+                                            @Html.Label("เบอร์โทรศัพท์ :")
+                                            @Html.DisplayFor(model => model.LocatioNumber)
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <!--Location Section-->
-                <td>
-                    <div class="panel-info">
-                        <div class="panel-heading">รายละเอียดสถานที่ถ่ายภาพ</div>
-                        <div class="panel-body">
-                            <div class="form-horizontal">
-                                <div class="form-group-sm">
-                                    <div class="col-sm-12 text-left">
-                                        @Html.Label("สถานที่ถ่ายภาพ :")
-                                        @Html.DisplayFor(model => model.Location)
-                                    </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <div class="col-sm-12 text-left">
-                                        @Html.Label("รายละเอียด :")
-                                        @Html.DisplayFor(model => model.LocationDetails)
-                                    </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <div class="col-sm-12 text-left">
-                                        @Html.Label("เบอร์โทรศัพท์ :")
-                                        @Html.DisplayFor(model => model.LocatioNumber)
-                                    </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <!--Photograph Section-->
+                    <td>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">รายละเอียดช่างภาพที่มีหน้าที่รับผิดชอบงาน</div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    @foreach (var item in @Model.listEmployee)
+                                    {
+                                        <div class="row panel">
+                                            <div class="form-group-sm">
+                                                <div class="col-sm-12 text-left">
+                                                    @Html.Label("ชื่อช่างถ่ายภาพ :")
+                                                    @item.Name
+                                                </div>
+                                            </div>
+                                            <div class="form-group-sm">
+                                                <div class="col-sm-12 text-left">
+                                                    @Html.Label("ตำแหน่ง :")
+                                                    @item.Position
+                                                </div>
+                                            </div>
+                                            <div class="form-group-sm">
+                                                <div class="col-sm-12 text-left">
+                                                    @Html.Label("เบอร์โทรศัพท์ :")
+                                                    @item.PhoneNumber
+                                                </div>
+                                            </div>
+                                            <div class="form-group-sm">
+                                                <div class="col-sm-12 text-left">
+                                                    @Html.Label("อีเมล :")
+                                                    @item.Email
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="panel-heading">รายละเอียดการให้บริการช่างถ่ายภาพ</div>
+        <div class="panel-body">
+            @{Html.RenderAction("DescriptionServiceForm", "ServiceForms", new { serviceFormId = @Model.OutsourceId, lstEmp = @Model.listEmployee });}
+        </div>
 
     </div>
-    <div class="panel-heading">รายละเอียดการจัดจ้าง</div>
-    <div class="panel-body">
-        @{Html.RenderAction("DescriptionServiceForm", "ServiceForms", new { serviceFormId = @Model.OutsourceId, lstEmp = @Model.listEmployee });}
-    </div>
+
 </div>
+
 
 
 
