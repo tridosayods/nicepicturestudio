@@ -15,10 +15,16 @@
             @Html.DisplayNameFor(model => model.LocationName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LocationType)
+            @Html.DisplayNameFor(model => model.LocationAddress)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LocationAddress)
+            @Html.DisplayNameFor(model => model.PostalCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PhoneNumber)
@@ -33,19 +39,10 @@
             @Html.DisplayNameFor(model => model.Detail)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.MapURL)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PostalCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.State)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LocationType1.TypeName)
+            @Html.DisplayNameFor(model => model.MapExplanation)
         </th>
         <th></th>
     </tr>
@@ -56,10 +53,16 @@
             @Html.DisplayFor(modelItem => item.LocationName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.LocationType)
+            @Html.DisplayFor(modelItem => item.LocationAddress)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.LocationAddress)
+            @Html.DisplayFor(modelItem => item.PostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.State)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PhoneNumber)
@@ -74,19 +77,10 @@
             @Html.DisplayFor(modelItem => item.Detail)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Status)
+            @Html.DisplayFor(modelItem => item.MapURL)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PostalCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.State)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LocationType1.TypeName)
+            @Html.DisplayFor(modelItem => item.MapExplanation)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.LocationId }) |

@@ -359,6 +359,22 @@ namespace NicePictureStudio
                     {
                         return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
                     }
+                    else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL_IN7DAYS))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CANCEL;
+                    }
+                    else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL_IN7DAYS))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    }
+                    else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_WARNING))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+                    }
+                    else if (serviceFrom.EmployeeSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL_IN7DAYS))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+                    }
                     else
                     {
                         return string.Empty;
@@ -402,6 +418,22 @@ namespace NicePictureStudio
                     {
                         return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
                     }
+                    else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL_IN7DAYS))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CANCEL;
+                    }
+                    else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL_IN7DAYS))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    }
+                    else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_WARNING))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+                    }
+                    else if (serviceFrom.EquipmentSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_WARNING))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+                    }
                     else
                     {
                         return string.Empty;
@@ -444,6 +476,22 @@ namespace NicePictureStudio
                     else if (serviceFrom.LocationSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL))
                     {
                         return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    }
+                    else if (serviceFrom.LocationSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL_IN7DAYS))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CANCEL;
+                    }
+                    else if (serviceFrom.LocationSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL_IN7DAYS))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    }
+                    else if (serviceFrom.LocationSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_WARNING))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+                    }
+                    else if (serviceFrom.LocationSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_WARNING))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
                     }
                     else
                     {
@@ -489,6 +537,22 @@ namespace NicePictureStudio
                     {
                         return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
                     }
+                    else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL_IN7DAYS))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CANCEL;
+                    }
+                    else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL_IN7DAYS))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    }
+                    else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_WARNING))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+                    }
+                    else if (serviceFrom.OutsourceSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_WARNING))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+                    }
                     else
                     {
                         return string.Empty;
@@ -532,10 +596,23 @@ namespace NicePictureStudio
                     {
                         return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
                     }
+                    else if (serviceFrom.OutputSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_CANCEL_IN7DAYS))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_CANCEL;
+                    }
+                    else if (serviceFrom.OutputSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_CANCEL_IN7DAYS))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+                    }
+                    else if (serviceFrom.OutputSchedules.All(emps => emps.Status == Constant.SERVICE_STATUS_WARNING))
+                    {
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+                    }
                     else if (serviceFrom.OutputSchedules.All(emps => emps.Status <= Constant.SERVICE_STATUS_WARNING))
                     {
-                        return Constant.SERVICE_FORM_WARNNING;
+                        return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
                     }
+
                     else
                     {
                         return string.Empty;

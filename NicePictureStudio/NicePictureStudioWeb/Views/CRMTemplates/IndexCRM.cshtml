@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "IndexServicesCRM";
+}
+
+
+<div><h3>การสร้างแบบประเมินความพึงพอใจลูกค้า</h3></div>
+                    @(Html.Kendo().Grid<NicePictureStudio.Models.ServiceGridViewModel>()
+                        .Name("srvCRMGrid")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(p => p.BookingName).Filterable(false).Width(100).Title("รหัสการจอง");
+                            columns.Bound(p => p.CustomerName).Width(200).Title("ชื่อลูกค้า");
+                            //columns.Bound(p => p.Email).Width(200).Title("อีเมล");
+                            columns.Bound(p => p.PhoneNumber).Width(200).Title("เบอร์โทรศัพท์");
+                            columns.Bound(p => p.ServiceStatusText).Width(150).Title("สถานะ");
+                            columns.Bound(p => p.ServiceStatus).Title("Status").ClientTemplate(
+                                 "# if ((ServiceStatusText == 'เสร็จสิ้นการให้บริการ') || (ServiceStatusText == 'ยกเลิกการให้บริการ')) { #" +
+                                     @Html.ActionLink("สร้างแบบประเมิน", "CreateCRMFrom", "CRMTemplates", new { id = "#=Id#" }, null).ToHtmlString() +
+                                 "# } else { #" +
+                                //       "#: ServiceStatus #" +
+                                 "ยังไม่สามารถสร้างแบบประเมินได้" +
+                                 "# } #"
+                                );
+                            //columns.Template(p=> @Html.ActionLink("Edit", "Edit","Bookings", new { id = p.Id }));
+                           // columns.Bound(p => p.Id).Title("สร้างแบบประเมิน").ClientTemplate(@Html.ActionLink("สร้างแบบประเมิน", "", "CRMTemplates", new { id = "#=Id#" }, null).ToHtmlString());
+                           columns.Bound(p => p.Id).Title("เรียกดูข้อมูล").ClientTemplate(@Html.ActionLink("ดูรายละเอียด", "Edit", "Services", new { id = "#=Id#" }, null).ToHtmlString());
+                        })
+                        .Pageable()
+                        .Sortable()
+                        .Scrollable()
+                        .Filterable()
+                        .HtmlAttributes(new { style = "height:800px;" })
+                              .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    .PageSize(50)
+                                    .ServerOperation(true)
+                                        .Read(read => read.Action("Services_read", "CRMTemplates"))
+                         )
+)

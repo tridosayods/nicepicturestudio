@@ -1,0 +1,66 @@
+﻿@model IEnumerable<NicePictureStudio.Models.CustomerRelation>
+
+@{
+    ViewBag.Title = "ลูกค้าสัมพันธ์";
+}
+
+<script type="text/javascript">
+    kendo.culture("th-TH");
+</script>
+
+<div id="ReferenceRelationSection">
+    <hr />
+    <table class="table table-responsive table-bordered table-striped">
+        <tr class="success">
+            
+            <th>
+                    @Html.DisplayName("ชื่อผู้แนะนำ")
+                </th>
+                <th>
+                    @Html.DisplayName("หมายเลขโทรศัพท์ผู้แนะนำ")
+                </th>
+                <th>
+                    @Html.DisplayName("อีเมลผู้แนะนำ")
+                </th>
+                <th>
+                    @Html.DisplayName("จำนวนรายการที่แนะนำมาเข้าใช้บริการ")
+                </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReferenceName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReferencePhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReferenceEmail)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.ReferenceCount)
+                </td>
+                @*<td>
+                    @Html.ValueFor(modelItem => item.AnniversaryDate, "{0:dd/MM/yyyy}")
+                </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.ReferenceName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReferencePhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReferenceEmail)
+                    </td>*@
+
+                @*<td>
+                        @Html.ActionLink("Details", "CRMCustomerRelationDetails", new { id = item.CustomerId })
+                    </td>*@
+            </tr>
+        }
+    </table>
+
+</div>

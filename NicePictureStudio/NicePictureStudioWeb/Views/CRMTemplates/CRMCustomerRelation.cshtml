@@ -4,91 +4,52 @@
     ViewBag.Title = "ลูกค้าสัมพันธ์";
 }
 
-<h2>รายงานลูกค้าสัมพันธ์</h2>
-<h4>รายชื่อลูกค้าที่เคยใช้บริการ</h4>
+<script type="text/javascript">
+    kendo.culture("th-TH");
+</script>
 
-<div class="panel-default table-bordered">
-    <div class="panel-title"></div>
-    <div class="panel-heading">ตัวเลือกในการค้นหาข้อมูล</div>
-    <div class="panel-body">
-        <table class="table-responsive">
+<div id="CustomerRelationSection">
+    <hr />
+    <table class="table table-responsive table-bordered  table-striped">
+        <tr class="success">
+            <th class="text-center">
+                @Html.DisplayName("ชื่อลูกค้า")
+            </th>
+            <th class="text-center">
+                @Html.DisplayName("หมายเลขโทรศัพท์")
+            </th>
+            <th class="text-center">
+                @Html.DisplayName("อีเมล")
+            </th>
+            <th class="text-center">
+                @Html.DisplayName("ที่อยู่")
+            </th>
+            <th class="text-center">
+                @Html.DisplayName("วันครบรอบแต่งงาน")
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
             <tr>
                 <td>
-                    <div class="form-horizontal">
-                        <div class="form-group-sm">
-                            <div class="col-sm-3 col-xs-3 text-right">@Html.Label("ช่วงเวลาเริ่มต้น")</div>
-                            <div class="col-sm-3 col-xs-3">@(Html.Kendo().DatePicker().Name("StartDay").Value(DateTime.Today).Format("dd/MM/yyyy"))</div>
-
-                            <div class="col-sm-3 col-xs-3 text-right"> @Html.Label("ช่วงเวลาสิ้นสุด") </div>
-                            <div class="col-sm-3 col-xs-3">@(Html.Kendo().DatePicker().Name("EndDay").Value(DateTime.Today.AddDays(7)).Format("dd/MM/yyyy"))</div>
-
-                        </div>
-
-                    </div>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerPhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerAddress)
+                </td>
+                <td>
+                    @Html.ValueFor(modelItem => item.AnniversaryDate, "{0:dd/MM/yyyy}")
                 </td>
             </tr>
-        </table>
+        }
+    </table>
 
-
-    </div>
 </div>
-<hr />
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayName("ชื่อลูกค้า")
-        </th>
-        <th>
-            @Html.DisplayName("หมายเลขโทรศัพท์")
-        </th>
-        <th>
-            @Html.DisplayName("อีเมล์")
-        </th>
-        <th>
-            @Html.DisplayName("วันครบรอบแต่งงาน")
-        </th>
-        <th>
-            @Html.DisplayName("ชื่อผู้แนะนำ")
-        </th>
-        <th>
-            @Html.DisplayName("หมายเลขโทรศัพท์ผู้แนะนำ")
-        </th>
-        <th>
-            @Html.DisplayName("อีเมล์ผู้แนะนำ")
-        </th>
-        
-        @*<th></th>*@
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerPhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerEmail)
-            </td>
-            <td>
-                @Html.ValueFor(modelItem => item.AnniversaryDate,"{0:dd/MM/yyyy}")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReferenceName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReferencePhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReferenceEmail)
-            </td>
-            
-            @*<td>
-                @Html.ActionLink("Details", "CRMCustomerRelationDetails", new { id = item.CustomerId })
-            </td>*@
-        </tr>
-    }
-</table>
-

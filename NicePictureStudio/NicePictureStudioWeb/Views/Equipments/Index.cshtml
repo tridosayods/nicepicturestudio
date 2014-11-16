@@ -21,10 +21,7 @@
             @Html.DisplayNameFor(model => model.EquipmentDetail)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EquipmentStatus.StatusName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EquipmentType.TypeName)
+            @Html.DisplayNameFor(model => model.Quantity)
         </th>
         <th></th>
     </tr>
@@ -41,10 +38,7 @@
             @Html.DisplayFor(modelItem => item.EquipmentDetail)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.EquipmentStatus.StatusName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EquipmentType.TypeName)
+            @Html.DisplayFor(modelItem => item.Quantity)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.EquipmentId }) |

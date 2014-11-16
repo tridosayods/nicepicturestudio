@@ -395,15 +395,20 @@ namespace NicePictureStudio
             {
                 if (ValidateModel(service, ModelState))
                 {
-                    if (string.IsNullOrEmpty(service.Title))
+                    var _currentStatus = db.Bookings.Find(service.Id).BookingStatu.Id;
+                    if (ValidateServiceTableClass.ValidateBookingStatus(service, ModelState, _currentStatus))
                     {
-                        service.Title = "";
+                        if (string.IsNullOrEmpty(service.Title))
+                        {
+                            service.Title = "";
+                        }
+                        var entity = db.Bookings.FirstOrDefault(m => m.Id == service.Id);
+                        var entityStatus = db.BookingStatus.FirstOrDefault(bs => bs.Id == service.selectedStatus);
+                        entity.BookingStatu = entityStatus;
+                        db.Entry(entity).State = EntityState.Modified;
+                        db.SaveChanges();
                     }
-                    var entity = db.Bookings.FirstOrDefault(m => m.Id == service.Id);
-                    var entityStatus = db.BookingStatus.FirstOrDefault(bs => bs.Id == service.selectedStatus);
-                    entity.BookingStatu = entityStatus;
-                    db.Entry(entity).State = EntityState.Modified;
-                    db.SaveChanges();
+                    
                 }
             }
 

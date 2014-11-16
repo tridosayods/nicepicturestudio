@@ -1,81 +1,78 @@
 ﻿@model IEnumerable<NicePictureStudio.App_Data.Customer>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "รายชื่อลูกค้าในระบบ";
 }
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @*@Html.ActionLink("สร้างใหม่", "Create")*@
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerName)
+            @Html.DisplayName("คำนำหน้าลูกค้าฝ่ายชาย")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            @Html.DisplayName("ชื่อลูกค้า")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayName("นามสกุลลูกค้าฝ่ายชาย")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayName("เบอร์โทรศัพท์")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PostcalCode)
+            @Html.DisplayName("อีเมล")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AnniversaryDate)
+            @Html.DisplayName("วันครบรอบพิธีแต่งงาน")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReferencePerson)
+            @Html.DisplayName("คำนำหน้าลูกค้าฝ่ายหญิง")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReferenceEmail)
+            @Html.DisplayName("ชื่อลูกค้าผ่ายหญิง")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReferencePhoneNumber)
+            @Html.DisplayName("นามสกุลลูกค้าฝ่ายหญิง")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerTitle)
+            @Html.DisplayName("เบอร์โทรศัพท์ลูกค้ารฝ่ายหญิง")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerSurname)
+            @Html.DisplayName("อีเมลลูกค้าฝ่ายหญิง")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CoupleTitle)
+            @Html.DisplayName("บ้านเลขที่")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CoupleName)
+            @Html.DisplayName("ตึกชั้น อาคาร")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CoupleSurname)
+            @Html.DisplayName("ถนน")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CouplePhoneNumber)
+            @Html.DisplayName("แขวง")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BuildingBlock)
+            @Html.DisplayName("เขต")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Road)
+            @Html.DisplayName("จังหวัด")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Subdistrict)
+            @Html.DisplayName("รหัสไปรษณีย์")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.District)
+            @Html.DisplayName("ชื่อผู้แนะนำ")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Province)
+            @Html.DisplayName("อีเมลผู้แนะนำ")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Country)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CoupleEmail)
+            @Html.DisplayName("เบอร์โทรศัพท์ผู้แนะนำ")
         </th>
         <th></th>
     </tr>
@@ -83,38 +80,24 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.CustomerTitle)
+        </td>
+         <td>
             @Html.DisplayFor(modelItem => item.CustomerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerSurname)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PhoneNumber)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostcalCode)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.AnniversaryDate)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReferencePerson)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReferenceEmail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReferencePhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerSurname)
-        </td>
+       
         <td>
             @Html.DisplayFor(modelItem => item.CoupleTitle)
         </td>
@@ -126,6 +109,12 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CouplePhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CoupleEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.BuildingBlock)
@@ -143,15 +132,21 @@
             @Html.DisplayFor(modelItem => item.Province)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Country)
+            @Html.DisplayFor(modelItem => item.PostcalCode)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CoupleEmail)
+            @Html.DisplayFor(modelItem => item.ReferencePerson)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CustomerId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CustomerId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CustomerId })
+            @Html.DisplayFor(modelItem => item.ReferenceEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReferencePhoneNumber)
+        </td>
+        <td>
+            @Html.ActionLink("แก้ไข", "Edit", new { id=item.CustomerId }) |
+            @Html.ActionLink("รายละเอียด", "Details", new { id=item.CustomerId }) |
+            @Html.ActionLink("ลบ", "Delete", new { id=item.CustomerId })
         </td>
     </tr>
 }

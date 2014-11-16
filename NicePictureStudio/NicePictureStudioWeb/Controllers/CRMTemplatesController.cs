@@ -11,6 +11,8 @@ using NicePictureStudio.App_Data;
 using NicePictureStudio.Models;
 using NicePictureStudio.Utils;
 using System.Web.Http.Cors;
+using Kendo.Mvc.UI;
+using Kendo.Mvc.Extensions;
 
 namespace NicePictureStudio
 {
@@ -23,6 +25,141 @@ namespace NicePictureStudio
         {
             var cRMTemplates = db.CRMTemplates.Include(c => c.CRMServiceCategory).Include(c => c.CRMServiceType);
             return View(await cRMTemplates.ToListAsync());
+        }
+
+        public ActionResult IndexCRM()
+        {
+            return View();
+        }
+
+        public ActionResult CreateCRMFrom(int? id)
+        {
+            if(id !=null)
+            {
+                var service = db.Services.Find(id);
+                if (service != null)
+                {
+                    CRMForm crmForm = new CRMForm();
+                    db.CRMForms.Add(crmForm);
+                    db.SaveChanges();
+
+                    service.CRMFormId = crmForm.Id;
+                    db.Entry(service).State = EntityState.Modified;
+
+                    db.SaveChanges();
+
+                    return RedirectToAction("CRMApprisalGen", new { id=crmForm.Id });
+                }
+                else 
+                {
+                    return View();
+                }
+            }
+            return View();
+
+        }
+
+        public ActionResult Services_read([DataSourceRequest] DataSourceRequest request)
+        {
+
+            var newList = CreateServiceGrideCRM().OrderBy(s => s.IsApprisalReady).Reverse();
+            IQueryable<ServiceGridViewModel> tasks = newList.Select(task => new ServiceGridViewModel()
+            {
+                Id = task.Id,
+                BookingName = task.BookingName,
+                BrideName = task.BrideName,
+                GroomName = task.GroomName,
+                PayAmount = task.PayAmount,
+                Payment = task.Payment,
+                CustomerName = task.CustomerName,
+                ServiceStatus = task.ServiceStatus,
+                SpecialRequest = task.SpecialRequest,
+                CurrentStatus =task.CurrentStatus,
+                Email = task.Email,
+                PhoneNumber = task.PhoneNumber,
+                ServiceStatusText = task.ServiceStatusText
+            }
+             ).AsQueryable();
+            return Json(tasks.ToDataSourceResult(request));
+        }
+
+        private List<ServiceGridViewModel> CreateServiceGrideCRM()
+        {
+            var services = db.Services.Include(s => s.Customer).Where(s=>s.CRMFormId == null);
+            List<ServiceGridViewModel> _listServices = new List<ServiceGridViewModel>();
+            foreach (var item in services)
+            {
+                var statusText = AnalysisServiceStatus(item);
+                var service = new ServiceGridViewModel { 
+                Id  = item.Id,
+                BookingName = item.BookingName,
+                BrideName = item.BrideName,
+                GroomName = item.GroomName,
+                CustomerName = item.GroomName + " / " + item.BrideName,
+                Email = item.Customer.Email + " / " + item.Customer.CoupleEmail,
+                PhoneNumber = item.Customer.PhoneNumber + " / " + item.Customer.CouplePhoneNumber,
+                ServiceStatus = item.ServiceStatu.StatusName,
+                CurrentStatus = item.ServiceStatu.Id,
+                ServiceStatusText = statusText,
+                IsApprisalReady = statusText == Constant.SERVICE_FORM_STATUS_FINISH ? true : statusText ==Constant.SERVICE_FORM_STATUS_CANCEL ?  true : false
+                };
+                _listServices.Add(service);
+            }
+            return _listServices;
+        }
+
+        private string AnalysisServiceStatus(Service service)
+        {
+            var lstServiceForm = service.ServiceForms;
+            var IsNew = lstServiceForm.All(s => s.ServiceStatu.Id <= Constant.SERVICE_STATUS_NEW);
+            if (lstServiceForm.All(s => s.ServiceStatu.Id <= Constant.SERVICE_STATUS_NEW))
+            {
+                return Constant.SERVICE_FORM_STATUS_NEW;
+            }
+            else if (lstServiceForm.All(s => s.ServiceStatu.Id == Constant.SERVICE_STATUS_CONFIRM))
+            {
+                return Constant.SERVICE_FORM_STATUS_CONFIRM;
+            }
+            else if (lstServiceForm.All(s => s.ServiceStatu.Id <= Constant.SERVICE_STATUS_CONFIRM))
+            {
+                return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+            }
+            else if (lstServiceForm.All(s => s.ServiceStatu.Id == Constant.SERVICE_STATUS_COMPLETE))
+            {
+                return Constant.SERVICE_FORM_STATUS_FINISH;
+            }
+            else if (lstServiceForm.All(s => s.ServiceStatu.Id <= Constant.SERVICE_STATUS_COMPLETE))
+            {
+                return Constant.SERVICE_FORM_STATUS_PARTIAL_FINISH;
+            }
+            else if (lstServiceForm.All(s => s.ServiceStatu.Id == Constant.SERVICE_STATUS_CANCEL))
+            {
+                return Constant.SERVICE_FORM_STATUS_CANCEL;
+            }
+            else if (lstServiceForm.All(s => s.ServiceStatu.Id <= Constant.SERVICE_STATUS_CANCEL))
+            {
+                return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+            }
+            else if (lstServiceForm.All(s => s.ServiceStatu.Id == Constant.SERVICE_STATUS_CANCEL_IN7DAYS))
+            {
+                return Constant.SERVICE_FORM_STATUS_CANCEL;
+            }
+            else if (lstServiceForm.All(s => s.ServiceStatu.Id <= Constant.SERVICE_STATUS_CANCEL_IN7DAYS))
+            {
+                return Constant.SERVICE_FORM_STATUS_PARTIAL_CANCEL;
+            }
+            else if (lstServiceForm.All(s => s.ServiceStatu.Id == Constant.SERVICE_STATUS_WARNING))
+            {
+                return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+            }
+            else if (lstServiceForm.All(s => s.ServiceStatu.Id <= Constant.SERVICE_STATUS_WARNING))
+            {
+                return Constant.SERVICE_FORM_STATUS_PARTIAL_NEW;
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         // GET: CRMTemplates/Details/5
@@ -147,12 +284,12 @@ namespace NicePictureStudio
             return View();
         }
 
-        public ActionResult CRMApprisal(int? id)
+        public ActionResult CRMApprisalGen(int? id)
         {
             if (id > 0)
             {
                 //Check if id has already existed in db
-                bool IsScoreExisted = db.CRMScrores.Select(scr => scr.CRMForm.Id == id).FirstOrDefault();
+                bool IsScoreExisted = db.CRMScrores.Any(scr => scr.CRMForm.Id == id);
                 if (IsScoreExisted)
                 {
                     return RedirectToAction("FinishingApprisal");
@@ -175,7 +312,7 @@ namespace NicePictureStudio
                         Question question = new Question();
                         question.QuestionText = item.Question;
                         question.ID = item.Id;
-                        question.Answers.Add(new Answer { ID = 0, AnswerText = "0" });
+                        //question.Answers.Add(new Answer { ID = 0, AnswerText = "0" });
                         question.Answers.Add(new Answer { ID = 1, AnswerText = "1" });
                         question.Answers.Add(new Answer { ID = 2, AnswerText = "2" });
                         question.Answers.Add(new Answer { ID = 3, AnswerText = "3" });
@@ -194,7 +331,8 @@ namespace NicePictureStudio
         }
 
         [HttpPost]
-        public ActionResult CRMApprisal(CRMModel model, string TxtArea)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CRMApprisalGen(CRMModel model, string TxtArea)
         {
             //Save to db
             CRMForm crmForm = new CRMForm();
@@ -216,23 +354,24 @@ namespace NicePictureStudio
             }
 
             db.SaveChanges();
-
             return RedirectToAction("FinishingApprisal");
+            //return Json(Url.Action("FinishingApprisal", "CRMTemplates"));
         }
 
-        public ActionResult CRMCustomerRelation()
+        public ActionResult CRMCustomerRelation(DateTime _startDate, DateTime _endDate)
         {
-            var CustomerList = db.Customers.Where(cus => cus.Services.Any(srv => srv.ServiceStatu.Id == Constant.SERVICE_STATUS_COMPLETE));
+            var CustomerList = db.Customers.Where(cus => cus.Services.Any(srv => srv.ServiceStatu.Id == Constant.SERVICE_STATUS_COMPLETE
+                && srv.Customer.AnniversaryDate >= _startDate && srv.Customer.AnniversaryDate <= _endDate));
             List<CustomerRelation> customerRelations = new List<CustomerRelation>();
             foreach (Customer customer in CustomerList)
             {
                 CustomerRelation _customer = new CustomerRelation 
                 { 
                     CustomerId = customer.CustomerId,
-                    CustomerName = customer.CustomerName,
-                    CustomerAddress = customer.Address,
-                    CustomerEmail = customer.Email,
-                    CustomerPhoneNumber = customer.PhoneNumber,
+                    CustomerName = customer.CustomerTitle + " "+ customer.CustomerName + " "+ customer.CustomerSurname + "/" +customer.CoupleTitle + " " +customer.CoupleName + " " + customer.CoupleSurname,
+                    CustomerAddress = customer.Address + " "+  customer.Subdistrict +" "+  customer.District +" "+  customer.Province +" " + customer.PostcalCode,
+                    CustomerEmail = customer.Email +" / " +customer.CoupleEmail,
+                    CustomerPhoneNumber = customer.PhoneNumber + " / " + customer.CouplePhoneNumber,
                     AnniversaryDate = customer.AnniversaryDate,
                     ReferenceEmail = customer.ReferenceEmail,
                     ReferenceName = customer.ReferencePerson,
@@ -240,7 +379,35 @@ namespace NicePictureStudio
                 };
                 customerRelations.Add(_customer);
             }
-            return View(customerRelations.AsQueryable());
+            return PartialView(customerRelations.AsQueryable());
+        }
+
+        public ActionResult CRMRefererRelation(DateTime _startDate, DateTime _endDate)
+        {
+            var CustomerList = db.Customers.Where(cus => cus.Services.Any(srv => srv.ServiceStatu.Id == Constant.SERVICE_STATUS_COMPLETE
+                && srv.Customer.AnniversaryDate >= _startDate && srv.Customer.AnniversaryDate <= _endDate)).GroupBy(s => new { s.ReferenceEmail, s.ReferencePhoneNumber }).Select(s => new {cus=s,count=s.Count() });
+            List<CustomerRelation> customerRelations = new List<CustomerRelation>();
+            foreach (var item in CustomerList)
+            { 
+                CustomerRelation _customer = new CustomerRelation
+                {
+                   
+                    ReferenceEmail = item.cus.FirstOrDefault().ReferenceEmail,
+                    ReferenceName = item.cus.FirstOrDefault().ReferenceTitle +" "+ item.cus.FirstOrDefault().ReferencePerson + " " + item.cus.FirstOrDefault().ReferenceSurname,
+                    ReferencePhoneNumber = item.cus.FirstOrDefault().ReferencePhoneNumber,
+                    ReferenceCount = item.count
+                };
+                customerRelations.Add(_customer);
+               
+            }
+
+            List<CustomerRelation> RefercenceRelationsSort = customerRelations.OrderBy(order => order.ReferenceCount).Reverse().ToList();
+            return PartialView(RefercenceRelationsSort.AsQueryable());
+        }
+
+        public ActionResult CRMCustomerPage()
+        {
+            return View();
         }
 
         public async Task<ActionResult> CRMCustomerRelationDetails(int? id)

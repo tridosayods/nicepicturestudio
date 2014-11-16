@@ -11,116 +11,107 @@ using NicePictureStudio.App_Data;
 
 namespace NicePictureStudio
 {
-    public class EquipmentsController : Controller
+    public class LocationsController : Controller
     {
         private NicePictureStudioDBEntities db = new NicePictureStudioDBEntities();
 
-        // GET: Equipments
+        // GET: Locations
         public async Task<ActionResult> Index()
         {
-            var equipments = db.Equipments.Include(e => e.EquipmentStatu).Include(e => e.EquipmentType);
-            return View(await equipments.ToListAsync());
+            return View(await db.Locations.ToListAsync());
         }
 
-        // GET: Equipments/Details/5
+        // GET: Locations/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Equipment equipment = await db.Equipments.FindAsync(id);
-            if (equipment == null)
+            Location location = await db.Locations.FindAsync(id);
+            if (location == null)
             {
                 return HttpNotFound();
             }
-            return View(equipment);
+            return View(location);
         }
 
-        // GET: Equipments/Create
+        // GET: Locations/Create
         public ActionResult Create()
         {
-            ViewBag.Status = new SelectList(db.EquipmentStatus, "Id", "Status");
-            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName");
             return View();
         }
 
-        // POST: Equipments/Create
+        // POST: Locations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "EquipmentId,EquipmentName,Type,ModelName,EquipmentDetail,Status")] Equipment equipment)
+        public async Task<ActionResult> Create([Bind(Include = "LocationId,LocationName,LocationAddress,PostalCode,City,State,PhoneNumber,OpenTime,CloseTime,Detail,MapURL,MapExplanation")] Location location)
         {
             if (ModelState.IsValid)
             {
-                db.Equipments.Add(equipment);
+                db.Locations.Add(location);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Status = new SelectList(db.EquipmentStatus, "Id", "Status", equipment.EquipmentStatu);
-            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName", equipment.EquipmentType);
-            return View(equipment);
+            return View(location);
         }
 
-        // GET: Equipments/Edit/5
+        // GET: Locations/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Equipment equipment = await db.Equipments.FindAsync(id);
-            if (equipment == null)
+            Location location = await db.Locations.FindAsync(id);
+            if (location == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Status = new SelectList(db.EquipmentStatus, "Id", "Status", equipment.EquipmentStatu);
-            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName", equipment.EquipmentType);
-            return View(equipment);
+            return View(location);
         }
 
-        // POST: Equipments/Edit/5
+        // POST: Locations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "EquipmentId,EquipmentName,Type,ModelName,EquipmentDetail,Status")] Equipment equipment)
+        public async Task<ActionResult> Edit([Bind(Include = "LocationId,LocationName,LocationAddress,PostalCode,City,State,PhoneNumber,OpenTime,CloseTime,Detail,MapURL,MapExplanation")] Location location)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(equipment).State = EntityState.Modified;
+                db.Entry(location).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.Status = new SelectList(db.EquipmentStatus, "Id", "Status", equipment.EquipmentStatu);
-            ViewBag.Type = new SelectList(db.EquipmentTypes, "Id", "TypeName", equipment.EquipmentType);
-            return View(equipment);
+            return View(location);
         }
 
-        // GET: Equipments/Delete/5
+        // GET: Locations/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Equipment equipment = await db.Equipments.FindAsync(id);
-            if (equipment == null)
+            Location location = await db.Locations.FindAsync(id);
+            if (location == null)
             {
                 return HttpNotFound();
             }
-            return View(equipment);
+            return View(location);
         }
 
-        // POST: Equipments/Delete/5
+        // POST: Locations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Equipment equipment = await db.Equipments.FindAsync(id);
-            db.Equipments.Remove(equipment);
+            Location location = await db.Locations.FindAsync(id);
+            db.Locations.Remove(location);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

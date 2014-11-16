@@ -10,7 +10,7 @@
        
         $(function () {
             var scheduler = $("#AppointmentScheduler_Create").data("kendoScheduler");
-            alert(kendo.culture().name);
+            //alert(kendo.culture().name);
             //$("#AppointmentDate").parent().css('width', '120px');
             $("#AppointmentDate").css('width', '280px');
             $("#AppointmentDate").kendoDateTimePicker({
@@ -238,8 +238,12 @@
                                                         m.Field(f => f.Title).DefaultValue("No title");
 
                                                     })
-                                                    .Read("Appointments_Read", "Bookings")
-                                                    .Update("Appointments_Update", "Bookings")
+                                                      .Events(e => e.Error("error_handler"))
+                                                                            .Read("Appointments_Read", "Bookings")
+
+                                                                            .Update("Appointments_Update", "Bookings")
+
+                                                      )
                                                 )
                   )
               </td>  
@@ -251,3 +255,28 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+
+            var scheduler = $("#OutputScheduler").data("kendoScheduler");
+            scheduler.one("dataBinding", function (e) {
+                //prevent saving if server error is thrown
+                e.preventDefault();
+            })
+        }
+    }
+
+
+</script>

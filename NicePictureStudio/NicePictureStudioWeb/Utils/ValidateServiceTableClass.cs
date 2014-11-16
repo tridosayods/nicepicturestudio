@@ -119,5 +119,41 @@ namespace NicePictureStudio.Utils
             }
             return true;
         }
+
+
+        public static bool ValidateBookingStatus(SchedulerViewModels service, ModelStateDictionary modelState, int status = 0)
+        {
+            if (service.selectedStatus == Constant.BOOKING_STATUS_NEW)
+            {
+                modelState.AddModelError("คำเตือน", "ไม่สามารเปลี่ยนสถานะเป็น 'รายการจองใหม่ได้' เนื่องจากรายการนี้ได้ถูกดำเนินการไปแล้ว");
+                return false;
+            }
+            else if (service.selectedStatus == Constant.BOOKING_STATUS_CONFIRM)
+            {
+                modelState.AddModelError("คำเตือน", "ไม่สามารเปลี่ยนสถานะเป็น 'ยืนยันได้' กรุณาไปยังหน้าสร้างรายการจอง");
+                return false;
+            }
+            else if (service.selectedStatus == Constant.BOOKING_STATUS_OPERATED)
+            {
+                modelState.AddModelError("คำเตือน", "ไม่สามารเปลี่ยนสถานะเป็น 'เริ่มต้นให้บริการ' กรุณาไปยังส่งนของการสร้างรายการให้บริการ");
+                return false;
+            }
+            else if ((service.selectedStatus == Constant.BOOKING_STATUS_CANCEL))
+            {
+                if (status > Constant.BOOKING_STATUS_CONFIRM)
+                {
+                    modelState.AddModelError("ผิดพลาด", "ไม่สามารเปลี่ยนสถานะเป็น 'ยกเลิก' ได้ เนื่องจากลูกค้าได้เข้ามาสร้างรายการให้บริการแล้ว");
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else 
+            {
+                return false;
+            }
+        }
     }
 }

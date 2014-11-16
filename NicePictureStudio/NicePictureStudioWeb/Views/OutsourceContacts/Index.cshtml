@@ -29,12 +29,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Detail)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OutsourceServiceType.TypeName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OutsourceStatus.StatusName)
-        </th>
         <th></th>
     </tr>
 
@@ -57,12 +51,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Detail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OutsourceServiceType.TypeName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OutsourceStatus.StatusName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.OutsourceContactId }) |

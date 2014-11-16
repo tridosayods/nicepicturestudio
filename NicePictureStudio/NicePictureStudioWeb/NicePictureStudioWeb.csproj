@@ -304,6 +304,9 @@
       <DependentUpon>NicePictureStudioDW.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\GeneralReportsController.cs" />
+    <Compile Include="MasterDataController\LocationsController.cs" />
+    <Compile Include="MasterDataController\EquipmentsController.cs" />
+    <Compile Include="MasterDataController\EmployeesController.cs" />
     <Compile Include="Metadata\CustomerMetadata.cs" />
     <Compile Include="Metadata\EmployeeLoginMetadata.cs" />
     <Compile Include="App_Data\EmployeeSchedule.cs">
@@ -403,15 +406,13 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
-    <Compile Include="Controllers\EquipmentsController.cs" />
     <Compile Include="Controllers\EmployeeSchedulesController.cs" />
     <Compile Include="Controllers\EquipmentSchedulesController.cs" />
     <Compile Include="Controllers\CRMTemplatesController.cs" />
-    <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="MasterDataController\CustomersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\LocationSchedulesController.cs" />
     <Compile Include="Migrations\201409131242439_EF6-FirstMig.cs" />
     <Compile Include="Migrations\201409131242439_EF6-FirstMig.Designer.cs">
@@ -469,7 +470,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>NicePictureStudioDB.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\OutsourceContactsController.cs" />
     <Compile Include="Models\MISReportingModel.cs" />
     <Compile Include="Models\PromotionViewModel.cs" />
     <Compile Include="Models\SchedulerViewModels.cs" />
@@ -496,6 +496,7 @@
       <DependentUpon>NicePictureStudioDW.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TableReportModel.cs" />
+    <Compile Include="MasterDataController\OutsourceContactsController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Metadata\ServiceMetadata.cs" />
@@ -742,21 +743,6 @@
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
-    <Content Include="Views\Equipments\Create.cshtml" />
-    <Content Include="Views\Equipments\Delete.cshtml" />
-    <Content Include="Views\Equipments\Details.cshtml" />
-    <Content Include="Views\Equipments\Edit.cshtml" />
-    <Content Include="Views\Equipments\Index.cshtml" />
-    <Content Include="Views\Locations\Create.cshtml" />
-    <Content Include="Views\Locations\Delete.cshtml" />
-    <Content Include="Views\Locations\Details.cshtml" />
-    <Content Include="Views\Locations\Edit.cshtml" />
-    <Content Include="Views\Locations\Index.cshtml" />
-    <Content Include="Views\OutsourceContacts\Create.cshtml" />
-    <Content Include="Views\OutsourceContacts\Delete.cshtml" />
-    <Content Include="Views\OutsourceContacts\Details.cshtml" />
-    <Content Include="Views\OutsourceContacts\Edit.cshtml" />
-    <Content Include="Views\OutsourceContacts\Index.cshtml" />
     <Content Include="Views\Bookings\Create.cshtml" />
     <Content Include="Views\Bookings\Delete.cshtml" />
     <Content Include="Views\Bookings\Details.cshtml" />
@@ -866,7 +852,7 @@
     <Content Include="Views\CRMTemplates\Edit.cshtml" />
     <Content Include="Views\CRMTemplates\Index.cshtml" />
     <Content Include="Views\CRMTemplates\NoCRMPageFound.cshtml" />
-    <Content Include="Views\CRMTemplates\CRMApprisal.cshtml" />
+    <Content Include="Views\CRMTemplates\CRMApprisalGen.cshtml" />
     <Content Include="Views\CRMTemplates\EditorTemplates\Question.cshtml" />
     <Content Include="Views\CRMTemplates\FinishingApprisal.cshtml" />
     <Content Include="Views\CRMTemplates\CRMCustomerRelation.cshtml" />
@@ -953,6 +939,30 @@
     <Content Include="Views\GeneralReports\ApprisalReport.cshtml" />
     <Content Include="Views\GeneralReports\CostReport.cshtml" />
     <Content Include="Views\Services\ServicesCostReport.cshtml" />
+    <Content Include="Views\CRMTemplates\CRMCustomerPage.cshtml" />
+    <Content Include="Views\CRMTemplates\CRMRefererRelation.cshtml" />
+    <Content Include="Views\CRMTemplates\IndexCRM.cshtml" />
+    <Content Include="Views\CRMTemplates\CreateCRMFrom.cshtml" />
+    <Content Include="Views\Employees\Create.cshtml" />
+    <Content Include="Views\Employees\Delete.cshtml" />
+    <Content Include="Views\Employees\Details.cshtml" />
+    <Content Include="Views\Employees\Edit.cshtml" />
+    <Content Include="Views\Employees\Index.cshtml" />
+    <Content Include="Views\Equipments\Create.cshtml" />
+    <Content Include="Views\Equipments\Delete.cshtml" />
+    <Content Include="Views\Equipments\Details.cshtml" />
+    <Content Include="Views\Equipments\Edit.cshtml" />
+    <Content Include="Views\Equipments\Index.cshtml" />
+    <Content Include="Views\Locations\Create.cshtml" />
+    <Content Include="Views\Locations\Delete.cshtml" />
+    <Content Include="Views\Locations\Details.cshtml" />
+    <Content Include="Views\Locations\Edit.cshtml" />
+    <Content Include="Views\Locations\Index.cshtml" />
+    <Content Include="Views\OutsourceContacts\Create.cshtml" />
+    <Content Include="Views\OutsourceContacts\Delete.cshtml" />
+    <Content Include="Views\OutsourceContacts\Details.cshtml" />
+    <Content Include="Views\OutsourceContacts\Edit.cshtml" />
+    <Content Include="Views\OutsourceContacts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409131242439_EF6-FirstMig.resx">

@@ -730,6 +730,14 @@ namespace NicePictureStudio.Models
         
         public string CustomerName { get; set; }
         public string ServiceStatus { get; set; }
+        public int CurrentStatus { get; set; }
+
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+
+        public string ServiceStatusText { get; set; }
+        public bool IsApprisalReady { get; set; }
+
     }
 
     public class ServiceFormsGridViewModel

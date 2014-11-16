@@ -43,5 +43,6 @@ namespace NicePictureStudio.Models
         public string ReferenceName { get; set; }
         public string ReferenceEmail { get; set; }
         public string ReferencePhoneNumber { get; set; }
+        public int ReferenceCount { get; set; }
     }
 }

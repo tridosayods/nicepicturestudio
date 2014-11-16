@@ -1,30 +1,36 @@
 ﻿@model NicePictureStudio.Models.CRMModel
+           
+<script type="text/javascript">
+
+</script>
+
 
 <h2>สวัสดี คุณ @Model.CustomerName</h2>    
 <p>ขอความกรุณาตอบแบบประเมินการให้บริการ ของ บริษัท รูปสวยโฟโต้ จำกัด</p>
 
-@using (@Ajax.BeginForm("CRMApprisal", "CRMTemplates", new AjaxOptions
+    @using (@Ajax.BeginForm("CRMApprisalGen", "CRMTemplates", new AjaxOptions
                 {
                     HttpMethod = "POST",
-                    //InsertionMode = InsertionMode.Replace,
-                    //UpdateTargetId = "MainSection"
+                    OnBegin = "return checkData()",
+                    OnSuccess = "window.location.href = '/CRMTemplates/FinishingApprisal' "
                 }
                 ))
-{
+    {
     @Html.AntiForgeryToken()
 
     <table class="table table-bordered table-striped" cellspacing="0" id="tblServices">
     <thead>
         <tr>
-            <th rowspan="2" class="col-md-2 col-lg-5 text-center" style="vertical-align:middle">
+            <th rowspan="2" class="col-md-2 col-lg-5 text-center" style="vertical-align:middle;width:300px;">
+                @Html.HiddenFor(model => model.Id)
                 @Html.DisplayName("แบบประเมิน")
             </th>
             <th colspan="6" align="center" class="text-center">@Html.DisplayName("คะแนนความพึงพอใจ")</th>
         </tr>
         <tr>
-            <th class="col-md-2 col-lg-1 text-center" align="center">
+            @*<th class="col-md-2 col-lg-1 text-center" align="center">
                 @Html.DisplayName("ไม่มีความเห็น")
-            </th>
+            </th>*@
             <th class="col-md-2 col-lg-1 text-center" align="center">
                 @Html.DisplayName("ไม่พอใจมาก")
             </th>
@@ -44,31 +50,7 @@
 
     </thead>
     <tbody>
-            @*@foreach (NicePictureStudio.Models.Question item in @Model.Questions)
-            {
-                <tr>
-                    <td><div>@Html.HiddenFor()</div><div>@item.QuestionText</div></td>
-                    <td>
-                        <div class="btn-group" id="ABC">
-                            <label class="radio-inline">
-                                <input type="radio" name="@item.Id" id="@item.Id" value="option1"> 1
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="@item.Id" id="@item.Id" value="option2"> 2
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="@item.Id" id="@item.Id" value="option3"> 3
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="@item.Id" id="@item.Id" value="option4"> 4
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="@item.Id" id="@item.Id" value="option5"> 5
-                            </label>
-                        </div>
-                    </td>
-                </tr>
-            }*@
+
        @Html.EditorFor(x=>x.Questions)
         <tr>
             <td colspan="6"align="center" >
@@ -80,13 +62,38 @@
         </tr>
         <tr>
             <td colspan="6" align="center">
-                <input type="submit" class="btn btn-primary" value="Submit" />
+                <button type="submit" class="btn btn-primary" value="Submit">ส่งผลการประเมิน</button>
             </td>
         </tr>
     </tbody>
     
 </table>
 }
+
+
+<script type="text/javascript">
+    function checkData()
+    {
+        var Q1 = $('input:radio[id=Questions_0__SelectedAnswer]:checked').val()
+        var Q2 = $('input:radio[id=Questions_1__SelectedAnswer]:checked').val()
+        var Q3 = $('input:radio[id=Questions_2__SelectedAnswer]:checked').val()
+        var Q4 = $('input:radio[id=Questions_3__SelectedAnswer]:checked').val()
+        var Q5 = $('input:radio[id=Questions_4__SelectedAnswer]:checked').val()
+        var Q6 = $('input:radio[id=Questions_5__SelectedAnswer]:checked').val()
+        var Q7 = $('input:radio[id=Questions_6__SelectedAnswer]:checked').val()
+        var Q8 = $('input:radio[id=Questions_6__SelectedAnswer]:checked').val()
+        if(Q1 != undefined && Q2 != undefined && Q3 != undefined && Q4 != undefined && Q5 != undefined && Q6 != undefined && Q7 != undefined)
+        {
+            return true;
+        }
+        else
+        {
+            alert("กรุณาตอบคำถามให้ครบส่งผลการประเมิน ขอบคุณครับ");
+            return false;
+            
+        }
+    }
+</script>
 @*@using (Html.BeginForm()) 
     {
         @Html.AntiForgeryToken()

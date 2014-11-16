@@ -1,0 +1,138 @@
+﻿@model IEnumerable<NicePictureStudio.Models.CustomerRelation>
+
+@{
+    ViewBag.Title = "ลูกค้าสัมพันธ์";
+}
+
+<script type="text/javascript">
+    kendo.culture("th-TH");
+    $(document).ready(function () {
+        $("#btnFilter").on("click", function (item) {
+            event.preventDefault();
+            var startParse = $("#startDate").kendoDatePicker({
+                parseFormats: ["dd/MM/yyyy"],
+                format: "dd/MM/yyyy"
+            }).data("kendoDatePicker");
+
+            var endParse = $("#endDate").kendoDatePicker({
+                parseFormats: ["dd/MM/yyyy"],
+                format: "dd/MM/yyyy"
+            }).data("kendoDatePicker");
+
+            var start = kendo.parseDate(startParse.value()).toISOString();
+            var end = kendo.parseDate(endParse.value()).toISOString();
+            //alert(start + end);
+            $.ajax({
+                url: '@Url.Action("CRMCustomerRelation", "CRMTemplates")',
+                data: { _startDate: start, _endDate: end },
+                type: "POST",
+                success: function (data) { $("#CustomerRelationSection").replaceWith(data); }
+            });
+
+            $.ajax({
+                url: '@Url.Action("CRMRefererRelation", "CRMTemplates")',
+                data: { _startDate: start, _endDate: end },
+                type: "POST",
+                success: function (data) { $("#ReferenceRelationSection").replaceWith(data); }
+            });
+        });
+
+        jQuery.validator.addMethod(
+               'date',
+               function (value, element, params) {
+                   if (this.optional(element)) {
+                       return true;
+                   };
+                   var result = false;
+                   try {
+                       var date = kendo.parseDate(value, "dd/MM/yyyy");
+                       result = true;
+                       if (!date) {
+                           result = false;
+                       }
+                   } catch (err) {
+                       result = false;
+                   }
+                   return result;
+               },
+               ''
+           );
+
+    });
+
+    function startChange() {
+        var endPicker = $("#endDate").data("kendoDatePicker"),
+            startDate = this.value();
+        if (startDate) {
+            startDate = new Date(startDate);
+            startDate.setDate(startDate.getDate());
+            endPicker.min(startDate);
+        }
+    }
+
+    function endChange() {
+        var startPicker = $("#startDate").data("kendoDatePicker"),
+            endDate = this.value();
+
+        if (endDate) {
+            endDate = new Date(endDate);
+            endDate.setDate(endDate.getDate());
+            startPicker.max(endDate);
+        }
+    }
+
+</script>
+
+<h2>รายงานลูกค้าสัมพันธ์</h2>
+<h4>รายชื่อลูกค้าที่เคยใช้บริการ</h4>
+
+<div class="panel-default table-bordered">
+    <div class="panel-title"></div>
+    <div class="panel-heading">ตัวเลือกในการค้นหาข้อมูล</div>
+    <div class="panel-body">
+        <table class="table table-responsive">
+            <tr>
+                <td align="center">
+                        <div class="form-group-sm">
+                            <div class="col-sm-2 text-right">@Html.Label("ช่วงเวลาเริ่มต้น")</div>
+                            <div class="col-sm-3 ">@(Html.Kendo().DatePicker().Name("startDate").Value(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)).Format("dd/MM/yyyy").HtmlAttributes(new { @id = "startDate", @class = "text-center" }).Events(e =>
+                                              e.Change("startChange")).Format("dd/MM/yyyy").ParseFormats(new string[] { "dd/MM/yyyy" }))</div>
+
+                            <div class="col-sm-2  text-right"> @Html.Label("ช่วงเวลาสิ้นสุด") </div>
+                            <div class="col-sm-3 ">@(Html.Kendo().DatePicker().Name("endDate").Value(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 30)).Format("dd/MM/yyyy").HtmlAttributes(new { @id = "endDate", @class = "text-center" }).Events(e =>
+                                              e.Change("endChange")).Format("dd/MM/yyyy").ParseFormats(new string[] { "dd/MM/yyyy" }))</div>
+
+                        </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <div class="form-group-sm">
+                        <button id="btnFilter" class="btn btn-primary" type="button">เริ่มต้นค้นหา</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>
+<hr />
+
+<div class="panel panel-default">
+    <div class="panel-heading">รายชื่อลูกค้า</div>
+    <div class="panel-body">
+        <div id="CustomerRelationSection">@{Html.RenderAction("CRMCustomerRelation", "CRMTemplates", new { _startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1), _endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 30) });}</div>
+    </div>
+
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">รายชื่อผู้แนะนำลูกค้ามาใช้บริการ บริษัท รูปสวยโฟโต้ จำกัด</div>
+    <div class="panel-body">
+        <div id="ReferenceRelationSection">@{Html.RenderAction("CRMRefererRelation", "CRMTemplates", new { _startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1), _endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 30) });}</div>
+    </div>
+
+</div>
